@@ -140,8 +140,8 @@ public class ArtNameGenerator extends ListResourceBundle {
       // Verbs
       "Raising",
       "Falling",
-      "Advancing",
-      "Retreating",
+      "Burning",
+      "Freezing",
       "Crushing",
       "Splitting",
       "Pounding",
@@ -272,7 +272,7 @@ public class ArtNameGenerator extends ListResourceBundle {
 
   public final static void main(String[] args) throws Exception {
     Random random = new MersenneTwister();
-    String[] types = new String[]{"Fist", "Palm", "Hand", "Claw", "Foot"};
+    String[] types = new String[]{"Fist", "Palm", "Hand", "Claw"};
     ResourceBundle bundle = ResourceBundle.getBundle(ArtNameGenerator.class.getName());
     Enumeration keys = bundle.getKeys();
 
