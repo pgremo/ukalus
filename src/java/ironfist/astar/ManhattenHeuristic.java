@@ -10,9 +10,24 @@ package ironfist.astar;
  */
 public class ManhattenHeuristic implements Heuristic {
 
-  public int estimate(Node current, Node stop) {
+  private Node2D start;
+  private Node2D stop;
+
+  public ManhattenHeuristic(Node2D start, Node2D stop) {
+    this.start = start;
+    this.stop = stop;
+  }
+
+  public double estimate(Node current) {
     Node2D n = (Node2D) current;
-    Node2D goal = (Node2D) stop;
-    return (Math.abs(n.getX() - goal.getX()) + Math.abs(n.getY() - goal.getY()));
+    double heuristic = (Math.abs(n.getX() - stop.getX()) + Math.abs(n.getY()
+        - stop.getY()));
+    int dx1 = n.getX() - stop.getX();
+    int dy1 = n.getY() - stop.getY();
+    int dx2 = start.getX() - stop.getX();
+    int dy2 = start.getY() - stop.getY();
+    int cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+    heuristic += cross * 0.001;
+    return heuristic;
   }
 }

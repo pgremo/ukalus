@@ -10,6 +10,6 @@ package ironfist.astar;
  */
 public interface Heuristic {
 
-  int estimate(Node current, Node goal);
+  double estimate(Node current);
 
 }

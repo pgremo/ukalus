@@ -4,6 +4,7 @@
  */
 package ironfist.util;
 
+import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,9 +14,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
-public class PriorityQueue extends AbstractCollection
-    implements
-      java.io.Serializable {
+public class PriorityQueue extends AbstractCollection implements Serializable {
 
   private static final long serialVersionUID = -7720805057305804111L;
   private static final int DEFAULT_INITIAL_CAPACITY = 11;
@@ -34,6 +33,10 @@ public class PriorityQueue extends AbstractCollection
     this(initialCapacity, DEFAULT_COMPARATOR);
   }
 
+  public PriorityQueue(Comparator comparator) {
+    this(DEFAULT_INITIAL_CAPACITY, comparator);
+  }
+
   public PriorityQueue(int initialCapacity, Comparator comparator) {
     if (initialCapacity < 1)
       throw new IllegalArgumentException();
@@ -42,23 +45,25 @@ public class PriorityQueue extends AbstractCollection
   }
 
   private void initializeArray(Collection c) {
-    int sz = c.size();
-    int initialCapacity = (int) Math.min((sz * 110L) / 100,
+    int initialCapacity = (int) Math.min((c.size() * 110L) / 100,
       Integer.MAX_VALUE - 1);
-    if (initialCapacity < 1)
+    if (initialCapacity < 1) {
       initialCapacity = 1;
+    }
 
     this.queue = new Object[initialCapacity + 1];
   }
 
   private void fillFromSorted(Collection c) {
-    for (Iterator i = c.iterator(); i.hasNext();)
+    for (Iterator i = c.iterator(); i.hasNext();) {
       queue[++size] = i.next();
+    }
   }
 
   private void fillFromUnsorted(Collection c) {
-    for (Iterator i = c.iterator(); i.hasNext();)
+    for (Iterator i = c.iterator(); i.hasNext();) {
       queue[++size] = i.next();
+    }
     heapify();
   }
 
@@ -111,20 +116,24 @@ public class PriorityQueue extends AbstractCollection
   }
 
   public Object getFirst() {
-    if (size == 0)
-      return null;
-    return queue[1];
+    Object result = null;
+    if (size > 0) {
+      result = queue[1];
+    }
+    return result;
   }
 
   public boolean add(Object o) {
-    if (o == null)
+    if (o == null) {
       throw new NullPointerException();
+    }
     modCount++;
-    ++size;
+    size++;
 
     // Grow backing store if necessary
-    if (size >= queue.length)
+    if (size >= queue.length) {
       grow(size);
+    }
 
     queue[size] = o;
     fixUp(size);
@@ -132,16 +141,19 @@ public class PriorityQueue extends AbstractCollection
   }
 
   public boolean remove(Object o) {
-    if (o == null)
+    if (o == null) {
       return false;
-
-    for (int i = 1; i <= size; i++) {
-      if (comparator.compare(queue[i], o) == 0) {
-        removeAt(i);
-        return true;
-      }
     }
-    return false;
+
+    boolean found = false;
+    int i = 1;
+    while (i <= size && !found) {
+      found = comparator.compare(queue[i++], o) == 0;
+    }
+    if (found) {
+      removeAt(i);
+    }
+    return found;
   }
 
   public Iterator iterator() {
@@ -216,22 +228,23 @@ public class PriorityQueue extends AbstractCollection
   public void clear() {
     modCount++;
 
-    for (int i = 1; i <= size; i++)
-      queue[i] = null;
-
-    size = 0;
+    while (size >= 0) {
+      queue[size--] = null;
+    }
   }
 
   public Object removeFirst() {
-    if (size == 0)
+    if (size == 0) {
       return null;
+    }
     modCount++;
 
     Object result = queue[1];
     queue[1] = queue[size];
-    queue[size--] = null; // Drop extra ref to prevent memory leak
-    if (size > 1)
+    queue[size--] = null;
+    if (size > 1) {
       fixDown(1);
+    }
 
     return result;
   }
