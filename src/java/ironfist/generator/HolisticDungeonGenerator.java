@@ -35,10 +35,7 @@ public class HolisticDungeonGenerator {
   public int[][] generate() {
     level = new int[20][80];
 
-    List cells = createRegions();
-    createRooms(cells);
-
-    connectRooms(cells);
+    connectRooms(createRooms(createRegions()));
 
     return level;
   }
@@ -99,8 +96,9 @@ public class HolisticDungeonGenerator {
     return result;
   }
 
-  private void createRooms(List regions) {
+  private List createRooms(List regions) {
     Collections.shuffle(regions, randomizer);
+    List rooms = new LinkedList();
 
     int index = 0;
 
@@ -129,7 +127,7 @@ public class HolisticDungeonGenerator {
         }
       }
 
-      current.room = room;
+      rooms.add(room);
     }
 
     for (; index < regions.size(); index++) {
@@ -139,16 +137,16 @@ public class HolisticDungeonGenerator {
       room.setY(current.getY() + randomizer.nextInt(current.getHeight() - 3));
       room.setWidth(3);
       room.setHeight(3);
-      current.room = room;
+      rooms.add(room);
     }
+
+    return rooms;
   }
 
-  private void connectRooms(List regions) {
-    Iterator iterator = regions.iterator();
+  private void connectRooms(List rooms) {
+    Iterator iterator = rooms.iterator();
     while (iterator.hasNext()) {
       Region cell = (Region) iterator.next();
-
-      cell = cell.room;
 
       level[cell.getY()][cell.getX()] = CORNER;
       level[cell.getY()][cell.getX() + cell.getWidth() - 1] = CORNER;
@@ -171,7 +169,18 @@ public class HolisticDungeonGenerator {
       }
     }
 
-    Collections.shuffle(regions, randomizer);
+    Collections.shuffle(rooms, randomizer);
+    iterator = rooms.iterator();
+    if (iterator.hasNext()) {
+      Region start = (Region) iterator.next();
+      if (iterator.hasNext()) {
+        while (iterator.hasNext()) {
+          Region stop = (Region) iterator.next();
+          // connect start to stop.
+          start = stop;
+        }
+      }
+    }
   }
 
   public static void main(String[] args) {
@@ -198,7 +207,6 @@ public class HolisticDungeonGenerator {
 
   private class Region {
 
-    Region room;
     private int x;
     private int y;
     private int width;
@@ -250,11 +258,10 @@ public class HolisticDungeonGenerator {
       return y;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
+    boolean contains(int x1, int y1) {
+      return x <= x1 && x1 <= x + width && y <= y1 && y1 <= y + height;
+    }
+
     public String toString() {
       return "x=" + getX() + ",y=" + getY() + ",width=" + getWidth()
           + ",height=" + getHeight();

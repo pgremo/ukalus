@@ -45,7 +45,7 @@ public class PassageFactory {
 
       for (int index = 2; index < (length - 1); index++) {
         list.add(new Tile(right.add(direction.multiply(index)),
-          (TileType) (TileType) cornerClass.newInstance()));
+          (TileType) cornerClass.newInstance()));
         list.add(new Tile(direction.multiply(index),
           (TileType) floorClass.newInstance()));
         list.add(new Tile(left.add(direction.multiply(index)),
