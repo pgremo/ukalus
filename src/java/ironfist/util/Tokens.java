@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Tokens implements Iterable<String> {
 
@@ -28,10 +29,10 @@ public class Tokens implements Iterable<String> {
     public TokenIterator(Reader input) {
       tokenizer = new StreamTokenizer(input);
       tokenizer.wordChars('0', '9');
-      getNext();
+      setNext();
     }
 
-    private void getNext() {
+    private void setNext() {
       next = null;
       try {
         while (tokenizer.nextToken() != StreamTokenizer.TT_EOF && next == null) {
@@ -48,8 +49,11 @@ public class Tokens implements Iterable<String> {
     }
 
     public String next() {
+      if (next == null){
+        throw new NoSuchElementException();
+      }
       String result = next;
-      getNext();
+      setNext();
       return result;
     }
 
