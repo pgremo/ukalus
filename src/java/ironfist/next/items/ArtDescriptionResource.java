@@ -1,4 +1,4 @@
-package ironfist.namegenerator;
+package ironfist.next.items;
 
 import ironfist.util.ArraySet;
 import ironfist.util.MarkovChain;
@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * @author pmgremo
  */
-public class ArtNameResource extends ListResourceBundle {
+public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
 
@@ -263,7 +263,7 @@ public class ArtNameResource extends ListResourceBundle {
   public final static void main(String[] args) throws Exception {
     Random random = new MersenneTwister();
     String[] types = new String[]{"Fist", "Palm", "Hand", "Claw"};
-    ResourceBundle bundle = ResourceBundle.getBundle(ArtNameResource.class.getName());
+    ResourceBundle bundle = ResourceBundle.getBundle(ArtDescriptionResource.class.getName());
     Enumeration keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {

@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 public class Node2DTest extends TestCase {
 
   public void testGetSuccessorsFromMiddle() {
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
@@ -25,7 +25,7 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsFromCorner() {
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
@@ -36,7 +36,7 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsFromEdge() {
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
@@ -47,7 +47,7 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsOriginInMiddle() {
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});

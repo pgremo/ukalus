@@ -21,13 +21,13 @@ public class Node2D implements Node {
       new Vector(-1, 0),
       new Vector(0, -1)};
 
-  private Map map;
+  private Level map;
   private Vector location;
   private Node2D parent;
   private double g;
   private double h;
 
-  public Node2D(Map map, Vector location, Node2D parent) {
+  public Node2D(Level map, Vector location, Node2D parent) {
     this.map = map;
     this.location = location;
     this.parent = parent;

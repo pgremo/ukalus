@@ -24,15 +24,6 @@ import junit.framework.TestCase;
  */
 public class ReadIdentityScrollReactionTest extends TestCase {
 
-  /**
-   * Constructor for ReadIdentityScrollReactionTest.
-   * 
-   * @param arg0
-   */
-  public ReadIdentityScrollReactionTest(String arg0) {
-    super(arg0);
-  }
-
   public void testRead() throws Exception {
     Thing performer = new ThingImpl();
     Collection identifiers = new ArrayList();

@@ -6,7 +6,7 @@ package ironfist.generator;
 
 import ironfist.astar.AStar;
 import ironfist.astar.FixedCost;
-import ironfist.astar.Map;
+import ironfist.astar.Level;
 import ironfist.math.Vector;
 
 import java.util.ArrayList;
@@ -29,10 +29,10 @@ public class HolisticDungeonGenerator {
   private int minRegionWidth = 5;
   private int cuts = 15;
 
-  private Map level;
+  private Level level;
 
-  public Map generate() {
-    level = new Map(new Object[20][80]);
+  public Level generate() {
+    level = new Level(new Object[20][80]);
 
     connectRooms(createRooms(createRegions()));
 
@@ -182,7 +182,7 @@ public class HolisticDungeonGenerator {
   public static void main(String[] args) {
     HolisticDungeonGenerator generator = new HolisticDungeonGenerator();
 
-    Map result = generator.generate();
+    Level result = generator.generate();
 
     for (int x = 0; x < result.getLength(); x++) {
       for (int y = 0; y < result.getWidth(); y++) {

@@ -4,7 +4,7 @@
  */
 package ironfist.generator;
 
-import ironfist.astar.Map;
+import ironfist.astar.Level;
 import ironfist.astar.Node;
 import ironfist.math.Vector;
 
@@ -23,13 +23,13 @@ public class PassageNode implements Node {
       new Vector(-1, 0),
       new Vector(0, -1)};
 
-  private Map map;
+  private Level map;
   private Vector location;
   private PassageNode parent;
   private double g;
   private double h;
 
-  public PassageNode(Map map, Vector location, PassageNode parent) {
+  public PassageNode(Level map, Vector location, PassageNode parent) {
     this.map = map;
     this.location = location;
     this.parent = parent;

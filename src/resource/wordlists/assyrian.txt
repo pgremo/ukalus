@@ -1,10 +1,60 @@
-Assyria Nineveh Ashur Harran Carchemixh Kadesh Sidon Babylon 
-Tigris Zab Hattush Hatti Urartu Elam Calah Dur-Sharrukin 
-Jezirah Jebel Hamrin Arbela Sin Shamash Anu Adad Ishtar 
-Shamshi Adad Hammurapi Mitanni Ashur-uballit Shalmaneser 
-Hanagalbat Tukulti Ninurta Kar Tiglath-pileser Mushku Jebel 
-Bishri Marduk Nimrud Ashur-dan Adad-nerari Ashurnasirpal Habur 
-Balih Zagros Zamua Shalmaneser Urartu Shamshi-Adad Teushpa Sargon 
-Merodach-baladan Dur-Sharrukin Sennacherib Elam Esarhaddon 
-Ashurbanipal Shamash-shuma-ukin Turtanu Kisru Rab-kisri 
-Ehursaggalkurra Arbela Ninurta Adad Harran Esarhaddon Nabu Akitu 
+adad
+adad-nerari
+akitu
+anu
+arbela
+ashur
+ashur-dan
+ashur-uballit
+ashurbanipal
+ashurnasirpal
+assyria
+babylon
+balih
+bishri
+calah
+carchemixh
+dur-sharrukin
+ehursaggalkurra
+elam
+esarhaddon
+habur
+hammurapi
+hamrin
+hanagalbat
+harran
+hatti
+hattush
+ishtar
+jebel
+jezirah
+kadesh
+kar
+kisru
+marduk
+merodach-baladan
+mitanni
+mushku
+nabu
+nimrud
+nineveh
+ninurta
+rab-kisri
+sargon
+sennacherib
+shalmaneser
+shamash
+shamash-shuma-ukin
+shamshi
+shamshi-adad
+sidon
+sin
+teushpa
+tiglath-pileser
+tigris
+tukulti
+turtanu
+urartu
+zab
+zagros
+zamua

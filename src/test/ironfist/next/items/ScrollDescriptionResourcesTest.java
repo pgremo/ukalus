@@ -13,17 +13,8 @@ import junit.framework.TestCase;
  */
 public class ScrollDescriptionResourcesTest extends TestCase {
 
-  /**
-   * Constructor for ScrollDescriptionResourcesTest.
-   * 
-   * @param arg0
-   */
-  public ScrollDescriptionResourcesTest(String arg0) {
-    super(arg0);
-  }
-
   public void testLoadResource() throws Exception {
-    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.ScrollDescriptionResources");
+    ResourceBundle bundle = ResourceBundle.getBundle(ScrollDescriptionResource.class.getName());
     Enumeration keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {

@@ -10,11 +10,11 @@ import ironfist.math.Vector;
  * @author gremopm
  *  
  */
-public class Map {
+public class Level {
 
   private Object[][] data;
 
-  public Map(Object[][] data) {
+  public Level(Object[][] data) {
     this.data = data;
   }
 

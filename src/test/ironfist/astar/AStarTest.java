@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 public class AStarTest extends TestCase {
 
   public void testFindPathNoObstacles() {
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
@@ -40,7 +40,7 @@ public class AStarTest extends TestCase {
   public void testFindPathChoke() {
     AStar finder = new AStar();
     Cost cost = new FixedCost(1);
-    Map map = new Map(new Object[][]{
+    Level map = new Level(new Object[][]{
         {Boolean.TRUE, null, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, null, Boolean.TRUE}});
