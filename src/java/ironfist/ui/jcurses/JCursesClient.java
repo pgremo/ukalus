@@ -82,7 +82,6 @@ public class JCursesClient extends Widget implements Client, Serializable {
   }
 
   private transient ActionListenerManager manager = new ActionListenerManager();
-  private transient boolean gameEnd;
   private transient List vision;
   private transient Plan plan;
   private transient CommandType commandType;
@@ -463,8 +462,6 @@ public class JCursesClient extends Widget implements Client, Serializable {
    * DOCUMENT ME!
    */
   public void setGameEnd() {
-    gameEnd = true;
-
     ActionEvent event = new ActionEvent(this);
     manager.handleEvent(event);
   }

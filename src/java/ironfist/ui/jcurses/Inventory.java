@@ -15,6 +15,7 @@ import jcurses.widgets.Dialog;
 import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.Label;
 import jcurses.widgets.MenuList;
+import jcurses.widgets.WidgetsConstants;
 import jcurses.widgets.Window;
 
 /**
@@ -67,8 +68,8 @@ public class Inventory implements ItemListener {
       menu.setColors(colors);
       menu.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
-      layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-        GridLayoutManager.ALIGNMENT_CENTER);
+      layout.addWidget(menu, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+          WidgetsConstants.ALIGNMENT_CENTER);
 
       while (iterator.hasNext()) {
         Object current = iterator.next();
@@ -77,8 +78,8 @@ public class Inventory implements ItemListener {
       }
     } else {
       Label label = new Label("Inventory is empty.");
-      layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-        GridLayoutManager.ALIGNMENT_CENTER);
+      layout.addWidget(label, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+          WidgetsConstants.ALIGNMENT_CENTER);
     }
 
     window.show();

@@ -16,15 +16,10 @@ public class Cell {
   private String name;
   private Cell parent;
   private Map children;
-  private Map siblings;
   private Object value;
 
   {
     children = new HashMap();
-  }
-
-  public Cell(Map siblings) {
-    this.siblings = siblings;
   }
 
   /**
@@ -147,7 +142,7 @@ public class Cell {
         result = (Cell) children.get(childName);
 
         if (result == null) {
-          result = new Cell(children);
+          result = new Cell();
           result.setName(childName);
           result.setParent(this);
           children.put(childName, result);

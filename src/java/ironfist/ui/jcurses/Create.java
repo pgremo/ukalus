@@ -8,6 +8,7 @@ import jcurses.system.CharColor;
 import jcurses.system.Toolkit;
 import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.Label;
+import jcurses.widgets.WidgetsConstants;
 import jcurses.widgets.Window;
 
 /**
@@ -37,16 +38,16 @@ public class Create implements ValueChangedListener {
 
     Label label = new Label("Enter Name:");
     label.setColors(colors);
-    layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-      GridLayoutManager.ALIGNMENT_RIGHT);
+    layout.addWidget(label, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+        WidgetsConstants.ALIGNMENT_RIGHT);
 
     nameField = new InputField(20);
     nameField.setTextComponentColors(colors);
     nameField.setDelimiter(' ');
     nameField.setDelimiterColors(colors);
     nameField.addListener(this);
-    layout.addWidget(nameField, 1, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-      GridLayoutManager.ALIGNMENT_LEFT);
+    layout.addWidget(nameField, 1, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+        WidgetsConstants.ALIGNMENT_LEFT);
 
     nameWindow.show();
   }
@@ -58,7 +59,7 @@ public class Create implements ValueChangedListener {
     Object source = event.getSource();
 
     if (nameField.equals(source) && nameField.isDone()) {
-      String name = ((InputField) nameField).getText();
+      String name = nameField.getText();
       nameWindow.close();
 
       Creature hero = (Creature) (new CreateCommand().execute(name));

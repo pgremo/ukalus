@@ -44,14 +44,15 @@ public class InputField extends TextField {
   protected boolean handleInput(InputChar inputChar) {
     int value = inputChar.getCode();
 
+    boolean result = false;
     if (value == '\n') {
       done = true;
       setText(getText(), true);
-
-      return true;
+      result = true;
     } else {
-      return super.handleInput(inputChar);
+      result = super.handleInput(inputChar);
     }
+    return result;
   }
 
   /**

@@ -10,8 +10,6 @@ import ironfist.next.ThingImpl;
  */
 public class BattleAxeFactory {
 
-  private static final String DESCRIPTION = "item.weapon.battleaxe";
-
   public Thing create() {
     Thing result = new ThingImpl();
 

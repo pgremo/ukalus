@@ -1,11 +1,13 @@
 package ironfist.ui.jcurses;
 
+import jcurses.event.ActionEvent;
 import jcurses.event.ItemEvent;
 import jcurses.event.ItemListener;
 import jcurses.system.CharColor;
 import jcurses.system.Toolkit;
 import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.MenuList;
+import jcurses.widgets.WidgetsConstants;
 import jcurses.widgets.Window;
 
 /**
@@ -84,8 +86,8 @@ public class Main implements ItemListener {
     select.add(LOAD);
     select.add(QUIT);
 
-    layout.addWidget(select, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-      GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(select, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+        WidgetsConstants.ALIGNMENT_CENTER);
     window.show();
   }
 

@@ -2,7 +2,6 @@ package ironfist.next.reactions;
 
 import ironfist.next.Action;
 import ironfist.next.ChoiceCallback;
-import ironfist.next.Identifier;
 import ironfist.next.Property;
 import ironfist.next.Reaction;
 import ironfist.next.Thing;
@@ -39,7 +38,7 @@ public class ReadIdentityScrollReaction implements Reaction {
       if (selected > defaultChoice) {
         Thing item = (Thing) callback.getOptions()[selected];
         Collection identifiers = (Collection) performer.getProperty(Property.IDENTIFIERS);
-        identifiers.add((Identifier) item.getProperty(Property.IDENTIFIER));
+        identifiers.add(item.getProperty(Property.IDENTIFIER));
         inventory.remove(read.getItem());
       }
     }

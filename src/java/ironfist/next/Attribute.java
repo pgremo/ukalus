@@ -19,6 +19,6 @@ public class Attribute {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return super.toString();
+    return name;
   }
 }

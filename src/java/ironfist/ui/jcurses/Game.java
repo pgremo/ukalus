@@ -6,6 +6,7 @@ import jcurses.event.ActionListener;
 import jcurses.system.CharColor;
 import jcurses.system.Toolkit;
 import jcurses.widgets.GridLayoutManager;
+import jcurses.widgets.WidgetsConstants;
 import jcurses.widgets.Window;
 
 /**
@@ -50,8 +51,8 @@ public class Game implements ActionListener {
     hero.setClient(client);
     client.addActionListener(this);
 
-    layout.addWidget(client, 0, 2, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-      GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(client, 0, 2, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+        WidgetsConstants.ALIGNMENT_CENTER);
 
     runner = new Runner(client, hero);
     new Thread(runner).start();

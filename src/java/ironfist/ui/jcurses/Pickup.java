@@ -14,6 +14,7 @@ import jcurses.system.Toolkit;
 import jcurses.widgets.Dialog;
 import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.MenuList;
+import jcurses.widgets.WidgetsConstants;
 
 /**
  * @author pmgremo
@@ -63,8 +64,8 @@ public class Pickup implements ItemListener {
     menu.setColors(colors);
     menu.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
-    layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
-      GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(menu, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
+        WidgetsConstants.ALIGNMENT_CENTER);
 
     things.clear();
 

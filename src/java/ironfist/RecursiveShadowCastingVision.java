@@ -36,11 +36,7 @@ public class RecursiveShadowCastingVision {
     double xDiff = x1 - x2;
     double yDiff = y1 - y2;
 
-    if (yDiff != 0) {
-      return xDiff / yDiff;
-    } else {
-      return 0;
-    }
+    return (yDiff != 0) ? xDiff / yDiff : 0;
   }
 
   /**
@@ -60,11 +56,7 @@ public class RecursiveShadowCastingVision {
   private double invSlope(double x1, double y1, double x2, double y2) {
     double slope = slope(x1, y1, x2, y2);
 
-    if (slope != 0) {
-      return 1 / slope;
-    } else {
-      return 0;
-    }
+    return (slope != 0) ? 1 / slope : 0;
   }
 
   /**
@@ -83,8 +75,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int xStart = (int) ((double) xCenter + 0.5 - (startSlope * distance));
-    int xEnd = (int) ((double) xCenter + 0.5 - (endSlope * distance));
+    int xStart = (int) (xCenter + 0.5 - (startSlope * distance));
+    int xEnd = (int) (xCenter + 0.5 - (endSlope * distance));
     int yCheck = yCenter - distance;
 
     // is the starting cell the leftmost cell in the octant?
@@ -126,9 +118,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNW2N(distance + 1, startSlope, slope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck - 0.000001,
-            (double) yCheck + 0.999999));
+          scanNW2N(distance + 1, startSlope, slope(xCenter + 0.5,
+              yCenter + 0.5, xCheck - 0.000001, yCheck + 0.999999));
         }
 
         prevBlocked = true;
@@ -151,8 +142,7 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck, (double) yCheck);
+          startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck, yCheck);
         }
 
         prevBlocked = false;
@@ -182,8 +172,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int xStart = (int) ((double) xCenter + 0.5 - (startSlope * distance));
-    int xEnd = (int) ((double) xCenter + 0.5 - (endSlope * distance));
+    int xStart = (int) (xCenter + 0.5 - (startSlope * distance));
+    int xEnd = (int) (xCenter + 0.5 - (endSlope * distance));
     int yCheck = yCenter - distance;
 
     // is starting cell the rightmost cell in the octant?
@@ -225,9 +215,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNE2N(distance + 1, startSlope, slope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck + 1,
-            (double) yCheck + 0.99999));
+          scanNE2N(distance + 1, startSlope, slope(xCenter + 0.5,
+              yCenter + 0.5, (double) xCheck + 1, yCheck + 0.99999));
         }
 
         prevBlocked = true;
@@ -250,8 +239,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck + 0.9999999, (double) yCheck);
+          startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.9999999,
+              yCheck);
         }
 
         prevBlocked = false;
@@ -281,8 +270,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int yStart = (int) ((double) yCenter + 0.5 - (startSlope * distance));
-    int yEnd = (int) ((double) yCenter + 0.5 - (endSlope * distance));
+    int yStart = (int) (yCenter + 0.5 - (startSlope * distance));
+    int yEnd = (int) (yCenter + 0.5 - (endSlope * distance));
     int xCheck = xCenter - distance;
 
     // is starting cell the topmost cell in the octant?
@@ -329,9 +318,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNW2W(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck + 0.99999,
-            (double) yCheck - 0.00001));
+          scanNW2W(distance + 1, startSlope, invSlope(xCenter + 0.5,
+              yCenter + 0.5, xCheck + 0.99999, yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -359,8 +347,7 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck, (double) yCheck);
+          startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck, yCheck);
         }
 
         prevBlocked = false;
@@ -390,8 +377,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int yStart = (int) ((double) yCenter + 0.5 - (startSlope * distance));
-    int yEnd = (int) ((double) yCenter + 0.5 - (endSlope * distance));
+    int yStart = (int) (yCenter + 0.5 - (startSlope * distance));
+    int yEnd = (int) (yCenter + 0.5 - (endSlope * distance));
     int xCheck = xCenter - distance;
 
     // is starting cell the bottommost cell in the octant?
@@ -438,9 +425,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSW2W(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck + 0.99999,
-            (double) yCheck + 1));
+          scanSW2W(distance + 1, startSlope, invSlope(xCenter + 0.5,
+              yCenter + 0.5, xCheck + 0.99999, (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -468,8 +454,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck, (double) yCheck + 0.99999);
+          startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck,
+              yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -499,8 +485,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int xStart = (int) ((double) xCenter + 0.5 + (startSlope * distance));
-    int xEnd = (int) ((double) xCenter + 0.5 + (endSlope * distance));
+    int xStart = (int) (xCenter + 0.5 + (startSlope * distance));
+    int xEnd = (int) (xCenter + 0.5 + (endSlope * distance));
     int yCheck = yCenter + distance;
 
     // is the starting cell the leftmost cell in the octant?
@@ -542,8 +528,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSW2S(distance + 1, startSlope, slope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck - 0.00001, (double) yCheck));
+          scanSW2S(distance + 1, startSlope, slope(xCenter + 0.5,
+              yCenter + 0.5, xCheck - 0.00001, yCheck));
         }
 
         prevBlocked = true;
@@ -566,8 +552,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck, (double) yCheck + 0.99999);
+          startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck,
+              yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -597,8 +583,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int xStart = (int) ((double) xCenter + 0.5 + (startSlope * distance));
-    int xEnd = (int) ((double) xCenter + 0.5 + (endSlope * distance));
+    int xStart = (int) (xCenter + 0.5 + (startSlope * distance));
+    int xEnd = (int) (xCenter + 0.5 + (endSlope * distance));
     int yCheck = yCenter + distance;
 
     // is starting cell the rightmost cell in the octant?
@@ -640,8 +626,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSE2S(distance + 1, startSlope, slope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck + 1, (double) yCheck));
+          scanSE2S(distance + 1, startSlope, slope(xCenter + 0.5,
+              yCenter + 0.5, (double) xCheck + 1, yCheck));
         }
 
         prevBlocked = true;
@@ -664,8 +650,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck + 0.99999, (double) yCheck + 0.99999);
+          startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
+              yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -695,8 +681,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int yStart = (int) ((double) yCenter + 0.5 + (startSlope * distance));
-    int yEnd = (int) ((double) yCenter + 0.5 + (endSlope * distance));
+    int yStart = (int) (yCenter + 0.5 + (startSlope * distance));
+    int yEnd = (int) (yCenter + 0.5 + (endSlope * distance));
     int xCheck = xCenter + distance;
 
     // is starting cell the topmost cell in the octant?
@@ -743,8 +729,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNE2E(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck, (double) yCheck - 0.00001));
+          scanNE2E(distance + 1, startSlope, invSlope(xCenter + 0.5,
+              yCenter + 0.5, xCheck, yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -772,8 +758,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck + 0.99999, (double) yCheck);
+          startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
+              yCheck);
         }
 
         prevBlocked = false;
@@ -803,8 +789,8 @@ public class RecursiveShadowCastingVision {
     }
 
     // calculate start and end cell of the scan
-    int yStart = (int) ((double) yCenter + 0.5 + (startSlope * distance));
-    int yEnd = (int) ((double) yCenter + 0.5 + (endSlope * distance));
+    int yStart = (int) (yCenter + 0.5 + (startSlope * distance));
+    int yEnd = (int) (yCenter + 0.5 + (endSlope * distance));
     int xCheck = xCenter + distance;
 
     // is starting cell the bottommost cell in the octant?
@@ -851,8 +837,8 @@ public class RecursiveShadowCastingVision {
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSE2E(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
-            (double) yCenter + 0.5, (double) xCheck, (double) yCheck + 1));
+          scanSE2E(distance + 1, startSlope, invSlope(xCenter + 0.5,
+              yCenter + 0.5, xCheck, (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -880,8 +866,8 @@ public class RecursiveShadowCastingVision {
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
-            (double) xCheck + 0.99999, (double) yCheck + 0.99999);
+          startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
+              yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -1093,19 +1079,15 @@ public class RecursiveShadowCastingVision {
   private boolean scanCell(int x, int y) {
     Tile tile = level.get(new Vector(x, y));
     TileType type = tile.getTileType();
+    boolean result = true;
 
     if (type instanceof Floor) {
       Floor floor = (Floor) type;
       Door door = floor.getDoor();
 
-      if ((door == null) || door.isOpen()) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return true;
+      result = !((door == null) || door.isOpen());
     }
+    return result;
   }
 
   /**

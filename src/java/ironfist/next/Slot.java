@@ -29,6 +29,6 @@ public class Slot {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return super.toString();
+    return name;
   }
 }
