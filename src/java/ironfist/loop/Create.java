@@ -2,9 +2,8 @@
  * Created on Mar 7, 2005
  *
  */
-package ironfist.loop.commands;
+package ironfist.loop;
 
-import ironfist.loop.Level;
 import ironfist.persistence.Command;
 import ironfist.persistence.Reference;
 
