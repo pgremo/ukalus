@@ -7,7 +7,6 @@ package ironfist.generator;
 import ironfist.astar.AStar;
 import ironfist.astar.FixedCost;
 import ironfist.astar.Map;
-import ironfist.astar.Node;
 import ironfist.math.Vector;
 
 import java.util.ArrayList;
@@ -167,10 +166,10 @@ public class HolisticDungeonGenerator {
             startRoom.getRandomLocation(randomizer), null);
           PassageNode stop = new PassageNode(level,
             stopRoom.getRandomLocation(randomizer), null);
-          Node[] path = finder.solve(new PassageHeuristic(start, stop),
+          Iterator path = finder.solve(new PassageHeuristic(start, stop),
             new FixedCost(1), start, stop);
-          for (int i = 0; i < path.length; i++) {
-            Vector location = ((PassageNode) path[i]).getLocation();
+          while (path.hasNext()) {
+            Vector location = ((PassageNode) path.next()).getLocation();
             if (level.get(location) == null)
               level.set(location, Feature.PASSAGE);
           }
