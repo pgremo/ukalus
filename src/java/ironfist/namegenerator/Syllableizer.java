@@ -1,4 +1,4 @@
-package syllableizer;
+package ironfist.namegenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,7 +2,7 @@ package ironfist.ui.jcurses;
 
 import ironfist.Tile;
 import ironfist.TileType;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.io.Serializable;
 

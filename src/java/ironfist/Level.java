@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 import ironfist.util.Predicate;
 
 import java.io.Serializable;

@@ -1,10 +1,11 @@
-package ironfist.next.namegen.test;
+package ironfist.namegenerator;
+
+import ironfist.namegenerator.Syllableizer;
+import ironfist.util.MersenneTwister;
 
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import random.MersenneTwister;
-import syllableizer.Syllableizer;
 
 /**
  * DOCUMENT ME!

@@ -13,7 +13,7 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.Weapon;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.io.Serializable;
 import java.util.HashMap;

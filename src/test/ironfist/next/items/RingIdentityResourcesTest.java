@@ -1,4 +1,4 @@
-package ironfist.next.items.test;
+package ironfist.next.items;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;

@@ -8,7 +8,7 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.io.Serializable;
 

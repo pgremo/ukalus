@@ -1,4 +1,4 @@
-package random;
+package ironfist.util;
 
 import java.util.Random;
 

@@ -1,7 +1,7 @@
 package ironfist.generator;
 
 import ironfist.Tile;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 import ironfist.util.Predicate;
 
 /**

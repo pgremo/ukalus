@@ -2,7 +2,7 @@ package ironfist.generator;
 
 import ironfist.Level;
 import ironfist.Tile;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 import ironfist.util.Predicate;
 
 import java.util.Comparator;

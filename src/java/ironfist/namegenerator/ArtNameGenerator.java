@@ -1,9 +1,11 @@
+package ironfist.namegenerator;
 
 import ironfist.util.ArraySet;
+import ironfist.util.MersenneTwister;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.text.MessageFormat;
@@ -16,9 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import random.MersenneTwister;
-import syllableizer.Syllableizer;
 
 /*
  * Created on Jun 13, 2003
@@ -33,7 +32,7 @@ public class ArtNameGenerator extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
 
-  private static final String FILE_NAME = "data/wordlists/tepa.txt";
+  private static final String FILE_NAME = "/wordlists/tepa.txt";
 
   private static final int MAX_SYLLABLES = 3;
 
@@ -344,7 +343,8 @@ public class ArtNameGenerator extends ListResourceBundle {
       gen.setRandom(random);
 
       try {
-        Reader reader = new BufferedReader(new FileReader(fileName));
+        Reader reader = new BufferedReader(new InputStreamReader(
+          getClass().getResourceAsStream(fileName)));
         StreamTokenizer tokenizer = new StreamTokenizer(reader);
 
         while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {

@@ -7,7 +7,7 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.Weapon;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.util.List;
 import java.util.Random;

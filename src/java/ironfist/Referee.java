@@ -1,7 +1,7 @@
 package ironfist;
 
 import ironfist.generator.RecursiveDungeonGenerator;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
 

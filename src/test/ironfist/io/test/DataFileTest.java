@@ -1,6 +1,6 @@
-package io.test;
+package ironfist.io.test;
 
-import io.DataFile;
+import ironfist.io.DataFile;
 
 import junit.framework.TestCase;
 

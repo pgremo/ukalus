@@ -1,4 +1,4 @@
-package ironfist.persistence.test;
+package ironfist.persistence;
 
 import ironfist.persistence.Persistence;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package ironfist.next.reactions.test;
+package ironfist.next.reactions;
 
 import ironfist.next.Action;
 import ironfist.next.ActionType;

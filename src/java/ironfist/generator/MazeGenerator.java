@@ -1,11 +1,11 @@
 package ironfist.generator;
 
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
+import ironfist.util.MersenneTwister;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import random.MersenneTwister;
 
 /**
  * DOCUMENT ME!

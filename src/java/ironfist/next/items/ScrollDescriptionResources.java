@@ -1,5 +1,8 @@
 package ironfist.next.items;
 
+import ironfist.namegenerator.Syllableizer;
+import ironfist.util.MersenneTwister;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,8 +18,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import random.MersenneTwister;
-import syllableizer.Syllableizer;
 
 /**
  * DOCUMENT ME!

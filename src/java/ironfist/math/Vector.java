@@ -1,9 +1,8 @@
-package ironfist.geometry;
+package ironfist.math;
 
 import java.io.Serializable;
 
 /**
- * DOCUMENT ME!
  * 
  * @author pmgremo
  */
@@ -16,9 +15,9 @@ public class Vector implements Cloneable, Serializable {
    * Creates a new Coordinate object.
    * 
    * @param x
-   *          DOCUMENT ME!
+   *          coordinate
    * @param y
-   *          DOCUMENT ME!
+   *          coordinate
    */
   public Vector(double x, double y) {
     this.x = x;
@@ -26,120 +25,121 @@ public class Vector implements Cloneable, Serializable {
   }
 
   /**
-   * DOCUMENT ME!
+   * return the x coordinate
    * 
-   * @return DOCUMENT ME!
+   * @return x coordinate
    */
   public double getX() {
     return x;
   }
 
   /**
-   * DOCUMENT ME!
+   * return the y coordinate
    * 
-   * @return DOCUMENT ME!
+   * @return y coordinate
    */
   public double getY() {
     return y;
   }
 
   /**
-   * DOCUMENT ME!
+   * add a vector to this and return the sum
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          vector to add
    * 
-   * @return DOCUMENT ME!
+   * @return Vector that is the sum
    */
   public Vector add(Vector value) {
     return new Vector(x + value.getX(), y + value.getY());
   }
 
   /**
-   * DOCUMENT ME!
+   * subtract a vector from this and return the difference
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          vector to subtract
    * 
-   * @return DOCUMENT ME!
+   * @return Vector that is the difference
    */
   public Vector subtract(Vector value) {
     return new Vector(x - value.getX(), y - value.getY());
   }
 
   /**
-   * DOCUMENT ME!
+   * multiply a vector to this and return the product
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          Vector to multiply
    * 
-   * @return DOCUMENT ME!
+   * @return Vector that is the product
    */
   public Vector multiply(double value) {
     return new Vector(x * value, y * value);
   }
 
   /**
-   * DOCUMENT ME!
+   * divide a vector by this and return the quotient
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          Vector to divide by
    * 
-   * @return DOCUMENT ME!
+   * @return Vector that is the quotient
    */
   public Vector divide(double value) {
     return new Vector(x / value, y / value);
   }
 
   /**
-   * DOCUMENT ME!
+   * return the length of this vector Math.sqrt((x * x) + (y * y))
    * 
-   * @return DOCUMENT ME!
+   * @return length of this vector
    */
   public double magnitude() {
-    return (double) Math.sqrt((x * x) + (y * y));
+    return Math.sqrt((x * x) + (y * y));
   }
 
   /**
-   * DOCUMENT ME!
+   * calculate the distance from this vector to the given vector
    * 
-   * @param value
-   *          DOCUMENT ME!
+   * @param destination
    * 
-   * @return DOCUMENT ME!
+   * @return distance
    */
-  public double distance(Vector value) {
-    return subtract(value).magnitude();
+  public double distance(Vector destination) {
+    return subtract(destination).magnitude();
   }
 
   /**
-   * DOCUMENT ME!
+   * calculate the vector normal for this vector divide(magnitude())
    * 
-   * @return DOCUMENT ME!
+   * @return the vector normal
    */
   public Vector normal() {
     return divide(magnitude());
   }
 
   /**
-   * DOCUMENT ME!
+   * calculate the dot product for the given vector and this (x * value.getX()) +
+   * (y * value.getY())
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          to evaluate
    * 
-   * @return DOCUMENT ME!
+   * @return dot product
    */
   public double dot(Vector value) {
     return (x * value.getX()) + (y * value.getY());
   }
 
   /**
-   * DOCUMENT ME!
+   * Calculate the angle between a vector and this. Basically:
+   * Math.acos(normal().dot(value.normal()))
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          other vector
    * 
-   * @return DOCUMENT ME!
+   * @return angle
    */
   public double angle(Vector value) {
     double result = normal().dot(value.normal());
@@ -154,12 +154,12 @@ public class Vector implements Cloneable, Serializable {
   }
 
   /**
-   * DOCUMENT ME!
+   * determine the vector of this rotated a given number of degrees
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          degrees to rotate
    * 
-   * @return DOCUMENT ME!
+   * @return new vector
    */
   public Vector rotate(double value) {
     double r = magnitude();
@@ -169,34 +169,34 @@ public class Vector implements Cloneable, Serializable {
   }
 
   /**
-   * DOCUMENT ME!
+   * rotate a vector based on a given vector
    * 
-   * @param value
-   *          DOCUMENT ME!
+   * @param vector
+   *          to rotate by
    * 
-   * @return DOCUMENT ME!
+   * @return new vector
    */
-  public Vector rotate(Vector value) {
-    return new Vector((x * value.getX()) - (y * value.getY()),
-      (x * value.getY()) + (y * value.getX()));
+  public Vector rotate(Vector vector) {
+    return new Vector((x * vector.getX()) - (y * vector.getY()),
+      (x * vector.getY()) + (y * vector.getX()));
   }
 
   /**
-   * DOCUMENT ME!
+   * project this vector along given vector.
    * 
    * @param value
-   *          DOCUMENT ME!
+   *          to project along
    * 
-   * @return DOCUMENT ME!
+   * @return new vector
    */
   public Vector project(Vector value) {
     return multiply(dot(value) / dot(this));
   }
 
   /**
-   * DOCUMENT ME!
+   * return a vector orthoganal to this one Vector(y, -x)
    * 
-   * @return DOCUMENT ME!
+   * @return new vector
    */
   public Vector orthoganal() {
     return new Vector(y, -x);
@@ -206,40 +206,22 @@ public class Vector implements Cloneable, Serializable {
    * @see java.lang.Object#equals()
    */
   public boolean equals(Object value) {
-    if ((value != null) && value instanceof Vector) {
-      return equals((Vector) value);
-    }
-
-    return false;
-  }
-
-  /**
-   * @see java.lang.Object#equals()
-   */
-  public boolean equals(Vector value) {
-    return (x == value.getX()) && (y == value.getY());
+    return value != null && value instanceof Vector
+        && x == ((Vector) value).getX() && y == ((Vector) value).getY();
   }
 
   /**
    * @see java.lang.Object#clone()
    */
   public Object clone() {
-    Object result = null;
-
-    try {
-      result = super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e.getMessage());
-    }
-
-    return result;
+    return new Vector(x, y);
   }
 
   /**
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return "[x=" + x + ",y=" + y + "]";
+    return "(x=" + x + ",y=" + y + ")";
   }
 
   /**

@@ -1,4 +1,4 @@
-package ironfist.test;
+package ironfist;
 
 import ironfist.CreateCommand;
 import ironfist.Creature;

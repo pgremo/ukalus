@@ -41,16 +41,29 @@ public class Node2D implements Node {
 
   public Node[] getSuccessors() {
     List result = new ArrayList(3);
-    if (x > 0 && (parent == null || x - 1 != parent.getX()) && map[x - 1][y] != 1) {
+    if (x > 0 // in bounds
+        && (parent == null || x - 1 != parent.getX()) // not parent
+        && map[x - 1][y] != 1 // passable
+        && (x - 2 > 0) // not a corner
+    ) {
       result.add(new Node2D(map, x - 1, y, this));
     }
-    if (x < map.length - 1 && (parent == null || x + 1 != parent.getX()) && map[x + 1][y] != 1) {
+    if (x < map.length - 1 // in bounds
+        && (parent == null || x + 1 != parent.getX()) // not parent
+        && map[x + 1][y] != 1 // passable
+    ) {
       result.add(new Node2D(map, x + 1, y, this));
     }
-    if (y > 0 && (parent == null || y - 1 != parent.getY()) && map[x][y - 1] != 1) {
+    if (y > 0 // in bounds
+        && (parent == null || y - 1 != parent.getY()) // not parent
+        && map[x][y - 1] != 1 // passable
+    ) {
       result.add(new Node2D(map, x, y - 1, this));
     }
-    if (y < map[x].length - 1 && (parent == null || y + 1 != parent.getY()) && map[x][y + 1] != 1) {
+    if (y < map[x].length - 1 // in bounds
+        && (parent == null || y + 1 != parent.getY()) // not parent
+        && map[x][y + 1] != 1 // passable
+    ) {
       result.add(new Node2D(map, x, y + 1, this));
     }
     return (Node[]) result.toArray(new Node[result.size()]);
@@ -88,7 +101,7 @@ public class Node2D implements Node {
   public int hashCode() {
     return x + y;
   }
-  
+
   public String toString() {
     return "(x=" + x + ",y=" + y + ")";
   }

@@ -2,7 +2,7 @@ package ironfist.generator;
 
 import ironfist.Tile;
 import ironfist.TileType;
-import ironfist.geometry.Vector;
+import ironfist.math.Vector;
 
 import java.util.LinkedList;
 import java.util.List;
