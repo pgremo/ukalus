@@ -26,7 +26,7 @@ public class ScrollDescriptionResource extends ListResourceBundle {
     Factory factory = new RandomLabelFactory(random, FILE_NAME, 1,
       MAX_SYLLABLES);
     while (labels.size() < MAX_LABELS) {
-      String label = (String) factory.generate(new Integer(3));
+      String label = factory.generate(new Integer(3));
 
       labels.add(label.toString()
         .toUpperCase());

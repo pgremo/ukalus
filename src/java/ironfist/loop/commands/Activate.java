@@ -31,13 +31,11 @@ public class Activate implements Command {
     Level level = (Level) reference.get();
     Queue<Event> queue = level.getQueue();
     queue.add(boundary);
-    Event current = queue.poll();
-    if (current != null) {
-      do {
-        current.process(level);
-        current = queue.poll();
-      } while (current != null && boundary.equals(current));
-    }
+    Event current = null;
+    do {
+      current = queue.poll();
+      current.process(level);
+    } while (current != null && boundary.equals(current));
     return null;
   }
 }

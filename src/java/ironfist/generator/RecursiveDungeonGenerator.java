@@ -104,7 +104,7 @@ public class RecursiveDungeonGenerator {
     while ((areas.size() < areaMax) && (tries < (areaMax * 10))) {
       target = new Area(areaFactory.create());
 
-      Area source = (Area) areas.get(randomizer.nextInt(areas.size()));
+      Area source = areas.get(randomizer.nextInt(areas.size()));
 
       if (connectAreas(source, target)) {
         areas.add(target);
@@ -115,11 +115,11 @@ public class RecursiveDungeonGenerator {
 
     DOOR_PREDICATE.setTileTypeClass(FLOOR);
 
-    Area upRegion = (Area) areas.get(0);
+    Area upRegion = areas.get(0);
     Tile upLocation = upRegion.getRandom(DOOR_PREDICATE);
     ((Floor) upLocation.getTileType()).setPortal(new Stairs(Stairs.UP));
 
-    Area downRegion = (Area) areas.get(randomizer.nextInt(areas.size() - 2) + 1);
+    Area downRegion = areas.get(randomizer.nextInt(areas.size() - 2) + 1);
     Tile downLocation = downRegion.getRandom(DOOR_PREDICATE);
     ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));
 

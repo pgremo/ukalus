@@ -15,10 +15,10 @@ import junit.framework.TestCase;
 public class StringsTest extends TestCase {
 
   public void testCommutative() {
-    MarkovChain chains = new MarkovChain();
+    MarkovChain<String> chains = new MarkovChain<String>();
 
     String[] syllables = Strings.split("PROPTERFUISSEDEM");
-    Object key = syllables[0];
+    String key = syllables[0];
 
     for (int i = 1; i < syllables.length; i++) {
       chains.add(key, syllables[i]);
@@ -27,7 +27,7 @@ public class StringsTest extends TestCase {
     chains.add(syllables[syllables.length - 1], null);
 
     Random random = new MersenneTwister();
-    Collection expected = new ArrayList();
+    Collection<String> expected = new ArrayList<String>();
     int syllableCount = random.nextInt(10) + 1;
     StringBuffer result = new StringBuffer();
     key = chains.next(null, random.nextDouble());
