@@ -4,6 +4,12 @@
  */
 package ironfist.generator;
 
+import ironfist.astar.AStar;
+import ironfist.astar.FixedCost;
+import ironfist.astar.Map;
+import ironfist.astar.Node;
+import ironfist.math.Vector;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -16,22 +22,18 @@ import java.util.Random;
  */
 public class HolisticDungeonGenerator {
 
-  private static final int FLOOR = 1;
-  private static final int WALL = 2;
-  private static final int CORNER = 4;
-
   private Random randomizer = new Random();
-  private double room_probability = 1.0;
-  private int min_room_height = 4;
-  private int min_room_width = 5;
-  private int min_region_height = 5;
-  private int min_region_width = 8;
+  private double roomProbability = 1.0;
+  private int minRoomHeight = 5;
+  private int minRoomWidth = 4;
+  private int minRegionHeight = 8;
+  private int minRegionWidth = 5;
   private int cuts = 15;
 
-  private int[][] level;
+  private Map level;
 
-  public int[][] generate() {
-    level = new int[20][80];
+  public Map generate() {
+    level = new Map(new Object[20][80]);
 
     connectRooms(createRooms(createRegions()));
 
@@ -41,14 +43,14 @@ public class HolisticDungeonGenerator {
   private List createRegions() {
     List result = new ArrayList();
     List valid = new LinkedList();
-    valid.add(new Region(0, 0, level[0].length, level.length));
+    valid.add(new Region(0, 0, level.getLength(), level.getWidth()));
 
     for (int index = 0; index < cuts && valid.size() > 0; index++) {
       Region current = (Region) valid.remove(randomizer.nextInt(valid.size()));
       Region next = null;
 
-      boolean splitWidth = current.getWidth() > min_region_width * 2;
-      boolean splitHeight = current.getHeight() > min_region_height * 2;
+      boolean splitWidth = current.getWidth() > minRegionWidth * 2;
+      boolean splitHeight = current.getHeight() > minRegionHeight * 2;
 
       if (splitWidth && splitHeight) {
         if (randomizer.nextBoolean()) {
@@ -59,29 +61,29 @@ public class HolisticDungeonGenerator {
       }
 
       if (splitHeight) {
-        int height = min_region_height
-            + randomizer.nextInt(current.getHeight() - (min_region_height * 2));
+        int height = minRegionHeight
+            + randomizer.nextInt(current.getHeight() - (minRegionHeight * 2));
         current.setHeight(current.getHeight() - height);
         next = new Region(current.getX(), current.getY() + current.getHeight()
             + 1, current.getWidth(), height - 1);
       } else if (splitWidth) {
-        int width = min_region_width
-            + randomizer.nextInt(current.getWidth() - (min_region_width * 2));
+        int width = minRegionWidth
+            + randomizer.nextInt(current.getWidth() - (minRegionWidth * 2));
         current.setWidth(current.getWidth() - width);
         next = new Region(current.getX() + current.getWidth() + 1,
           current.getY(), width - 1, current.getHeight());
       }
 
-      if ((current.getWidth() > (min_region_width * 2))
-          || (current.getHeight() > (min_region_height * 2))) {
+      if ((current.getWidth() > (minRegionWidth * 2))
+          || (current.getHeight() > (minRegionHeight * 2))) {
         valid.add(current);
       } else {
         result.add(current);
       }
 
       if (next != null) {
-        if (next.getWidth() > min_region_width * 2
-            || next.getHeight() > min_region_height * 2) {
+        if (next.getWidth() > minRegionWidth * 2
+            || next.getHeight() > minRegionHeight * 2) {
           valid.add(next);
         } else {
           result.add(next);
@@ -100,14 +102,14 @@ public class HolisticDungeonGenerator {
 
     int index = 0;
 
-    for (; index < (regions.size() * room_probability); index++) {
+    for (; index < (regions.size() * roomProbability); index++) {
       Region current = (Region) regions.get(index);
 
       Region room = new Region(current);
 
-      if (current.getWidth() > min_room_width) {
-        room.setWidth(min_room_width
-            + randomizer.nextInt(current.getWidth() - min_room_width));
+      if (current.getWidth() > minRoomWidth) {
+        room.setWidth(minRoomWidth
+            + randomizer.nextInt(current.getWidth() - minRoomWidth));
 
         if (current.getWidth() > room.getWidth()) {
           room.setX(current.getX()
@@ -115,9 +117,9 @@ public class HolisticDungeonGenerator {
         }
       }
 
-      if (current.getHeight() > min_room_height) {
-        room.setHeight(min_room_height
-            + randomizer.nextInt(current.getHeight() - min_room_height));
+      if (current.getHeight() > minRoomHeight) {
+        room.setHeight(minRoomHeight
+            + randomizer.nextInt(current.getHeight() - minRoomHeight));
 
         if (current.getHeight() > room.getHeight()) {
           room.setY(current.getY()
@@ -146,36 +148,33 @@ public class HolisticDungeonGenerator {
     while (iterator.hasNext()) {
       Region cell = (Region) iterator.next();
 
-      level[cell.getY()][cell.getX()] = CORNER;
-      level[cell.getY()][cell.getX() + cell.getWidth() - 1] = CORNER;
-      level[cell.getY() + cell.getHeight() - 1][cell.getX()] = CORNER;
-      level[cell.getY() + cell.getHeight() - 1][cell.getX() + cell.getWidth()
-          - 1] = CORNER;
-
-      for (int y = 1; y < cell.getHeight() - 1; y++) {
-        level[y + cell.getY()][cell.getX()] = WALL;
-        level[y + cell.getY()][cell.getX() + cell.getWidth() - 1] = WALL;
-      }
-      for (int x = 1; x < cell.getWidth() - 1; x++) {
-        level[cell.getY()][x + cell.getX()] = WALL;
-        level[cell.getY() + cell.getHeight() - 1][x + cell.getX()] = WALL;
-      }
       for (int y = 1; y < cell.getHeight() - 1; y++) {
         for (int x = 1; x < cell.getWidth() - 1; x++) {
-          level[y + cell.getY()][x + cell.getX()] = FLOOR;
+          level.set(new Vector(x + cell.getX(), y + cell.getY()), Feature.ROOM);
         }
       }
     }
 
+    AStar finder = new AStar();
     Collections.shuffle(rooms, randomizer);
     iterator = rooms.iterator();
     if (iterator.hasNext()) {
-      Region start = (Region) iterator.next();
+      Region startRoom = (Region) iterator.next();
       if (iterator.hasNext()) {
         while (iterator.hasNext()) {
-          Region stop = (Region) iterator.next();
-          // connect start to stop.
-          start = stop;
+          Region stopRoom = (Region) iterator.next();
+          PassageNode start = new PassageNode(level,
+            startRoom.getRandomLocation(randomizer), null);
+          PassageNode stop = new PassageNode(level,
+            stopRoom.getRandomLocation(randomizer), null);
+          Node[] path = finder.solve(new PassageHeuristic(start, stop),
+            new FixedCost(1), start, stop);
+          for (int i = 0; i < path.length; i++) {
+            Vector location = ((PassageNode) path[i]).getLocation();
+            if (level.get(location) == null)
+              level.set(location, Feature.PASSAGE);
+          }
+          startRoom = stopRoom;
         }
       }
     }
@@ -184,18 +183,14 @@ public class HolisticDungeonGenerator {
   public static void main(String[] args) {
     HolisticDungeonGenerator generator = new HolisticDungeonGenerator();
 
-    int[][] result = generator.generate();
+    Map result = generator.generate();
 
-    for (int x = 0; x < result.length; x++) {
-      for (int y = 0; y < result[x].length; y++) {
-        if (result[x][y] == FLOOR) {
+    for (int x = 0; x < result.getLength(); x++) {
+      for (int y = 0; y < result.getWidth(); y++) {
+        if (result.get(new Vector(x, y)) != null) {
           System.out.print(".");
-        } else if (result[x][y] == WALL) {
-          System.out.print("#");
-        } else if (result[x][y] == CORNER) {
-          System.out.print("X");
         } else {
-          System.out.print(" ");
+          System.out.print("#");
         }
       }
 
@@ -256,8 +251,9 @@ public class HolisticDungeonGenerator {
       return y;
     }
 
-    boolean contains(int x1, int y1) {
-      return x <= x1 && x1 <= x + width && y <= y1 && y1 <= y + height;
+    Vector getRandomLocation(Random randomizer) {
+      return new Vector(x + 1 + randomizer.nextInt(width - 2), y + 1
+          + randomizer.nextInt(height - 2));
     }
 
     public String toString() {

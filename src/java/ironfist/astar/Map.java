@@ -28,4 +28,16 @@ public class Map {
     return data[(int) location.getX()][(int) location.getY()];
   }
 
+  public void set(Vector location, Object value) {
+    data[(int) location.getX()][(int) location.getY()] = value;
+  }
+
+  public int getLength() {
+    return data.length;
+  }
+
+  public int getWidth() {
+    return data[0].length;
+  }
+
 }

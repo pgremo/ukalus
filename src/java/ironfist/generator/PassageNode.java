@@ -47,10 +47,14 @@ public class PassageNode implements Node {
     List result = new ArrayList(DIRECTIONS.length);
     for (int i = 0; i < DIRECTIONS.length; i++) {
       Vector position = location.add(DIRECTIONS[i]);
+      Vector right = location.add(DIRECTIONS[i].orthoganal());
+      Vector left = location.add(DIRECTIONS[i].orthoganal()
+        .multiply(-1));
       if ((parent == null || !position.equals(parent.getLocation())) // not
           // parent
-          && map.contains(position) && map.get(position) != null // passable
-      ) {
+          && map.contains(position) // exists
+          && (!map.contains(right) || map.get(right) == null || map.get(right) == Feature.ROOM)
+          && (!map.contains(left) || map.get(left) == null || map.get(left) == Feature.ROOM)) {
         result.add(new PassageNode(map, position, this));
       }
     }
@@ -78,8 +82,9 @@ public class PassageNode implements Node {
   }
 
   public boolean equals(Object obj) {
-    return obj != null && obj instanceof PassageNode && ((PassageNode) obj).getLocation()
-      .equals(location);
+    return obj != null && obj instanceof PassageNode
+        && ((PassageNode) obj).getLocation()
+          .equals(location);
   }
 
   public int hashCode() {

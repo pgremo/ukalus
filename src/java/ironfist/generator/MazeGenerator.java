@@ -3,9 +3,7 @@ package ironfist.generator;
 import ironfist.math.Vector;
 import ironfist.util.MersenneTwister;
 
-import java.util.Arrays;
 import java.util.Random;
-
 
 /**
  * DOCUMENT ME!
@@ -40,26 +38,33 @@ public class MazeGenerator {
   }
 
   private void iterate(Vector location) {
-    walls[(int) location.getX()][(int) location.getY()] = false;
-
+    set(location, false);
     int direction = random.nextInt(DIRECTIONS.length);
-
     for (int index = 0; index < DIRECTIONS.length; index++) {
-      Vector nextWall = location.add(DIRECTIONS[direction]);
-
-      if (walls[(int) nextWall.getX()][(int) nextWall.getY()]) {
-        Vector nextPassage = nextWall.add(DIRECTIONS[direction]);
-
-        if ((nextPassage.getX() > 0) && (nextPassage.getX() < height)
-            && (nextPassage.getY() > 0) && (nextPassage.getY() < width)
-            && walls[(int) nextPassage.getX()][(int) nextPassage.getY()]) {
-          walls[(int) nextWall.getX()][(int) nextWall.getY()] = false;
-          iterate(nextPassage);
+      Vector step1 = location.add(DIRECTIONS[direction]);
+      if (contains(step1) && get(step1)) {
+        Vector step2 = step1.add(DIRECTIONS[direction]);
+        if (contains(step2) && get(step2)) {
+          set(step1, false);
+          iterate(step2);
         }
       }
-
       direction = (direction + 1) % DIRECTIONS.length;
     }
+  }
+
+  private void set(Vector location, boolean value) {
+    walls[(int) location.getX()][(int) location.getY()] = value;
+
+  }
+
+  private boolean get(Vector nextPassage) {
+    return walls[(int) nextPassage.getX()][(int) nextPassage.getY()];
+  }
+
+  private boolean contains(Vector nextPassage) {
+    return (nextPassage.getX() > 0) && (nextPassage.getX() < height - 1)
+        && (nextPassage.getY() > 0) && (nextPassage.getY() < width - 1);
   }
 
   /**
@@ -142,8 +147,5 @@ public class MazeGenerator {
       System.out.println();
     }
 
-    generator.setRandom(new MersenneTwister(seed));
-    boolean[][] result2 = generator.generate();
-    System.out.println("result == result2 = " + Arrays.equals(result, result2));
   }
 }
