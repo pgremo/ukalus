@@ -16,10 +16,7 @@ public class TileTypePredicate implements Predicate {
    * @see com.threat.game.Predicate#allow(Object)
    */
   public boolean allow(Object value) {
-    if (value == null) {
-      return false;
-    }
-    return tileTypeClass.equals(((Tile) value).getTileType()
+    return value != null && tileTypeClass.equals(((Tile) value).getTileType()
       .getClass());
   }
 

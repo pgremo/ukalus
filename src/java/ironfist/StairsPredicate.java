@@ -15,6 +15,7 @@ public class StairsPredicate implements Predicate {
    * @see com.threat.game.Predicate#allow(Object)
    */
   public boolean allow(Object value) {
+    boolean result = false;
     if (value != null) {
       TileType type = ((Tile) value).getTileType();
 
@@ -24,13 +25,13 @@ public class StairsPredicate implements Predicate {
         if (portal instanceof Stairs) {
           if (((Stairs) portal).getDirection()
             .equals(direction)) {
-            return true;
+            result = true;
           }
         }
       }
     }
 
-    return false;
+    return result;
   }
 
   /**

@@ -8,7 +8,7 @@ package ironfist.generator;
  * @author gremopm
  *  
  */
-public class Feature {
+public final class Feature {
 
   public static final Feature ROOM = new Feature("room");
   public static final Feature PASSAGE = new Feature("passage");

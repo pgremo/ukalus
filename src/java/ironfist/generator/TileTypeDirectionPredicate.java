@@ -21,9 +21,9 @@ public class TileTypeDirectionPredicate implements Predicate {
   public boolean allow(Object value) {
     Tile tile = (Tile) value;
 
-    return (tileTypeClass.equals(tile.getTileType()
+    return tileTypeClass.equals(tile.getTileType()
       .getClass()) && (area.get(tile.getCoordinate()
-      .add(direction)) == null));
+      .add(direction)) == null);
   }
 
   /**

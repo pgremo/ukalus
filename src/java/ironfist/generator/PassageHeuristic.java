@@ -23,11 +23,11 @@ public class PassageHeuristic implements Heuristic {
 
   public double estimate(Node current) {
     PassageNode n = (PassageNode) current;
-    double heuristic = (Math.abs(n.getLocation()
+    double heuristic = Math.abs(n.getLocation()
       .getX() - stop.getLocation()
       .getX()) + Math.abs(n.getLocation()
       .getY() - stop.getLocation()
-      .getY()));
+      .getY());
     double dx1 = n.getLocation()
       .getX() - stop.getLocation()
       .getX();

@@ -19,7 +19,11 @@ import java.util.TreeSet;
  * @author gremopm
  *  
  */
-public class ConvertLists {
+public final class ConvertLists {
+
+  private ConvertLists() {
+
+  }
 
   public static void main(String[] args) throws Exception {
     File inDir = new File("src/resource/wordlists");

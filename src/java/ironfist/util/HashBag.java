@@ -70,7 +70,7 @@ public class HashBag extends AbstractCollection implements Bag {
     }
 
     public boolean hasNext() {
-      return (count > 0 || entryIterator.hasNext());
+      return count > 0 || entryIterator.hasNext();
     }
 
     public Object next() {

@@ -8,13 +8,17 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Persistence {
+public final class Persistence {
 
   private static File dataFile;
   private static File logFile;
   private static Store store;
   private static Log log;
   private static Engine persistence;
+  
+  private Persistence(){
+    
+  }
 
   public static void create(String name) throws PersistenceException {
     File directory = new File(System.getProperty("user.home"), "ironfist");

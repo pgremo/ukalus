@@ -165,7 +165,7 @@ public class Vector implements Cloneable, Serializable {
     double r = magnitude();
     double theta = Math.atan2(y, x) - value;
 
-    return new Vector((r * Math.cos(theta)), (r * Math.sin(theta)));
+    return new Vector(r * Math.cos(theta), r * Math.sin(theta));
   }
 
   /**
@@ -229,8 +229,8 @@ public class Vector implements Cloneable, Serializable {
    */
   public int hashCode() {
     long bits = Double.doubleToLongBits(getX());
-    bits ^= (Double.doubleToLongBits(getY()) * 31);
+    bits ^= Double.doubleToLongBits(getY()) * 31;
 
-    return ((int) bits ^ (int) (bits >> 32));
+    return (int) bits ^ (int) (bits >> 32);
   }
 }

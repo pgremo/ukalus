@@ -16,7 +16,7 @@
 	<property name="docs" value="${target}/docs" />
 	<property name="docs.generated" value="${target}/generated-docs" />
 	<property name="classes" value="${target}/classes" />
-	<property name="plugins" value="${repository.local}/build" />
+	<property name="plugins" value="/build" />
 
 	<setproxy proxyhost="${proxy.host}" />
 

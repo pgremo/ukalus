@@ -7,7 +7,7 @@ import java.util.Random;
  * 
  * @author pmgremo
  */
-public class Key {
+public final class Key {
 
   private static final int MAX_KEYS = 20;
   private static Random random;
@@ -57,6 +57,10 @@ public class Key {
   public boolean equals(Object object) {
     Key key = (Key) object;
 
-    return (key != null) && (id == key.id);
+    return key != null && id == key.id;
+  }
+
+  public int hashCode() {
+    return id;
   }
 }

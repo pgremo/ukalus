@@ -151,7 +151,7 @@ public class Area {
       } else {
         Tile tile = level.get(current.getCoordinate()
           .add(coordinate));
-        result = (comparator.compare(tile, current) == 0);
+        result = comparator.compare(tile, current) == 0;
       }
     }
 

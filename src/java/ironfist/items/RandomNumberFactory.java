@@ -1,11 +1,10 @@
 /*
  * Created on Feb 25, 2005
- *
-  */
+ *  
+ */
 package ironfist.items;
 
 import java.util.Random;
-
 
 class RandomNumberFactory implements Factory {
 
@@ -25,10 +24,13 @@ class RandomNumberFactory implements Factory {
   }
 
   public Object generate(Object argument) {
+    String result = null;
     int value = random.nextInt(max - min) + min;
     if (names != null && value < names.length) {
-      return names[value];
+      result = names[value];
+    } else {
+      result = String.valueOf(value);
     }
-    return String.valueOf(value);
+    return result;
   }
 }

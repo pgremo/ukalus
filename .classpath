@@ -6,5 +6,6 @@
 	<classpathentry kind="var" path="REPOSITORY/junit/jars/junit-3.8.1.jar"/>
 	<classpathentry kind="var" path="REPOSITORY/jcurses/jars/jcurses-0.9.5.jar"/>
 	<classpathentry kind="src" path="src/resource"/>
+	<classpathentry kind="src" path="src/spike"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

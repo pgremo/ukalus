@@ -22,23 +22,23 @@ import java.util.Random;
  */
 public class RecursiveDungeonGenerator {
 
-  private static final TileTypeDirectionPredicate directionPredicate = new TileTypeDirectionPredicate();
+  private static final TileTypeDirectionPredicate DIRECTION_PREDICATE = new TileTypeDirectionPredicate();
   private static final TileTypePredicate tilePredicate = new TileTypePredicate();
-  private static final EmptyFloorTilePredicate doorPredicate = new EmptyFloorTilePredicate();
+  private static final EmptyFloorTilePredicate DOOR_PREDICATE = new EmptyFloorTilePredicate();
   private static final DungeonRoomComparator roomComparator = new DungeonRoomComparator();
   private static final int MAX_ROOM_HEIGHT = 10;
   private static final int MAX_ROOM_WIDTH = 12;
   private static final int MIN_ROOM_HEIGHT = 5;
   private static final int MIN_ROOM_WIDTH = 5;
-  private static final Vector[] directions = {
+  private static final Vector[] DIRECTIONS = {
       new Vector(-1, 0),
       new Vector(0, 1),
       new Vector(1, 0),
       new Vector(0, -1)};
-  private static final Class floor = Floor.class;
+  private static final Class FLOOR = Floor.class;
   private static final Class terminal = Terminal.class;
   private static final Class wall = Wall.class;
-  private static final Class barrier = Barrier.class;
+  private static final Class BARRIER = Barrier.class;
   private RectangleRoomFactory areaFactory;
   private PassageFactory connectorFactory;
   private Random randomizer;
@@ -46,18 +46,18 @@ public class RecursiveDungeonGenerator {
 
   {
     connectorFactory = new PassageFactory();
-    connectorFactory.setFloorClass(floor);
+    connectorFactory.setFloorClass(FLOOR);
     connectorFactory.setWallClass(wall);
-    connectorFactory.setCornerClass(barrier);
+    connectorFactory.setCornerClass(BARRIER);
     connectorFactory.setTerminalClass(terminal);
     areaFactory = new RectangleRoomFactory();
     areaFactory.setMinRoomHeight(MIN_ROOM_HEIGHT);
     areaFactory.setMinRoomWidth(MIN_ROOM_WIDTH);
     areaFactory.setMaxRoomHeight(MAX_ROOM_HEIGHT);
     areaFactory.setMaxRoomWidth(MAX_ROOM_WIDTH);
-    areaFactory.setFloorClass(floor);
+    areaFactory.setFloorClass(FLOOR);
     areaFactory.setWallClass(wall);
-    areaFactory.setCornerClass(barrier);
+    areaFactory.setCornerClass(BARRIER);
   }
 
   public RecursiveDungeonGenerator(long seed) {
@@ -113,14 +113,14 @@ public class RecursiveDungeonGenerator {
       }
     }
 
-    doorPredicate.setTileTypeClass(floor);
+    DOOR_PREDICATE.setTileTypeClass(FLOOR);
 
     Area upRegion = (Area) areas.get(0);
-    Tile upLocation = upRegion.getRandom(doorPredicate);
+    Tile upLocation = upRegion.getRandom(DOOR_PREDICATE);
     ((Floor) upLocation.getTileType()).setPortal(new Stairs(Stairs.UP));
 
     Area downRegion = (Area) areas.get(randomizer.nextInt(areas.size() - 2) + 1);
-    Tile downLocation = downRegion.getRandom(doorPredicate);
+    Tile downLocation = downRegion.getRandom(DOOR_PREDICATE);
     ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));
 
     return level;
@@ -180,12 +180,12 @@ public class RecursiveDungeonGenerator {
       Vector lastLocationCoordinate = connector.getRandom(tilePredicate)
         .getCoordinate();
 
-      directionPredicate.setTileTypeClass(wall);
-      directionPredicate.setArea(target);
-      directionPredicate.setDirection(getSide(connector, lastLocationCoordinate).multiply(
+      DIRECTION_PREDICATE.setTileTypeClass(wall);
+      DIRECTION_PREDICATE.setArea(target);
+      DIRECTION_PREDICATE.setDirection(getSide(connector, lastLocationCoordinate).multiply(
         -1));
 
-      targetDoor = target.getRandom(directionPredicate);
+      targetDoor = target.getRandom(DIRECTION_PREDICATE);
 
       Vector connectorCoordinate = connector.getCoordinate();
       Vector total = connectorCoordinate.add(lastLocationCoordinate)
@@ -226,8 +226,8 @@ public class RecursiveDungeonGenerator {
     Vector result = null;
 
     for (int index = 0; (index < 4) && (result == null); index++) {
-      if (region.get(coordinate.add(directions[index])) == null) {
-        result = directions[index];
+      if (region.get(coordinate.add(DIRECTIONS[index])) == null) {
+        result = DIRECTIONS[index];
       }
     }
 

@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author $author$
  */
 public class BeamCastingFOVApplet extends Applet
@@ -28,7 +28,7 @@ public class BeamCastingFOVApplet extends Applet
     MASK[15] = 0;
   }
 
-  int benchtime = 0;
+  int benchtime;
   int[] map = new int[32]; //The bitmap -- 1 means transparent
   int[] vis = new int[32]; //The visibility map
   int[] tmap1 = new int[16]; //the transformed transparency map
@@ -220,7 +220,7 @@ public class BeamCastingFOVApplet extends Applet
 
       for (int x = a; x <= b; x++) {
         for (int y = c; y <= d; y++) {
-          map[x & 31] |= (1 << (y & 31));
+          map[x & 31] |= 1 << (y & 31);
         }
       }
 
@@ -229,23 +229,23 @@ public class BeamCastingFOVApplet extends Applet
           if (1 == (int) Math.round(Math.random())) {
             for (int k = (int) Math.floor(Math.random() * 15); k > -3; --k) {
               startX++;
-              map[startX & 31] |= (1 << (startY & 31));
+              map[startX & 31] |= 1 << (startY & 31);
             }
           } else {
             for (int k = (int) Math.floor(Math.random() * 15); k > -3; --k) {
               --startX;
-              map[startX & 31] |= (1 << (startY & 31));
+              map[startX & 31] |= 1 << (startY & 31);
             }
           }
         } else if (1 == (int) Math.round(Math.random())) {
           for (int k = (int) Math.floor(Math.random() * 15); k > -3; --k) {
             startY++;
-            map[startX & 31] |= (1 << (startY & 31));
+            map[startX & 31] |= 1 << (startY & 31);
           }
         } else {
           for (int k = (int) Math.floor(Math.random() * 15); k > -3; --k) {
             --startY;
-            map[startX & 31] |= (1 << (startY & 31));
+            map[startX & 31] |= 1 << (startY & 31);
           }
         }
       }
@@ -253,7 +253,7 @@ public class BeamCastingFOVApplet extends Applet
 
     for (int x = startX - 1; x <= (startX + 1); x++) {
       for (int y = startY - 1; y <= (startY + 1); y++) {
-        map[x & 31] |= (1 << (y & 31));
+        map[x & 31] |= 1 << (y & 31);
       }
     }
 
@@ -333,7 +333,7 @@ public class BeamCastingFOVApplet extends Applet
    *          DOCUMENT ME!
    */
   public void mousePressed(MouseEvent e) {
-    map[e.getX() >> 4] ^= (1 << (31 - (e.getY() >> 4)));
+    map[e.getX() >> 4] ^= 1 << (31 - (e.getY() >> 4));
     repaint();
   }
 

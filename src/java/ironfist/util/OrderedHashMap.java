@@ -232,7 +232,7 @@ public class OrderedHashMap extends AbstractMap implements Serializable {
   private void readObject(ObjectInputStream stream) throws IOException,
       ClassNotFoundException {
     stream.defaultReadObject();
-    final int size = stream.readInt();
+    final int count = stream.readInt();
     final int entriesLength = stream.readInt();
 
     entries = new OrderedHashMapEntry[entriesLength];
@@ -244,7 +244,7 @@ public class OrderedHashMap extends AbstractMap implements Serializable {
     entrySet = new EntrySet();
     keys = new KeySet();
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < count; i++) {
       Object key = stream.readObject();
       Object value = stream.readObject();
       Object target = (key == null) ? NULL : key;

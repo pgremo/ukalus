@@ -368,7 +368,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
       Creature creature = floor.getCreature();
 
       if (creature == hero) {
-        return Marker.HERO;
+        result = Marker.HERO;
       }
     }
 

@@ -18,7 +18,6 @@ public class Creature implements Serializable {
 
   private static final RecursiveShadowCastingVision fov = new RecursiveShadowCastingVision();
 
-  //	private static final BeamCastingVision fov = new BeamCastingVision();
   private Map properties;
   private String name;
   private Vector coordinate;
@@ -224,10 +223,8 @@ public class Creature implements Serializable {
    * @return DOCUMENT ME!
    */
   public List getVision() {
-    Vector coordinate = getCoordinate();
-    Level level = getLevel();
-
-    return fov.getSeen(level, (int) coordinate.getX(), (int) coordinate.getY(),
+    Vector location = getCoordinate();
+    return fov.getSeen(getLevel(), (int) location.getX(), (int) location.getY(),
       3);
   }
 }

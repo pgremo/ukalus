@@ -10,7 +10,7 @@ import ironfist.persistence.PersistenceException;
  * 
  * @author pmgremo
  */
-public class Referee {
+public final class Referee {
 
   private static final String CREATURE = "creature";
   private static final StairsPredicate stairsPredicate;
@@ -20,6 +20,10 @@ public class Referee {
   static {
     generator = new RecursiveDungeonGenerator(System.currentTimeMillis());
     stairsPredicate = new StairsPredicate();
+  }
+  
+  private Referee(){
+    
   }
 
   /**

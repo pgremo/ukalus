@@ -21,9 +21,9 @@ public class PriorityQueue extends AbstractCollection implements Serializable {
   private static final Comparator DEFAULT_COMPARATOR = new ComparableComparator();
 
   private transient Object[] queue;
-  private int size = 0;
+  private int size;
   private Comparator comparator;
-  private transient int modCount = 0;
+  private transient int modCount;
 
   public PriorityQueue() {
     this(DEFAULT_INITIAL_CAPACITY, DEFAULT_COMPARATOR);
@@ -141,18 +141,17 @@ public class PriorityQueue extends AbstractCollection implements Serializable {
   }
 
   public boolean remove(Object o) {
-    if (o == null) {
-      return false;
+    boolean found = false;
+    if (o != null) {
+      int i = 1;
+      while (i <= size && !found) {
+        found = comparator.compare(queue[i++], o) == 0;
+      }
+      if (found) {
+        removeAt(i);
+      }
     }
 
-    boolean found = false;
-    int i = 1;
-    while (i <= size && !found) {
-      found = comparator.compare(queue[i++], o) == 0;
-    }
-    if (found) {
-      removeAt(i);
-    }
     return found;
   }
 
@@ -163,11 +162,10 @@ public class PriorityQueue extends AbstractCollection implements Serializable {
   private class Itr implements Iterator {
 
     private int cursor = 1;
-    private int lastRet = 0;
+    private int lastRet;
     private int expectedModCount = modCount;
-    private ArrayList forgetMeNot = null;
-
-    private Object lastRetElt = null;
+    private ArrayList forgetMeNot;
+    private Object lastRetElt;
 
     public boolean hasNext() {
       return cursor <= size || forgetMeNot != null;
@@ -234,61 +232,64 @@ public class PriorityQueue extends AbstractCollection implements Serializable {
   }
 
   public Object removeFirst() {
-    if (size == 0) {
-      return null;
+    Object result = null;
+    if (size != 0) {
+      modCount++;
+      result = queue[1];
+      queue[1] = queue[size];
+      queue[size--] = null;
+      if (size > 1) {
+        fixDown(1);
+      }
     }
-    modCount++;
-
-    Object result = queue[1];
-    queue[1] = queue[size];
-    queue[size--] = null;
-    if (size > 1) {
-      fixDown(1);
-    }
-
     return result;
   }
 
   private Object removeAt(int i) {
     modCount++;
 
+    Object result = null;
     Object moved = queue[size];
     queue[i] = moved;
-    queue[size--] = null; // Drop extra ref to prevent memory leak
+    queue[size--] = null;
     if (i <= size) {
       fixDown(i);
       if (queue[i] == moved) {
         fixUp(i);
         if (queue[i] != moved)
-          return moved;
+          result = moved;
       }
     }
-    return null;
+    return result;
   }
 
   private void fixUp(int k) {
-    while (k > 1) {
-      int j = k >>> 1;
-      if (comparator.compare(queue[j], queue[k]) <= 0)
+    int location = k;
+    while (location > 1) {
+      int j = location >>> 1;
+      if (comparator.compare(queue[j], queue[location]) <= 0)
         break;
       Object tmp = queue[j];
-      queue[j] = queue[k];
-      queue[k] = tmp;
-      k = j;
+      queue[j] = queue[location];
+      queue[location] = tmp;
+      location = j;
     }
   }
 
   private void fixDown(int k) {
+    int location = k;
     int j;
-    while ((j = k << 1) <= size && (j > 0)) {
-      if (j < size && comparator.compare(queue[j], queue[j + 1]) > 0)
-        j++; // j indexes smallest kid
-      if (comparator.compare(queue[k], queue[j]) <= 0)
+    while ((j = location << 1) <= size && (j > 0)) {
+      if (j < size && comparator.compare(queue[j], queue[j + 1]) > 0){
+        j++;
+      }
+      if (comparator.compare(queue[location], queue[j]) <= 0){
         break;
+      }
       Object tmp = queue[j];
-      queue[j] = queue[k];
-      queue[k] = tmp;
-      k = j;
+      queue[j] = queue[location];
+      queue[location] = tmp;
+      location = j;
     }
   }
 
