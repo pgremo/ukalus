@@ -68,6 +68,6 @@ public class FileStore implements Store {
   }
   
   
-  public void close() throws IOException {
+  public void close() {
   }
 }
