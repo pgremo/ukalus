@@ -12,7 +12,7 @@ import ironfist.persistence.Reference;
  * @author gremopm
  * 
  */
-public class CreateWorld implements Command {
+public class Create implements Command {
 
   private static final long serialVersionUID = 3763094163440613687L;
 

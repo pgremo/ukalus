@@ -4,10 +4,8 @@
  */
 package ironfist.loop.commands;
 
-import ironfist.loop.Actor;
 import ironfist.loop.Event;
 import ironfist.loop.Level;
-import ironfist.loop.events.ReadyToAct;
 import ironfist.persistence.Command;
 import ironfist.persistence.Reference;
 
@@ -17,26 +15,28 @@ import java.util.Queue;
  * @author gremopm
  * 
  */
-public class ActivateLoop implements Command {
+public class Activate implements Command {
 
   private static final long serialVersionUID = 3257285825019656248L;
-  private Actor hero;
+  private Event boundary;
 
-  public ActivateLoop(Actor hero) {
-    this.hero = hero;
+  public Activate(Event boundary) {
+    this.boundary = boundary;
+    if (boundary == null) {
+      throw new NullPointerException();
+    }
   }
 
   public Object execute(Reference reference) {
     Level level = (Level) reference.get();
     Queue<Event> queue = level.getQueue();
+    queue.add(boundary);
     Event current = queue.poll();
     if (current != null) {
       do {
         current.process(level);
         current = queue.poll();
-      } while (current != null
-          && !(current instanceof ReadyToAct && current.getSource()
-            .equals(hero)));
+      } while (current != null && boundary.equals(current));
     }
     return null;
   }
