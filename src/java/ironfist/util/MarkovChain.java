@@ -27,21 +27,20 @@ public class MarkovChain {
   }
 
   public Object next(Object key, double weight) {
-    Object result = null;
-    Collection chain = null;
-    if (key == null) {
-      chain = items.keySet();
-    } else {
-      chain = (Collection) items.get(key);
-    }
+    Map.Entry current = null;
+    Bag chain = (Bag) items.get(key);
     if (chain != null) {
       int level = 0;
       int limit = (int) Math.ceil(chain.size() * weight);
-      Iterator iterator = chain.iterator();
+      Iterator iterator = chain.occurenceIterator();
       while (level < limit) {
-        result = iterator.next();
-        level++;
+        current = (Map.Entry) iterator.next();
+        level += ((Counter) current.getValue()).getCount();
       }
+    }
+    Object result = null;
+    if (current != null) {
+      result = current.getKey();
     }
     return result;
   }

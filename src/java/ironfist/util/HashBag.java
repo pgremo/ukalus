@@ -5,6 +5,7 @@
 package ironfist.util;
 
 import java.util.AbstractCollection;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,6 +40,11 @@ public class HashBag extends AbstractCollection implements Bag {
   public int occurence(Object value) {
     Counter counter = (Counter) items.get(value);
     return counter == null ? 0 : counter.getCount();
+  }
+
+  public Iterator occurenceIterator() {
+    return Collections.unmodifiableSet(items.entrySet())
+      .iterator();
   }
 
   public int size() {

@@ -3,22 +3,12 @@ package ironfist.next.items;
 import ironfist.util.ArraySet;
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
-import ironfist.util.Syllableizer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StreamTokenizer;
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ListResourceBundle;
-import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
@@ -33,6 +23,8 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private static final int MAX_SYLLABLES = 3;
 
   private static final int MAX_LABELS = 10;
+
+  private static final MarkovChain CHAIN = new MarkovChain();
 
   private Random random = new MersenneTwister();
 
@@ -184,6 +176,12 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Pearl",
       "Emerald"});
 
+  private Factory types = new RandomWordFactory(random, new String[]{
+      "Claw",
+      "Fist",
+      "Hand",
+      "Palm"});
+
   private Factory names = new RandomNameFactory(random, FILE_NAME,
     MAX_SYLLABLES);
 
@@ -194,179 +192,114 @@ public class ArtDescriptionResource extends ListResourceBundle {
       adjectives,
       adjectives,
       nouns,
+      types,
       numbers,
       methods,
       adjectives,
       nouns};
 
-  private Object[][][] rules = {
-      {{new Integer(15), " {0}"}, {new Integer(15), " {0}''''s"}},
-      {{new Integer(50), " {1}"}},
-      {{new Integer(10), " {2}"}},
-      {{new Integer(50), " {3}"}},
-      {{new Integer(100), " '{0}'"}},
-      {{new Integer(25), " of {4} {5}"}, {new Integer(25), " of the {6} {7}"}},};
+  static {
+    CHAIN.add(null, " {0}");
+    CHAIN.add(null, " {0}");
+
+    CHAIN.add(null, " {0}''s");
+    CHAIN.add(null, " {0}''s");
+
+    CHAIN.add(null, " {1}");
+    CHAIN.add(null, " {1}");
+    CHAIN.add(null, " {1}");
+    CHAIN.add(null, " {1}");
+
+    CHAIN.add(null, " {2}");
+
+    CHAIN.add(null, " {3}");
+    CHAIN.add(null, " {3}");
+    CHAIN.add(null, " {3}");
+    CHAIN.add(null, " {3}");
+
+    CHAIN.add(null, " {4}");
+    CHAIN.add(null, " {4}");
+    CHAIN.add(null, " {4}");
+    CHAIN.add(null, " {4}");
+
+    CHAIN.add(" {0}", " {1}");
+    CHAIN.add(" {0}", " {1}");
+    CHAIN.add(" {0}", " {2}");
+    CHAIN.add(" {0}", " {3}");
+    CHAIN.add(" {0}", " {3}");
+    CHAIN.add(" {0}", " {4}");
+    CHAIN.add(" {0}", " {4}");
+    CHAIN.add(" {0}", " {4}");
+    CHAIN.add(" {0}", " {4}");
+
+    CHAIN.add(" {0}''s", " {1}");
+    CHAIN.add(" {0}''s", " {1}");
+    CHAIN.add(" {0}''s", " {2}");
+    CHAIN.add(" {0}''s", " {3}");
+    CHAIN.add(" {0}''s", " {3}");
+    CHAIN.add(" {0}''s", " {4}");
+    CHAIN.add(" {0}''s", " {4}");
+    CHAIN.add(" {0}''s", " {4}");
+    CHAIN.add(" {0}''s", " {4}");
+
+    CHAIN.add(" {1}", " {2}");
+    CHAIN.add(" {1}", " {3}");
+    CHAIN.add(" {1}", " {3}");
+    CHAIN.add(" {1}", " {4}");
+    CHAIN.add(" {1}", " {4}");
+    CHAIN.add(" {1}", " {4}");
+    CHAIN.add(" {1}", " {4}");
+
+    CHAIN.add(" {2}", " {3}");
+    CHAIN.add(" {2}", " {4}");
+    CHAIN.add(" {2}", " {4}");
+
+    CHAIN.add(" {3}", " {4}");
+
+    CHAIN.add(" {4}", " of {5} {6}");
+    CHAIN.add(" {4}", " of the {7} {8}");
+    CHAIN.add(" {4}", null);
+    CHAIN.add(" {4}", null);
+  }
 
   private String generateName() {
     Set words = new ArraySet();
-
     for (int index = 0; index < factories.length; index++) {
-      boolean duplicate = false;
-      while (!duplicate) {
-        duplicate = words.add(factories[index].generate(null));
+      while (!words.add(factories[index].generate(new Integer(1)))) {
       }
     }
 
-    String pattern = " '{0}'";
-
-    while (pattern.equals(" '{0}'")) {
-      pattern = "";
-      for (int i = 0; i < rules.length; i++) {
-        boolean found = false;
-        for (int j = 0; j < rules[i].length && !found; j++) {
-          found = random.nextInt(100) < ((Integer) rules[i][j][0]).intValue();
-          if (found) {
-            pattern += (String) rules[i][j][1];
-          }
-        }
+    StringBuffer pattern = new StringBuffer();
+    do {
+      pattern.setLength(0);
+      Object key = CHAIN.next(null, random.nextDouble());
+      while (key != null) {
+        pattern.append(key);
+        key = CHAIN.next(key, random.nextDouble());
       }
-    }
-
-    return MessageFormat.format(pattern.trim(), words.toArray());
+    } while (pattern.toString()
+      .equals(" {4}"));
+    
+    return MessageFormat.format(pattern.toString()
+      .trim(), words.toArray());
   }
 
   protected Object[][] getContents() {
-    Map contents = new HashMap();
-    Collection values = contents.values();
+    Set contents = new HashSet();
 
     while (contents.size() < MAX_LABELS) {
-      String name = generateName();
-
-      if (!values.contains(name)) {
-        contents.put(PREFIX + contents.size(), name);
-      }
+      contents.add(generateName());
     }
 
     Object[][] result = new Object[contents.size()][2];
-    Iterator iterator = contents.entrySet()
-      .iterator();
+    Iterator iterator = contents.iterator();
 
     for (int index = 0; iterator.hasNext(); index++) {
-      Map.Entry current = (Map.Entry) iterator.next();
-      result[index][0] = current.getKey();
-      result[index][1] = current.getValue();
+      Object current = iterator.next();
+      result[index][0] = PREFIX + index;
+      result[index][1] = current.toString();
     }
 
     return result;
-  }
-
-  public final static void main(String[] args) throws Exception {
-    Random random = new MersenneTwister();
-    String[] types = new String[]{"Fist", "Palm", "Hand", "Claw"};
-    ResourceBundle bundle = ResourceBundle.getBundle(ArtDescriptionResource.class.getName());
-    Enumeration keys = bundle.getKeys();
-
-    while (keys.hasMoreElements()) {
-      String pattern = bundle.getString((String) keys.nextElement());
-      String type = types[random.nextInt(types.length)];
-      System.out.println(MessageFormat.format(pattern, new Object[]{type}));
-    }
-  }
-
-  private interface Factory {
-
-    Object generate(Object argument);
-  }
-
-  private class RandomWordFactory implements Factory {
-
-    private Random random;
-
-    private String[] items;
-
-    public RandomWordFactory(Random random, String[] items) {
-      this.random = random;
-      this.items = items;
-    }
-
-    public Object generate(Object argument) {
-      return items[random.nextInt(items.length)];
-    }
-  }
-
-  private class RandomNumberFactory implements Factory {
-
-    private String[] names;
-
-    private Random random;
-
-    private int min;
-
-    private int max;
-
-    public RandomNumberFactory(Random random, int min, int max, String[] names) {
-      this.random = random;
-      this.min = min;
-      this.max = max;
-      this.names = names;
-    }
-
-    public Object generate(Object argument) {
-      int value = random.nextInt(max - min) + min;
-      if (names != null && value < names.length) {
-        return names[value];
-      }
-      return String.valueOf(value);
-    }
-  }
-
-  private class RandomNameFactory implements Factory {
-
-    private Random random;
-
-    private MarkovChain chains;
-
-    private int maxSyllables;
-
-    public RandomNameFactory(Random random, String fileName, int maxSyllables) {
-      this.random = random;
-      chains = new MarkovChain();
-
-      try {
-        Reader reader = new BufferedReader(new InputStreamReader(
-          getClass().getResourceAsStream(fileName)));
-        StreamTokenizer tokenizer = new StreamTokenizer(reader);
-
-        while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-          if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-            String[] syllables = Syllableizer.split(tokenizer.sval.toLowerCase());
-            String key = syllables[0];
-
-            for (int i = 1; i < syllables.length; i++) {
-              chains.add(key, syllables[i]);
-              key = syllables[i];
-            }
-          }
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
-      this.maxSyllables = maxSyllables;
-    }
-
-    public Object generate(Object argument) {
-      int syllableCount = random.nextInt(maxSyllables) + 1;
-      StringBuffer result = new StringBuffer();
-      Object key = chains.next(null, random.nextDouble());
-
-      while (syllableCount-- > -1 && key != null) {
-        result.append(key);
-        key = chains.next(key, random.nextDouble());
-      }
-
-      return result.substring(0, 1)
-        .toUpperCase() + result.substring(1);
-    }
   }
 }
