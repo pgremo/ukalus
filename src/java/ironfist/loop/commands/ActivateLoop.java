@@ -26,17 +26,17 @@ public class ActivateLoop implements Command {
     this.hero = hero;
   }
 
-  public Object execute(Object object) {
-    Level level = (Level) ((Reference) object).get();
+  public Object execute(Reference reference) {
+    Level level = (Level) reference.get();
     Queue<Event> queue = level.getQueue();
     Event current = queue.poll();
     if (current != null) {
       do {
         current.process(level);
         current = queue.poll();
-      } while (current != null && current instanceof ReadyToAct
-          && !current.getSource()
-            .equals(hero));
+      } while (current != null
+          && !(current instanceof ReadyToAct && current.getSource()
+            .equals(hero)));
     }
     return null;
   }

@@ -16,8 +16,8 @@ public class CreateWorld implements Command {
 
   private static final long serialVersionUID = 3763094163440613687L;
 
-  public Object execute(Object object) {
-    ((Reference) object).set(new Level(new Object[0][0]));
+  public Object execute(Reference reference) {
+    reference.set(new Level(new Object[0][0]));
     return null;
   }
 

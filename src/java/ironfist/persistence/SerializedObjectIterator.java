@@ -5,6 +5,7 @@
 package ironfist.persistence;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.RandomAccessFile;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ public class SerializedObjectIterator<E> implements Iterator<E> {
 
   private RandomAccessFile channel;
   private byte[] data = new byte[0];
-  private E next;
+  private Object next;
 
   public SerializedObjectIterator(RandomAccessFile channel) {
     this.channel = channel;
@@ -33,7 +34,7 @@ public class SerializedObjectIterator<E> implements Iterator<E> {
     if (next == null) {
       throw new NoSuchElementException();
     }
-    E result = next;
+    E result = (E) next;
     loadNext();
     return result;
   }
@@ -48,8 +49,9 @@ public class SerializedObjectIterator<E> implements Iterator<E> {
       if (channel.read(data, 0, size) == size) {
         ObjectInputStream stream = new ObjectInputStream(
           new ByteArrayInputStream(data, 0, size));
-        next = (E) stream.readObject();
+        next = stream.readObject();
       }
+    } catch (EOFException e) {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

@@ -12,7 +12,7 @@ public interface Event {
 
   Object getSource();
 
-  int getTurn();
+  int getTick();
 
   void process(Level level);
 

@@ -119,8 +119,8 @@ public final class Persistence {
 
     private static final long serialVersionUID = 3690476935130198069L;
 
-    public Object execute(Object object) {
-      ((Reference) object).set(new HashMap());
+    public Object execute(Reference reference) {
+      ((Reference) reference).set(new HashMap<Object, Object>());
       return null;
     }
   }
@@ -134,8 +134,8 @@ public final class Persistence {
       this.key = key;
     }
 
-    public Object execute(Object object) {
-      return ((HashMap) ((Reference) object).get()).get(key);
+    public Object execute(Reference reference) {
+      return ((HashMap<Object, Object>) ((Reference) reference).get()).get(key);
     }
   }
 
@@ -150,8 +150,8 @@ public final class Persistence {
       this.value = value;
     }
 
-    public Object execute(Object object) {
-      return ((HashMap) ((Reference) object).get()).put(key,
+    public Object execute(Reference reference) {
+      return ((HashMap<Object, Object>) ((Reference) reference).get()).put(key,
         value);
     }
   }

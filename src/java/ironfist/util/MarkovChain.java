@@ -50,13 +50,19 @@ public class MarkovChain<E> {
   public String toString() {
     StringBuffer result = new StringBuffer();
     result.append("[ROOT]:")
-      .append(" (" + root.size() + ") ")
+      .append(" (")
+      .append(root.size())
+      .append(") ")
       .append(root)
       .append("\n");
     for (Map.Entry<E, Bag<E>> entry : items.entrySet()) {
       Collection list = entry.getValue();
-      result.append("[" + entry.getKey() + "]:")
-        .append(" (" + list.size() + ") ")
+      result.append("[")
+        .append(entry.getKey())
+        .append("]:")
+        .append(" (")
+        .append(list.size())
+        .append(") ")
         .append(list)
         .append("\n");
     }

@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * @author gremopm
@@ -25,7 +26,7 @@ public class FileStore implements Store {
 		this.file = file;
 	}
 
-	public void store(Object object) throws IOException {
+	public void store(Serializable object) throws IOException {
 		File temp = new File(file.getAbsolutePath() + "-"
 				+ System.currentTimeMillis());
 		FileOutputStream fos = new FileOutputStream(temp);
@@ -40,7 +41,7 @@ public class FileStore implements Store {
 		}
 	}
 
-	public Object load() throws IOException, ClassNotFoundException {
+	public Serializable load() throws IOException, ClassNotFoundException {
 		Object result = null;
 		if (file.exists()) {
 			ObjectInputStream in = null;
@@ -53,7 +54,7 @@ public class FileStore implements Store {
 				}
 			}
 		}
-		return result;
+		return (Serializable)result;
 	}
 
 	public void close() {

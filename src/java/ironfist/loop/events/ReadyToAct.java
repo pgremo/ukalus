@@ -7,19 +7,19 @@ import ironfist.loop.Level;
 public class ReadyToAct implements Event {
 
   private Actor source;
-  private int turn;
+  private int tick;
 
-  public ReadyToAct(Actor source, int turn) {
+  public ReadyToAct(Actor source, int tick) {
     this.source = source;
-    this.turn = turn;
+    this.tick = tick;
   }
 
   public Object getSource() {
     return source;
   }
 
-  public int getTurn() {
-    return turn;
+  public int getTick() {
+    return tick;
   }
 
   public void process(Level level) {

@@ -4,22 +4,24 @@
  */
 package ironfist.persistence;
 
+import java.io.Serializable;
+
 /**
  * Generic reference object.
  * 
  * @author gremopm
- *  
+ * 
  */
 public class Reference {
 
-  private Object object;
+  private Serializable object;
 
   /**
    * Get the current value of the reference.
    * 
    * @return
    */
-  public Object get() {
+  public Serializable get() {
     return object;
   }
 
@@ -28,7 +30,7 @@ public class Reference {
    * 
    * @param object
    */
-  public void set(Object object) {
+  public void set(Serializable object) {
     this.object = object;
   }
 }

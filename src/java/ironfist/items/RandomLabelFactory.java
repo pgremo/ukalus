@@ -17,25 +17,24 @@ import java.util.Random;
 class RandomLabelFactory implements Factory {
 
   private Random random;
-  private MarkovChain<String> chains;
+  private MarkovChain<String> chains = new MarkovChain<String>();
   private int minSyllables;
   private int maxSyllables;
 
   public RandomLabelFactory(Random random, String fileName, int minSyllables,
       int maxSyllables) {
     this.random = random;
-    chains = new MarkovChain<String>();
+    this.minSyllables = minSyllables;
+    this.maxSyllables = maxSyllables;
 
     try {
       Reader reader = new BufferedReader(new InputStreamReader(
         getClass().getResourceAsStream(fileName)));
       StreamTokenizer tokenizer = new StreamTokenizer(reader);
-
       while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
         if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
           String[] syllables = Strings.split(tokenizer.sval.toLowerCase());
           String key = syllables[0];
-
           for (int i = 1; i < syllables.length; i++) {
             chains.add(key, syllables[i]);
             key = syllables[i];
@@ -45,8 +44,6 @@ class RandomLabelFactory implements Factory {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    this.minSyllables = minSyllables;
-    this.maxSyllables = maxSyllables;
   }
 
   public String generate(Object argument) {
@@ -61,11 +58,11 @@ class RandomLabelFactory implements Factory {
       }
 
       StringBuffer word = new StringBuffer();
-      int max = minSyllables + random.nextInt(maxSyllables - minSyllables) + 1;
-      int count = 0;
+      int max = minSyllables + random.nextInt(maxSyllables - minSyllables);
+      int count;
       do {
         String key = chains.next(null, random.nextDouble());
-        for (count = 0; count < max && key != null; count++) {
+        for (count = 0; count <= max && key != null; count++) {
           word.append(key);
           key = chains.next(key, random.nextDouble());
         }

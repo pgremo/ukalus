@@ -17,9 +17,9 @@ public interface Command extends Serializable {
   /**
    * Execute this command on the given object returning a result.
    * 
-   * @param object
+   * @param reference
    *          argument for this command.
    * @return result.
    */
-  Object execute(Object object);
+  Object execute(Reference reference);
 }

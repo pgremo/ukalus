@@ -6,23 +6,26 @@ package ironfist.loop;
 
 import ironfist.math.Vector;
 
+import java.io.Serializable;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
  * @author gremopm
- *  
+ * 
  */
-public class Level {
+public class Level implements Serializable {
 
-  private Queue<Event> queue = new PriorityQueue<Event>(100, new TurnComparator());
+  private static final long serialVersionUID = 3617578201795014705L;
+  private Queue<Event> queue = new PriorityQueue<Event>(100,
+    new TickComparator());
   private Object[][] data;
 
   public Level(Object[][] data) {
     this.data = data;
   }
 
-  public Queue<Event> getQueue(){
+  public Queue<Event> getQueue() {
     return queue;
   }
 

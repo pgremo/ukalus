@@ -22,8 +22,8 @@ public class AddEvent implements Command {
     this.action = action;
   }
 
-  public Object execute(Object object) {
-    ((Level) ((Reference) object).get()).getQueue()
+  public Object execute(Reference reference) {
+    ((Level) reference.get()).getQueue()
       .add(action);
     return null;
   }

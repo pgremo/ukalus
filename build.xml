@@ -46,7 +46,7 @@
 	<import file="${plugins}/jar.xml" />
 	<import file="${plugins}/version.xml" />
 
-	<target name="build" depends="clean, checkstyle.report, junit, jar, jdepend.report, javancss.report, javadoc.report" />
+	<target name="build" depends="clean, junit, jar, jdepend.report, javancss.report, javadoc.report" />
 
 	<target name="build.release" depends="version.update, build" />
 </project>

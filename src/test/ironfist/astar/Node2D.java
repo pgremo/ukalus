@@ -17,14 +17,11 @@ import java.util.List;
  */
 public class Node2D implements Node {
 
-  private static final List<Vector> DIRECTIONS = new ArrayList<Vector>(4);
-
-  static {
-    DIRECTIONS.add(new Vector(1, 0));
-    DIRECTIONS.add(new Vector(0, 1));
-    DIRECTIONS.add(new Vector(-1, 0));
-    DIRECTIONS.add(new Vector(0, -1));
-  }
+  private static final Vector[] DIRECTIONS = new Vector[]{
+      new Vector(1, 0),
+      new Vector(0, 1),
+      new Vector(-1, 0),
+      new Vector(0, -1)};
 
   private Level map;
   private Vector location;
@@ -47,8 +44,9 @@ public class Node2D implements Node {
   }
 
   public Collection<Node> getSuccessors() {
-    List<Node> result = new ArrayList<Node>(DIRECTIONS.size());
-    for (Vector position : DIRECTIONS) {
+    List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
+    for (Vector direction : DIRECTIONS) {
+      Vector position = location.add(direction);
       if ((parent == null || !position.equals(parent.getLocation())) // not
           // parent
           && map.contains(position) && map.get(position) != null // passable

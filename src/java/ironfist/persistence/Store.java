@@ -5,6 +5,7 @@
 package ironfist.persistence;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Encapsulation of the storing and loading of an object.
@@ -20,7 +21,7 @@ public interface Store {
    * @param object
    * @throws Exception
    */
-  void store(Object object) throws IOException;
+  void store(Serializable object) throws IOException;
 
   /**
    * Load the previously stored object.
@@ -28,7 +29,7 @@ public interface Store {
    * @return the previously stored object.
    * @throws Exception
    */
-  Object load() throws IOException, ClassNotFoundException;
+  Serializable load() throws IOException, ClassNotFoundException;
 
   /**
    * Close this Store.
