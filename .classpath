@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="REPOSITORY/junit/jars/junit-3.8.1.jar"/>
-	<classpathentry kind="var" path="REPOSITORY/jdbm/jars/jdbm-0.12.jar"/>
 	<classpathentry kind="var" path="REPOSITORY/jcurses/jars/jcurses-0.9.5.jar"/>
 	<classpathentry kind="src" path="src/resource"/>
 	<classpathentry kind="output" path="bin"/>

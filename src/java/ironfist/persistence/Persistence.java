@@ -1,22 +1,17 @@
 package ironfist.persistence;
 
-import jdbm.btree.BTree;
-
-import jdbm.helper.MRU;
-import jdbm.helper.ObjectCache;
-import jdbm.helper.StringComparator;
-
-import jdbm.recman.RecordManager;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Persistence {
 
-  private static RecordManager recman;
-  private static ObjectCache cache;
-  private static BTree tree;
+  private static File dataFile;
+  private static File logFile;
+  private static Store store;
+  private static Log log;
+  private static Engine persistence;
 
   public static void create(String name) throws PersistenceException {
     File directory = new File(System.getProperty("user.home"), "ironfist");
@@ -26,15 +21,16 @@ public class Persistence {
       throw new PersistenceException("repository " + name + " already exists");
     }
 
-    File target = new File(directory, name);
-
+    dataFile = new File(directory, name + ".dat");
+    logFile = new File(directory, name + ".log");
     try {
-      recman = new RecordManager(target.getAbsolutePath());
-      cache = new ObjectCache(recman, new MRU(100));
-
-      tree = new BTree(recman, cache, new StringComparator());
-    } catch (IOException e) {
-      throw new PersistenceException(e.getMessage());
+      store = new FileStore(dataFile);
+      log = new FileLog(logFile);
+      persistence = new Engine(store, log);
+      persistence.update(new Create());
+      persistence.checkpoint();
+    } catch (Exception e) {
+      new PersistenceException(e.getMessage());
     }
   }
 
@@ -45,22 +41,21 @@ public class Persistence {
       throw new PersistenceException("repository " + name + " does not exist");
     }
 
-    File target = new File(directory, name);
-
+    dataFile = new File(directory, name + ".dat");
+    logFile = new File(directory, name + ".log");
     try {
-      recman = new RecordManager(target.getAbsolutePath());
-      cache = new ObjectCache(recman, new MRU(100));
-
-      tree = new BTree(recman, cache, new StringComparator());
-    } catch (IOException e) {
-      throw new PersistenceException(e.getMessage());
+      store = new FileStore(dataFile);
+      log = new FileLog(logFile);
+      persistence = new Engine(new FileStore(dataFile), new FileLog(logFile));
+    } catch (Exception e) {
+      new PersistenceException(e.getMessage());
     }
   }
 
   public static void put(Object key, Object value) throws PersistenceException {
     try {
-      tree.insert(key, value, false);
-      recman.commit();
+      persistence.update(new Put(key, value));
+      persistence.checkpoint();
     } catch (IOException e) {
       throw new PersistenceException("error updating root");
     }
@@ -70,7 +65,7 @@ public class Persistence {
     Object result = null;
 
     try {
-      result = tree.find(key);
+      persistence.query(new Get(key));
     } catch (Exception e) {
       throw new PersistenceException("error loading object");
     }
@@ -79,16 +74,11 @@ public class Persistence {
   }
 
   public static void close() {
-    try {
-      recman.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   public static void delete(String name) {
     try {
-      recman.close();
+      persistence.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -102,16 +92,6 @@ public class Persistence {
   }
 
   public static String[] list() {
-    //    FilenameFilter filter = new RepositoryFilenameFilter(SUFFIX);
-    //    String[] files = directory.list(filter);
-    //    String[] result = new String[files.length];
-    //
-    //    for (int index = 0; index < files.length; index++) {
-    //      result[index] = files[index].substring(0,
-    //          files[index].indexOf("." + SUFFIX));
-    //    }
-    //
-    //    return result;
     return null;
   }
 
@@ -127,4 +107,39 @@ public class Persistence {
       return target.startsWith(name + ".");
     }
   }
+
+  private static class Create implements Command {
+
+    public Object execute(Object object) {
+      ((Reference) object).set(new HashMap());
+      return null;
+    }
+  }
+
+  private static class Get implements Command {
+    private Object key;
+
+    public Get(Object key) {
+      this.key = key;
+    }
+
+    public Object execute(Object object) {
+      return ((HashMap) ((Reference) object).get()).get(key);
+    }
+  }
+
+  private static class Put implements Command {
+    private Object key;
+    private Object value;
+
+    public Put(Object key, Object value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public Object execute(Object object) {
+      return ((HashMap) ((Reference) object).get()).put(key, value);
+    }
+  }
+
 }
