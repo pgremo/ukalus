@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Stairs implements Portal, Serializable {
 
+  private static final long serialVersionUID = 3833188025416037685L;
   public final static String UP = "up";
   public final static String DOWN = "down";
   private Vector coordinate;

@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Tile implements Serializable {
 
+  private static final long serialVersionUID = 3616447882467882032L;
   private Vector coordinate;
   private TileType type;
 

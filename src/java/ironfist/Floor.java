@@ -12,6 +12,7 @@ import java.util.Iterator;
  */
 public class Floor implements TileType, Serializable {
 
+  private static final long serialVersionUID = 3546927995609625650L;
   private Door door;
   private Creature creature;
   private Collection<Thing> things;

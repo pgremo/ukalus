@@ -93,7 +93,7 @@ public class RecursiveDungeonGenerator {
       }
     }
 
-    List areas = new ArrayList();
+    List<Area> areas = new ArrayList<Area>();
     Area target = new Area(list);
     int x = randomizer.nextInt(level.getHeight() - largestX - 1);
     int y = randomizer.nextInt(level.getWidth() - largestY - 1);

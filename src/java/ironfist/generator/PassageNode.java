@@ -44,7 +44,7 @@ public class PassageNode implements Node {
   }
 
   public Node[] getSuccessors() {
-    List result = new ArrayList(DIRECTIONS.length);
+    List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
     for (int i = 0; i < DIRECTIONS.length; i++) {
       Vector position = location.add(DIRECTIONS[i]);
       Vector right = location.add(DIRECTIONS[i].orthoganal());

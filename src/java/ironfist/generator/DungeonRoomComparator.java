@@ -10,12 +10,12 @@ import java.util.Comparator;
  * 
  * @author pmgremo
  */
-public class DungeonRoomComparator implements Comparator {
+public class DungeonRoomComparator implements Comparator<Tile> {
 
   /**
    * @see java.util.Comparator#compare(Object, Object)
    */
-  public int compare(Object o1, Object o2) {
+  public int compare(Tile o1, Tile o2) {
     boolean result = true;
 
     if (o1 != null) {

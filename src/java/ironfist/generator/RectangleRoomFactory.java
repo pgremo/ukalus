@@ -30,7 +30,7 @@ public class RectangleRoomFactory {
    * @return DOCUMENT ME!
    */
   public List create() {
-    List list = new LinkedList();
+    List<Tile> list = new LinkedList<Tile>();
     int height = randomizer.nextInt(maxRoomHeight - minRoomHeight + 1)
         + minRoomHeight;
 

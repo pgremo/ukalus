@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class Thing implements Serializable {
 
+  private static final long serialVersionUID = 3257288011124519993L;
   private Creature owner;
 
   /**

@@ -18,7 +18,7 @@ public final class Strings {
 
   }
 
-  public static String join(Collection parts, String delimiter) {
+  public static String join(Collection<String> parts, String delimiter) {
     StringBuffer result = new StringBuffer();
     boolean first = true;
     Iterator iterator = parts.iterator();

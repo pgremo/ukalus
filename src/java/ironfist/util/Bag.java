@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface Bag<E> extends Collection<E> {
 
-	int occurence(Object value);
+	int occurence(E value);
 	
 	Iterator<Map.Entry<E, Counter>> occurenceIterator();
 }

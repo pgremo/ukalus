@@ -17,7 +17,7 @@ public class RandomNameFactory extends RandomLabelFactory {
     super(random, fileName, minSyllables, maxSyllables);
   }
 
-  public Object generate(Object argument) {
+  public String generate(Object argument) {
     StringBuffer result = new StringBuffer((String) super.generate(argument));
     result.setCharAt(0, Character.toUpperCase(result.charAt(0)));
     return result.toString();

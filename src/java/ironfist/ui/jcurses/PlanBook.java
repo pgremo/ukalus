@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 public class PlanBook implements Serializable {
 
+  private static final long serialVersionUID = 3690195434467308848L;
   private String name;
   private Object page;
 

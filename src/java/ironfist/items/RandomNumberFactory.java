@@ -23,7 +23,7 @@ class RandomNumberFactory implements Factory {
     this.names = names;
   }
 
-  public Object generate(Object argument) {
+  public String generate(Object argument) {
     String result = null;
     int value = random.nextInt(max - min) + min;
     if (names != null && value < names.length) {

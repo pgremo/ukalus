@@ -8,4 +8,6 @@ import ironfist.Wall;
  * @author pmgremo
  */
 public class Terminal extends Wall {
+
+  private static final long serialVersionUID = 3256727290242479408L;
 }

@@ -18,6 +18,7 @@ import java.util.Random;
  */
 public class Level implements Serializable {
 
+  private static final long serialVersionUID = 3834023645663016245L;
   private static Roll roll;
 
   static {
@@ -58,7 +59,7 @@ public class Level implements Serializable {
           Creature current = ((Floor) tiles[x][y].getTileType()).getCreature();
 
           if (current != null) {
-            //REDTAG - invented quickness. Need to get from creature.
+            // REDTAG - invented quickness. Need to get from creature.
             int initiative = roll.roll(3);
 
             do {

@@ -37,7 +37,7 @@ public class HashBag<E> extends AbstractCollection<E> implements Bag<E> {
     return true;
   }
 
-  public int occurence(Object value) {
+  public int occurence(E value) {
     Counter counter = items.get(value);
     return counter == null ? 0 : counter.getCount();
   }

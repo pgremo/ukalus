@@ -15,7 +15,6 @@ import ironfist.Wall;
 import ironfist.Weapon;
 import ironfist.math.Vector;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +35,7 @@ import jcurses.widgets.Widget;
  * 
  * @author pmgremo
  */
-public class JCursesClient extends Widget implements Client, Serializable {
+public class JCursesClient extends Widget implements Client {
 
   private static Map<Integer, Vector> directions;
   private static Map<Integer, CommandType> commandTypes;
@@ -82,7 +81,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
   }
 
   private transient ActionListenerManager manager = new ActionListenerManager();
-  private transient List vision;
+  private transient List<Tile> vision;
   private transient Plan plan;
   private transient CommandType commandType;
   private transient Command command;
@@ -133,7 +132,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
    * @param list
    *          DOCUMENT ME!
    */
-  public void onVisionChange(List list) {
+  public void onVisionChange(List<Tile> list) {
     if (vision != null) {
       vision.removeAll(list);
     }

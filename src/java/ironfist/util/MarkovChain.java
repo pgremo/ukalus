@@ -49,11 +49,11 @@ public class MarkovChain<E> {
 
   public String toString() {
     StringBuffer result = new StringBuffer();
-    Iterator<Map.Entry<E, Bag<E>>> keys = items.entrySet()
-      .iterator();
-
-    while (keys.hasNext()) {
-      Map.Entry<E, Bag<E>> entry = keys.next();
+    result.append("[ROOT]:")
+      .append(" (" + root.size() + ") ")
+      .append(root)
+      .append("\n");
+    for (Map.Entry<E, Bag<E>> entry : items.entrySet()) {
       Collection list = entry.getValue();
       result.append("[" + entry.getKey() + "]:")
         .append(" (" + list.size() + ") ")

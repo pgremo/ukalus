@@ -23,5 +23,5 @@ public interface Client {
    * @param list
    *          DOCUMENT ME!
    */
-  void onVisionChange(List list);
+  void onVisionChange(List<Tile> list);
 }

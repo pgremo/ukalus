@@ -29,7 +29,7 @@ public class PassageFactory {
    * @return DOCUMENT ME!
    */
   public List create() {
-    LinkedList list = new LinkedList();
+    List<Tile> list = new LinkedList<Tile>();
     int length = 3 + randomizer.nextInt(4)
         + ((randomizer.nextInt(5) == 0) ? randomizer.nextInt(5) : 0)
         + baseLength;

@@ -16,7 +16,7 @@ public class BeamCastingVision {
   private Level level;
   private int originX;
   private int originY;
-  private List vision;
+  private List<Tile> vision;
 
   /**
    * DOCUMENT ME!
@@ -82,14 +82,14 @@ public class BeamCastingVision {
     int x = 32;
     int y = 32;
 
-    boolean[][] trans1 = new boolean[x][y]; //to be the transparency map...
-    boolean[][] visible1 = new boolean[x][y]; //to false...
-    boolean[][] trans2 = new boolean[x][y]; //to be the transparency map...
-    boolean[][] visible2 = new boolean[x][y]; //to false...
-    boolean[][] trans3 = new boolean[x][y]; //to be the transparency map...
-    boolean[][] visible3 = new boolean[x][y]; //to false...
-    boolean[][] trans4 = new boolean[x][y]; //to be the transparency map...
-    boolean[][] visible4 = new boolean[x][y]; //to false...
+    boolean[][] trans1 = new boolean[x][y]; // to be the transparency map...
+    boolean[][] visible1 = new boolean[x][y]; // to false...
+    boolean[][] trans2 = new boolean[x][y]; // to be the transparency map...
+    boolean[][] visible2 = new boolean[x][y]; // to false...
+    boolean[][] trans3 = new boolean[x][y]; // to be the transparency map...
+    boolean[][] visible3 = new boolean[x][y]; // to false...
+    boolean[][] trans4 = new boolean[x][y]; // to be the transparency map...
+    boolean[][] visible4 = new boolean[x][y]; // to false...
 
     // Build a circular border of opaque blocks so later
     // there won't be any need for extra code to check
@@ -178,26 +178,26 @@ public class BeamCastingVision {
       mini = 1;
       maxi = 32;
 
-      //QUADRANT I
-      for (u = 1; mini <= maxi; u++) { //loop on the u coordinate
-        v += slope; //increment the beam's v coordinate
+      // QUADRANT I
+      for (u = 1; mini <= maxi; u++) { // loop on the u coordinate
+        v += slope; // increment the beam's v coordinate
         y = v >> 5;
-        x = u - y; //Do the transform
-        cor = v & 31; //calculate the position of block corner within beam
+        x = u - y; // Do the transform
+        cor = v & 31; // calculate the position of block corner within beam
 
-        if (mini < cor) { //beam is low enough to hit (x,y) block
+        if (mini < cor) { // beam is low enough to hit (x,y) block
           visible1[x][y] = true;
 
           if (!trans1[x][y]) {
-            mini = cor; //beam was partially blocked
+            mini = cor; // beam was partially blocked
           }
         }
 
-        if (maxi > cor) { //beam is high enough to hit (x+1,y+1) block
+        if (maxi > cor) { // beam is high enough to hit (x+1,y+1) block
           visible1[x + 1][y + 1] = true;
 
           if (!trans1[x + 1][y + 1]) {
-            maxi = cor; //beam was partially blocked
+            maxi = cor; // beam was partially blocked
           }
         }
       }
@@ -206,26 +206,26 @@ public class BeamCastingVision {
       mini = 1;
       maxi = 32;
 
-      //QUADRANT II
-      for (u = 1; mini <= maxi; u++) { //loop on the u coordinate
-        v += slope; //increment the beam's v coordinate
+      // QUADRANT II
+      for (u = 1; mini <= maxi; u++) { // loop on the u coordinate
+        v += slope; // increment the beam's v coordinate
         y = v >> 5;
-        x = u - y; //Do the transform
-        cor = v & 31; //calculate the position of block corner within beam
+        x = u - y; // Do the transform
+        cor = v & 31; // calculate the position of block corner within beam
 
-        if (mini < cor) { //beam is low enough to hit (x,y) block
+        if (mini < cor) { // beam is low enough to hit (x,y) block
           visible2[x][y] = true;
 
           if (!trans2[x][y]) {
-            mini = cor; //beam was partially blocked
+            mini = cor; // beam was partially blocked
           }
         }
 
-        if (maxi > cor) { //beam is high enough to hit (x+1,y+1) block
+        if (maxi > cor) { // beam is high enough to hit (x+1,y+1) block
           visible2[x + 1][y + 1] = true;
 
           if (!trans2[x + 1][y + 1]) {
-            maxi = cor; //beam was partially blocked
+            maxi = cor; // beam was partially blocked
           }
         }
       }
@@ -234,26 +234,26 @@ public class BeamCastingVision {
       mini = 1;
       maxi = 32;
 
-      //QUADRANT III
-      for (u = 1; mini <= maxi; u++) { //loop on the u coordinate
-        v += slope; //increment the beam's v coordinate
+      // QUADRANT III
+      for (u = 1; mini <= maxi; u++) { // loop on the u coordinate
+        v += slope; // increment the beam's v coordinate
         y = v >> 5;
-        x = u - y; //Do the transform
-        cor = v & 31; //calculate the position of block corner within beam
+        x = u - y; // Do the transform
+        cor = v & 31; // calculate the position of block corner within beam
 
-        if (mini < cor) { //beam is low enough to hit (x,y) block
+        if (mini < cor) { // beam is low enough to hit (x,y) block
           visible3[x][y] = true;
 
           if (!trans3[x][y]) {
-            mini = cor; //beam was partially blocked
+            mini = cor; // beam was partially blocked
           }
         }
 
-        if (maxi > cor) { //beam is high enough to hit (x+1,y+1) block
+        if (maxi > cor) { // beam is high enough to hit (x+1,y+1) block
           visible3[x + 1][y + 1] = true;
 
           if (!trans3[x + 1][y + 1]) {
-            maxi = cor; //beam was partially blocked
+            maxi = cor; // beam was partially blocked
           }
         }
       }
@@ -262,26 +262,26 @@ public class BeamCastingVision {
       mini = 1;
       maxi = 32;
 
-      //QUADRANT IV
-      for (u = 1; mini <= maxi; u++) { //loop on the u coordinate
-        v += slope; //increment the beam's v coordinate
+      // QUADRANT IV
+      for (u = 1; mini <= maxi; u++) { // loop on the u coordinate
+        v += slope; // increment the beam's v coordinate
         y = v >> 5;
-        x = u - y; //Do the transform
-        cor = v & 31; //calculate the position of block corner within beam
+        x = u - y; // Do the transform
+        cor = v & 31; // calculate the position of block corner within beam
 
-        if (mini < cor) { //beam is low enough to hit (x,y) block
+        if (mini < cor) { // beam is low enough to hit (x,y) block
           visible4[x][y] = true;
 
           if (!trans4[x][y]) {
-            mini = cor; //beam was partially blocked
+            mini = cor; // beam was partially blocked
           }
         }
 
-        if (maxi > cor) { //beam is high enough to hit (x+1,y+1) block
+        if (maxi > cor) { // beam is high enough to hit (x+1,y+1) block
           visible4[x + 1][y + 1] = true;
 
           if (!trans4[x + 1][y + 1]) {
-            maxi = cor; //beam was partially blocked
+            maxi = cor; // beam was partially blocked
           }
         }
       }
@@ -329,7 +329,7 @@ public class BeamCastingVision {
     originX = x;
     originY = y;
     radius = maxRadius;
-    vision = new LinkedList();
+    vision = new LinkedList<Tile>();
 
     castBeams();
 

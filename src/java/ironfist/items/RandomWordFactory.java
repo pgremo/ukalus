@@ -18,7 +18,7 @@ class RandomWordFactory implements Factory {
     this.items = items;
   }
 
-  public Object generate(Object argument) {
+  public String generate(Object argument) {
     return items[random.nextInt(items.length)];
   }
 }

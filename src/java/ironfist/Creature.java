@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class Creature implements Serializable {
 
+  private static final long serialVersionUID = 3257003250497630515L;
+
   private static final RecursiveShadowCastingVision fov = new RecursiveShadowCastingVision();
 
   private Map<Object, Object> properties;
@@ -222,9 +224,9 @@ public class Creature implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public List getVision() {
+  public List<Tile> getVision() {
     Vector location = getCoordinate();
-    return fov.getSeen(getLevel(), (int) location.getX(), (int) location.getY(),
-      3);
+    return fov.getSeen(getLevel(), (int) location.getX(),
+      (int) location.getY(), 3);
   }
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
  * stored in the Store.
  * 
  * @author gremopm
- *  
+ * 
  */
 public class Engine {
 
@@ -83,6 +83,11 @@ public class Engine {
     log.clear();
   }
 
+  /**
+   * Closes this Engine.
+   * 
+   * @throws IOException
+   */
   public synchronized void close() throws IOException {
     store.close();
     log.close();

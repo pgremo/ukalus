@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class Door implements Serializable {
 
+  private static final long serialVersionUID = 3256728394132960823L;
   private Lock lock;
   private boolean open;
 

@@ -134,7 +134,7 @@ public class Area {
    * 
    * @return DOCUMENT ME!
    */
-  public boolean check(Level level, Comparator comparator) {
+  public boolean check(Level level, Comparator<Tile> comparator) {
     boolean result = true;
     Iterator iterator = list.iterator();
 

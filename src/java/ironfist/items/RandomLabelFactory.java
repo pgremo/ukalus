@@ -49,7 +49,7 @@ class RandomLabelFactory implements Factory {
     this.maxSyllables = maxSyllables;
   }
 
-  public Object generate(Object argument) {
+  public String generate(Object argument) {
     int maxWords = ((Integer) argument).intValue();
 
     StringBuffer result = new StringBuffer();

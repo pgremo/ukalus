@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class Plan implements Serializable {
 
+  private static final long serialVersionUID = 3689631397870776625L;
   private String name;
   private int height;
   private int width;

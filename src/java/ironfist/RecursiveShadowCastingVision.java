@@ -911,7 +911,7 @@ public class RecursiveShadowCastingVision {
    * 
    * @return DOCUMENT ME!
    */
-  public List getSeen(Level map, int x, int y, int maxRadius) {
+  public List<Tile> getSeen(Level map, int x, int y, int maxRadius) {
     this.level = map;
     this.xCenter = x;
     this.yCenter = y;
