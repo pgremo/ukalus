@@ -4,11 +4,13 @@
  */
 package ironfist.loop;
 
+import java.io.Serializable;
+
 /**
  * @author gremopm
  * 
  */
-public interface Actor {
+public interface Actor extends Serializable {
 
   void act(Level level);
 

@@ -4,11 +4,13 @@
  */
 package ironfist.loop;
 
+import java.io.Serializable;
+
 /**
  * @author gremopm
- *  
+ * 
  */
-public interface Event {
+public interface Event extends Serializable {
 
   Object getSource();
 

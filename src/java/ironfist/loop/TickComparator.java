@@ -4,13 +4,16 @@
  */
 package ironfist.loop;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * @author gremopm
  * 
  */
-public class TickComparator implements Comparator<Event> {
+public class TickComparator implements Comparator<Event>, Serializable {
+
+  private static final long serialVersionUID = 3258416110171863088L;
 
   public int compare(Event o1, Event o2) {
     int t1 = o1.getTick();
