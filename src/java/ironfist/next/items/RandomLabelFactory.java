@@ -34,9 +34,9 @@ class RandomLabelFactory implements Factory {
       while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
         if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
           String[] syllables = Syllableizer.split(tokenizer.sval.toLowerCase());
-          String key = null;
+          String key = syllables[0];
 
-          for (int i = 0; i < syllables.length; i++) {
+          for (int i = 1; i < syllables.length; i++) {
             chains.add(key, syllables[i]);
             key = syllables[i];
           }

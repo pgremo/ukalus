@@ -24,7 +24,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final int MAX_LABELS = 10;
 
-  private static final MarkovChain CHAIN = new MarkovChain();
+  private static final MarkovChain RULES = new MarkovChain();
 
   private Random random = new MersenneTwister();
 
@@ -199,67 +199,71 @@ public class ArtDescriptionResource extends ListResourceBundle {
       nouns};
 
   static {
-    CHAIN.add(null, " {0}");
-    CHAIN.add(null, " {0}");
+    RULES.add(null, " {0}");
+    RULES.add(null, " {0}");
 
-    CHAIN.add(null, " {0}''s");
-    CHAIN.add(null, " {0}''s");
+    RULES.add(null, " {0}''s");
+    RULES.add(null, " {0}''s");
 
-    CHAIN.add(null, " {1}");
-    CHAIN.add(null, " {1}");
-    CHAIN.add(null, " {1}");
-    CHAIN.add(null, " {1}");
+    RULES.add(null, " {1}");
+    RULES.add(null, " {1}");
+    RULES.add(null, " {1}");
+    RULES.add(null, " {1}");
 
-    CHAIN.add(null, " {2}");
+    RULES.add(null, " {2}");
 
-    CHAIN.add(null, " {3}");
-    CHAIN.add(null, " {3}");
-    CHAIN.add(null, " {3}");
-    CHAIN.add(null, " {3}");
+    RULES.add(null, " {3}");
+    RULES.add(null, " {3}");
+    RULES.add(null, " {3}");
+    RULES.add(null, " {3}");
 
-    CHAIN.add(null, " {4}");
-    CHAIN.add(null, " {4}");
-    CHAIN.add(null, " {4}");
-    CHAIN.add(null, " {4}");
+    RULES.add(null, " {4}");
+    RULES.add(null, " {4}");
+    RULES.add(null, " {4}");
+    RULES.add(null, " {4}");
 
-    CHAIN.add(" {0}", " {1}");
-    CHAIN.add(" {0}", " {1}");
-    CHAIN.add(" {0}", " {2}");
-    CHAIN.add(" {0}", " {3}");
-    CHAIN.add(" {0}", " {3}");
-    CHAIN.add(" {0}", " {4}");
-    CHAIN.add(" {0}", " {4}");
-    CHAIN.add(" {0}", " {4}");
-    CHAIN.add(" {0}", " {4}");
+    RULES.add(" {0}", " {1}");
+    RULES.add(" {0}", " {1}");
+    RULES.add(" {0}", " {2}");
+    RULES.add(" {0}", " {3}");
+    RULES.add(" {0}", " {3}");
+    RULES.add(" {0}", " {4}");
+    RULES.add(" {0}", " {4}");
+    RULES.add(" {0}", " {4}");
+    RULES.add(" {0}", " {4}");
 
-    CHAIN.add(" {0}''s", " {1}");
-    CHAIN.add(" {0}''s", " {1}");
-    CHAIN.add(" {0}''s", " {2}");
-    CHAIN.add(" {0}''s", " {3}");
-    CHAIN.add(" {0}''s", " {3}");
-    CHAIN.add(" {0}''s", " {4}");
-    CHAIN.add(" {0}''s", " {4}");
-    CHAIN.add(" {0}''s", " {4}");
-    CHAIN.add(" {0}''s", " {4}");
+    RULES.add(" {0}''s", " {1}");
+    RULES.add(" {0}''s", " {1}");
+    RULES.add(" {0}''s", " {2}");
+    RULES.add(" {0}''s", " {3}");
+    RULES.add(" {0}''s", " {3}");
+    RULES.add(" {0}''s", " {4}");
+    RULES.add(" {0}''s", " {4}");
+    RULES.add(" {0}''s", " {4}");
+    RULES.add(" {0}''s", " {4}");
 
-    CHAIN.add(" {1}", " {2}");
-    CHAIN.add(" {1}", " {3}");
-    CHAIN.add(" {1}", " {3}");
-    CHAIN.add(" {1}", " {4}");
-    CHAIN.add(" {1}", " {4}");
-    CHAIN.add(" {1}", " {4}");
-    CHAIN.add(" {1}", " {4}");
+    RULES.add(" {1}", " {2}");
+    RULES.add(" {1}", " {3}");
+    RULES.add(" {1}", " {3}");
+    RULES.add(" {1}", " {4}");
+    RULES.add(" {1}", " {4}");
+    RULES.add(" {1}", " {4}");
+    RULES.add(" {1}", " {4}");
 
-    CHAIN.add(" {2}", " {3}");
-    CHAIN.add(" {2}", " {4}");
-    CHAIN.add(" {2}", " {4}");
+    RULES.add(" {2}", " {3}");
+    RULES.add(" {2}", " {4}");
+    RULES.add(" {2}", " {4}");
 
-    CHAIN.add(" {3}", " {4}");
+    RULES.add(" {3}", " {4}");
 
-    CHAIN.add(" {4}", " of {5} {6}");
-    CHAIN.add(" {4}", " of the {7} {8}");
-    CHAIN.add(" {4}", null);
-    CHAIN.add(" {4}", null);
+    RULES.add(" {4}", " of {5} {6}");
+    RULES.add(" {4}", " of the {7} {8}");
+    RULES.add(" {4}", null);
+    RULES.add(" {4}", null);
+
+    RULES.add(" of {5} {6}", null);
+    
+    RULES.add(" of the {7} {8}", null);
   }
 
   private String generateName() {
@@ -272,10 +276,10 @@ public class ArtDescriptionResource extends ListResourceBundle {
     StringBuffer pattern = new StringBuffer();
     do {
       pattern.setLength(0);
-      Object key = CHAIN.next(null, random.nextDouble());
+      Object key = RULES.next(null, random.nextDouble());
       while (key != null) {
         pattern.append(key);
-        key = CHAIN.next(key, random.nextDouble());
+        key = RULES.next(key, random.nextDouble());
       }
     } while (pattern.toString()
       .equals(" {4}"));

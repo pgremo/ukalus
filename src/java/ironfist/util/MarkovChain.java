@@ -15,13 +15,19 @@ import java.util.Map;
  */
 public class MarkovChain {
 
+  private static final Object ROOT = new Object();
   private Map items = new HashMap();
+
+  public MarkovChain() {
+    items.put(ROOT, new HashBag());
+  }
 
   public void add(Object current, Object next) {
     Collection chain = (Collection) items.get(current);
     if (chain == null) {
       chain = new HashBag();
       items.put(current, chain);
+      ((Bag) items.get(ROOT)).add(current);
     }
     chain.add(next);
   }
@@ -29,6 +35,9 @@ public class MarkovChain {
   public Object next(Object key, double weight) {
     Map.Entry current = null;
     Bag chain = (Bag) items.get(key);
+    if (chain == null) {
+      chain = (Bag) items.get(ROOT);
+    }
     if (chain != null) {
       int level = 0;
       int limit = (int) Math.ceil(chain.size() * weight);
@@ -38,11 +47,7 @@ public class MarkovChain {
         level += ((Counter) current.getValue()).getCount();
       }
     }
-    Object result = null;
-    if (current != null) {
-      result = current.getKey();
-    }
-    return result;
+    return current == null ? null : current.getKey();
   }
 
   public String toString() {
