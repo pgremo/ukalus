@@ -1,6 +1,7 @@
 package ironfist.next.items;
 
 import ironfist.namegenerator.Syllableizer;
+import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
 
 import java.io.BufferedReader;
@@ -17,7 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 
 /**
  * DOCUMENT ME!
@@ -40,10 +40,9 @@ public class ScrollDescriptionResources extends ResourceBundle {
   private Map getContents() {
     if (!isLoaded) {
       synchronized (contents) {
+        MarkovChain chains = new MarkovChain();
         if (!isLoaded) {
           Random random = new MersenneTwister();
-          Syllableizer gen = new Syllableizer();
-          gen.setRandom(random);
 
           try {
             Reader reader = new BufferedReader(new FileReader(FILE_NAME));
@@ -51,7 +50,13 @@ public class ScrollDescriptionResources extends ResourceBundle {
 
             while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
               if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-                gen.add(tokenizer.sval);
+                String[] syllables = Syllableizer.split(tokenizer.sval);
+                String key = syllables[0];
+
+                for (int i = 1; i < syllables.length; i++) {
+                  chains.add(key, syllables[i]);
+                  key = syllables[i];
+                }
               }
             }
           } catch (IOException e) {
@@ -69,11 +74,17 @@ public class ScrollDescriptionResources extends ResourceBundle {
                 label += " ";
               }
 
-              String[] syllables = gen.getSyllables(random.nextInt(MAX_SYLLABLES) + 1);
+              int syllableCount = random.nextInt(MAX_SYLLABLES) + 1;
+              StringBuffer result = new StringBuffer();
+              Object key = chains.next(null, random.nextDouble());
 
-              for (int syllable = 0; syllable < syllables.length; syllable++) {
-                label += syllables[syllable];
+              while (syllableCount > -1 && key != null) {
+                result.append(key);
+                key = chains.next(key, random.nextDouble());
               }
+
+              label += result.toString();
+
             }
 
             labels.add(label.toUpperCase());

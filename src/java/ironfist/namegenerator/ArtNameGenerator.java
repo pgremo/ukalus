@@ -1,6 +1,7 @@
 package ironfist.namegenerator;
 
 import ironfist.util.ArraySet;
+import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
 
 import java.io.BufferedReader;
@@ -19,13 +20,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-/*
- * Created on Jun 13, 2003
- */
-
 /**
- * DOCUMENT ME!
- * 
  * @author pmgremo
  */
 public class ArtNameGenerator extends ListResourceBundle {
@@ -151,7 +146,7 @@ public class ArtNameGenerator extends ListResourceBundle {
       "Spinning",
 
       // State?
-      "Thunder",
+      "Thundering",
       "Lightning",
       "Empty",
       "Dire",
@@ -239,11 +234,6 @@ public class ArtNameGenerator extends ListResourceBundle {
     return MessageFormat.format(pattern.trim(), words.toArray());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.util.ListResourceBundle#getContents()
-   */
   protected Object[][] getContents() {
     Map contents = new HashMap();
     Collection values = contents.values();
@@ -333,14 +323,13 @@ public class ArtNameGenerator extends ListResourceBundle {
 
     private Random random;
 
-    private Syllableizer gen;
+    private MarkovChain chains;
 
     private int maxSyllables;
 
     public RandomNameFactory(Random random, String fileName, int maxSyllables) {
       this.random = random;
-      gen = new Syllableizer();
-      gen.setRandom(random);
+      chains = new MarkovChain();
 
       try {
         Reader reader = new BufferedReader(new InputStreamReader(
@@ -349,7 +338,13 @@ public class ArtNameGenerator extends ListResourceBundle {
 
         while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
           if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-            gen.add(tokenizer.sval);
+            String[] syllables = Syllableizer.split(tokenizer.sval.toLowerCase());
+            String key = syllables[0];
+
+            for (int i = 1; i < syllables.length; i++) {
+              chains.add(key, syllables[i]);
+              key = syllables[i];
+            }
           }
         }
       } catch (IOException e) {
@@ -360,17 +355,17 @@ public class ArtNameGenerator extends ListResourceBundle {
     }
 
     public Object generate(Object argument) {
-      String result = "";
-      String[] syllables = gen.getSyllables(random.nextInt(maxSyllables) + 1);
+      int syllableCount = random.nextInt(maxSyllables) + 1;
+      StringBuffer result = new StringBuffer();
+      Object key = chains.next(null, random.nextDouble());
 
-      for (int syllable = 0; syllable < syllables.length; syllable++) {
-        result += syllables[syllable];
+      while (syllableCount-- > -1 && key != null) {
+        result.append(key);
+        key = chains.next(key, random.nextDouble());
       }
 
-      result = result.substring(0, 1)
+      return result.substring(0, 1)
         .toUpperCase() + result.substring(1);
-
-      return result;
     }
   }
 }

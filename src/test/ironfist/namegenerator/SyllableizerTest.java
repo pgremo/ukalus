@@ -1,9 +1,12 @@
 package ironfist.namegenerator;
 
-import ironfist.namegenerator.Syllableizer;
+import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Random;
 
 import junit.framework.TestCase;
 
@@ -14,35 +17,36 @@ import junit.framework.TestCase;
  */
 public class SyllableizerTest extends TestCase {
 
-  /**
-   * Constructor for SyllableSplitterTest.
-   * 
-   * @param arg0
-   */
-  public SyllableizerTest(String arg0) {
-    super(arg0);
-  }
-
   public void testSplit() {
-    String[] control = new String[]{"He", "gan", "shab", "but", "t"};
-    Syllableizer splitter = new Syllableizer();
-    String[] syllables = splitter.split("Heganshabbutt");
-    assertTrue(Arrays.equals(control, syllables));
+    String[] expected = new String[]{"He", "gan", "shab", "but", "t"};
+    String[] actual = Syllableizer.split("Heganshabbutt");
+    assertTrue(Arrays.equals(expected, actual));
   }
 
   public void testCommutative() {
-    Syllableizer splitter = new Syllableizer();
-    splitter.setRandom(new MersenneTwister());
-    splitter.add("PROPTERFUISSEDEM");
+    MarkovChain chains = new MarkovChain();
 
-    String[] control = splitter.getSyllables(10);
-    String word = "";
+    String[] syllables = Syllableizer.split("PROPTERFUISSEDEM".toLowerCase());
+    Object key = syllables[0];
 
-    for (int index = 0; index < control.length; index++) {
-      word += control[index];
+    for (int i = 1; i < syllables.length; i++) {
+      chains.add(key, syllables[i]);
+      key = syllables[i];
     }
 
-    String[] syllables = splitter.split(word);
-    assertTrue(Arrays.equals(control, syllables));
+    Random random = new MersenneTwister();
+    Collection expected = new ArrayList();
+    int syllableCount = random.nextInt(10) + 1;
+    StringBuffer result = new StringBuffer();
+    key = chains.next(null, random.nextDouble());
+
+    while (syllableCount-- > -1 && key != null) {
+      result.append(key);
+      expected.add(key);
+      key = chains.next(key, random.nextDouble());
+    }
+
+    String[] actual = Syllableizer.split(result.toString());
+    assertTrue(Arrays.equals(expected.toArray(), actual));
   }
 }
