@@ -4,6 +4,7 @@
  */
 package ironfist.astar;
 
+import ironfist.loop.Level;
 import ironfist.math.Vector;
 
 import java.util.Iterator;

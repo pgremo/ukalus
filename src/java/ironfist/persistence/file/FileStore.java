@@ -2,8 +2,10 @@
  * Created on May 13, 2004
  *  
  */
-package ironfist.persistence;
+package ironfist.persistence.file;
 
+
+import ironfist.persistence.Store;
 
 import java.io.File;
 import java.io.FileInputStream;

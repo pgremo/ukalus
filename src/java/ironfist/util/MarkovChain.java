@@ -5,7 +5,6 @@
 package ironfist.util;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 public class MarkovChain {
 
   private static final Object ROOT = new Object();
-  private Map items = new HashMap();
+  private Map items = new OrderedHashMap();
 
   public MarkovChain() {
     items.put(ROOT, new HashBag());

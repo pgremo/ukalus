@@ -2,8 +2,11 @@
  * Created on May 13, 2004
  *  
  */
-package ironfist.persistence;
+package ironfist.persistence.file;
 
+
+import ironfist.persistence.Log;
+import ironfist.persistence.SerializedObjectIterator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

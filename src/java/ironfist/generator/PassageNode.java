@@ -4,8 +4,8 @@
  */
 package ironfist.generator;
 
-import ironfist.astar.Level;
 import ironfist.astar.Node;
+import ironfist.loop.Level;
 import ironfist.math.Vector;
 
 import java.util.ArrayList;

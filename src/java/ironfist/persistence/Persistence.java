@@ -1,5 +1,8 @@
 package ironfist.persistence;
 
+import ironfist.persistence.file.FileLog;
+import ironfist.persistence.file.FileStore;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;

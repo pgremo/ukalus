@@ -7,7 +7,6 @@ package ironfist.util;
 import java.util.AbstractCollection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import java.util.Map;
  */
 public class HashBag extends AbstractCollection implements Bag {
 
-  private Map items = new HashMap();
+  private Map items = new OrderedHashMap();
   private int size;
   private int modifications;
 

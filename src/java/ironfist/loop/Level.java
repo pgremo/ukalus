@@ -2,7 +2,7 @@
  * Created on Feb 16, 2005
  *
  */
-package ironfist.astar;
+package ironfist.loop;
 
 import ironfist.math.Vector;
 
