@@ -1,0 +1,6 @@
+Bodypart+Doer (e.g., Skullcrusher) 
+Bodypart+Tool (e.g., Tooth-axe) 
+Creature+Bodypart (e.g., Halflingfoot) 
+Creature+Doer (e.g., Dwarfmonger, Goblincleaver) 
+Creature+Tool (e.g., Foehammer) 
+Tool+Doer (e.g., Knifecrusher) 

@@ -1,0 +1,88 @@
+item.amulet
+
+item.ring
+
+item.scroll
+
+item.weapon.mace
+item.weapon.warhammer
+item.weapon.greathammer
+
+item.weapon.shortsword
+item.weapon.longsword
+item.weapon.broadsword
+item.weapon.greatsword
+
+item.weapon.handaxe
+item.weapon.battleaxe
+item.weapon.waraxe
+
+-alter-
+creature.undead.zombie
+creature.undead.ghoul
+creature.undead.wraith
+
+creature.undead.lich
+
+-good-
+creature.angel.cherub
+creature.angel.angel
+creature.angel.archangel
+
+creature.giant.giant
+
+-evil-
+creature.demon.minor
+creature.demon.major
+creature.demon.lord
+
+creature.dragon.dragon
+
+-wood-
+creature.elf.elf
+	spear
+creature.elf.elite (archer)
+	bow
+creature.elf.magus (woodshaper)
+	staff
+creature.elf.leader (prince)
+	amulet
+
+-earth-
+creature.dwarf.dwarf
+	warhammer
+creature.dwarf.elite (gaurdian)
+	warhammer
+	shield
+creature.dwarf.magus (geomancer)
+	amulet
+creature.dwarf.leader (king)
+	greathammer
+
+-water-
+creature.goblin.goblin
+creature.goblin.elite (hunter)
+	barbed chain
+creature.goblin.magus (waterwitch)
+	diadem
+creature.goblin.leader (cheiftain)
+
+-fire-
+creature.orc.orc
+creature.orc.elite (berzerker)
+	twin shortsword
+		-or-
+	broadsword
+creature.orc.magus (pyromancer)
+	ring(s)
+creature.orc.leader (warmaster)
+	greatsword
+
+-metal-
+creature.ogre.ogre
+creature.ogre.elite (butcher)
+	battleaxe
+creature.ogre.magus
+	gauntlets
+creature.ogre.leader (lord)
+	waraxe

@@ -1,0 +1,47 @@
+<project name="ironfist" default="build">
+
+	<property file="build.properties" />
+	<property file="project.properties" />
+	<property environment="env" />
+
+	<property name="proxy.host" value="" />
+
+	<property name="project" value="${ant.project.name}" />
+	<property name="src" value="src/java" />
+	<property name="test" value="src/test" />
+	<property name="resource" value="src/resource" />
+	<property name="repository.remote" value="http://www.ibiblio.org/maven" />
+	<property name="repository.local" value="/repository" />
+	<property name="target" value="target" />
+	<property name="docs" value="${target}/docs" />
+	<property name="docs.generated" value="${target}/generated-docs" />
+	<property name="classes" value="${target}/classes" />
+	<property name="plugins" value="${repository.local}/build" />
+
+	<setproxy proxyhost="${proxy.host}" />
+
+	<taskdef resource="repository/tasks.properties" classpath="${plugins}/repository.jar" />
+
+	<path id="classpath">
+		<pathelement path="${classes}" />
+		<fileset refid="dependencies" />
+	</path>
+
+	<target name="clean">
+		<delete failonerror="false" dir="${target}" />
+	</target>
+
+	<import file="${plugins}/compile.xml" />
+	<import file="${plugins}/junit.xml" />
+	<import file="${plugins}/coverage.xml" />
+	<import file="${plugins}/checkstyle.xml" />
+	<import file="${plugins}/javadoc.xml" />
+	<import file="${plugins}/jdepend.xml" />
+	<import file="${plugins}/javancss.xml" />
+	<import file="${plugins}/jar.xml" />
+	<import file="${plugins}/version.xml" />
+
+	<target name="build" depends="clean, checkstyle.report, coverage, jar, jdepend.report, javancss.report, javadoc.report" />
+
+	<target name="build.release" depends="version.update, build" />
+</project>
