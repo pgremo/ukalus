@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * DOCUMENT ME!
- * 
  * @author pmgremo
  */
 public class HolisticDungeonGenerator {
@@ -23,7 +21,7 @@ public class HolisticDungeonGenerator {
   private static final int CORNER = 4;
 
   private Random randomizer = new Random();
-  private double room_probability = .8;
+  private double room_probability = 1.0;
   private int min_room_height = 4;
   private int min_room_width = 5;
   private int min_region_height = 5;
@@ -195,7 +193,7 @@ public class HolisticDungeonGenerator {
         } else if (result[x][y] == WALL) {
           System.out.print("#");
         } else if (result[x][y] == CORNER) {
-          System.out.print("*");
+          System.out.print("X");
         } else {
           System.out.print(" ");
         }
