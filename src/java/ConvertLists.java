@@ -36,7 +36,8 @@ public class ConvertLists {
           StreamTokenizer tokenizer = new StreamTokenizer(in);
 
           while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-            if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
+            if (tokenizer.ttype == StreamTokenizer.TT_WORD
+                && tokenizer.sval.length() > 1) {
               words.add(tokenizer.sval.toLowerCase());
             }
           }
