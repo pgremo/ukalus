@@ -67,7 +67,7 @@ public class MarkovChain<E> {
 
     public ChainIterator(Map<E, Bag<E>> items) {
       this.items = items;
-      next = getNext();
+      setNext();
     }
 
     public boolean hasNext() {
@@ -76,24 +76,23 @@ public class MarkovChain<E> {
 
     public E next() {
       E result = next;
-      next = getNext();
+      setNext();
       return result;
     }
 
-    private E getNext() {
+    private void setNext() {
       Map.Entry<E, Counter> result = null;
       Bag<E> chain = items.get(next);
       if (chain != null) {
-        int level = 0;
         int limit = (int) Math.ceil(chain.size() * random.nextDouble());
         Iterator<Map.Entry<E, Counter>> iterator = chain.occurenceIterator();
-        while (level < limit) {
+        while (limit > 0) {
           result = iterator.next();
-          level += result.getValue()
+          limit -= result.getValue()
             .getCount();
         }
       }
-      return result == null ? null : result.getKey();
+      next = result == null ? null : result.getKey();
     }
 
     public void remove() {
