@@ -4,7 +4,7 @@
  */
 package ironfist.persistence.file;
 
-
+import ironfist.persistence.Command;
 import ironfist.persistence.Log;
 import ironfist.persistence.SerializedObjectIterator;
 
@@ -16,10 +16,9 @@ import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.util.Iterator;
 
-
 /**
  * @author gremopm
- *  
+ * 
  */
 public class FileLog implements Log {
 
@@ -29,40 +28,31 @@ public class FileLog implements Log {
     this.channel = new RandomAccessFile(file, "rw");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see persistence.Log#clear()
-   */
   public void clear() throws IOException {
     channel.setLength(0);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see persistence.Log#add(java.lang.Object)
-   */
-  public void add(Object object) throws IOException {
+  public void add(Command o) throws IOException {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     ObjectOutputStream stream = new ObjectOutputStream(buffer);
-    stream.writeObject(object);
+    stream.writeObject(o);
     byte[] data = buffer.toByteArray();
     channel.seek(channel.length());
     channel.writeInt(data.length);
     channel.write(data);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see persistence.Log#foreach(persistence.Command)
-   */
-  public Iterator iterator() throws IOException {
-    channel.seek(0);
-    return new SerializedObjectIterator(channel);
+  public Iterator<Command> iterator() {
+    Iterator<Command> result = null;
+    try {
+      channel.seek(0);
+      result = new SerializedObjectIterator<Command>(channel);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return result;
   }
-  
+
   public void close() throws IOException {
     channel.close();
   }

@@ -28,11 +28,11 @@ public class Inventory implements ItemListener {
   private Creature creature;
   private Window window;
   private MenuList menu;
-  private Map things;
+  private Map<String, Object> things;
   private Thing selected;
 
   {
-    things = new HashMap();
+    things = new HashMap<String, Object>();
   }
 
   /**

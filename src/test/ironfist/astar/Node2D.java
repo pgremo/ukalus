@@ -43,7 +43,7 @@ public class Node2D implements Node {
   }
 
   public Node[] getSuccessors() {
-    List result = new ArrayList(DIRECTIONS.length);
+    List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
     for (int i = 0; i < DIRECTIONS.length; i++) {
       Vector position = location.add(DIRECTIONS[i]);
       if ((parent == null || !position.equals(parent.getLocation())) // not

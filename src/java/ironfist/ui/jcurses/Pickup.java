@@ -25,11 +25,11 @@ public class Pickup implements ItemListener {
   private Floor floor;
   private Dialog window;
   private MenuList menu;
-  private Map things;
+  private Map<Object, Object> things;
   private Thing selected;
 
   {
-    things = new HashMap();
+    things = new HashMap<Object, Object>();
   }
 
   /**

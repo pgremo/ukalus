@@ -14,7 +14,7 @@ import java.util.Map;
 public class VectorTest extends TestCase {
 
   public void testFindInHashMap() {
-    Map map = new HashMap();
+    Map<Vector, Object> map = new HashMap<Vector, Object>();
     map.put(new Vector(1, 0), null);
     assertTrue(map.containsKey(new Vector(1, 0)));
   }

@@ -2,12 +2,12 @@ package ironfist.items;
 
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
-import ironfist.util.OrderedHashSet;
 import ironfist.util.Strings;
 
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.ListResourceBundle;
 import java.util.Random;
 import java.util.Set;
@@ -23,7 +23,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private static final int MAX_SYLLABLES = 3;
   private static final int MAX_LABELS = 10;
 
-  private MarkovChain rules = new MarkovChain();
+  private MarkovChain<Factory> rules = new MarkovChain<Factory>();
   private Random random = new MersenneTwister();
 
   private String[] numberNames = new String[] {
@@ -241,14 +241,14 @@ public class ArtDescriptionResource extends ListResourceBundle {
   }
 
   private String generateName() {
-    Set parts = new OrderedHashSet();
+    Set<Object> parts = new LinkedHashSet<Object>();
     do {
       parts.clear();
-      Factory key = (Factory) rules.next(null, random.nextDouble());
+      Factory key = rules.next(null, random.nextDouble());
       while (key != null) {
         while (!parts.add(key.generate(new Integer(1)))) {
         }
-        key = (Factory) rules.next(key, random.nextDouble());
+        key = rules.next(key, random.nextDouble());
       }
     } while (parts.size() == 1);
 
@@ -258,7 +258,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
   }
 
   protected Object[][] getContents() {
-    Set contents = new HashSet();
+    Set<Object> contents = new HashSet<Object>();
 
     while (contents.size() < MAX_LABELS) {
       contents.add(generateName());

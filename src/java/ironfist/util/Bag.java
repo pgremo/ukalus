@@ -6,14 +6,15 @@ package ironfist.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author gremopm
  *  
  */
-public interface Bag extends Collection {
+public interface Bag<E> extends Collection<E> {
 
 	int occurence(Object value);
 	
-	Iterator occurenceIterator();
+	Iterator<Map.Entry<E, Counter>> occurenceIterator();
 }

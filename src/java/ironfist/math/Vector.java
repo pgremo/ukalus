@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class Vector implements Cloneable, Serializable {
 
+  private static final long serialVersionUID = 3258410646906155832L;
   private double x;
   private double y;
 

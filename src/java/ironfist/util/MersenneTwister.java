@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class MersenneTwister extends Random {
 
+  private static final long serialVersionUID = 3257853164429259320L;
   private static final int MASK = 0xffff0000;
   private static final int MULTIPLIER = 69069;
   private static final int MAX = 624;

@@ -38,12 +38,12 @@ import jcurses.widgets.Widget;
  */
 public class JCursesClient extends Widget implements Client, Serializable {
 
-  private static Map directions;
-  private static Map commandTypes;
-  private static Map symbols;
+  private static Map<Integer, Vector> directions;
+  private static Map<Integer, CommandType> commandTypes;
+  private static Map<Marker, String> symbols;
 
   static {
-    directions = new HashMap();
+    directions = new HashMap<Integer, Vector>();
     directions.put(new Integer(InputChar.KEY_UP), new Vector(-1, 0));
     directions.put(new Integer(InputChar.KEY_RIGHT), new Vector(0, 1));
     directions.put(new Integer(InputChar.KEY_DOWN), new Vector(1, 0));
@@ -57,7 +57,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
     directions.put(new Integer('4'), new Vector(0, -1));
     directions.put(new Integer('7'), new Vector(-1, -1));
 
-    commandTypes = new HashMap();
+    commandTypes = new HashMap<Integer, CommandType>();
     commandTypes.put(new Integer('c'), CommandType.CLOSE);
     commandTypes.put(new Integer('o'), CommandType.OPEN);
     commandTypes.put(new Integer('<'), CommandType.UP);
@@ -69,7 +69,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
     commandTypes.put(new Integer('.'), CommandType.WAIT);
     commandTypes.put(new Integer('i'), CommandType.INVENTORY);
 
-    symbols = new HashMap();
+    symbols = new HashMap<Marker, String>();
     symbols.put(null, " ");
     symbols.put(Marker.WALL, "#");
     symbols.put(Marker.DOOR_CLOSED, "+");
@@ -387,7 +387,7 @@ public class JCursesClient extends Widget implements Client, Serializable {
     Marker result = null;
 
     if (type != null) {
-      LinkedList objects = new LinkedList();
+      LinkedList<Object> objects = new LinkedList<Object>();
       objects.add(type);
 
       if (type instanceof Floor) {

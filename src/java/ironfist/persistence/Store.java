@@ -10,7 +10,7 @@ import java.io.IOException;
  * Encapsulation of the storing and loading of an object.
  * 
  * @author gremopm
- *  
+ * 
  */
 public interface Store {
 
@@ -29,6 +29,11 @@ public interface Store {
    * @throws Exception
    */
   Object load() throws IOException, ClassNotFoundException;
-  
+
+  /**
+   * Close this Store.
+   * 
+   * @throws IOException
+   */
   void close() throws IOException;
 }

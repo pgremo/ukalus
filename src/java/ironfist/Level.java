@@ -50,7 +50,7 @@ public class Level implements Serializable {
    * DOCUMENT ME!
    */
   public void run() {
-    List list = new LinkedList();
+    List<InitiativeCell> list = new LinkedList<InitiativeCell>();
 
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {
@@ -132,7 +132,7 @@ public class Level implements Serializable {
    */
   public Tile getRandom(Predicate predicate) {
     Tile result = null;
-    List candidates = new ArrayList();
+    List<Tile> candidates = new ArrayList<Tile>();
 
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {

@@ -7,26 +7,27 @@ package ironfist.util;
 import java.util.AbstractCollection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
  * @author gremopm
- *  
+ * 
  */
-public class HashBag extends AbstractCollection implements Bag {
+public class HashBag<E> extends AbstractCollection<E> implements Bag<E> {
 
-  private Map items = new OrderedHashMap();
+  private Map<E, Counter> items = new HashMap<E, Counter>();
   private int size;
   private int modifications;
 
-  public Iterator iterator() {
-    return new HashBagIterator(items.entrySet()
+  public Iterator<E> iterator() {
+    return new HashBagIterator<E>(items.entrySet()
       .iterator());
   }
 
-  public boolean add(Object value) {
-    Counter counter = (Counter) items.get(value);
+  public boolean add(E value) {
+    Counter counter = items.get(value);
     if (counter == null) {
       counter = new Counter();
       items.put(value, counter);
@@ -37,11 +38,11 @@ public class HashBag extends AbstractCollection implements Bag {
   }
 
   public int occurence(Object value) {
-    Counter counter = (Counter) items.get(value);
+    Counter counter = items.get(value);
     return counter == null ? 0 : counter.getCount();
   }
 
-  public Iterator occurenceIterator() {
+  public Iterator<Map.Entry<E, Counter>> occurenceIterator() {
     return Collections.unmodifiableSet(items.entrySet())
       .iterator();
   }
@@ -50,21 +51,15 @@ public class HashBag extends AbstractCollection implements Bag {
     return size;
   }
 
-  class HashBagIterator implements Iterator {
+  class HashBagIterator<E> implements Iterator<E> {
 
-    private Iterator entryIterator;
-    private Map.Entry current;
+    private Iterator<Map.Entry<E, Counter>> entryIterator;
+    private Map.Entry<E, Counter> current;
     private int count;
     private final int modifications = HashBag.this.modifications;
     private boolean canRemove;
 
-    /**
-     * Constructor.
-     * 
-     * @param parent
-     *          the parent bag
-     */
-    public HashBagIterator(Iterator iterator) {
+    public HashBagIterator(Iterator<Map.Entry<E, Counter>> iterator) {
       this.entryIterator = iterator;
       this.current = null;
     }
@@ -73,13 +68,14 @@ public class HashBag extends AbstractCollection implements Bag {
       return count > 0 || entryIterator.hasNext();
     }
 
-    public Object next() {
+    public E next() {
       if (modifications != HashBag.this.modifications) {
         throw new ConcurrentModificationException();
       }
       if (count == 0) {
-        current = (Map.Entry) entryIterator.next();
-        count = ((Counter) current.getValue()).getCount();
+        current = entryIterator.next();
+        count = current.getValue()
+          .getCount();
       }
       canRemove = true;
       count--;
@@ -93,7 +89,7 @@ public class HashBag extends AbstractCollection implements Bag {
       if (canRemove == false) {
         throw new IllegalStateException();
       }
-      Counter counter = (Counter) current.getValue();
+      Counter counter = current.getValue();
       if (counter.getCount() > 0) {
         counter.decrement();
         size--;

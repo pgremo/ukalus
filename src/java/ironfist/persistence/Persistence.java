@@ -15,9 +15,9 @@ public final class Persistence {
   private static Store store;
   private static Log log;
   private static Engine persistence;
-  
-  private Persistence(){
-    
+
+  private Persistence() {
+
   }
 
   public static void create(String name) throws PersistenceException {
@@ -117,6 +117,8 @@ public final class Persistence {
 
   private static class Create implements Command {
 
+    private static final long serialVersionUID = 3690476935130198069L;
+
     public Object execute(Object object) {
       ((Reference) object).set(new HashMap());
       return null;
@@ -124,6 +126,8 @@ public final class Persistence {
   }
 
   private static class Get implements Command {
+
+    private static final long serialVersionUID = 3258411724993474867L;
     private Object key;
 
     public Get(Object key) {
@@ -136,6 +140,8 @@ public final class Persistence {
   }
 
   private static class Put implements Command {
+
+    private static final long serialVersionUID = 3256727294637979448L;
     private Object key;
     private Object value;
 
@@ -145,7 +151,8 @@ public final class Persistence {
     }
 
     public Object execute(Object object) {
-      return ((HashMap) ((Reference) object).get()).put(key, value);
+      return ((HashMap) ((Reference) object).get()).put(key,
+        value);
     }
   }
 

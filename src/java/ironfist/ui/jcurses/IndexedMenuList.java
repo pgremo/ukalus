@@ -17,14 +17,14 @@ public class IndexedMenuList extends Widget {
 
   private ItemListenerManager listenerManager;
   private String seperator;
-  private SortedMap items;
+  private SortedMap<String, String> items;
   private char key;
   private int width;
 
   {
     listenerManager = new ItemListenerManager();
     seperator = " - ";
-    items = new TreeMap();
+    items = new TreeMap<String, String>();
     key = 'A';
   }
 

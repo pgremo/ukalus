@@ -6,16 +6,24 @@ package ironfist.loop;
 
 import ironfist.math.Vector;
 
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 /**
  * @author gremopm
  *  
  */
 public class Level {
 
+  private Queue<Action> queue = new PriorityQueue<Action>(100, new TurnComparator());
   private Object[][] data;
 
   public Level(Object[][] data) {
     this.data = data;
+  }
+
+  public Queue<Action> getQueue(){
+    return queue;
   }
 
   public boolean contains(Vector location) {

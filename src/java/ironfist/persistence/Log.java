@@ -5,7 +5,6 @@
 package ironfist.persistence;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Maintain an ordered list of objects, with the ability to execute a command
@@ -14,7 +13,7 @@ import java.util.Iterator;
  * @author gremopm
  * @see Command
  */
-public interface Log {
+public interface Log extends Iterable<Command> {
 
   /**
    * Remove all objects that have been added to this Log.
@@ -30,16 +29,12 @@ public interface Log {
    *          to be added to this Log
    * @throws Exception
    */
-  void add(Object object) throws IOException;
+  void add(Command o) throws IOException;
 
   /**
-   * Return an iterator over objects in this Log.
+   * Close this Log.
    * 
-   * @param command
-   *          to use to process objects
    * @throws Exception
    */
-  Iterator iterator() throws IOException, ClassNotFoundException;
-
   void close() throws IOException;
 }

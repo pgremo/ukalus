@@ -8,10 +8,10 @@ package ironfist.loop;
  * @author gremopm
  *  
  */
-public class Actor {
+public interface Actor {
 
-  public void act(World world) {
+  void act(Level level);
 
-  }
+  Action getAction();
 
 }

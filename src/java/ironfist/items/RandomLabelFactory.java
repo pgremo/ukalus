@@ -17,14 +17,14 @@ import java.util.Random;
 class RandomLabelFactory implements Factory {
 
   private Random random;
-  private MarkovChain chains;
+  private MarkovChain<String> chains;
   private int minSyllables;
   private int maxSyllables;
 
   public RandomLabelFactory(Random random, String fileName, int minSyllables,
       int maxSyllables) {
     this.random = random;
-    chains = new MarkovChain();
+    chains = new MarkovChain<String>();
 
     try {
       Reader reader = new BufferedReader(new InputStreamReader(
@@ -64,7 +64,7 @@ class RandomLabelFactory implements Factory {
       int max = minSyllables + random.nextInt(maxSyllables - minSyllables) + 1;
       int count = 0;
       do {
-        Object key = chains.next(null, random.nextDouble());
+        String key = chains.next(null, random.nextDouble());
         for (count = 0; count < max && key != null; count++) {
           word.append(key);
           key = chains.next(key, random.nextDouble());

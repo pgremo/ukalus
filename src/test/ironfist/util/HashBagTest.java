@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 public class HashBagTest extends TestCase {
 
   public void testSize() {
-    Bag bag = new HashBag();
+    Bag<Object> bag = new HashBag<Object>();
     Object object = new Object();
     assertEquals(0, bag.size());
     assertTrue(bag.add(object));
@@ -23,7 +23,7 @@ public class HashBagTest extends TestCase {
   }
 
   public void testRemove() {
-    Bag bag = new HashBag();
+    Bag<Object> bag = new HashBag<Object>();
     Object object1 = new Object();
     Object object2 = new Object();
     bag.add(object1);
@@ -40,7 +40,7 @@ public class HashBagTest extends TestCase {
   }
 
   public void testOccurence() {
-    Bag bag = new HashBag();
+    Bag<Object> bag = new HashBag<Object>();
     Object object = new Object();
     assertEquals(0, bag.size());
     assertTrue(bag.add(object));
@@ -49,7 +49,7 @@ public class HashBagTest extends TestCase {
   }
   
   public void testIteratorSingle(){
-    Bag bag = new HashBag();
+    Bag<Object> bag = new HashBag<Object>();
     Object object = new Object();
     assertEquals(0, bag.size());
     assertTrue(bag.add(object));
@@ -61,7 +61,7 @@ public class HashBagTest extends TestCase {
   }
 
   public void testIteratorMultiple(){
-    Bag bag = new HashBag();
+    Bag<Object> bag = new HashBag<Object>();
     Object o1 = new Object();
     Object o2 = new Object();
     Object o3 = o1;

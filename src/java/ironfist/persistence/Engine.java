@@ -5,7 +5,6 @@
 package ironfist.persistence;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Persistence entry point. Commands are executed on a Reference with the
@@ -38,9 +37,7 @@ public class Engine {
     this.log = log;
 
     reference.set(store.load());
-    Iterator iterator = log.iterator();
-    while (iterator.hasNext()) {
-      Command command = (Command) iterator.next();
+    for (Command command : log) {
       try {
         command.execute(reference);
       } catch (Exception e) {
@@ -85,8 +82,8 @@ public class Engine {
     store.store(reference.get());
     log.clear();
   }
-  
-  public synchronized void close() throws IOException{
+
+  public synchronized void close() throws IOException {
     store.close();
     log.close();
   }

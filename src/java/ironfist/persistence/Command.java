@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author gremopm
  *  
  */
-public interface Command extends Serializable {
+public interface Command<E> extends Serializable {
 
   /**
    * Execute this command on the given object returning a result.
@@ -21,5 +21,5 @@ public interface Command extends Serializable {
    *          argument for this command.
    * @return result.
    */
-  Object execute(Object object);
+  E execute(Object object);
 }

@@ -21,7 +21,7 @@ public class ScrollDescriptionResource extends ListResourceBundle {
 
   protected Object[][] getContents() {
     Random random = new MersenneTwister();
-    Set labels = new HashSet();
+    Set<String> labels = new HashSet<String>();
 
     Factory factory = new RandomLabelFactory(random, FILE_NAME, 1,
       MAX_SYLLABLES);

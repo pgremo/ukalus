@@ -14,11 +14,11 @@ public class Floor implements TileType, Serializable {
 
   private Door door;
   private Creature creature;
-  private Collection things;
+  private Collection<Thing> things;
   private Portal portal;
 
   {
-    things = new ArrayList();
+    things = new ArrayList<Thing>();
   }
 
   /**

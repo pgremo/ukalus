@@ -18,18 +18,18 @@ public class Creature implements Serializable {
 
   private static final RecursiveShadowCastingVision fov = new RecursiveShadowCastingVision();
 
-  private Map properties;
+  private Map<Object, Object> properties;
   private String name;
   private Vector coordinate;
   private Client client;
   private boolean levelChanged;
   private Level level;
-  private List things;
+  private List<Thing> things;
   private int power;
 
   {
-    properties = new HashMap();
-    things = new LinkedList();
+    properties = new HashMap<Object, Object>();
+    things = new LinkedList<Thing>();
   }
 
   /**

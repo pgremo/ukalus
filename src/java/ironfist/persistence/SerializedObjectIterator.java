@@ -12,14 +12,13 @@ import java.util.NoSuchElementException;
 
 /**
  * @author gremopm
- *  
+ * 
  */
-public class SerializedObjectIterator implements Iterator {
+public class SerializedObjectIterator<E> implements Iterator<E> {
 
   private RandomAccessFile channel;
   private byte[] data = new byte[0];
-
-  private Object next;
+  private E next;
 
   public SerializedObjectIterator(RandomAccessFile channel) {
     this.channel = channel;
@@ -30,11 +29,11 @@ public class SerializedObjectIterator implements Iterator {
     return next != null;
   }
 
-  public Object next() {
+  public E next() {
     if (next == null) {
       throw new NoSuchElementException();
     }
-    Object result = next;
+    E result = next;
     loadNext();
     return result;
   }
@@ -49,9 +48,10 @@ public class SerializedObjectIterator implements Iterator {
       if (channel.read(data, 0, size) == size) {
         ObjectInputStream stream = new ObjectInputStream(
           new ByteArrayInputStream(data, 0, size));
-        next = stream.readObject();
+        next = (E) stream.readObject();
       }
     } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 

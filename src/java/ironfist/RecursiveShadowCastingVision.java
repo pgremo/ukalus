@@ -14,7 +14,7 @@ public class RecursiveShadowCastingVision {
 
   private Level level;
   private int maxRadius;
-  private List seen;
+  private List<Tile> seen;
   private int xCenter;
   private int yCenter;
 
@@ -916,7 +916,7 @@ public class RecursiveShadowCastingVision {
     this.xCenter = x;
     this.yCenter = y;
     this.maxRadius = maxRadius;
-    seen = new ArrayList();
+    seen = new ArrayList<Tile>();
 
     if (map != null) {
 
