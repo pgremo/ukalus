@@ -1,5 +1,6 @@
 package ironfist.items;
 
+import ironfist.util.Closure;
 import ironfist.util.Loop;
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
@@ -25,7 +26,24 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private static final int MAX_LABELS = 10;
 
   private Random random = new MersenneTwister();
-  private MarkovChain<Factory> rules = new MarkovChain<Factory>(random);
+  private MarkovChain<Closure<Object, String>> rules = new MarkovChain<Closure<Object, String>>(
+      random);
+
+  private String[] methodWords = new String[] {
+      "Channels",
+      "Doors",
+      "Forms",
+      "Gates",
+      "Images",
+      "Means",
+      "Methods",
+      "Paths",
+      "Rings",
+      "Rules",
+      "Stances",
+      "Stems",
+      "Styles",
+      "Ways" };
 
   private String[] numberNames = new String[] {
       "One",
@@ -40,22 +58,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ten",
       "Eleven",
       "Twelve" };
-
-  private Factory methods = new RandomWordFactory(random, new String[] {
-      "Channels",
-      "Doors",
-      "Forms",
-      "Gates",
-      "Images",
-      "Means",
-      "Methods",
-      "Paths",
-      "Rings",
-      "Rules",
-      "Stances",
-      "Stems",
-      "Styles",
-      "Ways" });
 
   private String[] nounWords = new String[] {
       "Tiger",
@@ -161,33 +163,41 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Pearl",
       "Emerald" };
 
-  private Factory noun1 = new RandomWordFactory(random, nounWords);
+  private Closure<Object, String> methods = new RandomWord(random, methodWords);
 
-  private Factory noun2 = new RandomWordFactory(random, nounWords);
+  private Closure<Object, String> noun1 = new RandomWord(random, nounWords);
 
-  private Factory adjectives1 = new RandomWordFactory(random, adjectiveWords);
+  private Closure<Object, String> noun2 = new RandomWord(random, nounWords);
 
-  private Factory adjectives2 = new RandomWordFactory(random, adjectiveWords);
+  private Closure<Object, String> adjectives1 = new RandomWord(random,
+      adjectiveWords);
 
-  private Factory adjectives3 = new RandomWordFactory(random, adjectiveWords);
+  private Closure<Object, String> adjectives2 = new RandomWord(random,
+      adjectiveWords);
 
-  private Factory types = new RandomWordFactory(random, new String[] {
+  private Closure<Object, String> adjectives3 = new RandomWord(random,
+      adjectiveWords);
+
+  private Closure<Object, String> types = new RandomWord(random, new String[] {
       "Claw",
       "Fist",
       "Hand",
       "Palm" });
 
-  private Factory names = new RandomNameFactory(random, FILE_NAME,
+  private Closure<Object, String> names = new RandomName(random, FILE_NAME,
       MIN_SYLLABLES, MAX_SYLLABLES);
 
-  private Factory numbers = new RandomNumberFactory(random, 2, 108, numberNames);
+  private Closure<Object, String> numbers = new RandomNumber(random, 2, 108,
+      numberNames);
 
-  private Factory possesive = new RandomWordFactory(random,
+  private Closure<Object, String> possesive = new RandomWord(random,
       new String[] { "'s" });
 
-  private Factory of = new RandomWordFactory(random, new String[] { "of" });
+  private Closure<Object, String> of = new RandomWord(random,
+      new String[] { "of" });
 
-  private Factory the = new RandomWordFactory(random, new String[] { "the" });
+  private Closure<Object, String> the = new RandomWord(random,
+      new String[] { "the" });
 
   {
     rules.add(null, names);
@@ -245,10 +255,10 @@ public class ArtDescriptionResource extends ListResourceBundle {
     Set<String> parts = new LinkedHashSet<String>();
     do {
       parts.clear();
-      Iterator<Factory> iterator = rules.iterator();
+      Iterator<Closure<Object, String>> iterator = rules.iterator();
       while (iterator.hasNext()) {
-        Factory key = iterator.next();
-        while (!parts.add(key.generate(new Integer(1)))) {
+        Closure<Object, String> key = iterator.next();
+        while (!parts.add(key.apply(new Integer(1)))) {
         }
       }
     } while (parts.size() == 1);
@@ -270,7 +280,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
         result[index] = new Object[] { PREFIX + index, current };
       }
     }
-
     return result;
   }
 

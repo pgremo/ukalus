@@ -1,5 +1,6 @@
 package ironfist.items;
 
+import ironfist.util.Closure;
 import ironfist.util.MersenneTwister;
 
 import java.util.HashSet;
@@ -23,10 +24,10 @@ public class ScrollDescriptionResource extends ListResourceBundle {
     Random random = new MersenneTwister();
     Set<Object> labels = new HashSet<Object>();
 
-    Factory factory = new RandomLabelFactory(random, FILE_NAME, 1,
+    Closure<Object, String> factory = new RandomLabel(random, FILE_NAME, 1,
       MAX_SYLLABLES);
     while (labels.size() < MAX_LABELS) {
-      String label = factory.generate(new Integer(3))
+      String label = factory.apply(new Integer(3))
         .toString()
         .toUpperCase();
 
@@ -36,7 +37,7 @@ public class ScrollDescriptionResource extends ListResourceBundle {
     Object[][] result = new Object[MAX_LABELS][];
     Set<Object> contents = new HashSet<Object>();
     while (contents.size() < MAX_LABELS) {
-      String current = factory.generate(new Integer(3))
+      String current = factory.apply(new Integer(3))
         .toString()
         .toUpperCase();
       if (contents.add(current)) {

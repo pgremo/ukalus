@@ -8,17 +8,19 @@ import java.util.Random;
 
 /**
  * @author gremopm
- *  
+ * 
  */
-public class RandomNameFactory extends RandomLabelFactory {
+public class RandomName extends RandomLabel {
 
-  public RandomNameFactory(Random random, String fileName, int minSyllables,
+  private static final long serialVersionUID = 3258416131630183993L;
+
+  public RandomName(Random random, String fileName, int minSyllables,
       int maxSyllables) {
     super(random, fileName, minSyllables, maxSyllables);
   }
 
-  public String generate(Object argument) {
-    StringBuffer result = new StringBuffer(super.generate(argument));
+  public String apply(Object argument) {
+    StringBuffer result = new StringBuffer(super.apply(argument));
     result.setCharAt(0, Character.toUpperCase(result.charAt(0)));
     return result.toString();
   }

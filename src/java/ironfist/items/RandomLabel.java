@@ -4,6 +4,7 @@
  */
 package ironfist.items;
 
+import ironfist.util.Closure;
 import ironfist.util.Loop;
 import ironfist.util.MarkovChain;
 import ironfist.util.StringJoin;
@@ -17,14 +18,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-class RandomLabelFactory implements Factory {
+class RandomLabel implements Closure<Object, String> {
 
+  private static final long serialVersionUID = 4121134723239457591L;
   private MarkovChain<String> chains;
   private Random random;
   private int minSyllables;
   private int maxSyllables;
 
-  public RandomLabelFactory(Random random, String fileName, int minSyllables,
+  public RandomLabel(Random random, String fileName, int minSyllables,
       int maxSyllables) {
     this.random = random;
     this.minSyllables = minSyllables;
@@ -36,9 +38,9 @@ class RandomLabelFactory implements Factory {
     new Loop<String>(new Tokens(reader)).forEach(new SyllableLoader(chains));
   }
 
-  public String generate(Object argument) {
+  public String apply(Object argument) {
     StringBuffer result = new StringBuffer();
-    int wordMax = random.nextInt(((Integer) argument).intValue()) + 1;
+    int wordMax = random.nextInt((Integer) argument) + 1;
 
     for (int index = 0; index < wordMax; index++) {
       if (index > 0) {
@@ -57,7 +59,6 @@ class RandomLabelFactory implements Factory {
 
       new Loop<String>(syllables).forEach(new StringJoin("", result));
     }
-
     return result.toString();
   }
 }
