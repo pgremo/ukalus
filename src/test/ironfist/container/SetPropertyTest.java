@@ -13,14 +13,12 @@ public class SetPropertyTest extends TestCase {
   private String stringValue;
   private int intValue;
 
-  @Override
   protected void setUp() throws Exception {
     super.setUp();
     stringValue = null;
     intValue = 0;
   }
 
-  @Override
   protected void tearDown() throws Exception {
     super.tearDown();
     stringValue = null;
@@ -38,22 +36,48 @@ public class SetPropertyTest extends TestCase {
   public void testInvokeString() throws SecurityException,
       NoSuchMethodException {
     String expected = "some stuff";
-    Map<String, Resolver> properties = new HashMap<String, Resolver>();
-    properties.put("value", new ValueResolver(new ObjectRegistry(), expected));
-    SetProperty setter = new SetProperty(this, properties);
-    Method method = getClass().getMethod("setValue", new Class[]{String.class});
-    setter.apply(method);
+    Map<String, Method> setters = new HashMap<String, Method>();
+    setters.put("value", getClass().getMethod("setValue",
+      new Class[]{String.class}));
+    SetProperty setter = new SetProperty(setters, this);
+    setter.apply(new Entry("value", new ValueResolver(new ObjectRegistry(),
+      expected)));
     assertEquals(expected, stringValue);
   }
 
   public void testInvokeInt() throws SecurityException, NoSuchMethodException {
     int expected = 33;
-    Map<String, Resolver> properties = new HashMap<String, Resolver>();
-    properties.put("value", new ValueResolver(new ObjectRegistry(), "33"));
-    SetProperty setter = new SetProperty(this, properties);
-    Method method = getClass().getMethod("setValue", new Class[]{Integer.TYPE});
-    setter.apply(method);
+    Map<String, Method> setters = new HashMap<String, Method>();
+    setters.put("value", getClass().getMethod("setValue",
+      new Class[]{Integer.TYPE}));
+    SetProperty setter = new SetProperty(setters, this);
+    setter.apply(new Entry("value", new ValueResolver(new ObjectRegistry(),
+      "33")));
     assertEquals(expected, intValue);
+  }
+
+  private class Entry implements Map.Entry<String, Resolver> {
+
+    public String name;
+    private Resolver resolver;
+
+    public Entry(String name, Resolver resolver) {
+      this.name = name;
+      this.resolver = resolver;
+    }
+
+    public String getKey() {
+      return name;
+    }
+
+    public Resolver getValue() {
+      return resolver;
+    }
+
+    public Resolver setValue(Resolver value) {
+      return null;
+    }
+
   }
 
 }

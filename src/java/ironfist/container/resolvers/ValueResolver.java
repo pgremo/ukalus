@@ -6,8 +6,10 @@ package ironfist.container.resolvers;
 
 import ironfist.container.ObjectRegistry;
 import ironfist.container.Resolver;
+import ironfist.util.Closure;
 
 public class ValueResolver implements Resolver {
+
   private ObjectRegistry registry;
   private Object value;
 
@@ -19,8 +21,11 @@ public class ValueResolver implements Resolver {
   public Object getValue(Class<?> type) {
     Object result = value;
     if (!type.isAssignableFrom(value.getClass())) {
-      result = registry.getConverter(type)
-        .apply(value);
+      Closure converter = registry.getConverter(type);
+      if (converter == null) {
+        throw new IllegalArgumentException("converter not found for " + type);
+      }
+      result = converter.apply(value);
     }
     return result;
   }

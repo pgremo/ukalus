@@ -51,6 +51,10 @@ public class ObjectRegistry {
     return converters.get(type);
   }
 
+  public void addObject(String id, ObjectFactory factory) {
+    factories.put(id, factory);
+  }
+
   public Object getObject(String id) throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
     Object result = null;

@@ -10,7 +10,13 @@ public class ObjectFactory {
 
   public ObjectFactory(InstanceCreator creator, PropertySetter setter) {
     this.creator = creator;
+    if (creator == null) {
+      throw new NullPointerException("creator can not be null");
+    }
     this.setter = setter;
+    if (setter == null) {
+      throw new NullPointerException("setter can not be null");
+    }
   }
 
   public Object getInstance() throws IllegalArgumentException,

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ironfist.container;
 
 import ironfist.util.Closure;
@@ -8,34 +5,30 @@ import ironfist.util.Closure;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-class SetProperty implements Closure<Method, Boolean> {
+public class SetProperty
+    implements
+      Closure<Map.Entry<String, Resolver>, Object> {
 
-  private static final long serialVersionUID = 3258417226779210544L;
-  private static final String SETTER_PREFIX = "set";
+  private static final long serialVersionUID = 3906363822712435255L;
+  private Map<String, Method> setters;
   private Object input;
-  private Map<String, Resolver> values;
-  private int count;
 
-  public SetProperty(Object input, Map<String, Resolver> values) {
+  public SetProperty(Map<String, Method> setters, Object input) {
+    this.setters = setters;
     this.input = input;
-    this.values = values;
   }
 
-  public Boolean apply(Method method) {
-    String name = method.getName();
-    if (name.startsWith(SETTER_PREFIX)) {
-      Resolver property = values.get(name.substring(3)
-        .toLowerCase());
-      if (property != null) {
-        count++;
-        Class<?> type = method.getParameterTypes()[0];
-        try {
-          method.invoke(input, new Object[]{property.getValue(type)});
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+  public Object apply(Map.Entry<String, Resolver> property) {
+    Method method = setters.get(property.getKey());
+    if (method != null) {
+      try {
+        method.invoke(input, new Object[]{property.getValue()
+          .getValue(method.getParameterTypes()[0])});
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     }
-    return count < values.size();
+    return null;
   }
+
 }

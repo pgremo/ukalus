@@ -11,7 +11,7 @@ public class ClassTransformer implements Closure<String, Class<?>> {
     try {
       result = Class.forName(value);
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      throw new IllegalArgumentException(value + " not found");
     }
     return result;
   }

@@ -17,7 +17,11 @@ public class ReferenceResolver implements Resolver {
 
   public Object getValue(Class<?> type) throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
-    return registry.getObject(id);
+    Object result = registry.getObject(id);
+    if (!type.isAssignableFrom(result.getClass())) {
+      throw new IllegalArgumentException(id + " is not assignable to " + type);
+    }
+    return result;
   }
 
 }

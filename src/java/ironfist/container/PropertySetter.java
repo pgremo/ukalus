@@ -2,6 +2,7 @@ package ironfist.container;
 
 import ironfist.util.Loop;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +15,13 @@ public class PropertySetter {
     this.properties = properties;
   }
 
-  public void setProperties(Object input) throws IllegalArgumentException {
-    new Loop<Method>(input.getClass()
-      .getMethods()).doWhile(new SetProperty(input, properties));
+  public void setProperties(Object input) throws IllegalArgumentException,
+      IllegalAccessException, InvocationTargetException, InstantiationException {
+    Method[] methods = input.getClass()
+      .getMethods();
+    Map<String, Method> setters = new HashMap<String, Method>(methods.length);
+    new Loop<Method>(methods).forEach(new SetterCollector(setters));
+    new Loop<Map.Entry<String, Resolver>>(properties.entrySet()).forEach(new SetProperty(
+      setters, input));
   }
 }
