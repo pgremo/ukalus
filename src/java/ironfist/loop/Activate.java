@@ -29,11 +29,11 @@ public class Activate implements Closure<Reference, Object> {
     Level level = (Level) reference.get();
     Queue<Event> queue = level.getQueue();
     queue.add(boundary);
-    Event current = null;
-    do {
-      current = queue.poll();
+    Event current = queue.poll();
+    while (current != null && boundary.equals(current)) {
       current.process(level);
-    } while (current != null && boundary.equals(current));
+      current = queue.poll();
+    }
     return null;
   }
 }

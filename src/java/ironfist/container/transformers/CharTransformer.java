@@ -12,6 +12,8 @@ import ironfist.util.Closure;
  */
 public class CharTransformer implements Closure<String, Character> {
 
+  private static final long serialVersionUID = 4048795684356370743L;
+
   public Character apply(String value) {
     return new Character((char) Integer.parseInt(value));
   }

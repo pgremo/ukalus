@@ -12,6 +12,8 @@ import ironfist.util.Closure;
  */
 public class FloatTransformer implements Closure<String, Float> {
 
+  private static final long serialVersionUID = 4049638988350436657L;
+
   public Float apply(String value) {
     return Float.valueOf(value);
   }

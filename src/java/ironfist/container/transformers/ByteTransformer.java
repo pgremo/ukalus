@@ -12,6 +12,8 @@ import ironfist.util.Closure;
  */
 public class ByteTransformer implements Closure<String, Byte> {
 
+  private static final long serialVersionUID = 3257571723862684980L;
+
   public Byte apply(String value) {
     return Byte.decode(value);
   }

@@ -2,13 +2,16 @@
  * Created on Mar 20, 2005
  *
  */
-package ironfist.container;
+package ironfist.container.resolvers;
 
-public class Value implements Resolver {
-  private Registry registry;
+import ironfist.container.ObjectRegistry;
+import ironfist.container.Resolver;
+
+public class ValueResolver implements Resolver {
+  private ObjectRegistry registry;
   private Object value;
 
-  public Value(Registry registry, Object value) {
+  public ValueResolver(ObjectRegistry registry, Object value) {
     this.registry = registry;
     this.value = value;
   }

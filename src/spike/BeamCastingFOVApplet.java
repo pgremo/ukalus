@@ -1,4 +1,3 @@
-
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,7 +9,7 @@ import java.awt.event.MouseListener;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author $author$
  */
 public class BeamCastingFOVApplet extends Applet
@@ -18,6 +17,7 @@ public class BeamCastingFOVApplet extends Applet
       MouseListener,
       KeyListener {
 
+  private static final long serialVersionUID = 3618697483174162743L;
   static int[] MASK = new int[16];
 
   static {
@@ -29,16 +29,16 @@ public class BeamCastingFOVApplet extends Applet
   }
 
   int benchtime;
-  int[] map = new int[32]; //The bitmap -- 1 means transparent
-  int[] vis = new int[32]; //The visibility map
-  int[] tmap1 = new int[16]; //the transformed transparency map
-  int[] tvis1 = new int[16]; //the transformed visibility map
-  int[] tmap2 = new int[16]; //Quadrant II
-  int[] tvis2 = new int[16]; //Quadrant II
-  int[] tmap3 = new int[16]; //Quadrant III
-  int[] tvis3 = new int[16]; //Quadrant III
-  int[] tmap4 = new int[16]; //Quadrant IV
-  int[] tvis4 = new int[16]; //Quadrant IV
+  int[] map = new int[32]; // The bitmap -- 1 means transparent
+  int[] vis = new int[32]; // The visibility map
+  int[] tmap1 = new int[16]; // the transformed transparency map
+  int[] tvis1 = new int[16]; // the transformed visibility map
+  int[] tmap2 = new int[16]; // Quadrant II
+  int[] tvis2 = new int[16]; // Quadrant II
+  int[] tmap3 = new int[16]; // Quadrant III
+  int[] tvis3 = new int[16]; // Quadrant III
+  int[] tmap4 = new int[16]; // Quadrant IV
+  int[] tvis4 = new int[16]; // Quadrant IV
 
   /**
    * DOCUMENT ME!
@@ -52,7 +52,7 @@ public class BeamCastingFOVApplet extends Applet
       int tempmask;
       int temp;
 
-      //First, initialize transformed maps
+      // First, initialize transformed maps
       for (x = 16; (--x) >= 0;) {
         shif = 15 - x;
         tempmask = MASK[x];
@@ -71,7 +71,7 @@ public class BeamCastingFOVApplet extends Applet
         tvis4[x] = 0;
       }
 
-      //Second, cast the beams
+      // Second, cast the beams
       int mini;
       int maxi;
       int v;
@@ -397,7 +397,7 @@ public class BeamCastingFOVApplet extends Applet
       case 'i' :
       case 'o' :
 
-        //go up
+        // go up
         for (int x = 0; x < 32; x++) {
           map[x] = (map[x] >>> 1) | (map[x] << 31);
         }
@@ -408,7 +408,7 @@ public class BeamCastingFOVApplet extends Applet
       case ',' :
       case '.' :
 
-        //go down
+        // go down
         for (int x = 0; x < 32; x++) {
           map[x] = (map[x] << 1) | (map[x] >>> 31);
         }
@@ -421,7 +421,7 @@ public class BeamCastingFOVApplet extends Applet
       case 'j' :
       case 'm' :
 
-        //go left
+        // go left
         temp = map[31];
 
         for (int x = 31; x > 0; --x) {
@@ -436,7 +436,7 @@ public class BeamCastingFOVApplet extends Applet
       case 'l' :
       case '.' :
 
-        //go right
+        // go right
         temp = map[0];
 
         for (int x = 0; x < 31; x++) {
@@ -450,4 +450,4 @@ public class BeamCastingFOVApplet extends Applet
 
     repaint();
   } // end of keyTyped method
-} //end of class loslet
+} // end of class loslet

@@ -42,7 +42,7 @@ public class MarkovChain<E> {
   }
 
   public Iterator<E> iterator() {
-    return new ChainIterator<E>();
+    return new ChainIterator<E>(items);
   }
 
   public String toString() {
@@ -62,9 +62,11 @@ public class MarkovChain<E> {
 
   private class ChainIterator<E> implements Iterator<E> {
 
+    private Map<E, Bag<E>> items;
     private E next;
 
-    public ChainIterator() {
+    public ChainIterator(Map<E, Bag<E>> items) {
+      this.items = items;
       next = getNext();
     }
 
@@ -80,7 +82,7 @@ public class MarkovChain<E> {
 
     private E getNext() {
       Map.Entry<E, Counter> result = null;
-      Bag chain = items.get(next);
+      Bag<E> chain = items.get(next);
       if (chain != null) {
         int level = 0;
         int limit = (int) Math.ceil(chain.size() * random.nextDouble());

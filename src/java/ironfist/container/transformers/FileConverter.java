@@ -14,6 +14,8 @@ import java.io.File;
  */
 public class FileConverter implements Closure<String, File> {
 
+  private static final long serialVersionUID = 3834308432025957939L;
+
   public File apply(String value) {
     return new File(value);
   }

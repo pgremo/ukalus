@@ -1,5 +1,7 @@
 package ironfist.container;
 
+import ironfist.container.resolvers.ValueResolver;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +39,7 @@ public class SetPropertyTest extends TestCase {
       NoSuchMethodException {
     String expected = "some stuff";
     Map<String, Resolver> properties = new HashMap<String, Resolver>();
-    properties.put("value", new Value(new Registry(), expected));
+    properties.put("value", new ValueResolver(new ObjectRegistry(), expected));
     SetProperty setter = new SetProperty(this, properties);
     Method method = getClass().getMethod("setValue", new Class[]{String.class});
     setter.apply(method);
@@ -47,7 +49,7 @@ public class SetPropertyTest extends TestCase {
   public void testInvokeInt() throws SecurityException, NoSuchMethodException {
     int expected = 33;
     Map<String, Resolver> properties = new HashMap<String, Resolver>();
-    properties.put("value", new Value(new Registry(), "33"));
+    properties.put("value", new ValueResolver(new ObjectRegistry(), "33"));
     SetProperty setter = new SetProperty(this, properties);
     Method method = getClass().getMethod("setValue", new Class[]{Integer.TYPE});
     setter.apply(method);

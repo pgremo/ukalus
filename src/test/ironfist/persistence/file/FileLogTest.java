@@ -54,7 +54,7 @@ public class FileLogTest extends TestCase {
     while (iterator.hasNext()) {
       commands.add(iterator.next());
     }
-    assertEquals(Arrays.asList(new Object[]{command1, command2, command3}),
+    assertEquals(Arrays.asList(command1, command2, command3),
       commands);
   }
 

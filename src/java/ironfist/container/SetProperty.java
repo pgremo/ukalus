@@ -8,8 +8,9 @@ import ironfist.util.Closure;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-final class SetProperty implements Closure<Method, Boolean> {
+class SetProperty implements Closure<Method, Boolean> {
 
+  private static final long serialVersionUID = 3258417226779210544L;
   private static final String SETTER_PREFIX = "set";
   private Object input;
   private Map<String, Resolver> values;
@@ -29,7 +30,7 @@ final class SetProperty implements Closure<Method, Boolean> {
         count++;
         Class<?> type = method.getParameterTypes()[0];
         try {
-          method.invoke(input, new Object[] { property.getValue(type) });
+          method.invoke(input, new Object[]{property.getValue(type)});
         } catch (Exception e) {
           e.printStackTrace();
         }

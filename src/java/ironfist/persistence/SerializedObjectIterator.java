@@ -34,7 +34,7 @@ public class SerializedObjectIterator<E> implements Iterator<E> {
   }
 
   public E next() {
-    Object result = null;
+    E result = null;
     try {
       int size = channel.readInt();
       if (size > data.length) {
@@ -42,15 +42,15 @@ public class SerializedObjectIterator<E> implements Iterator<E> {
       }
       if (channel.read(data, 0, size) == size) {
         ObjectInputStream stream = new ObjectInputStream(
-            new ByteArrayInputStream(data, 0, size));
-        result = stream.readObject();
+          new ByteArrayInputStream(data, 0, size));
+        result = (E) stream.readObject();
       }
     } catch (EOFException e) {
       throw new NoSuchElementException();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    return (E) result;
+    return result;
   }
 
   public void remove() {
