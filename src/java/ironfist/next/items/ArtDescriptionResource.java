@@ -1,12 +1,13 @@
 package ironfist.next.items;
 
-import ironfist.util.ArraySet;
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
+import ironfist.util.Strings;
 
-import java.text.MessageFormat;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.ListResourceBundle;
 import java.util.Random;
 import java.util.Set;
@@ -24,11 +25,11 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final int MAX_LABELS = 10;
 
-  private static final MarkovChain RULES = new MarkovChain();
+  private MarkovChain rules = new MarkovChain();
 
   private Random random = new MersenneTwister();
 
-  private String[] numberNames = new String[]{
+  private String[] numberNames = new String[] {
       "One",
       "Two",
       "Three",
@@ -40,27 +41,25 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Nine",
       "Ten",
       "Eleven",
-      "Twelve"};
+      "Twelve" };
 
-  private Factory methods = new RandomWordFactory(random, new String[]{
-      "Methods",
-      "Ways",
+  private Factory methods = new RandomWordFactory(random, new String[] {
+      "Channels",
+      "Doors",
+      "Forms",
+      "Gates",
+      "Images",
       "Means",
       "Methods",
-      "Forms",
+      "Paths",
+      "Rings",
       "Rules",
       "Stances",
-      "Images",
-      "Gates",
       "Stems",
-      "Rings",
-      "Channels",
       "Styles",
-      "Doors"});
+      "Ways" });
 
-  private Factory nouns = new RandomWordFactory(random, new String[]{
-
-      //Creatures
+  private String[] nounWords = new String[] {
       "Tiger",
       "Pheonix",
       "Dragon",
@@ -79,8 +78,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Reaver",
       "Shadow",
       "Wraith",
-
-      // Place
       "Abyss",
       "Empyrion",
       "Pit",
@@ -88,8 +85,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Temple",
       "Fortress",
       "Tower",
-
-      //	Thing
       "Soul",
       "Spirit",
       "Mind",
@@ -111,11 +106,13 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Skull",
       "Stone",
       "Storm",
-      "Warp"});
+      "Warp" };
 
-  private Factory adjectives = new RandomWordFactory(random, new String[]{
+  private Factory noun1 = new RandomWordFactory(random, nounWords);
 
-      // Colors
+  private Factory noun2 = new RandomWordFactory(random, nounWords);
+
+  private String[] adjectiveWords = new String[] {
       "White",
       "Red",
       "Yellow",
@@ -123,8 +120,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Blue",
       "Purple",
       "Black",
-
-      // Verbs
       "Raising",
       "Falling",
       "Burning",
@@ -137,8 +132,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Shining",
       "Glowing",
       "Spinning",
-
-      // State?
       "Thundering",
       "Lightning",
       "Empty",
@@ -156,8 +149,6 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ultimate",
       "Supreme",
       "Divine",
-
-      // Material
       "Blood",
       "Bone",
       "Poison",
@@ -174,118 +165,98 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ruby",
       "Saphire",
       "Pearl",
-      "Emerald"});
+      "Emerald" };
 
-  private Factory types = new RandomWordFactory(random, new String[]{
+  private Factory adjectives1 = new RandomWordFactory(random, adjectiveWords);
+
+  private Factory adjectives2 = new RandomWordFactory(random, adjectiveWords);
+
+  private Factory adjectives3 = new RandomWordFactory(random, adjectiveWords);
+
+  private Factory types = new RandomWordFactory(random, new String[] {
       "Claw",
       "Fist",
       "Hand",
-      "Palm"});
+      "Palm" });
 
   private Factory names = new RandomNameFactory(random, FILE_NAME,
-    MAX_SYLLABLES);
+      MAX_SYLLABLES);
 
   private Factory numbers = new RandomNumberFactory(random, 2, 108, numberNames);
 
-  private Factory[] factories = new Factory[]{
-      names,
-      adjectives,
-      adjectives,
-      nouns,
-      types,
-      numbers,
-      methods,
-      adjectives,
-      nouns};
+  private Factory possesive = new RandomWordFactory(random,
+      new String[] { "'s" });
 
-  static {
-    RULES.add(null, " {0}");
-    RULES.add(null, " {0}");
+  private Factory of = new RandomWordFactory(random, new String[] { "of" });
 
-    RULES.add(null, " {0}''s");
-    RULES.add(null, " {0}''s");
+  private Factory the = new RandomWordFactory(random, new String[] { "the" });
 
-    RULES.add(null, " {1}");
-    RULES.add(null, " {1}");
-    RULES.add(null, " {1}");
-    RULES.add(null, " {1}");
+  {
+    rules.add(null, names);
+    rules.add(null, adjectives1);
+    rules.add(null, noun1);
+    rules.add(null, types);
+    rules.add(null, types);
+    rules.add(null, types);
 
-    RULES.add(null, " {2}");
+    rules.add(names, possesive);
+    rules.add(names, possesive);
+    rules.add(names, adjectives1);
+    rules.add(names, adjectives1);
+    rules.add(names, noun1);
+    rules.add(names, types);
+    rules.add(names, types);
+    rules.add(names, types);
+    rules.add(names, types);
 
-    RULES.add(null, " {3}");
-    RULES.add(null, " {3}");
-    RULES.add(null, " {3}");
-    RULES.add(null, " {3}");
+    rules.add(possesive, adjectives1);
+    rules.add(possesive, adjectives1);
+    rules.add(possesive, noun1);
+    rules.add(possesive, types);
+    rules.add(possesive, types);
 
-    RULES.add(null, " {4}");
-    RULES.add(null, " {4}");
-    RULES.add(null, " {4}");
-    RULES.add(null, " {4}");
+    rules.add(adjectives1, adjectives2);
+    rules.add(adjectives1, noun1);
+    rules.add(adjectives1, types);
+    rules.add(adjectives1, types);
 
-    RULES.add(" {0}", " {1}");
-    RULES.add(" {0}", " {1}");
-    RULES.add(" {0}", " {2}");
-    RULES.add(" {0}", " {3}");
-    RULES.add(" {0}", " {3}");
-    RULES.add(" {0}", " {4}");
-    RULES.add(" {0}", " {4}");
-    RULES.add(" {0}", " {4}");
-    RULES.add(" {0}", " {4}");
+    rules.add(adjectives2, noun1);
+    rules.add(adjectives2, types);
+    rules.add(adjectives2, types);
 
-    RULES.add(" {0}''s", " {1}");
-    RULES.add(" {0}''s", " {1}");
-    RULES.add(" {0}''s", " {2}");
-    RULES.add(" {0}''s", " {3}");
-    RULES.add(" {0}''s", " {3}");
-    RULES.add(" {0}''s", " {4}");
-    RULES.add(" {0}''s", " {4}");
-    RULES.add(" {0}''s", " {4}");
-    RULES.add(" {0}''s", " {4}");
+    rules.add(noun1, types);
 
-    RULES.add(" {1}", " {2}");
-    RULES.add(" {1}", " {3}");
-    RULES.add(" {1}", " {3}");
-    RULES.add(" {1}", " {4}");
-    RULES.add(" {1}", " {4}");
-    RULES.add(" {1}", " {4}");
-    RULES.add(" {1}", " {4}");
+    rules.add(types, of);
+    rules.add(types, null);
 
-    RULES.add(" {2}", " {3}");
-    RULES.add(" {2}", " {4}");
-    RULES.add(" {2}", " {4}");
+    rules.add(of, the);
+    rules.add(of, numbers);
 
-    RULES.add(" {3}", " {4}");
+    rules.add(numbers, methods);
 
-    RULES.add(" {4}", " of {5} {6}");
-    RULES.add(" {4}", " of the {7} {8}");
-    RULES.add(" {4}", null);
-    RULES.add(" {4}", null);
+    rules.add(methods, null);
 
-    RULES.add(" of {5} {6}", null);
-    
-    RULES.add(" of the {7} {8}", null);
+    rules.add(the, adjectives3);
+
+    rules.add(adjectives3, noun2);
+
+    rules.add(noun2, null);
   }
 
   private String generateName() {
-    Set words = new ArraySet();
-    for (int index = 0; index < factories.length; index++) {
-      while (!words.add(factories[index].generate(new Integer(1)))) {
-      }
-    }
-
-    StringBuffer pattern = new StringBuffer();
+    Set parts = new LinkedHashSet();
     do {
-      pattern.setLength(0);
-      Object key = RULES.next(null, random.nextDouble());
+      parts.clear();
+      Factory key = (Factory) rules.next(null, random.nextDouble());
       while (key != null) {
-        pattern.append(key);
-        key = RULES.next(key, random.nextDouble());
+        while (!parts.add(key.generate(new Integer(1)))) {
+        }
+        key = (Factory) rules.next(key, random.nextDouble());
       }
-    } while (pattern.toString()
-      .equals(" {4}"));
-    
-    return MessageFormat.format(pattern.toString()
-      .trim(), words.toArray());
+    } while (parts.size() == 1);
+
+    return Strings.join(parts, " ")
+      .replaceAll(" 's", "'s");
   }
 
   protected Object[][] getContents() {
@@ -295,15 +266,25 @@ public class ArtDescriptionResource extends ListResourceBundle {
       contents.add(generateName());
     }
 
-    Object[][] result = new Object[contents.size()][2];
+    Object[][] result = new Object[contents.size()][];
     Iterator iterator = contents.iterator();
-
     for (int index = 0; iterator.hasNext(); index++) {
-      Object current = iterator.next();
-      result[index][0] = PREFIX + index;
-      result[index][1] = current.toString();
+      result[index] = new Object[] { PREFIX + index, (String) iterator.next() };
     }
 
     return result;
+  }
+
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    Enumeration enumeration = getKeys();
+    while (enumeration.hasMoreElements()) {
+      String key = (String) enumeration.nextElement();
+      result.append(key)
+        .append("=")
+        .append(getObject(key))
+        .append("\n");
+    }
+    return result.toString();
   }
 }
