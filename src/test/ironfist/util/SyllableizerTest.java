@@ -1,7 +1,8 @@
-package ironfist.namegenerator;
+package ironfist.util;
 
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
+import ironfist.util.Syllableizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +17,6 @@ import junit.framework.TestCase;
  * @author pmgremo
  */
 public class SyllableizerTest extends TestCase {
-
-  public void testSplit() {
-    String[] expected = new String[]{"He", "gan", "shab", "but", "t"};
-    String[] actual = Syllableizer.split("Heganshabbutt");
-    assertTrue(Arrays.equals(expected, actual));
-  }
 
   public void testCommutative() {
     MarkovChain chains = new MarkovChain();
@@ -48,5 +43,11 @@ public class SyllableizerTest extends TestCase {
 
     String[] actual = Syllableizer.split(result.toString());
     assertTrue(Arrays.equals(expected.toArray(), actual));
+  }
+
+  public void testSplit() {
+    String[] expected = new String[]{"He", "gan", "shab", "but", "tesh"};
+    String[] actual = Syllableizer.split("Heganshabbuttesh");
+    assertTrue(Arrays.equals(expected, actual));
   }
 }

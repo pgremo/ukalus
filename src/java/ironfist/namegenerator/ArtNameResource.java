@@ -3,6 +3,7 @@ package ironfist.namegenerator;
 import ironfist.util.ArraySet;
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
+import ironfist.util.Syllableizer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.Set;
 /**
  * @author pmgremo
  */
-public class ArtNameGenerator extends ListResourceBundle {
+public class ArtNameResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
 
@@ -262,7 +263,7 @@ public class ArtNameGenerator extends ListResourceBundle {
   public final static void main(String[] args) throws Exception {
     Random random = new MersenneTwister();
     String[] types = new String[]{"Fist", "Palm", "Hand", "Claw"};
-    ResourceBundle bundle = ResourceBundle.getBundle(ArtNameGenerator.class.getName());
+    ResourceBundle bundle = ResourceBundle.getBundle(ArtNameResource.class.getName());
     Enumeration keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {
