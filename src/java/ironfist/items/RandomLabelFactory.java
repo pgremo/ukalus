@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 class RandomLabelFactory implements Factory {
 
+  private MarkovChain<String> chains;
   private Random random;
-  private MarkovChain<String> chains = new MarkovChain<String>();
   private int minSyllables;
   private int maxSyllables;
 
@@ -26,6 +29,7 @@ class RandomLabelFactory implements Factory {
     this.random = random;
     this.minSyllables = minSyllables;
     this.maxSyllables = maxSyllables;
+    this.chains = new MarkovChain<String>(random);
 
     try {
       Reader reader = new BufferedReader(new InputStreamReader(
@@ -34,11 +38,12 @@ class RandomLabelFactory implements Factory {
       while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
         if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
           String[] syllables = Strings.split(tokenizer.sval.toLowerCase());
-          String key = syllables[0];
-          for (int i = 1; i < syllables.length; i++) {
-            chains.add(key, syllables[i]);
-            key = syllables[i];
+          String key = null;
+          for (String item : syllables) {
+            chains.add(key, item);
+            key = item;
           }
+          chains.add(key, null);
         }
       }
     } catch (IOException e) {
@@ -57,18 +62,18 @@ class RandomLabelFactory implements Factory {
         result.append(" ");
       }
 
-      StringBuffer word = new StringBuffer();
+      List<String> syllables = new LinkedList<String>();
       int max = minSyllables + random.nextInt(maxSyllables - minSyllables);
-      int count;
       do {
-        String key = chains.next(null, random.nextDouble());
-        for (count = 0; count <= max && key != null; count++) {
-          word.append(key);
-          key = chains.next(key, random.nextDouble());
+        syllables.clear();
+        Iterator<String> iterator = chains.iterator();
+        while (syllables.size() <= max && iterator.hasNext()) {
+          String key = iterator.next();
+          syllables.add(key);
         }
-      } while (count < minSyllables);
+      } while (syllables.size() < minSyllables);
 
-      result.append(word.toString());
+      result.append(Strings.join(syllables, ""));
     }
 
     return result.toString();

@@ -3,7 +3,6 @@ package ironfist.items;
 import ironfist.util.MersenneTwister;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.ListResourceBundle;
 import java.util.Random;
 import java.util.Set;
@@ -15,6 +14,7 @@ import java.util.Set;
  */
 public class ScrollDescriptionResource extends ListResourceBundle {
 
+  private static final String PREFIX = "scroll.description.";
   private static final String FILE_NAME = "/wordlists/latin.txt";
   private static final int MAX_LABELS = 10;
   private static final int MAX_SYLLABLES = 3;
@@ -26,20 +26,29 @@ public class ScrollDescriptionResource extends ListResourceBundle {
     Factory factory = new RandomLabelFactory(random, FILE_NAME, 1,
       MAX_SYLLABLES);
     while (labels.size() < MAX_LABELS) {
-      String label = factory.generate(new Integer(3));
+      String label = factory.generate(new Integer(3))
+        .toString()
+        .toUpperCase();
 
-      labels.add(label.toString()
-        .toUpperCase());
+      labels.add(label);
     }
 
-    int count = 0;
-    Object[][] result = new Object[labels.size()][2];
-    Iterator iterator = labels.iterator();
-    while (iterator.hasNext()) {
-      result[count][0] = "scroll.description." + count;
-      result[count][1] = "{0,choice,-1#scroll|1#a scroll|1<{0,number,integer} scrolls} labeled \""
-          + iterator.next() + "\"";
-      count++;
+    Object[][] result = new Object[MAX_LABELS][];
+    Set<Object> contents = new HashSet<Object>();
+    while (contents.size() < MAX_LABELS) {
+      String current = factory.generate(new Integer(3))
+        .toString()
+        .toUpperCase();
+      if (contents.add(current)) {
+        int index = contents.size() - 1;
+        result[index] = new Object[]{
+            PREFIX + index,
+            new StringBuffer(
+              "{0,choice,-1#scroll|1#a scroll|1<{0,number,integer} scrolls} labeled \"").append(
+              current)
+              .append("\"")
+              .toString()};
+      }
     }
 
     return result;

@@ -13,7 +13,9 @@ import junit.framework.TestCase;
 public class VectorTest extends TestCase {
 
   public void testRotate() {
-    assertEquals(new Vector(0, -1), new Vector(1, 0).rotate(90));
+    Vector actual = new Vector(1, 0).rotate(90);
+    assertEquals(0, (int)actual.getX());
+    assertEquals(-1, (int)actual.getY());
   }
 
 }

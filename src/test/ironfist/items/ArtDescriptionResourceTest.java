@@ -4,6 +4,7 @@
  */
 package ironfist.items;
 
+import static java.lang.System.out;
 import ironfist.items.ArtDescriptionResource;
 
 import java.util.ResourceBundle;
@@ -12,12 +13,12 @@ import junit.framework.TestCase;
 
 /**
  * @author gremopm
- *  
+ * 
  */
 public class ArtDescriptionResourceTest extends TestCase {
 
   public void testGenerate() throws Exception {
-    System.out.println(String.valueOf(ResourceBundle.getBundle(ArtDescriptionResource.class.getName())));
+    out.println(String.valueOf(ResourceBundle.getBundle(ArtDescriptionResource.class.getName())));
   }
 
 }

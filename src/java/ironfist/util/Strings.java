@@ -5,12 +5,11 @@
 package ironfist.util;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.regex.Pattern;
 
 /**
  * @author pmgremo
- *  
+ * 
  */
 public final class Strings {
 
@@ -20,15 +19,11 @@ public final class Strings {
 
   public static String join(Collection<String> parts, String delimiter) {
     StringBuffer result = new StringBuffer();
-    boolean first = true;
-    Iterator iterator = parts.iterator();
-    while (iterator.hasNext()) {
-      if (first) {
-        first = false;
-      } else {
+    for (String item : parts) {
+      if (result.length() > 0) {
         result.append(delimiter);
       }
-      result.append(iterator.next());
+      result.append(item);
     }
     return result.toString();
   }
@@ -61,7 +56,7 @@ public final class Strings {
    * "e/vil", and "re/port".
    * 
    * @author gremopm
-   *  
+   * 
    */
   public static String[] split(String word) {
     String result = cleanPattern.matcher(word)

@@ -4,7 +4,9 @@
  */
 package ironfist.astar;
 
-import java.util.Collection;
+import static ironfist.util.Block.detect;
+import ironfist.util.IsEqual;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,9 +39,9 @@ public class AStar {
       } else {
         for (Node successor : current.getSuccessors()) {
           int newCost = cost.calculate(current, successor);
-          Node openNode = get(open, successor);
+          Node openNode = detect(open, new IsEqual(successor));
           if (openNode == null || openNode.getCost() > newCost) {
-            Node closeNode = get(close, successor);
+            Node closeNode = detect(close, new IsEqual(successor));
             if (closeNode == null || closeNode.getCost() > newCost) {
               successor.setCost(newCost);
               successor.setEstimate(heuristic.estimate(successor));
@@ -53,18 +55,6 @@ public class AStar {
       close.add(current);
     }
     return result == null ? EMPTY_LIST.iterator() : result.iterator();
-  }
-
-  public Node get(Collection<Node> collection, Node o) {
-    Node result = null;
-    Iterator iterator = collection.iterator();
-    while (iterator.hasNext() && result == null) {
-      Object current = iterator.next();
-      if (current.equals(o)) {
-        result = (Node) current;
-      }
-    }
-    return result;
   }
 
 }

@@ -56,7 +56,7 @@ public class HashBag<E> extends AbstractCollection<E> implements Bag<E> {
     private Iterator<Map.Entry<E, Counter>> entryIterator;
     private Map.Entry<E, Counter> current;
     private int count;
-    private final int modifications = HashBag.this.modifications;
+    private int modifications = HashBag.this.modifications;
     private boolean canRemove;
 
     public HashBagIterator(Iterator<Map.Entry<E, Counter>> iterator) {

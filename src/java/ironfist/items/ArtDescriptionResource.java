@@ -2,7 +2,7 @@ package ironfist.items;
 
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
-import ironfist.util.Strings;
+import static ironfist.util.Strings.join;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -18,13 +18,13 @@ import java.util.Set;
 public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
-  private static final String FILE_NAME = "/wordlists/sumerian.txt";
+  private static final String FILE_NAME = "/wordlists/egyptian.txt";
   private static final int MIN_SYLLABLES = 2;
   private static final int MAX_SYLLABLES = 3;
   private static final int MAX_LABELS = 10;
 
-  private MarkovChain<Factory> rules = new MarkovChain<Factory>();
   private Random random = new MersenneTwister();
+  private MarkovChain<Factory> rules = new MarkovChain<Factory>(random);
 
   private String[] numberNames = new String[]{
       "One",
@@ -243,30 +243,27 @@ public class ArtDescriptionResource extends ListResourceBundle {
     Set<String> parts = new LinkedHashSet<String>();
     do {
       parts.clear();
-      Factory key = rules.next(null, random.nextDouble());
-      while (key != null) {
+      Iterator<Factory> iterator = rules.iterator();
+      while (iterator.hasNext()) {
+        Factory key = iterator.next();
         while (!parts.add(key.generate(new Integer(1)))) {
         }
-        key = rules.next(key, random.nextDouble());
       }
     } while (parts.size() == 1);
 
-    return Strings.join(parts, " ")
-      .replaceAll(" 's", "'s")
+    return join(parts, " ").replaceAll(" 's", "'s")
       .replaceAll("s's", "s'");
   }
 
   protected Object[][] getContents() {
+    Object[][] result = new Object[MAX_LABELS][];
     Set<Object> contents = new HashSet<Object>();
-
     while (contents.size() < MAX_LABELS) {
-      contents.add(generateName());
-    }
-
-    Object[][] result = new Object[contents.size()][];
-    Iterator iterator = contents.iterator();
-    for (int index = 0; iterator.hasNext(); index++) {
-      result[index] = new Object[]{PREFIX + index, (String) iterator.next()};
+      String current = generateName();
+      if (contents.add(current)) {
+        int index = contents.size() - 1;
+        result[index] = new Object[]{PREFIX + index, current};
+      }
     }
 
     return result;

@@ -3,6 +3,7 @@ package ironfist.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 
 import junit.framework.TestCase;
@@ -15,27 +16,25 @@ import junit.framework.TestCase;
 public class StringsTest extends TestCase {
 
   public void testCommutative() {
-    MarkovChain<String> chains = new MarkovChain<String>();
+    Random random = new MersenneTwister();
+    MarkovChain<String> chains = new MarkovChain<String>(random);
 
     String[] syllables = Strings.split("PROPTERFUISSEDEM");
-    String key = syllables[0];
-
-    for (int i = 1; i < syllables.length; i++) {
-      chains.add(key, syllables[i]);
-      key = syllables[i];
+    String key = null;
+    for(String item: syllables){
+      chains.add(key, item);
+      key = item;
     }
     chains.add(syllables[syllables.length - 1], null);
 
-    Random random = new MersenneTwister();
     Collection<String> expected = new ArrayList<String>();
     int syllableCount = random.nextInt(10) + 1;
     StringBuffer result = new StringBuffer();
-    key = chains.next(null, random.nextDouble());
-
-    while (syllableCount-- > -1 && key != null) {
+    Iterator<String> iterator = chains.iterator();
+    while (syllableCount-- > -1 && iterator.hasNext()) {
+      key = iterator.next();
       result.append(key);
       expected.add(key);
-      key = chains.next(key, random.nextDouble());
     }
 
     String[] actual = Strings.split(result.toString());

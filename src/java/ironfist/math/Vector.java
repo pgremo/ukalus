@@ -163,10 +163,10 @@ public class Vector implements Cloneable, Serializable {
    * @return new vector
    */
   public Vector rotate(double value) {
-    double r = magnitude();
-    double theta = Math.atan2(y, x) - value;
-
-    return new Vector(r * Math.cos(theta), r * Math.sin(theta));
+    double phi = Math.toRadians(value);
+    double cos = Math.cos(phi);
+    double sin = Math.sin(phi);
+    return new Vector(x * cos + y * sin, y * cos - x * sin);
   }
 
   /**
