@@ -20,7 +20,7 @@ import java.util.Set;
 public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
-  private static final String FILE_NAME = "/wordlists/egyptian.txt";
+  private static final String FILE_NAME = "/ironfist/wordlists/egyptian.txt";
   private static final int MIN_SYLLABLES = 2;
   private static final int MAX_SYLLABLES = 3;
   private static final int MAX_LABELS = 10;

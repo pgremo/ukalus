@@ -16,7 +16,7 @@ import java.util.Set;
 public class ScrollDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "scroll.description.";
-  private static final String FILE_NAME = "/wordlists/latin.txt";
+  private static final String FILE_NAME = "/ironfist/wordlists/latin.txt";
   private static final int MAX_LABELS = 10;
   private static final int MAX_SYLLABLES = 3;
 
