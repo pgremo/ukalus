@@ -298,7 +298,6 @@ dusu
 dusubi
 dutu
 dutugin
-e
 ea
 eaam
 eana
@@ -1304,7 +1303,6 @@ turtur
 turunaam
 turunabi
 tuszasze
-u
 ua
 uanbara
 uba
@@ -1392,7 +1390,6 @@ uszumgal
 uteam
 uude
 uussabi
-x
 za
 zadim
 zagin

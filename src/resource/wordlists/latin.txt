@@ -1,4 +1,3 @@
-a
 ab
 abdere
 abdiderunt
@@ -1186,7 +1185,6 @@ durare
 duritia
 durus
 dux
-e
 ea
 eadem
 eam
@@ -1966,7 +1964,6 @@ julio
 jurandum
 jure
 jus
-l
 labor
 laborare
 labori
@@ -2119,7 +2116,6 @@ lux
 luxuria
 lynchus
 lyra
-m
 macellum
 macer
 macula
@@ -2438,7 +2434,6 @@ nuptiae
 nusquam
 nutare
 nympha
-o
 ob
 obdurare
 obeundas
@@ -2932,7 +2927,6 @@ putetis
 puteus
 pyra
 pyramis
-q
 qua
 quadam
 quadraginta

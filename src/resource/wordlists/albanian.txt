@@ -14,7 +14,6 @@ bashkimin
 behet
 botimi
 brezave
-c
 deshirash
 deshmi
 dhe
@@ -24,7 +23,6 @@ dijenite
 dijetareve
 do
 duam
-e
 edhe
 eshte
 etnike
@@ -49,7 +47,6 @@ hapesirat
 hapesire
 hedhim
 here
-i
 idete
 ka
 kane
@@ -175,7 +172,6 @@ sugjerojne
 sukses
 synimesh
 synimeve
-t
 ta
 te
 tejet
@@ -187,7 +183,6 @@ tona
 trasheguar
 tre
 trojeve
-u
 varfer
 varferia
 vazhdimisht

@@ -33,7 +33,6 @@ asselburg
 athelstan
 augsburg
 azela
-b
 babenberg
 bacco
 balderich
@@ -117,7 +116,6 @@ frederick
 friderun
 frohse
 fulda
-g
 gandersheim
 gebhard
 genbloux
@@ -180,7 +178,6 @@ irmgard
 isingrim
 jonas
 judith
-k
 kalbe
 karl
 karlmann
@@ -192,7 +189,6 @@ kiev
 kinugunde
 koledizi
 kunigunde
-l
 laar
 lammspringe
 lampert
@@ -213,7 +209,6 @@ luidprand
 luitpolding
 lusatia
 lutter
-m
 malacin
 marcswith
 marienthal
@@ -247,7 +242,6 @@ oldenstadt
 olvenstedt
 orde
 osnabr
-p
 pf
 pippin
 pl
@@ -275,7 +269,6 @@ rottmersleben
 rudolf
 ruodlieb
 ruotger
-s
 saal
 saalfeld
 salia
@@ -323,7 +316,6 @@ verden
 viking
 vitzenberg
 vreden
-w
 walbeck
 walsrode
 walthard

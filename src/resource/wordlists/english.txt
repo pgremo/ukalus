@@ -484,7 +484,6 @@ cutover
 cutset
 cynthia
 cyprus
-d
 dactylic
 dan
 dana
@@ -1347,7 +1346,6 @@ numerous
 numismatic
 nunn
 nurture
-o
 obduracy
 objectify
 obverse

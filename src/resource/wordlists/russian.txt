@@ -7,7 +7,6 @@ arkhangel
 arvamas
 astrakhan
 azov
-b
 bagut
 baia
 bakhchisarai
@@ -310,7 +309,6 @@ kursk
 kwidzyn
 kyi
 kysylyn
-l
 ladoga
 lamskii
 ldishev
@@ -744,7 +742,6 @@ ustiuzhna
 usviat
 uvetichi
 uzmen
-v
 valaam
 valaamskii
 valuiki

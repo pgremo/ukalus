@@ -8,7 +8,6 @@ asenov
 aspekta
 avtentichni
 az
-b
 bade
 bajraka
 balgari
@@ -110,7 +109,6 @@ elementi
 evangelieto
 facti
 fakti
-g
 gajlesamo
 georgi
 gi
@@ -132,7 +130,6 @@ grupata
 hora
 horata
 hunska
-i
 ia
 ias
 identifiziral
@@ -472,7 +469,6 @@ tuk
 tuku
 tvardja
 tvojata
-u
 ubeshdenijata
 umoljavam
 umre
