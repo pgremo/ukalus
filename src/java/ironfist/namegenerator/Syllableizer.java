@@ -1,12 +1,11 @@
 package ironfist.namegenerator;
 
+import ironfist.util.MarkovChain;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 
 public class Syllableizer {
 
@@ -21,12 +20,8 @@ public class Syllableizer {
       "th",
       "wh",
       "zh"};
-  private Map dictionary = null;
+  private MarkovChain dictionary = new MarkovChain();
   private Random random;
-
-  {
-    dictionary = new TreeMap();
-  }
 
   public String[] split(String word) {
     String splitted = "";
@@ -83,28 +78,18 @@ public class Syllableizer {
     String key = syllables[0];
 
     for (int i = 1; i < syllables.length; i++) {
-      List list = (List) dictionary.get(key);
-
-      if (list == null) {
-        list = new ArrayList();
-        dictionary.put(key, list);
-      }
-
-      list.add(syllables[i]);
+      dictionary.add(key, syllables[i]);
       key = syllables[i];
     }
   }
 
   public String[] getSyllables(int size) {
     List result = new ArrayList(size);
-    List list = Arrays.asList(dictionary.keySet()
-      .toArray());
-    Object key = null;
+    Object key = dictionary.next(null, random.nextDouble());
 
-    while ((result.size() <= size) && (list != null)) {
-      key = list.get(random.nextInt(list.size()));
+    while ((result.size() <= size) && (key != null)) {
       result.add(key);
-      list = (List) dictionary.get(key);
+      key = dictionary.next(key, random.nextDouble());
     }
 
     return (String[]) result.toArray(new String[result.size()]);
@@ -133,29 +118,6 @@ public class Syllableizer {
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    String result = "";
-    Iterator keys = dictionary.keySet()
-      .iterator();
-
-    while (keys.hasNext()) {
-      Object key = keys.next();
-      result += ("[" + key + "]:");
-
-      List list = (List) dictionary.get(key);
-
-      if (list != null) {
-        result += (" (" + list.size() + ") ");
-
-        Iterator values = list.iterator();
-
-        while (values.hasNext()) {
-          result += ("{" + values.next() + "}");
-        }
-      }
-
-      result += "\n";
-    }
-
-    return result;
+    return dictionary.toString();
   }
 }
