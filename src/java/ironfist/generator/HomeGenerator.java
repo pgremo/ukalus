@@ -19,9 +19,7 @@ import java.util.Random;
  */
 public class HomeGenerator {
 
-  private static final TileTypePredicate tilePredicate = new TileTypePredicate();
   private static final EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
-  private static final DungeonRoomComparator roomComparator = new DungeonRoomComparator();
   private RectangleRoomFactory areaFactory = new RectangleRoomFactory();
 
   {
