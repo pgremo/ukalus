@@ -1,12 +1,12 @@
 package ironfist.next;
 
-
 /**
  * @author pmgremo
  */
 public class ActionType {
-	public static final ActionType READ = new ActionType("read");
-	public static final ActionType WEAR = new ActionType("wear");
+
+  public static final ActionType READ = new ActionType("read");
+  public static final ActionType WEAR = new ActionType("wear");
   private String name;
 
   private ActionType(String name) {
@@ -22,6 +22,7 @@ public class ActionType {
 
   /**
    * Returns the name.
+   * 
    * @return String
    */
   public String getName() {

@@ -8,13 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class PassageFactory {
+
   private Random randomizer;
   private Vector direction;
   private int baseLength;
@@ -30,50 +30,41 @@ public class PassageFactory {
    */
   public List create() {
     LinkedList list = new LinkedList();
-    int length = 3 + randomizer.nextInt(4) + 
-                 ((randomizer.nextInt(5) == 0) ? randomizer.nextInt(5) : 0) + 
-                 baseLength;
+    int length = 3 + randomizer.nextInt(4)
+        + ((randomizer.nextInt(5) == 0) ? randomizer.nextInt(5) : 0)
+        + baseLength;
     Vector right = direction.orthoganal();
     Vector left = right.multiply(-1);
 
     try {
-      list.add(
-          new Tile(right.add(direction), (TileType) cornerClass.newInstance()));
+      list.add(new Tile(right.add(direction),
+        (TileType) cornerClass.newInstance()));
       list.add(new Tile(direction, (TileType) wallClass.newInstance()));
-      list.add(
-          new Tile(left.add(direction), (TileType) cornerClass.newInstance()));
+      list.add(new Tile(left.add(direction),
+        (TileType) cornerClass.newInstance()));
 
       for (int index = 2; index < (length - 1); index++) {
-        list.add(
-            new Tile(right.add(direction.multiply(index)), 
-                     (TileType) (TileType) cornerClass.newInstance()));
-        list.add(
-            new Tile(direction.multiply(index), 
-                     (TileType) floorClass.newInstance()));
-        list.add(
-            new Tile(left.add(direction.multiply(index)), 
-                     (TileType) wallClass.newInstance()));
+        list.add(new Tile(right.add(direction.multiply(index)),
+          (TileType) (TileType) cornerClass.newInstance()));
+        list.add(new Tile(direction.multiply(index),
+          (TileType) floorClass.newInstance()));
+        list.add(new Tile(left.add(direction.multiply(index)),
+          (TileType) wallClass.newInstance()));
       }
 
-      list.add(
-          new Tile(right.add(direction.multiply(length - 1)), 
-                   (TileType) terminalClass.newInstance()));
-      list.add(
-          new Tile(direction.multiply(length - 1), 
-                   (TileType) floorClass.newInstance()));
-      list.add(
-          new Tile(left.add(direction.multiply(length - 1)), 
-                   (TileType) terminalClass.newInstance()));
+      list.add(new Tile(right.add(direction.multiply(length - 1)),
+        (TileType) terminalClass.newInstance()));
+      list.add(new Tile(direction.multiply(length - 1),
+        (TileType) floorClass.newInstance()));
+      list.add(new Tile(left.add(direction.multiply(length - 1)),
+        (TileType) terminalClass.newInstance()));
 
-      list.add(
-          new Tile(right.add(direction.multiply(length)), 
-                   (TileType) cornerClass.newInstance()));
-      list.add(
-          new Tile(direction.multiply(length), 
-                   (TileType) terminalClass.newInstance()));
-      list.add(
-          new Tile(left.add(direction.multiply(length)), 
-                   (TileType) cornerClass.newInstance()));
+      list.add(new Tile(right.add(direction.multiply(length)),
+        (TileType) cornerClass.newInstance()));
+      list.add(new Tile(direction.multiply(length),
+        (TileType) terminalClass.newInstance()));
+      list.add(new Tile(left.add(direction.multiply(length)),
+        (TileType) cornerClass.newInstance()));
     } catch (InstantiationException e) {
     } catch (IllegalAccessException e) {
     }
@@ -102,7 +93,8 @@ public class PassageFactory {
   /**
    * Sets the baseLength.
    * 
-   * @param baseLength The baseLength to set
+   * @param baseLength
+   *          The baseLength to set
    */
   public void setBaseLength(int baseLength) {
     this.baseLength = baseLength;
@@ -111,7 +103,8 @@ public class PassageFactory {
   /**
    * Sets the direction.
    * 
-   * @param direction The direction to set
+   * @param direction
+   *          The direction to set
    */
   public void setDirection(Vector direction) {
     this.direction = direction;
@@ -156,7 +149,8 @@ public class PassageFactory {
   /**
    * Sets the cornerClass.
    * 
-   * @param cornerClass The cornerClass to set
+   * @param cornerClass
+   *          The cornerClass to set
    */
   public void setCornerClass(Class cornerClass) {
     this.cornerClass = cornerClass;
@@ -165,7 +159,8 @@ public class PassageFactory {
   /**
    * Sets the floorClass.
    * 
-   * @param floorClass The floorClass to set
+   * @param floorClass
+   *          The floorClass to set
    */
   public void setFloorClass(Class floorClass) {
     this.floorClass = floorClass;
@@ -174,7 +169,8 @@ public class PassageFactory {
   /**
    * Sets the terminalClass.
    * 
-   * @param terminalClass The terminalClass to set
+   * @param terminalClass
+   *          The terminalClass to set
    */
   public void setTerminalClass(Class terminalClass) {
     this.terminalClass = terminalClass;
@@ -183,23 +179,25 @@ public class PassageFactory {
   /**
    * Sets the wallClass.
    * 
-   * @param wallClass The wallClass to set
+   * @param wallClass
+   *          The wallClass to set
    */
   public void setWallClass(Class wallClass) {
     this.wallClass = wallClass;
   }
-	/**
-	 * @return
-	 */
-	public Random getRandomizer() {
-		return randomizer;
-	}
 
-	/**
-	 * @param random
-	 */
-	public void setRandomizer(Random random) {
-		randomizer = random;
-	}
+  /**
+   * @return
+   */
+  public Random getRandomizer() {
+    return randomizer;
+  }
+
+  /**
+   * @param random
+   */
+  public void setRandomizer(Random random) {
+    randomizer = random;
+  }
 
 }

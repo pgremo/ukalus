@@ -8,6 +8,7 @@ import ironfist.util.Predicate;
  * @author pmgremo
  */
 public class StairsPredicate implements Predicate {
+
   private String direction;
 
   /**
@@ -21,7 +22,8 @@ public class StairsPredicate implements Predicate {
         Portal portal = ((Floor) type).getPortal();
 
         if (portal instanceof Stairs) {
-          if (((Stairs) portal).getDirection().equals(direction)) {
+          if (((Stairs) portal).getDirection()
+            .equals(direction)) {
             return true;
           }
         }
@@ -43,7 +45,8 @@ public class StairsPredicate implements Predicate {
   /**
    * Sets the direction.
    * 
-   * @param direction The direction to set
+   * @param direction
+   *          The direction to set
    */
   public void setDirection(String direction) {
     this.direction = direction;

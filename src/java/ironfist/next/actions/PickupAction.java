@@ -4,13 +4,13 @@ import ironfist.next.Action;
 import ironfist.next.ActionType;
 import ironfist.next.Thing;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class PickupAction implements Action {
+
   private int time;
   private Thing performer;
   private Thing item;
@@ -51,7 +51,7 @@ public class PickupAction implements Action {
 
   /**
    * Returns the item.
-   *
+   * 
    * @return Item
    */
   public Thing getItem() {
@@ -60,7 +60,7 @@ public class PickupAction implements Action {
 
   /**
    * Returns the performer.
-   *
+   * 
    * @return Thing
    */
   public Thing getPerformer() {

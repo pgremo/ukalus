@@ -2,13 +2,13 @@ package ironfist;
 
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Roll {
+
   private Random randomizer;
   private boolean canFail;
   private boolean canTriumph;
@@ -22,7 +22,8 @@ public class Roll {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */

@@ -9,19 +9,19 @@ import java.io.RandomAccessFile;
 
 import junit.framework.TestCase;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class HashIndexTest extends TestCase {
+
   private File repos = new File("test.dat");
   private RandomAccessFile raf;
 
   /**
    * Constructor for HashIndexTest.
-   *
+   * 
    * @param arg0
    */
   public HashIndexTest(String arg0) {
@@ -30,8 +30,9 @@ public class HashIndexTest extends TestCase {
 
   /**
    * DOCUMENT ME!
-   *
-   * @throws Exception DOCUMENT ME!
+   * 
+   * @throws Exception
+   *           DOCUMENT ME!
    */
   public void testPut() throws Exception {
     long key = 1;

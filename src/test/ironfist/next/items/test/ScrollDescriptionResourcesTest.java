@@ -6,16 +6,16 @@ import java.util.ResourceBundle;
 
 import junit.framework.TestCase;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ScrollDescriptionResourcesTest extends TestCase {
+
   /**
    * Constructor for ScrollDescriptionResourcesTest.
-   *
+   * 
    * @param arg0
    */
   public ScrollDescriptionResourcesTest(String arg0) {
@@ -23,8 +23,7 @@ public class ScrollDescriptionResourcesTest extends TestCase {
   }
 
   public void testLoadResource() throws Exception {
-    ResourceBundle bundle = ResourceBundle.getBundle(
-        "ironfist.next.items.ScrollDescriptionResources");
+    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.ScrollDescriptionResources");
     Enumeration keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {
@@ -33,8 +32,11 @@ public class ScrollDescriptionResourcesTest extends TestCase {
     }
     keys = bundle.getKeys();
     String pattern = bundle.getString((String) keys.nextElement());
-    System.out.println(MessageFormat.format(pattern, new Object[] {new Integer(0)}));
-    System.out.println(MessageFormat.format(pattern, new Object[] {new Integer(1)}));
-    System.out.println(MessageFormat.format(pattern, new Object[] {new Integer(30)}));
+    System.out.println(MessageFormat.format(pattern,
+      new Object[]{new Integer(0)}));
+    System.out.println(MessageFormat.format(pattern,
+      new Object[]{new Integer(1)}));
+    System.out.println(MessageFormat.format(pattern, new Object[]{new Integer(
+      30)}));
   }
 }

@@ -18,13 +18,13 @@ import java.util.Set;
 import random.MersenneTwister;
 import syllableizer.Syllableizer;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ScrollDescriptionResources extends ResourceBundle {
+
   private static final String FILE_NAME = "data/wordlists/latin.txt";
   private static final int MAX_LABELS = 10;
   private static final int MAX_WORDS = 3;
@@ -68,8 +68,7 @@ public class ScrollDescriptionResources extends ResourceBundle {
                 label += " ";
               }
 
-              String[] syllables = gen.getSyllables(random.nextInt(
-                    MAX_SYLLABLES) + 1);
+              String[] syllables = gen.getSyllables(random.nextInt(MAX_SYLLABLES) + 1);
 
               for (int syllable = 0; syllable < syllables.length; syllable++) {
                 label += syllables[syllable];
@@ -83,8 +82,8 @@ public class ScrollDescriptionResources extends ResourceBundle {
 
           while (iterator.hasNext()) {
             contents.put("scroll.description." + contents.size(),
-              "{0,choice,-1#scroll|1#a scroll|1<{0,number,integer} scrolls} labeled \"" +
-              iterator.next() + "\"");
+              "{0,choice,-1#scroll|1#a scroll|1<{0,number,integer} scrolls} labeled \""
+                  + iterator.next() + "\"");
           }
 
           isLoaded = true;
@@ -106,7 +105,6 @@ public class ScrollDescriptionResources extends ResourceBundle {
    * @see java.util.ResourceBundle#handleGetObject(String)
    */
   protected Object handleGetObject(String key) {
-    return getContents()
-             .get(key);
+    return getContents().get(key);
   }
 }

@@ -1,3 +1,4 @@
+
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,15 +7,17 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author $author$
  */
-public class BeamCastingFOVApplet extends Applet implements MouseListener,
-                                                            KeyListener {
+public class BeamCastingFOVApplet extends Applet
+    implements
+      MouseListener,
+      KeyListener {
+
   static int[] MASK = new int[16];
 
   static {
@@ -103,7 +106,6 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
           }
         } // end of beam throwing loop
 
-
         // QUADRANT II beam
         maxi = 32;
         mini = 1;
@@ -131,7 +133,6 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
           }
         } // end of beam throwing loop
 
-
         // QUADRANT III beam
         maxi = 32;
         mini = 1;
@@ -158,7 +159,6 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
             }
           }
         } // end of beam throwing loop
-
 
         // QUADRANT IV beam
         maxi = 32;
@@ -265,7 +265,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param g DOCUMENT ME!
+   * @param g
+   *          DOCUMENT ME!
    */
   public final synchronized void update(Graphics g) {
     paint(g);
@@ -274,7 +275,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param g DOCUMENT ME!
+   * @param g
+   *          DOCUMENT ME!
    */
   public void paint(Graphics g) {
     Color dark = new Color(17, 17, 17);
@@ -318,7 +320,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void mouseClicked(MouseEvent e) {
   }
@@ -326,7 +329,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void mousePressed(MouseEvent e) {
     map[e.getX() >> 4] ^= (1 << (31 - (e.getY() >> 4)));
@@ -336,7 +340,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void mouseReleased(MouseEvent e) {
   }
@@ -344,7 +349,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void mouseEntered(MouseEvent e) {
   }
@@ -352,7 +358,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void mouseExited(MouseEvent e) {
   }
@@ -360,7 +367,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void keyPressed(KeyEvent e) {
   }
@@ -368,7 +376,8 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void keyReleased(KeyEvent e) {
   }
@@ -376,66 +385,67 @@ public class BeamCastingFOVApplet extends Applet implements MouseListener,
   /**
    * DOCUMENT ME!
    * 
-   * @param e DOCUMENT ME!
+   * @param e
+   *          DOCUMENT ME!
    */
   public void keyTyped(KeyEvent e) {
     int temp;
     char thekey = e.getKeyChar();
 
     switch (thekey) {
-    case 'u':
-    case 'i':
-    case 'o':
+      case 'u' :
+      case 'i' :
+      case 'o' :
 
-      //go up
-      for (int x = 0; x < 32; x++) {
-        map[x] = (map[x] >>> 1) | (map[x] << 31);
-      }
+        //go up
+        for (int x = 0; x < 32; x++) {
+          map[x] = (map[x] >>> 1) | (map[x] << 31);
+        }
 
-      break;
+        break;
 
-    case 'm':
-    case ',':
-    case '.':
+      case 'm' :
+      case ',' :
+      case '.' :
 
-      //go down
-      for (int x = 0; x < 32; x++) {
-        map[x] = (map[x] << 1) | (map[x] >>> 31);
-      }
+        //go down
+        for (int x = 0; x < 32; x++) {
+          map[x] = (map[x] << 1) | (map[x] >>> 31);
+        }
 
-      break;
+        break;
     }
 
     switch (thekey) {
-    case 'u':
-    case 'j':
-    case 'm':
+      case 'u' :
+      case 'j' :
+      case 'm' :
 
-      //go left
-      temp = map[31];
+        //go left
+        temp = map[31];
 
-      for (int x = 31; x > 0; --x) {
-        map[x] = map[x - 1];
-      }
+        for (int x = 31; x > 0; --x) {
+          map[x] = map[x - 1];
+        }
 
-      map[0] = temp;
+        map[0] = temp;
 
-      break;
+        break;
 
-    case 'o':
-    case 'l':
-    case '.':
+      case 'o' :
+      case 'l' :
+      case '.' :
 
-      //go right
-      temp = map[0];
+        //go right
+        temp = map[0];
 
-      for (int x = 0; x < 31; x++) {
-        map[x] = map[x + 1];
-      }
+        for (int x = 0; x < 31; x++) {
+          map[x] = map[x + 1];
+        }
 
-      map[31] = temp;
+        map[31] = temp;
 
-      break;
+        break;
     }
 
     repaint();

@@ -7,16 +7,18 @@ import java.util.Random;
 
 import random.MersenneTwister;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class MazeGenerator {
-  private static final Vector[] DIRECTIONS = new Vector[] {
-      new Vector(0, 1), new Vector(1, 0), new Vector(0, -1), new Vector(-1, 0)
-    };
+
+  private static final Vector[] DIRECTIONS = new Vector[]{
+      new Vector(0, 1),
+      new Vector(1, 0),
+      new Vector(0, -1),
+      new Vector(-1, 0)};
   private Random random;
   private int height;
   private int width;
@@ -31,9 +33,8 @@ public class MazeGenerator {
       }
     }
 
-    iterate(
-      new Vector((random.nextInt((height - 1) / 2) * 2) + 1,
-        (random.nextInt((width - 1) / 2) * 2) + 1));
+    iterate(new Vector((random.nextInt((height - 1) / 2) * 2) + 1,
+      (random.nextInt((width - 1) / 2) * 2) + 1));
 
     return walls;
   }
@@ -49,9 +50,9 @@ public class MazeGenerator {
       if (walls[(int) nextWall.getX()][(int) nextWall.getY()]) {
         Vector nextPassage = nextWall.add(DIRECTIONS[direction]);
 
-        if ((nextPassage.getX() > 0) && (nextPassage.getX() < height) &&
-            (nextPassage.getY() > 0) && (nextPassage.getY() < width) &&
-            walls[(int) nextPassage.getX()][(int) nextPassage.getY()]) {
+        if ((nextPassage.getX() > 0) && (nextPassage.getX() < height)
+            && (nextPassage.getY() > 0) && (nextPassage.getY() < width)
+            && walls[(int) nextPassage.getX()][(int) nextPassage.getY()]) {
           walls[(int) nextWall.getX()][(int) nextWall.getY()] = false;
           iterate(nextPassage);
         }
@@ -63,7 +64,7 @@ public class MazeGenerator {
 
   /**
    * Returns the random.
-   *
+   * 
    * @return Random
    */
   public Random getRandom() {
@@ -72,8 +73,9 @@ public class MazeGenerator {
 
   /**
    * Sets the random.
-   *
-   * @param random The random to set
+   * 
+   * @param random
+   *          The random to set
    */
   public void setRandom(Random random) {
     this.random = random;
@@ -81,7 +83,7 @@ public class MazeGenerator {
 
   /**
    * Returns the height.
-   *
+   * 
    * @return int
    */
   public int getHeight() {
@@ -90,8 +92,9 @@ public class MazeGenerator {
 
   /**
    * Sets the height.
-   *
-   * @param height The height to set
+   * 
+   * @param height
+   *          The height to set
    */
   public void setHeight(int height) {
     this.height = ((height - 1) / 2 * 2) + 1;
@@ -99,7 +102,7 @@ public class MazeGenerator {
 
   /**
    * Returns the width.
-   *
+   * 
    * @return int
    */
   public int getWidth() {
@@ -108,16 +111,17 @@ public class MazeGenerator {
 
   /**
    * Sets the width.
-   *
-   * @param width The width to set
+   * 
+   * @param width
+   *          The width to set
    */
   public void setWidth(int width) {
     this.width = ((width - 1) / 2 * 2) + 1;
   }
 
   public static void main(String[] args) {
-  	long seed = 1;
-  	Random random = new MersenneTwister(seed);
+    long seed = 1;
+    Random random = new MersenneTwister(seed);
     MazeGenerator generator = new MazeGenerator();
     generator.setRandom(random);
     generator.setHeight(13);
@@ -137,7 +141,7 @@ public class MazeGenerator {
 
       System.out.println();
     }
-    
+
     generator.setRandom(new MersenneTwister(seed));
     boolean[][] result2 = generator.generate();
     System.out.println("result == result2 = " + Arrays.equals(result, result2));

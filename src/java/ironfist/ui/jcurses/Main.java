@@ -8,13 +8,13 @@ import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.MenuList;
 import jcurses.widgets.Window;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Main implements ItemListener {
+
   private static final String LOAD = "Load";
   private static final String NEW = "New";
   private static final String QUIT = "Quit";
@@ -51,7 +51,7 @@ public class Main implements ItemListener {
    * DOCUMENT ME!
    */
   private void load() {
-  	new Load().run();
+    new Load().run();
   }
 
   /**
@@ -66,12 +66,14 @@ public class Main implements ItemListener {
    */
   public void run() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                        false, null);
+    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
+      false, null);
 
     GridLayoutManager layout = new GridLayoutManager(1, 1);
-    window.getRootPanel().setPanelColors(colors);
-    window.getRootPanel().setLayoutManager(layout);
+    window.getRootPanel()
+      .setPanelColors(colors);
+    window.getRootPanel()
+      .setLayoutManager(layout);
     window.setShadow(false);
 
     select = new MenuList();
@@ -82,17 +84,19 @@ public class Main implements ItemListener {
     select.add(LOAD);
     select.add(QUIT);
 
-    layout.addWidget(select, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(select, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_CENTER);
     window.show();
   }
 
   /**
    * DOCUMENT ME!
    * 
-   * @param args DOCUMENT ME!
+   * @param args
+   *          DOCUMENT ME!
    * 
-   * @throws Exception DOCUMENT ME!
+   * @throws Exception
+   *           DOCUMENT ME!
    */
   static public void main(String[] args) throws Exception {
     Main main = new Main();

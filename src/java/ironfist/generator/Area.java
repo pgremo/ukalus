@@ -10,13 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Area {
+
   private Random randomizer;
   private Vector coordinate;
   private List list;
@@ -28,7 +28,8 @@ public class Area {
   /**
    * Creates a new Area object.
    * 
-   * @param list DOCUMENT ME!
+   * @param list
+   *          DOCUMENT ME!
    */
   public Area(List list) {
     this.list = list;
@@ -37,7 +38,8 @@ public class Area {
   /**
    * DOCUMENT ME!
    * 
-   * @param predicate DOCUMENT ME!
+   * @param predicate
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -66,7 +68,8 @@ public class Area {
   /**
    * DOCUMENT ME!
    * 
-   * @param coordinate DOCUMENT ME!
+   * @param coordinate
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -77,7 +80,8 @@ public class Area {
     while (iterator.hasNext() && (result == null)) {
       Tile current = (Tile) iterator.next();
 
-      if (current.getCoordinate().equals(coordinate)) {
+      if (current.getCoordinate()
+        .equals(coordinate)) {
         result = current;
       }
     }
@@ -97,7 +101,8 @@ public class Area {
   /**
    * Sets the coordinate.
    * 
-   * @param coordinate The coordinate to set
+   * @param coordinate
+   *          The coordinate to set
    */
   public void setCoordinate(Vector coordinate) {
     this.coordinate = coordinate;
@@ -106,22 +111,26 @@ public class Area {
   /**
    * DOCUMENT ME!
    * 
-   * @param level DOCUMENT ME!
+   * @param level
+   *          DOCUMENT ME!
    */
   public void place(Level level) {
     Iterator iterator = list.iterator();
 
     while (iterator.hasNext()) {
       Tile current = (Tile) iterator.next();
-      level.set(current.getCoordinate().add(coordinate), current.getTileType());
+      level.set(current.getCoordinate()
+        .add(coordinate), current.getTileType());
     }
   }
 
   /**
    * DOCUMENT ME!
    * 
-   * @param level DOCUMENT ME!
-   * @param comparator DOCUMENT ME!
+   * @param level
+   *          DOCUMENT ME!
+   * @param comparator
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -131,15 +140,17 @@ public class Area {
 
     while (iterator.hasNext() && result) {
       Tile current = (Tile) iterator.next();
-      Vector currentCoordinate = current.getCoordinate().add(coordinate);
+      Vector currentCoordinate = current.getCoordinate()
+        .add(coordinate);
 
-      if ((currentCoordinate.getX() < 0) || 
-          (currentCoordinate.getX() > level.getHeight() - 1) || 
-          (currentCoordinate.getY() < 0) || 
-          (currentCoordinate.getY() > level.getWidth() - 1)) {
+      if ((currentCoordinate.getX() < 0)
+          || (currentCoordinate.getX() > level.getHeight() - 1)
+          || (currentCoordinate.getY() < 0)
+          || (currentCoordinate.getY() > level.getWidth() - 1)) {
         result = false;
       } else {
-        Tile tile = level.get(current.getCoordinate().add(coordinate));
+        Tile tile = level.get(current.getCoordinate()
+          .add(coordinate));
         result = (comparator.compare(tile, current) == 0);
       }
     }

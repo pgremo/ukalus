@@ -13,20 +13,20 @@ import next.server.Request;
 import next.server.Response;
 import next.server.Server;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class TestClient {
+
   private static final String EXIT_PARAMETER = "exit";
 
   public static final void main(String[] args) throws Exception {
     Server server = new Server();
     StreamTokenizer tokenizer = new StreamTokenizer(new InputStreamReader(
-          System.in));
+      System.in));
     tokenizer.eolIsSignificant(true);
 
     boolean quit = false;

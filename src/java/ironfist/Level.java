@@ -11,13 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Level implements Serializable {
+
   private static Roll roll;
 
   static {
@@ -39,7 +39,8 @@ public class Level implements Serializable {
   /**
    * Creates a new Level object.
    * 
-   * @param name DOCUMENT ME!
+   * @param name
+   *          DOCUMENT ME!
    */
   public Level(String name) {
     this.name = name;
@@ -53,12 +54,11 @@ public class Level implements Serializable {
 
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {
-        if ((tiles[x][y] != null) && 
-            tiles[x][y].getTileType() instanceof Floor) {
+        if ((tiles[x][y] != null) && tiles[x][y].getTileType() instanceof Floor) {
           Creature current = ((Floor) tiles[x][y].getTileType()).getCreature();
 
           if (current != null) {
-            //REDTAG - invented quickness.  Need to get from creature.
+            //REDTAG - invented quickness. Need to get from creature.
             int initiative = roll.roll(3);
 
             do {
@@ -75,7 +75,8 @@ public class Level implements Serializable {
     for (int index = 0; index < list.size(); index++) {
       Creature creature = ((InitiativeCell) list.get(index)).getCreature();
 
-      if (creature.getLevel().equals(this)) {
+      if (creature.getLevel()
+        .equals(this)) {
         creature.activate();
       }
     }
@@ -102,7 +103,8 @@ public class Level implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param coordinate DOCUMENT ME!
+   * @param coordinate
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -123,7 +125,8 @@ public class Level implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param predicate DOCUMENT ME!
+   * @param predicate
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -149,16 +152,17 @@ public class Level implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param coordinate DOCUMENT ME!
-   * @param type DOCUMENT ME!
+   * @param coordinate
+   *          DOCUMENT ME!
+   * @param type
+   *          DOCUMENT ME!
    */
   public void set(Vector coordinate, TileType type) {
     if (type == null) {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = null;
     } else {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = new Tile(
-                                                                    coordinate, 
-                                                                    type);
+        coordinate, type);
     }
   }
 
@@ -183,13 +187,15 @@ public class Level implements Serializable {
   /**
    * Sets the active.
    * 
-   * @param active The active to set
+   * @param active
+   *          The active to set
    */
   public void setActive(boolean active) {
     this.active = active;
   }
 
   private class InitiativeCell {
+
     private int initiative;
     private Creature creature;
 
@@ -218,6 +224,7 @@ public class Level implements Serializable {
   }
 
   private class ReverseIntegerComparator implements Comparator {
+
     /**
      * @see java.util.Comparator#compare(Object, Object)
      */

@@ -2,13 +2,13 @@ package ironfist;
 
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Key {
+
   private static final int MAX_KEYS = 20;
   private static Random random;
   private static Key[] keys;
@@ -49,7 +49,8 @@ public class Key {
   /**
    * DOCUMENT ME!
    * 
-   * @param object DOCUMENT ME!
+   * @param object
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */

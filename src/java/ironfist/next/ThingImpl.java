@@ -3,13 +3,13 @@ package ironfist.next;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ThingImpl implements Thing {
+
   private Tile tile;
   private Map properties;
   private Map reactions;
@@ -53,7 +53,7 @@ public class ThingImpl implements Thing {
    * @see ironfist.next.Thing#activate()
    */
   public void activate() {
-    int speed = ((Integer)((Node) properties.get(Attribute.SPEED)).getValue()).intValue();
+    int speed = ((Integer) ((Node) properties.get(Attribute.SPEED)).getValue()).intValue();
     action.tick(speed);
 
     while (action.isReady()) {
@@ -67,7 +67,7 @@ public class ThingImpl implements Thing {
 
   /**
    * Returns the action.
-   *
+   * 
    * @return Action
    */
   public Action getAction() {
@@ -76,8 +76,9 @@ public class ThingImpl implements Thing {
 
   /**
    * Sets the action.
-   *
-   * @param action The action to set
+   * 
+   * @param action
+   *          The action to set
    */
   public void setAction(Action action) {
     this.action = action;
@@ -85,7 +86,7 @@ public class ThingImpl implements Thing {
 
   /**
    * Returns the controller.
-   *
+   * 
    * @return Controller
    */
   public Controller getController() {
@@ -94,8 +95,9 @@ public class ThingImpl implements Thing {
 
   /**
    * Sets the controller.
-   *
-   * @param controller The controller to set
+   * 
+   * @param controller
+   *          The controller to set
    */
   public void setController(Controller controller) {
     this.controller = controller;

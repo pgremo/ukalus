@@ -2,16 +2,13 @@ package random;
 
 import java.util.Random;
 
-
 public class MersenneTwister extends Random {
+
   private static final int MASK = 0xffff0000;
   private static final int MULTIPLIER = 69069;
   private static final int MAX = 624;
   private static final int MIN = 397;
-  private static int[] MAG = new int[] {
-      0x0,
-      0x9908b0df
-    };
+  private static int[] MAG = new int[]{0x0, 0x9908b0df};
   private int[] values;
   private int index;
 
@@ -24,7 +21,7 @@ public class MersenneTwister extends Random {
 
   /**
    * Constructor for MersenneTwister.
-   *
+   * 
    * @param seed
    */
   public MersenneTwister(long seed) {
@@ -32,11 +29,12 @@ public class MersenneTwister extends Random {
   }
 
   /**
-   * Initalize the pseudo random number generator.  Don't pass in a long that's
+   * Initalize the pseudo random number generator. Don't pass in a long that's
    * bigger than an int (Mersenne Twister only uses the first 32 bits for its
    * seed).
-   *
-   * @param seed used to initialize.
+   * 
+   * @param seed
+   *          used to initialize.
    */
   synchronized public void setSeed(long value) {
     super.setSeed(value);
@@ -53,10 +51,11 @@ public class MersenneTwister extends Random {
   }
 
   /**
-   * Returns an integer with <i>bits</i> bits filled with a random number.
-   *
-   * @param bits required
-   *
+   * Returns an integer with <i>bits </i> bits filled with a random number.
+   * 
+   * @param bits
+   *          required
+   * 
    * @return integer with bits of random bites
    */
   protected int next(int bits) {
@@ -66,14 +65,14 @@ public class MersenneTwister extends Random {
       int i;
 
       for (i = 0; i < (MAX - MIN); i++) {
-        y = (values[i] & Integer.MIN_VALUE) |
-          (values[i + 1] & Integer.MAX_VALUE);
+        y = (values[i] & Integer.MIN_VALUE)
+            | (values[i + 1] & Integer.MAX_VALUE);
         values[i] = values[i + MIN] ^ (y >>> 1) ^ MAG[y & 0x1];
       }
 
       for (; i < (MAX - 1); i++) {
-        y = (values[i] & Integer.MIN_VALUE) |
-          (values[i + 1] & Integer.MAX_VALUE);
+        y = (values[i] & Integer.MIN_VALUE)
+            | (values[i + 1] & Integer.MAX_VALUE);
         values[i] = values[i + (MIN - MAX)] ^ (y >>> 1) ^ MAG[y & 0x1];
       }
 

@@ -2,10 +2,11 @@ package ironfist.next;
 
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public interface Thing {
+
   void activate();
 
   Tile getTile();

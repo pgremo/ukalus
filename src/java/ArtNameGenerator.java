@@ -30,6 +30,7 @@ import syllableizer.Syllableizer;
  * @author pmgremo
  */
 public class ArtNameGenerator extends ListResourceBundle {
+
   private static final String PREFIX = "art.description.";
 
   private static final String FILE_NAME = "data/wordlists/tepa.txt";
@@ -40,7 +41,7 @@ public class ArtNameGenerator extends ListResourceBundle {
 
   private Random random = new MersenneTwister();
 
-  private String[] numberNames = new String[] {
+  private String[] numberNames = new String[]{
       "One",
       "Two",
       "Three",
@@ -52,9 +53,9 @@ public class ArtNameGenerator extends ListResourceBundle {
       "Nine",
       "Ten",
       "Eleven",
-      "Twelve" };
+      "Twelve"};
 
-  private Factory methods = new RandomWordFactory(random, new String[] {
+  private Factory methods = new RandomWordFactory(random, new String[]{
       "Methods",
       "Ways",
       "Means",
@@ -68,9 +69,9 @@ public class ArtNameGenerator extends ListResourceBundle {
       "Rings",
       "Channels",
       "Styles",
-      "Doors" });
+      "Doors"});
 
-  private Factory nouns = new RandomWordFactory(random, new String[] {
+  private Factory nouns = new RandomWordFactory(random, new String[]{
 
       //Creatures
       "Tiger",
@@ -123,9 +124,9 @@ public class ArtNameGenerator extends ListResourceBundle {
       "Skull",
       "Stone",
       "Storm",
-      "Warp" });
+      "Warp"});
 
-  private Factory adjectives = new RandomWordFactory(random, new String[] {
+  private Factory adjectives = new RandomWordFactory(random, new String[]{
 
       // Colors
       "White",
@@ -186,14 +187,14 @@ public class ArtNameGenerator extends ListResourceBundle {
       "Ruby",
       "Saphire",
       "Pearl",
-      "Emerald" });
+      "Emerald"});
 
   private Factory names = new RandomNameFactory(random, FILE_NAME,
-      MAX_SYLLABLES);
+    MAX_SYLLABLES);
 
   private Factory numbers = new RandomNumberFactory(random, 2, 108, numberNames);
 
-  private Factory[] factories = new Factory[] {
+  private Factory[] factories = new Factory[]{
       names,
       adjectives,
       adjectives,
@@ -201,17 +202,15 @@ public class ArtNameGenerator extends ListResourceBundle {
       numbers,
       methods,
       adjectives,
-      nouns };
+      nouns};
 
   private Object[][][] rules = {
-      { { new Integer(15), " {0}" }, { new Integer(15), " {0}''''s" } },
-      { { new Integer(50), " {1}" } },
-      { { new Integer(10), " {2}" } },
-      { { new Integer(50), " {3}" } },
-      { { new Integer(100), " '{0}'" } },
-      {
-          { new Integer(25), " of {4} {5}" },
-          { new Integer(25), " of the {6} {7}" } }, };
+      {{new Integer(15), " {0}"}, {new Integer(15), " {0}''''s"}},
+      {{new Integer(50), " {1}"}},
+      {{new Integer(10), " {2}"}},
+      {{new Integer(50), " {3}"}},
+      {{new Integer(100), " '{0}'"}},
+      {{new Integer(25), " of {4} {5}"}, {new Integer(25), " of the {6} {7}"}},};
 
   private String generateName() {
     Set words = new ArraySet();
@@ -259,7 +258,8 @@ public class ArtNameGenerator extends ListResourceBundle {
     }
 
     Object[][] result = new Object[contents.size()][2];
-    Iterator iterator = contents.entrySet().iterator();
+    Iterator iterator = contents.entrySet()
+      .iterator();
 
     for (int index = 0; iterator.hasNext(); index++) {
       Map.Entry current = (Map.Entry) iterator.next();
@@ -272,23 +272,24 @@ public class ArtNameGenerator extends ListResourceBundle {
 
   public final static void main(String[] args) throws Exception {
     Random random = new MersenneTwister();
-    String[] types = new String[] { "Fist", "Palm", "Hand", "Claw", "Foot" };
-    ResourceBundle bundle = ResourceBundle.getBundle(ArtNameGenerator.class
-        .getName());
+    String[] types = new String[]{"Fist", "Palm", "Hand", "Claw", "Foot"};
+    ResourceBundle bundle = ResourceBundle.getBundle(ArtNameGenerator.class.getName());
     Enumeration keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {
       String pattern = bundle.getString((String) keys.nextElement());
       String type = types[random.nextInt(types.length)];
-      System.out.println(MessageFormat.format(pattern, new Object[] { type }));
+      System.out.println(MessageFormat.format(pattern, new Object[]{type}));
     }
   }
 
   private interface Factory {
+
     Object generate(Object argument);
   }
 
   private class RandomWordFactory implements Factory {
+
     private Random random;
 
     private String[] items;
@@ -304,6 +305,7 @@ public class ArtNameGenerator extends ListResourceBundle {
   }
 
   private class RandomNumberFactory implements Factory {
+
     private String[] names;
 
     private Random random;
@@ -329,6 +331,7 @@ public class ArtNameGenerator extends ListResourceBundle {
   }
 
   private class RandomNameFactory implements Factory {
+
     private Random random;
 
     private Syllableizer gen;
@@ -364,7 +367,8 @@ public class ArtNameGenerator extends ListResourceBundle {
         result += syllables[syllable];
       }
 
-      result = result.substring(0, 1).toUpperCase() + result.substring(1);
+      result = result.substring(0, 1)
+        .toUpperCase() + result.substring(1);
 
       return result;
     }

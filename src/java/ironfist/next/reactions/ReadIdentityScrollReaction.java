@@ -10,13 +10,13 @@ import ironfist.next.actions.ReadAction;
 
 import java.util.Collection;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ReadIdentityScrollReaction implements Reaction {
+
   /**
    * @see ironfist.next.Reaction#react(Action)
    */
@@ -29,10 +29,10 @@ public class ReadIdentityScrollReaction implements Reaction {
     if (inventory != null) {
       int defaultChoice = -1;
       ChoiceCallback callback = new ChoiceCallback("inventory.select",
-          inventory.toArray(), new int[1], false, defaultChoice);
+        inventory.toArray(), new int[1], false, defaultChoice);
 
       performer.getController()
-               .handleCallback(callback);
+        .handleCallback(callback);
 
       int selected = callback.getSelected()[0];
 

@@ -5,13 +5,13 @@ import ironfist.next.ActionType;
 import ironfist.next.Slot;
 import ironfist.next.Thing;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class WearAction implements Action {
+
   private int time;
   private Thing performer;
   private Thing item;
@@ -54,7 +54,7 @@ public class WearAction implements Action {
 
   /**
    * Returns the item.
-   *
+   * 
    * @return Thing
    */
   public Thing getItem() {
@@ -63,7 +63,7 @@ public class WearAction implements Action {
 
   /**
    * Returns the performer.
-   *
+   * 
    * @return Thing
    */
   public Thing getPerformer() {
@@ -72,7 +72,7 @@ public class WearAction implements Action {
 
   /**
    * Returns the slot.
-   *
+   * 
    * @return Slot
    */
   public Slot getSlot() {

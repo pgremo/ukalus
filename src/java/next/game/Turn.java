@@ -6,22 +6,23 @@
  */
 package next.game;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Turn implements CommandProcessor {
+
   private static final int TIME_OUT = 5000;
   private Command[] commands;
   private int index;
   private boolean done;
 
   public Turn(Game game) {
-System.out.println("new turn");  	
-    commands = new Command[game.getPlayers().size()];
+    System.out.println("new turn");
+    commands = new Command[game.getPlayers()
+      .size()];
     index = 0;
     done = false;
   }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class Node {
+
   private Node parent;
   private Collection children;
   private Object value;
@@ -21,7 +21,7 @@ public class Node {
 
   /**
    * Returns the parent.
-   *
+   * 
    * @return Node
    */
   public Node getParent() {
@@ -30,8 +30,9 @@ public class Node {
 
   /**
    * Sets the parent.
-   *
-   * @param parent The parent to set
+   * 
+   * @param parent
+   *          The parent to set
    */
   public void setParent(Node parent) {
     this.parent = parent;
@@ -39,7 +40,7 @@ public class Node {
 
   /**
    * Returns the value.
-   *
+   * 
    * @return Object
    */
   public Object getValue() {
@@ -48,8 +49,9 @@ public class Node {
 
   /**
    * Sets the value.
-   *
-   * @param value The value to set
+   * 
+   * @param value
+   *          The value to set
    */
   public void setValue(Object value) {
     this.value = value;

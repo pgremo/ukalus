@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Floor implements TileType, Serializable {
+
   private Door door;
   private Creature creature;
   private Collection things;
@@ -33,7 +33,8 @@ public class Floor implements TileType, Serializable {
   /**
    * Sets the creature.
    * 
-   * @param creature The creature to set
+   * @param creature
+   *          The creature to set
    */
   public void setCreature(Creature creature) {
     this.creature = creature;
@@ -42,7 +43,8 @@ public class Floor implements TileType, Serializable {
   /**
    * Adds a thing
    * 
-   * @param value The thing to add
+   * @param value
+   *          The thing to add
    */
   public void addThing(Thing value) {
     things.add(value);
@@ -51,7 +53,8 @@ public class Floor implements TileType, Serializable {
   /**
    * Removes a thing
    * 
-   * @param value The thing to remove
+   * @param value
+   *          The thing to remove
    */
   public void removeThing(Thing value) {
     things.remove(value);
@@ -87,7 +90,8 @@ public class Floor implements TileType, Serializable {
   /**
    * Sets the connector.
    * 
-   * @param value The connector to set
+   * @param value
+   *          The connector to set
    */
   public void setPortal(Portal value) {
     this.portal = value;
@@ -105,7 +109,8 @@ public class Floor implements TileType, Serializable {
   /**
    * Sets the door.
    * 
-   * @param value The door to set
+   * @param value
+   *          The door to set
    */
   public void setDoor(Door value) {
     this.door = value;

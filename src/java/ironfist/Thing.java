@@ -2,13 +2,13 @@ package ironfist;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Thing implements Serializable {
+
   private Creature owner;
 
   /**
@@ -23,7 +23,8 @@ public class Thing implements Serializable {
   /**
    * Sets the owner.
    * 
-   * @param owner The owner to set
+   * @param owner
+   *          The owner to set
    */
   public void setOwner(Creature owner) {
     this.owner = owner;

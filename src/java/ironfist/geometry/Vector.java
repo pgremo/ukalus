@@ -2,21 +2,23 @@ package ironfist.geometry;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Vector implements Cloneable, Serializable {
+
   private double x;
   private double y;
 
   /**
    * Creates a new Coordinate object.
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    */
   public Vector(double x, double y) {
     this.x = x;
@@ -44,7 +46,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -55,7 +58,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -66,7 +70,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -77,7 +82,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -97,7 +103,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -117,7 +124,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -128,7 +136,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -147,7 +156,8 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -161,19 +171,21 @@ public class Vector implements Cloneable, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
   public Vector rotate(Vector value) {
-    return new Vector((x * value.getX()) - (y * value.getY()), 
-                      (x * value.getY()) + (y * value.getX()));
+    return new Vector((x * value.getX()) - (y * value.getY()),
+      (x * value.getY()) + (y * value.getX()));
   }
 
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */

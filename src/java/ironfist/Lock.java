@@ -6,13 +6,15 @@ package ironfist;
  * @author pmgremo
  */
 public class Lock {
+
   private Key key;
   private boolean locked;
 
   /**
    * Creates a new Lock object.
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    */
   public Lock(Key key) {
     this.key = key;
@@ -21,7 +23,8 @@ public class Lock {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -34,7 +37,8 @@ public class Lock {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */

@@ -10,14 +10,14 @@ import next.server.Request;
 import next.server.Response;
 import next.server.Session;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public interface Command {
+
   boolean isTurn();
 
   void setRequest(Request request);

@@ -2,10 +2,11 @@ package ironfist.next;
 
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class Slot {
+
   public static final Slot HEAD = new Slot("head");
   public static final Slot NECK = new Slot("neck");
   public static final Slot BODY = new Slot("body");

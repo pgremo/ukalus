@@ -8,13 +8,13 @@ import jcurses.system.Toolkit;
 import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.Window;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Game implements ActionListener {
+
   private Creature hero;
   private Window window;
   private JCursesClient client;
@@ -23,7 +23,8 @@ public class Game implements ActionListener {
   /**
    * Creates a new Game object.
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public Game(Creature creature) {
     hero = creature;
@@ -34,21 +35,23 @@ public class Game implements ActionListener {
    */
   public void run() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                        false, null);
+    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
+      false, null);
 
-    GridLayoutManager layout = new GridLayoutManager(1, 
-                                                     Toolkit.getScreenHeight());
-    window.getRootPanel().setPanelColors(colors);
-    window.getRootPanel().setLayoutManager(layout);
+    GridLayoutManager layout = new GridLayoutManager(1,
+      Toolkit.getScreenHeight());
+    window.getRootPanel()
+      .setPanelColors(colors);
+    window.getRootPanel()
+      .setLayoutManager(layout);
     window.setShadow(false);
 
     client = new JCursesClient(hero);
     hero.setClient(client);
     client.addActionListener(this);
 
-    layout.addWidget(client, 0, 2, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(client, 0, 2, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_CENTER);
 
     runner = new Runner(client, hero);
     new Thread(runner).start();

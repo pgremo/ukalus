@@ -4,21 +4,23 @@ import ironfist.geometry.Vector;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Tile implements Serializable {
+
   private Vector coordinate;
   private TileType type;
 
   /**
    * Creates a new Tile object.
    * 
-   * @param coordinate DOCUMENT ME!
-   * @param type DOCUMENT ME!
+   * @param coordinate
+   *          DOCUMENT ME!
+   * @param type
+   *          DOCUMENT ME!
    */
   public Tile(Vector coordinate, TileType type) {
     this.coordinate = coordinate;
@@ -46,7 +48,8 @@ public class Tile implements Serializable {
   /**
    * Sets the type.
    * 
-   * @param type The type to set
+   * @param type
+   *          The type to set
    */
   public void setTileType(TileType type) {
     this.type = type;

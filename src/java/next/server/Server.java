@@ -6,14 +6,14 @@
  */
 package next.server;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Server {
+
   private SessionManager sessionManager = new SessionManager();
   private ApplicationManager applicationManager = new ApplicationManager();
 

@@ -14,19 +14,21 @@ import next.server.Session;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Game implements Application {
+
   private CommandManager commandManager = new CommandManager();
   private CommandProcessorManager processorManager = new CommandProcessorManager();
   private Collection players = new ArrayList();
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see next.server.Application#process(next.server.Command)
    */
   public void service(Request request, Response response, Session session) {

@@ -5,13 +5,13 @@ import ironfist.geometry.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class BeamCastingVision {
+
   private int radius;
   private Level level;
   private int originX;
@@ -21,8 +21,10 @@ public class BeamCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -33,8 +35,10 @@ public class BeamCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -58,8 +62,10 @@ public class BeamCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
     Tile tile = level.get(new Vector(x, y));
@@ -102,7 +108,6 @@ public class BeamCastingVision {
       }
     }
 
-
     // Set 0,0 to be visible even if the player is
     // standing on something opaque
     visible1[0][0] = true;
@@ -115,7 +120,6 @@ public class BeamCastingVision {
     for (y = 1; trans1[0][y] && (y < radius); y++) {
       visible1[0][y] = true;
     }
-
 
     // Set 0,0 to be visible even if the player is
     // standing on something opaque
@@ -130,7 +134,6 @@ public class BeamCastingVision {
       visible2[0][y] = true;
     }
 
-
     // Set 0,0 to be visible even if the player is
     // standing on something opaque
     visible3[0][0] = true;
@@ -143,7 +146,6 @@ public class BeamCastingVision {
     for (y = 1; trans3[0][y] && (y < radius); y++) {
       visible3[0][y] = true;
     }
-
 
     // Set 0,0 to be visible even if the player is
     // standing on something opaque
@@ -311,10 +313,14 @@ public class BeamCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param map DOCUMENT ME!
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
-   * @param maxRadius DOCUMENT ME!
+   * @param map
+   *          DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
+   * @param maxRadius
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */

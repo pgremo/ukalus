@@ -10,13 +10,13 @@ import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.Label;
 import jcurses.widgets.Window;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Create implements ValueChangedListener {
+
   private InputField nameField;
   private Window nameWindow;
 
@@ -25,26 +25,28 @@ public class Create implements ValueChangedListener {
    */
   public void run() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    nameWindow = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                            false, null);
+    nameWindow = new Window(Toolkit.getScreenWidth(),
+      Toolkit.getScreenHeight(), false, null);
 
     GridLayoutManager layout = new GridLayoutManager(2, 1);
-    nameWindow.getRootPanel().setPanelColors(colors);
-    nameWindow.getRootPanel().setLayoutManager(layout);
+    nameWindow.getRootPanel()
+      .setPanelColors(colors);
+    nameWindow.getRootPanel()
+      .setLayoutManager(layout);
     nameWindow.setShadow(false);
 
     Label label = new Label("Enter Name:");
     label.setColors(colors);
-    layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_RIGHT);
+    layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_RIGHT);
 
     nameField = new InputField(20);
     nameField.setTextComponentColors(colors);
     nameField.setDelimiter(' ');
     nameField.setDelimiterColors(colors);
     nameField.addListener(this);
-    layout.addWidget(nameField, 1, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_LEFT);
+    layout.addWidget(nameField, 1, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_LEFT);
 
     nameWindow.show();
   }

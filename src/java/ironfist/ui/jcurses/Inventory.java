@@ -17,13 +17,13 @@ import jcurses.widgets.Label;
 import jcurses.widgets.MenuList;
 import jcurses.widgets.Window;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Inventory implements ItemListener {
+
   private Creature creature;
   private Window window;
   private MenuList menu;
@@ -37,7 +37,8 @@ public class Inventory implements ItemListener {
   /**
    * Creates a new Inventory object.
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public Inventory(Creature creature) {
     this.creature = creature;
@@ -48,12 +49,14 @@ public class Inventory implements ItemListener {
    */
   public void show() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    window = new Dialog(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                        false, null);
+    window = new Dialog(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
+      false, null);
 
     GridLayoutManager layout = new GridLayoutManager(1, 1);
-    window.getRootPanel().setPanelColors(colors);
-    window.getRootPanel().setLayoutManager(layout);
+    window.getRootPanel()
+      .setPanelColors(colors);
+    window.getRootPanel()
+      .setLayoutManager(layout);
     window.setShadow(false);
 
     Iterator iterator = creature.getThings();
@@ -62,11 +65,10 @@ public class Inventory implements ItemListener {
       menu = new MenuList();
       menu.addListener(this);
       menu.setColors(colors);
-      menu.setSelectedItemColors(
-          new CharColor(CharColor.WHITE, CharColor.BLACK));
+      menu.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
-      layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                       GridLayoutManager.ALIGNMENT_CENTER);
+      layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+        GridLayoutManager.ALIGNMENT_CENTER);
 
       while (iterator.hasNext()) {
         Object current = iterator.next();
@@ -75,8 +77,8 @@ public class Inventory implements ItemListener {
       }
     } else {
       Label label = new Label("Inventory is empty.");
-      layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                       GridLayoutManager.ALIGNMENT_CENTER);
+      layout.addWidget(label, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+        GridLayoutManager.ALIGNMENT_CENTER);
     }
 
     window.show();
@@ -86,8 +88,7 @@ public class Inventory implements ItemListener {
    * @see jcurses.event.ItemListener#stateChanged(ItemEvent)
    */
   public void stateChanged(ItemEvent event) {
-    if (menu.equals(event.getSource()) && 
-        (event.getType() == ItemEvent.CALLED)) {
+    if (menu.equals(event.getSource()) && (event.getType() == ItemEvent.CALLED)) {
       selected = (Thing) things.get(event.getItem());
       window.close();
       things.clear();

@@ -12,8 +12,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-
 public class Persistence {
+
   private static RecordManager recman;
   private static ObjectCache cache;
   private static BTree tree;
@@ -116,6 +116,7 @@ public class Persistence {
   }
 
   private static class Filter implements FilenameFilter {
+
     private String name;
 
     public Filter(String name) {

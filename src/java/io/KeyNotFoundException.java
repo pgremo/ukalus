@@ -2,13 +2,13 @@ package io;
 
 import java.io.IOException;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class KeyNotFoundException extends IOException {
+
   /**
    * Constructor for KeyNotFoundException.
    */
@@ -18,7 +18,7 @@ public class KeyNotFoundException extends IOException {
 
   /**
    * Constructor for KeyNotFoundException.
-   *
+   * 
    * @param s
    */
   public KeyNotFoundException(String s) {

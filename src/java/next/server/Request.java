@@ -9,14 +9,14 @@ package next.server;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class Request {
+
   private Map parameters = new HashMap();
   private String applicationName;
   private String sessionId;
@@ -30,29 +30,29 @@ public class Request {
   }
 
   /**
- * @return
- */
+   * @return
+   */
   public String getApplicationName() {
     return applicationName;
   }
 
   /**
- * @param string
- */
+   * @param string
+   */
   public void setApplicationName(String string) {
     applicationName = string;
   }
 
   /**
-         * @return
-         */
+   * @return
+   */
   public String getSessionId() {
     return sessionId;
   }
 
   /**
- * @param string
- */
+   * @param string
+   */
   public void setSessionId(String string) {
     sessionId = string;
   }

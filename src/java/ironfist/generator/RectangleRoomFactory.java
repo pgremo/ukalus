@@ -8,13 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class RectangleRoomFactory {
+
   private Random randomizer;
   private Class floorClass;
   private Class wallClass;
@@ -31,23 +31,23 @@ public class RectangleRoomFactory {
    */
   public List create() {
     List list = new LinkedList();
-    int height = randomizer.nextInt(maxRoomHeight - minRoomHeight + 1) + 
-                 minRoomHeight;
+    int height = randomizer.nextInt(maxRoomHeight - minRoomHeight + 1)
+        + minRoomHeight;
 
-    int width = randomizer.nextInt(maxRoomWidth - minRoomWidth + 1) + 
-                minRoomWidth;
+    int width = randomizer.nextInt(maxRoomWidth - minRoomWidth + 1)
+        + minRoomWidth;
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         TileType type = null;
 
         try {
-          if (((i == 0) && (j == 0)) || ((i == height - 1) && (j == 0)) || 
-              ((i == 0) && (j == width - 1)) || 
-              ((i == height - 1) && (j == width - 1))) {
+          if (((i == 0) && (j == 0)) || ((i == height - 1) && (j == 0))
+              || ((i == 0) && (j == width - 1))
+              || ((i == height - 1) && (j == width - 1))) {
             type = (TileType) cornerClass.newInstance();
-          } else if ((i == 0) || (j == 0) || (i == height - 1) || 
-                     (j == width - 1)) {
+          } else if ((i == 0) || (j == 0) || (i == height - 1)
+              || (j == width - 1)) {
             type = (TileType) wallClass.newInstance();
           } else {
             type = (TileType) floorClass.newInstance();
@@ -102,7 +102,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the maxRoomHeight.
    * 
-   * @param maxRoomHeight The maxRoomHeight to set
+   * @param maxRoomHeight
+   *          The maxRoomHeight to set
    */
   public void setMaxRoomHeight(int maxRoomHeight) {
     this.maxRoomHeight = maxRoomHeight;
@@ -111,7 +112,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the maxRoomWidth.
    * 
-   * @param maxRoomWidth The maxRoomWidth to set
+   * @param maxRoomWidth
+   *          The maxRoomWidth to set
    */
   public void setMaxRoomWidth(int maxRoomWidth) {
     this.maxRoomWidth = maxRoomWidth;
@@ -120,7 +122,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the minRoomHeight.
    * 
-   * @param minRoomHeight The minRoomHeight to set
+   * @param minRoomHeight
+   *          The minRoomHeight to set
    */
   public void setMinRoomHeight(int minRoomHeight) {
     this.minRoomHeight = minRoomHeight;
@@ -129,7 +132,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the minRoomWidth.
    * 
-   * @param minRoomWidth The minRoomWidth to set
+   * @param minRoomWidth
+   *          The minRoomWidth to set
    */
   public void setMinRoomWidth(int minRoomWidth) {
     this.minRoomWidth = minRoomWidth;
@@ -165,7 +169,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the cornerClass.
    * 
-   * @param cornerClass The cornerClass to set
+   * @param cornerClass
+   *          The cornerClass to set
    */
   public void setCornerClass(Class cornerClass) {
     this.cornerClass = cornerClass;
@@ -174,7 +179,8 @@ public class RectangleRoomFactory {
   /**
    * Sets the floorClass.
    * 
-   * @param floorClass The floorClass to set
+   * @param floorClass
+   *          The floorClass to set
    */
   public void setFloorClass(Class floorClass) {
     this.floorClass = floorClass;
@@ -183,23 +189,25 @@ public class RectangleRoomFactory {
   /**
    * Sets the wallClass.
    * 
-   * @param wallClass The wallClass to set
+   * @param wallClass
+   *          The wallClass to set
    */
   public void setWallClass(Class wallClass) {
     this.wallClass = wallClass;
   }
-	/**
-	 * @return
-	 */
-	public Random getRandomizer() {
-		return randomizer;
-	}
 
-	/**
-	 * @param random
-	 */
-	public void setRandomizer(Random random) {
-		randomizer = random;
-	}
+  /**
+   * @return
+   */
+  public Random getRandomizer() {
+    return randomizer;
+  }
+
+  /**
+   * @param random
+   */
+  public void setRandomizer(Random random) {
+    randomizer = random;
+  }
 
 }

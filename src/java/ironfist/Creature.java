@@ -9,15 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Creature implements Serializable {
-  private static final RecursiveShadowCastingVision fov = 
-      new RecursiveShadowCastingVision();
+
+  private static final RecursiveShadowCastingVision fov = new RecursiveShadowCastingVision();
 
   //	private static final BeamCastingVision fov = new BeamCastingVision();
   private Map properties;
@@ -37,7 +36,8 @@ public class Creature implements Serializable {
   /**
    * Creates a new Creature object.
    * 
-   * @param client DOCUMENT ME!
+   * @param client
+   *          DOCUMENT ME!
    */
   public void setClient(Client client) {
     this.client = client;
@@ -55,7 +55,8 @@ public class Creature implements Serializable {
   /**
    * Sets the coordinate.
    * 
-   * @param coordinate The coordinate to set
+   * @param coordinate
+   *          The coordinate to set
    */
   public void setCoordinate(Vector coordinate) {
     this.coordinate = coordinate;
@@ -85,7 +86,8 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param command DOCUMENT ME!
+   * @param command
+   *          DOCUMENT ME!
    */
   public synchronized void executeCommand(Command command) {
     CommandType type = command.getType();
@@ -126,7 +128,8 @@ public class Creature implements Serializable {
   /**
    * Sets the level.
    * 
-   * @param level The level to set
+   * @param level
+   *          The level to set
    */
   public void setLevel(Level level) {
     this.level = level;
@@ -145,7 +148,8 @@ public class Creature implements Serializable {
   /**
    * Sets the name.
    * 
-   * @param value The name to set
+   * @param value
+   *          The name to set
    */
   public void setName(String value) {
     this.name = value;
@@ -154,7 +158,8 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -165,8 +170,10 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
-   * @param value DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    */
   public void setProperty(Object key, Object value) {
     properties.put(key, value);
@@ -175,7 +182,8 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    */
   public void removeProperty(Object key) {
     properties.remove(key);
@@ -184,7 +192,8 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param thing DOCUMENT ME!
+   * @param thing
+   *          DOCUMENT ME!
    */
   public void addThing(Thing thing) {
     things.add(thing);
@@ -193,7 +202,8 @@ public class Creature implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param thing DOCUMENT ME!
+   * @param thing
+   *          DOCUMENT ME!
    */
   public void removeThing(Thing thing) {
     things.remove(thing);
@@ -217,6 +227,7 @@ public class Creature implements Serializable {
     Vector coordinate = getCoordinate();
     Level level = getLevel();
 
-    return fov.getSeen(level, (int) coordinate.getX(), (int) coordinate.getY(), 3);
+    return fov.getSeen(level, (int) coordinate.getX(), (int) coordinate.getY(),
+      3);
   }
 }

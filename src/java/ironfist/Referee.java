@@ -5,13 +5,13 @@ import ironfist.geometry.Vector;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Referee {
+
   private static final String CREATURE = "creature";
   private static final StairsPredicate stairsPredicate;
   private static final RecursiveDungeonGenerator generator;
@@ -25,7 +25,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -57,7 +58,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public static void down(Creature creature) {
     Vector sourceLocation = creature.getCoordinate();
@@ -114,7 +116,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public static void up(Creature creature) {
     Vector sourceLocation = creature.getCoordinate();
@@ -171,8 +174,10 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
-   * @param direction DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
+   * @param direction
+   *          DOCUMENT ME!
    */
   static public void move(Creature creature, Vector direction) {
     Vector oldCoordinate = creature.getCoordinate();
@@ -199,8 +204,10 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
-   * @param thing DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
+   * @param thing
+   *          DOCUMENT ME!
    */
   static public void pickup(Creature creature, Thing thing) {
     Vector coordinate = creature.getCoordinate();
@@ -219,8 +226,10 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
-   * @param thing DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
+   * @param thing
+   *          DOCUMENT ME!
    */
   static public void drop(Creature creature, Thing thing) {
     Vector coordinate = creature.getCoordinate();
@@ -239,8 +248,10 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
-   * @param door DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
+   * @param door
+   *          DOCUMENT ME!
    */
   static public void open(Creature creature, Door door) {
     if ((door != null) && !door.isOpen()) {
@@ -251,8 +262,10 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
-   * @param door DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
+   * @param door
+   *          DOCUMENT ME!
    */
   static public void close(Creature creature, Door door) {
     if ((door != null) && door.isOpen()) {
@@ -263,7 +276,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   static public void quit(Creature creature) {
     Persistence.delete(creature.getName());
@@ -273,7 +287,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param name DOCUMENT ME!
+   * @param name
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -294,7 +309,8 @@ public class Referee {
   /**
    * DOCUMENT ME!
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   static public void save(Creature creature) {
     try {

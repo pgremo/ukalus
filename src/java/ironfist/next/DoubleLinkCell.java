@@ -2,16 +2,17 @@ package ironfist.next;
 
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class DoubleLinkCell {
+
   private DoubleLinkCell next;
   private DoubleLinkCell previous;
 
   /**
    * Returns the next.
-   *
+   * 
    * @return DoubleLinkCell
    */
   public DoubleLinkCell getNext() {
@@ -20,7 +21,7 @@ public class DoubleLinkCell {
 
   /**
    * Returns the previous.
-   *
+   * 
    * @return DoubleLinkCell
    */
   public DoubleLinkCell getPrevious() {
@@ -29,8 +30,9 @@ public class DoubleLinkCell {
 
   /**
    * Sets the next.
-   *
-   * @param next The next to set
+   * 
+   * @param next
+   *          The next to set
    */
   public void setNext(DoubleLinkCell next) {
     this.next = next;
@@ -38,8 +40,9 @@ public class DoubleLinkCell {
 
   /**
    * Sets the previous.
-   *
-   * @param previous The previous to set
+   * 
+   * @param previous
+   *          The previous to set
    */
   public void setPrevious(DoubleLinkCell previous) {
     this.previous = previous;
@@ -75,5 +78,5 @@ public class DoubleLinkCell {
 
     end.next = next;
     begin.previous = this;
-   }
+  }
 }

@@ -6,14 +6,17 @@ package ironfist;
  * @author pmgremo
  */
 public class Command {
+
   private CommandType type;
   private Object parameter;
 
   /**
    * Creates a new Command object.
    * 
-   * @param type DOCUMENT ME!
-   * @param parameter DOCUMENT ME!
+   * @param type
+   *          DOCUMENT ME!
+   * @param parameter
+   *          DOCUMENT ME!
    */
   public Command(CommandType type, Object parameter) {
     this.type = type;
@@ -32,7 +35,8 @@ public class Command {
   /**
    * DOCUMENT ME!
    * 
-   * @param value DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
    */
   public void setParameter(Object value) {
     parameter = value;

@@ -9,20 +9,20 @@ import ironfist.next.Thing;
 import ironfist.next.ThingImpl;
 import ironfist.next.reactions.WearProtectionRingReaction;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ProtectionRingFactory {
+
   private String description;
   private Identifier identifier;
 
   public ProtectionRingFactory(String description) {
     this.description = description;
     identifier = new ProtectionRingIdentifier(description,
-        "ring.protection.identity");
+      "ring.protection.identity");
   }
 
   public Thing create() {

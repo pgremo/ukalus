@@ -7,13 +7,13 @@ import ironfist.next.Reaction;
 import ironfist.next.Thing;
 import ironfist.next.actions.WearAction;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class WearProtectionRingReaction implements Reaction {
+
   /**
    * @see ironfist.next.Reaction#react(Action)
    */

@@ -3,13 +3,13 @@ package ironfist.ui.jcurses;
 import jcurses.system.InputChar;
 import jcurses.widgets.TextField;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class InputField extends TextField {
+
   private boolean done;
 
   /**

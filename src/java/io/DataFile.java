@@ -5,20 +5,15 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class DataFile {
+
   /*
-   * Header:
-   *   long offset
-   *   byte free
-   *   long next free
-   *   int block size
-   *   int data size
+   * Header: long offset byte free long next free int block size int data size
    */
   private static final int OFFSET = 0;
   private static final int FREE_INDICATOR = 8;
@@ -39,7 +34,8 @@ public class DataFile {
 
     if (channel.size() == 0) {
       freeListStart = FREE_LIST_END;
-      data.putLong(freeListStart).rewind();
+      data.putLong(freeListStart)
+        .rewind();
       write(0, data, true);
     } else {
       read(0, data);
@@ -49,10 +45,12 @@ public class DataFile {
 
   /**
    * Marks a block as free
-   *
-   * @param offset DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param offset
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public void free(long offset) throws IOException {
     ByteBuffer header = ByteBuffer.allocate(HEADER_SIZE);
@@ -62,13 +60,16 @@ public class DataFile {
       throw new IOException("Corrupt at " + offset);
     }
 
-    header.put(FREE).putLong(freeListStart).rewind();
+    header.put(FREE)
+      .putLong(freeListStart)
+      .rewind();
     write(offset, header, false);
 
     freeListStart = offset;
 
     ByteBuffer data = ByteBuffer.allocate(8);
-    data.putLong(freeListStart).rewind();
+    data.putLong(freeListStart)
+      .rewind();
     write(0, data, false);
   }
 
@@ -104,7 +105,8 @@ public class DataFile {
             freeListStart = next;
 
             ByteBuffer fileHeader = ByteBuffer.allocate(8);
-            fileHeader.putLong(freeListStart).rewind();
+            fileHeader.putLong(freeListStart)
+              .rewind();
             write(0, fileHeader, false);
           } else {
             ByteBuffer previousHeader = ByteBuffer.allocate(HEADER_SIZE);
@@ -117,13 +119,17 @@ public class DataFile {
     }
 
     if (found) {
-      header.put(FREE_INDICATOR, USED).putLong(NEXT_FREE, FREE_LIST_END).putInt(DATA_SIZE,
-        data.limit());
+      header.put(FREE_INDICATOR, USED)
+        .putLong(NEXT_FREE, FREE_LIST_END)
+        .putInt(DATA_SIZE, data.limit());
     } else {
       offset = channel.size();
       header.rewind();
-      header.putLong(offset).put(USED).putLong(FREE_LIST_END)
-            .putInt(data.limit()).putInt(data.limit());
+      header.putLong(offset)
+        .put(USED)
+        .putLong(FREE_LIST_END)
+        .putInt(data.limit())
+        .putInt(data.limit());
     }
 
     header.rewind();
@@ -135,12 +141,14 @@ public class DataFile {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param offSet DOCUMENT ME!
-   *
+   * 
+   * @param offSet
+   *          DOCUMENT ME!
+   * 
    * @return DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public ByteBuffer read(long offset) throws IOException {
     ByteBuffer header = ByteBuffer.allocate(HEADER_SIZE);
@@ -162,12 +170,16 @@ public class DataFile {
 
   /**
    * Tries to re-write an existing block.
-   *
-   * @param offSet DOCUMENT ME!
-   * @param data DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
-   * @throws FileBlockTooShortException DOCUMENT ME!
+   * 
+   * @param offSet
+   *          DOCUMENT ME!
+   * @param data
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
+   * @throws FileBlockTooShortException
+   *           DOCUMENT ME!
    */
   public void update(long offset, ByteBuffer data) throws IOException {
     ByteBuffer header = ByteBuffer.allocate(HEADER_SIZE);
@@ -185,14 +197,15 @@ public class DataFile {
       throw new FileBlockTooShortException();
     }
 
-    header.putInt(data.limit()).rewind();
+    header.putInt(data.limit())
+      .rewind();
     write(offset, header, false);
     write(HEADER_SIZE + offset, data, false);
     data.rewind();
   }
 
   private void write(long offset, ByteBuffer buffer, boolean force)
-    throws IOException {
+      throws IOException {
     int total = 0;
 
     while (buffer.hasRemaining()) {

@@ -17,9 +17,10 @@ import jcurses.widgets.MenuList;
 
 /**
  * @author pmgremo
- *
+ *  
  */
-public class Pickup implements ItemListener{
+public class Pickup implements ItemListener {
+
   private Floor floor;
   private Dialog window;
   private MenuList menu;
@@ -33,7 +34,8 @@ public class Pickup implements ItemListener{
   /**
    * Creates a new Inventory object.
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public Pickup(Floor floor) {
     this.floor = floor;
@@ -46,12 +48,14 @@ public class Pickup implements ItemListener{
    */
   public Thing selectThing() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    window = new Dialog(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                        false, null);
+    window = new Dialog(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
+      false, null);
 
     GridLayoutManager layout = new GridLayoutManager(1, 1);
-    window.getRootPanel().setPanelColors(colors);
-    window.getRootPanel().setLayoutManager(layout);
+    window.getRootPanel()
+      .setPanelColors(colors);
+    window.getRootPanel()
+      .setLayoutManager(layout);
     window.setShadow(false);
 
     menu = new MenuList();
@@ -59,8 +63,8 @@ public class Pickup implements ItemListener{
     menu.setColors(colors);
     menu.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
-    layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(menu, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_CENTER);
 
     things.clear();
 

@@ -6,6 +6,7 @@ package ironfist;
  * @author pmgremo
  */
 public class Trap {
+
   private boolean set;
 
   {
@@ -21,7 +22,7 @@ public class Trap {
 
   /**
    * DOCUMENT ME!
-   *
+   * 
    * @return DOCUMENT ME!
    */
   public boolean isSet() {

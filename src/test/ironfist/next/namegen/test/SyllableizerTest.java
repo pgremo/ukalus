@@ -6,16 +6,16 @@ import junit.framework.TestCase;
 import random.MersenneTwister;
 import syllableizer.Syllableizer;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class SyllableizerTest extends TestCase {
+
   /**
    * Constructor for SyllableSplitterTest.
-   *
+   * 
    * @param arg0
    */
   public SyllableizerTest(String arg0) {
@@ -23,7 +23,7 @@ public class SyllableizerTest extends TestCase {
   }
 
   public void testSplit() {
-    String[] control = new String[] { "He", "gan", "shab", "but", "t" };
+    String[] control = new String[]{"He", "gan", "shab", "but", "t"};
     Syllableizer splitter = new Syllableizer();
     String[] syllables = splitter.split("Heganshabbutt");
     assertTrue(Arrays.equals(control, syllables));

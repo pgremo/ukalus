@@ -17,16 +17,16 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ReadIdentityScrollReactionTest extends TestCase {
+
   /**
    * Constructor for ReadIdentityScrollReactionTest.
-   *
+   * 
    * @param arg0
    */
   public ReadIdentityScrollReactionTest(String arg0) {
@@ -55,6 +55,7 @@ public class ReadIdentityScrollReactionTest extends TestCase {
   }
 
   private class ControllerImpl implements Controller {
+
     /**
      * @see ironfist.next.Controller#determineAction()
      */
@@ -69,12 +70,11 @@ public class ReadIdentityScrollReactionTest extends TestCase {
         ChoiceCallback choice = (ChoiceCallback) callback;
 
         if (choice.getPrompt()
-                    .equals("inventory.select")) {
+          .equals("inventory.select")) {
           Object[] items = choice.getOptions();
 
           for (int index = 0; index < items.length; index++) {
-            if ("description.ring.0".equals(((Thing) items[index]).getProperty(
-                    Property.DESCRIPTION))) {
+            if ("description.ring.0".equals(((Thing) items[index]).getProperty(Property.DESCRIPTION))) {
               choice.setSelected(index);
 
               break;

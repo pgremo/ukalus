@@ -2,7 +2,6 @@ package ironfist;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 

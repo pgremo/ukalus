@@ -3,13 +3,13 @@ package io;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class HashIndexBlock {
+
   private static final int KEY_ALLOC = 64;
   private static final int KEY_EXTEND = 16;
   private static final int COUNT_POSITION = 4;
@@ -19,10 +19,13 @@ public class HashIndexBlock {
 
   /**
    * Creates a new IndexBlock object.
-   *
-   * @param index DOCUMENT ME!
-   * @param file DOCUMENT ME!
-   * @param offset DOCUMENT ME!
+   * 
+   * @param index
+   *          DOCUMENT ME!
+   * @param file
+   *          DOCUMENT ME!
+   * @param offset
+   *          DOCUMENT ME!
    */
   public HashIndexBlock(HashIndex index, DataFile file, long offset) {
     this.index = index;
@@ -32,11 +35,14 @@ public class HashIndexBlock {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   * @param value DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * @param value
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public void put(long key, long value) throws IOException {
     if (key == 0) {
@@ -48,7 +54,7 @@ public class HashIndexBlock {
     if (offset == 0) {
       buffer = ByteBuffer.allocate((KEY_ALLOC * 8 * 2) + (2 * 4));
       buffer.putInt(KEY_ALLOC)
-            .rewind();
+        .rewind();
     } else {
       buffer = file.read(offset);
     }
@@ -61,16 +67,16 @@ public class HashIndexBlock {
 
       ByteBuffer newBuffer = ByteBuffer.allocate((keyAlloc * 8 * 2) + (2 * 4));
       newBuffer.putInt(keyAlloc)
-               .putInt(keyCount)
-               .put(buffer);
+        .putInt(keyCount)
+        .put(buffer);
       buffer = newBuffer;
     }
 
     buffer.position(COUNT_POSITION);
     buffer.putInt(keyCount + 1)
-          .asLongBuffer()
-          .put(keyCount * 2, key)
-          .put((keyCount * 2) + 1, value);
+      .asLongBuffer()
+      .put(keyCount * 2, key)
+      .put((keyCount * 2) + 1, value);
     buffer.rewind();
 
     boolean append = (offset == 0);
@@ -96,13 +102,16 @@ public class HashIndexBlock {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   *
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * 
    * @return DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
-   * @throws KeyNotFoundException DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
+   * @throws KeyNotFoundException
+   *           DOCUMENT ME!
    */
   public long get(long key) throws IOException {
     if (key == 0) {
@@ -115,8 +124,7 @@ public class HashIndexBlock {
       ByteBuffer buffer = file.read(offset);
       buffer.position(COUNT_POSITION);
 
-      for (int keyCount = buffer.getInt(); (keyCount > 0) && (result == -1);
-          keyCount--) {
+      for (int keyCount = buffer.getInt(); (keyCount > 0) && (result == -1); keyCount--) {
         if (buffer.getLong() == key) {
           result = buffer.getLong();
         }
@@ -134,12 +142,16 @@ public class HashIndexBlock {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   * @param newOffset DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
-   * @throws KeyNotFoundException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * @param newOffset
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
+   * @throws KeyNotFoundException
+   *           DOCUMENT ME!
    */
   public void update(long key, long newOffset) throws IOException {
     if (key == 0) {
@@ -152,13 +164,12 @@ public class HashIndexBlock {
       ByteBuffer buffer = file.read(offset);
       buffer.position(COUNT_POSITION);
 
-      for (int keyCount = buffer.getInt(); (keyCount > 0) && !found;
-          keyCount--) {
+      for (int keyCount = buffer.getInt(); (keyCount > 0) && !found; keyCount--) {
         long id = buffer.getLong();
 
         if (id == key) {
           buffer.putLong(newOffset)
-                .rewind();
+            .rewind();
           file.update(offset, buffer);
           found = true;
         } else {
@@ -174,11 +185,14 @@ public class HashIndexBlock {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
-   * @throws KeyNotFoundException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
+   * @throws KeyNotFoundException
+   *           DOCUMENT ME!
    */
   public void remove(long key) throws IOException {
     if (key == 0) {
@@ -203,9 +217,9 @@ public class HashIndexBlock {
           ByteBuffer remaining = buffer.slice();
           buffer.reset();
           buffer.put(remaining)
-                .position(COUNT_POSITION);
+            .position(COUNT_POSITION);
           buffer.putInt(keyCount - 1)
-                .rewind();
+            .rewind();
           file.update(offset, buffer);
           found = true;
         }
@@ -219,7 +233,7 @@ public class HashIndexBlock {
 
   /**
    * Returns the offset.
-   *
+   * 
    * @return long
    */
   public long getOffset() {

@@ -31,13 +31,13 @@ import jcurses.system.Toolkit;
 import jcurses.util.Rectangle;
 import jcurses.widgets.Widget;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class JCursesClient extends Widget implements Client, Serializable {
+
   private static Map directions;
   private static Map commandTypes;
   private static Map symbols;
@@ -94,7 +94,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * Creates a new JCursesClient object.
    * 
-   * @param creature DOCUMENT ME!
+   * @param creature
+   *          DOCUMENT ME!
    */
   public JCursesClient(Creature creature) {
     hero = creature;
@@ -111,7 +112,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param level DOCUMENT ME!
+   * @param level
+   *          DOCUMENT ME!
    */
   public void onLevelChange(Level level) {
     String name = level.getName() + "-plan";
@@ -129,7 +131,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param list DOCUMENT ME!
+   * @param list
+   *          DOCUMENT ME!
    */
   public void onVisionChange(List list) {
     if (vision != null) {
@@ -146,7 +149,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param list DOCUMENT ME!
+   * @param list
+   *          DOCUMENT ME!
    */
   private void updatePlan(List list) {
     Iterator iterator = list.iterator();
@@ -160,26 +164,27 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param list DOCUMENT ME!
+   * @param list
+   *          DOCUMENT ME!
    */
   private void updateFromPlan(List list) {
-    CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE, 
-                                     CharColor.NORMAL);
+    CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE,
+      CharColor.NORMAL);
 
     if (list == null) {
       StringBuffer buffer = new StringBuffer();
 
       for (int x = 0; x < plan.getHeight(); x++) {
         for (int y = 0; y < plan.getWidth(); y++) {
-          buffer.append(symbols.get(determineLevelMarker(plan.get(
-                                                             new Vector(x, y)))));
+          buffer.append(symbols.get(determineLevelMarker(plan.get(new Vector(x,
+            y)))));
         }
 
         buffer.append("\n");
       }
 
-      Rectangle area = new Rectangle(getAbsoluteX(), getAbsoluteY(), 
-                                     plan.getWidth(), plan.getHeight());
+      Rectangle area = new Rectangle(getAbsoluteX(), getAbsoluteY(),
+        plan.getWidth(), plan.getHeight());
       Toolkit.printString(buffer.toString(), area, colors);
     } else {
       Iterator iterator = list.iterator();
@@ -188,9 +193,9 @@ public class JCursesClient extends Widget implements Client, Serializable {
         Tile tile = (Tile) iterator.next();
         Vector coordinate = tile.getCoordinate();
         Toolkit.printString(
-            (String) symbols.get(determineLevelMarker(plan.get(coordinate))), 
-            getAbsoluteX() + (int) coordinate.getY(), 
-            getAbsoluteY() + (int) coordinate.getX(), colors);
+          (String) symbols.get(determineLevelMarker(plan.get(coordinate))),
+          getAbsoluteX() + (int) coordinate.getY(), getAbsoluteY()
+              + (int) coordinate.getX(), colors);
       }
     }
   }
@@ -198,12 +203,13 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param list DOCUMENT ME!
+   * @param list
+   *          DOCUMENT ME!
    */
   private void updateFromVision(List list) {
     if (list != null) {
-      CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE, 
-                                       CharColor.BOLD);
+      CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE,
+        CharColor.BOLD);
       Iterator iterator = list.iterator();
 
       while (iterator.hasNext()) {
@@ -216,9 +222,9 @@ public class JCursesClient extends Widget implements Client, Serializable {
           marker = determineLevelMarker(type);
         }
 
-        Toolkit.printString((String) symbols.get(marker), 
-                            getAbsoluteX() + (int) coordinate.getY(), 
-                            getAbsoluteY() + (int) coordinate.getX(), colors);
+        Toolkit.printString((String) symbols.get(marker), getAbsoluteX()
+            + (int) coordinate.getY(),
+          getAbsoluteY() + (int) coordinate.getX(), colors);
       }
     }
   }
@@ -238,12 +244,12 @@ public class JCursesClient extends Widget implements Client, Serializable {
         Floor floor = (Floor) type;
         Door door = floor.getDoor();
 
-        if ((CommandType.CLOSE.equals(commandType)) && (door != null) && 
-            door.isOpen()) {
+        if ((CommandType.CLOSE.equals(commandType)) && (door != null)
+            && door.isOpen()) {
           command = new Command(commandType, door);
           commandReady = true;
-        } else if ((CommandType.OPEN.equals(commandType)) && (door != null) && 
-                   !door.isOpen()) {
+        } else if ((CommandType.OPEN.equals(commandType)) && (door != null)
+            && !door.isOpen()) {
           command = new Command(commandType, door);
           commandReady = true;
         } else if ((door == null) || door.isOpen()) {
@@ -290,7 +296,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
             Thing thing = null;
 
             if (floor.getThingCount() == 1) {
-              thing = (Thing) floor.getThings().next();
+              thing = (Thing) floor.getThings()
+                .next();
             } else {
               Pickup pickup = new Pickup(floor);
               thing = pickup.selectThing();
@@ -303,7 +310,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
           }
         }
       } else if (CommandType.DROP.equals(current)) {
-        if (hero.getThings().hasNext()) {
+        if (hero.getThings()
+          .hasNext()) {
           Inventory inventory = new Inventory(hero);
           inventory.show();
 
@@ -326,7 +334,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
       command = null;
       commandReady = false;
 
-      log(result.getType().getName());
+      log(result.getType()
+        .getName());
       hero.executeCommand(result);
     }
 
@@ -336,7 +345,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param message DOCUMENT ME!
+   * @param message
+   *          DOCUMENT ME!
    */
   private void log(String message) {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
@@ -346,7 +356,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param type DOCUMENT ME!
+   * @param type
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -368,7 +379,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param type DOCUMENT ME!
+   * @param type
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -412,7 +424,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
           result = Marker.DOOR_CLOSED;
         }
       } else if (top instanceof Stairs) {
-        if (((Stairs) top).getDirection().equals(Stairs.DOWN)) {
+        if (((Stairs) top).getDirection()
+          .equals(Stairs.DOWN)) {
           result = Marker.STAIRS_DOWN;
         } else {
           result = Marker.STAIRS_UP;
@@ -442,8 +455,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
    * @see jcurses.widgets.Widget#getPreferredSize()
    */
   protected Rectangle getPreferredSize() {
-    return new Rectangle(0, 0, Toolkit.getScreenWidth(), 
-                         Toolkit.getScreenHeight());
+    return new Rectangle(0, 0, Toolkit.getScreenWidth(),
+      Toolkit.getScreenHeight());
   }
 
   /**
@@ -459,7 +472,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param listener DOCUMENT ME!
+   * @param listener
+   *          DOCUMENT ME!
    */
   public void addActionListener(ActionListener listener) {
     manager.addListener(listener);
@@ -468,7 +482,8 @@ public class JCursesClient extends Widget implements Client, Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param listener DOCUMENT ME!
+   * @param listener
+   *          DOCUMENT ME!
    */
   public void removeActionListener(ActionListener listener) {
     manager.removeListener(listener);

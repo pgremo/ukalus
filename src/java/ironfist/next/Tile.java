@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class Tile {
+
   private Level level;
   private Vector location;
   private Collection things;
@@ -28,7 +28,7 @@ public class Tile {
 
   /**
    * Returns the location.
-   *
+   * 
    * @return Vector
    */
   public Vector getLocation() {
@@ -55,7 +55,7 @@ public class Tile {
 
   /**
    * Returns the level.
-   *
+   * 
    * @return Level
    */
   public Level getLevel() {

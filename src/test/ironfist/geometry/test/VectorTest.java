@@ -7,16 +7,16 @@ import junit.framework.TestCase;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class VectorTest extends TestCase {
+
   /**
    * Constructor for CoordinateTest.
-   *
+   * 
    * @param arg0
    */
   public VectorTest(String arg0) {
@@ -55,9 +55,9 @@ public class VectorTest extends TestCase {
   /**
    * DOCUMENT ME!
    */
-//  public void testRotate() {
-//    Vector start = new Vector(2, 1);
-//    assertEquals(new Vector(1, 1).normal(),
-//      start.rotate(new Vector(2, 1)).normal());
-//  }
+  //  public void testRotate() {
+  //    Vector start = new Vector(2, 1);
+  //    assertEquals(new Vector(1, 1).normal(),
+  //      start.rotate(new Vector(2, 1)).normal());
+  //  }
 }

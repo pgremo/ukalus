@@ -9,13 +9,13 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class BeamCastingVisionTest extends TestCase {
+
   private Creature creature;
 
   /**

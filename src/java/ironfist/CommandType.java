@@ -6,6 +6,7 @@ package ironfist;
  * @author pmgremo
  */
 public class CommandType {
+
   public static final CommandType CLOSE = new CommandType("close");
   public static final CommandType DOWN = new CommandType("down");
   public static final CommandType DROP = new CommandType("drop");
@@ -22,7 +23,8 @@ public class CommandType {
   /**
    * Creates a new Command object.
    * 
-   * @param name DOCUMENT ME!
+   * @param name
+   *          DOCUMENT ME!
    */
   public CommandType(String name) {
     this.name = name;

@@ -8,13 +8,13 @@ import jcurses.event.ItemListenerManager;
 import jcurses.util.Rectangle;
 import jcurses.widgets.Widget;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class IndexedMenuList extends Widget {
+
   private ItemListenerManager listenerManager;
   private String seperator;
   private SortedMap items;
@@ -31,11 +31,12 @@ public class IndexedMenuList extends Widget {
   /**
    * DOCUMENT ME!
    * 
-   * @param item DOCUMENT ME!
+   * @param item
+   *          DOCUMENT ME!
    */
   public void add(String item) {
-    while (Character.isLetter(key) && 
-           items.containsKey(Character.toString(key))) {
+    while (Character.isLetter(key)
+        && items.containsKey(Character.toString(key))) {
       key++;
     }
 
@@ -45,8 +46,10 @@ public class IndexedMenuList extends Widget {
   /**
    * DOCUMENT ME!
    * 
-   * @param index DOCUMENT ME!
-   * @param item DOCUMENT ME!
+   * @param index
+   *          DOCUMENT ME!
+   * @param item
+   *          DOCUMENT ME!
    */
   public void add(String index, String item) {
     items.put(index, item);
@@ -88,7 +91,8 @@ public class IndexedMenuList extends Widget {
   /**
    * DOCUMENT ME!
    * 
-   * @param listener DOCUMENT ME!
+   * @param listener
+   *          DOCUMENT ME!
    */
   public void addItemListener(ItemListener listener) {
     listenerManager.addListener(listener);
@@ -97,7 +101,8 @@ public class IndexedMenuList extends Widget {
   /**
    * DOCUMENT ME!
    * 
-   * @param listener DOCUMENT ME!
+   * @param listener
+   *          DOCUMENT ME!
    */
   public void removeItemListener(ItemListener listener) {
     listenerManager.removeListener(listener);
@@ -115,7 +120,8 @@ public class IndexedMenuList extends Widget {
   /**
    * Sets the seperator.
    * 
-   * @param seperator The seperator to set
+   * @param seperator
+   *          The seperator to set
    */
   public void setSeperator(String value) {
     seperator = value;

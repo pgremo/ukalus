@@ -6,6 +6,7 @@ package ironfist.ui.jcurses;
  * @author pmgremo
  */
 public class Marker {
+
   public static final Marker WALL = new Marker("wall");
   public static final Marker FLOOR = new Marker("passage");
   public static final Marker DOOR_OPEN = new Marker("door_open");

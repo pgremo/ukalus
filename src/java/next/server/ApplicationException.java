@@ -6,17 +6,17 @@
  */
 package next.server;
 
-
 /**
  * @author a202490
- *
+ * 
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ApplicationException extends Exception {
+
   /**
- * 
- */
+   *  
+   */
   public ApplicationException() {
     super();
 
@@ -24,8 +24,8 @@ public class ApplicationException extends Exception {
   }
 
   /**
- * @param message
- */
+   * @param message
+   */
   public ApplicationException(String message) {
     super(message);
 
@@ -33,9 +33,9 @@ public class ApplicationException extends Exception {
   }
 
   /**
- * @param message
- * @param cause
- */
+   * @param message
+   * @param cause
+   */
   public ApplicationException(String message, Throwable cause) {
     super(message, cause);
 
@@ -43,8 +43,8 @@ public class ApplicationException extends Exception {
   }
 
   /**
- * @param cause
- */
+   * @param cause
+   */
   public ApplicationException(Throwable cause) {
     super(cause);
 

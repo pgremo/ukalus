@@ -11,13 +11,13 @@ import jcurses.widgets.GridLayoutManager;
 import jcurses.widgets.MenuList;
 import jcurses.widgets.Window;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Load implements ItemListener {
+
   private MenuList select;
   private Window window;
 
@@ -28,7 +28,8 @@ public class Load implements ItemListener {
     Object source = event.getSource();
 
     if (source.equals(select)) {
-    	String name = event.getItem().toString();
+      String name = event.getItem()
+        .toString();
       Creature hero = Referee.load(name);
       window.close();
       Game game = new Game(hero);
@@ -41,19 +42,20 @@ public class Load implements ItemListener {
    */
   public void run() {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE);
-    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), 
-                            false, null);
+    window = new Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
+      false, null);
 
     GridLayoutManager layout = new GridLayoutManager(1, 1);
-    window.getRootPanel().setPanelColors(colors);
-    window.getRootPanel().setLayoutManager(layout);
+    window.getRootPanel()
+      .setPanelColors(colors);
+    window.getRootPanel()
+      .setLayoutManager(layout);
     window.setShadow(false);
 
     select = new MenuList();
     select.addListener(this);
     select.setColors(colors);
-    select.setSelectedItemColors(
-        new CharColor(CharColor.WHITE, CharColor.BLACK));
+    select.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
     String[] files = Persistence.list();
 
@@ -61,8 +63,8 @@ public class Load implements ItemListener {
       select.add(files[index]);
     }
 
-    layout.addWidget(select, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER, 
-                     GridLayoutManager.ALIGNMENT_CENTER);
+    layout.addWidget(select, 0, 0, 1, 1, GridLayoutManager.ALIGNMENT_CENTER,
+      GridLayoutManager.ALIGNMENT_CENTER);
 
     window.show();
   }

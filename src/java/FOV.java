@@ -1,484 +1,78 @@
 /*
-The code in this sourse file implements line of sight algorithm
-originally developed for Angband roguelike game (description of
-this algorithm can be found in cave.c file in Angband sources):
-
-A simple, fast, integer-based line-of-sight algorithm.  By Joseph Hall,
-4116 Brewster Drive, Raleigh NC 27606.  Email to jnh@ecemwl.ncsu.edu.
-
-The algorithm implementation included in this source code is written
-from scratch by Serge Semashko to have a faster and better optimized
-code (in Avanor LOS is used by EVERY monster, not only by the player,
-so it is very important) and avoid problems with Angband license in
-order to put this code under GPL license (so it is not a derived work
-but independent algorithm implementation). The code which builds the
-visibility table los_info[] is currently based on Angband sources, so
-it is not included into Avanor distribution.
-
-This implementations also has some nice features not present in the
-original algorightm used for Angband:
-1. It is possible to track whether the center of each cell is seen
-2. Each grid is processed only once, it is very useful for implementing
-        fireball spells using this code (the callback will be called only
-        once for each grid, so none of them will be damaged twice)
-
-*/
+ * The code in this sourse file implements line of sight algorithm originally
+ * developed for Angband roguelike game (description of this algorithm can be
+ * found in cave.c file in Angband sources):
+ * 
+ * A simple, fast, integer-based line-of-sight algorithm. By Joseph Hall, 4116
+ * Brewster Drive, Raleigh NC 27606. Email to jnh@ecemwl.ncsu.edu.
+ * 
+ * The algorithm implementation included in this source code is written from
+ * scratch by Serge Semashko to have a faster and better optimized code (in
+ * Avanor LOS is used by EVERY monster, not only by the player, so it is very
+ * important) and avoid problems with Angband license in order to put this code
+ * under GPL license (so it is not a derived work but independent algorithm
+ * implementation). The code which builds the visibility table los_info[] is
+ * currently based on Angband sources, so it is not included into Avanor
+ * distribution.
+ * 
+ * This implementations also has some nice features not present in the original
+ * algorightm used for Angband: 1. It is possible to track whether the center of
+ * each cell is seen 2. Each grid is processed only once, it is very useful for
+ * implementing fireball spells using this code (the callback will be called
+ * only once for each grid, so none of them will be damaged twice)
+ *  
+ */
 public class FOV {
+
   private static final int Y = 0;
   private static final int X = 1;
-  private static final int[][][] GRID_DELTA = new int[][][] {
-      {
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 },
-        { 0, 0 }
-      },
-      {
-        { 0, 1 },
-        { 1, 0 },
-        { 1, 0 },
-        { 0, -1 },
-        { 0, -1 },
-        { -1, 0 },
-        { -1, 0 },
-        { 0, 1 }
-      },
-      {
-        { 1, 1 },
-        { 1, 1 },
-        { 1, -1 },
-        { 1, -1 },
-        { -1, -1 },
-        { -1, -1 },
-        { -1, 1 },
-        { -1, 1 }
-      },
-      {
-        { 0, 2 },
-        { 2, 0 },
-        { 2, 0 },
-        { 0, -2 },
-        { 0, -2 },
-        { -2, 0 },
-        { -2, 0 },
-        { 0, 2 }
-      },
-      {
-        { 1, 2 },
-        { 2, 1 },
-        { 2, -1 },
-        { 1, -2 },
-        { -1, -2 },
-        { -2, -1 },
-        { -2, 1 },
-        { -1, 2 }
-      },
-      {
-        { 2, 2 },
-        { 2, 2 },
-        { 2, -2 },
-        { 2, -2 },
-        { -2, -2 },
-        { -2, -2 },
-        { -2, 2 },
-        { -2, 2 }
-      },
-      {
-        { 0, 3 },
-        { 3, 0 },
-        { 3, 0 },
-        { 0, -3 },
-        { 0, -3 },
-        { -3, 0 },
-        { -3, 0 },
-        { 0, 3 }
-      },
-      {
-        { 1, 3 },
-        { 3, 1 },
-        { 3, -1 },
-        { 1, -3 },
-        { -1, -3 },
-        { -3, -1 },
-        { -3, 1 },
-        { -1, 3 }
-      },
-      {
-        { 2, 3 },
-        { 3, 2 },
-        { 3, -2 },
-        { 2, -3 },
-        { -2, -3 },
-        { -3, -2 },
-        { -3, 2 },
-        { -2, 3 }
-      },
-      {
-        { 3, 3 },
-        { 3, 3 },
-        { 3, -3 },
-        { 3, -3 },
-        { -3, -3 },
-        { -3, -3 },
-        { -3, 3 },
-        { -3, 3 }
-      },
-      {
-        { 0, 4 },
-        { 4, 0 },
-        { 4, 0 },
-        { 0, -4 },
-        { 0, -4 },
-        { -4, 0 },
-        { -4, 0 },
-        { 0, 4 }
-      },
-      {
-        { 1, 4 },
-        { 4, 1 },
-        { 4, -1 },
-        { 1, -4 },
-        { -1, -4 },
-        { -4, -1 },
-        { -4, 1 },
-        { -1, 4 }
-      },
-      {
-        { 2, 4 },
-        { 4, 2 },
-        { 4, -2 },
-        { 2, -4 },
-        { -2, -4 },
-        { -4, -2 },
-        { -4, 2 },
-        { -2, 4 }
-      },
-      {
-        { 3, 4 },
-        { 4, 3 },
-        { 4, -3 },
-        { 3, -4 },
-        { -3, -4 },
-        { -4, -3 },
-        { -4, 3 },
-        { -3, 4 }
-      },
-      {
-        { 4, 4 },
-        { 4, 4 },
-        { 4, -4 },
-        { 4, -4 },
-        { -4, -4 },
-        { -4, -4 },
-        { -4, 4 },
-        { -4, 4 }
-      },
-      {
-        { 0, 5 },
-        { 5, 0 },
-        { 5, 0 },
-        { 0, -5 },
-        { 0, -5 },
-        { -5, 0 },
-        { -5, 0 },
-        { 0, 5 }
-      },
-      {
-        { 1, 5 },
-        { 5, 1 },
-        { 5, -1 },
-        { 1, -5 },
-        { -1, -5 },
-        { -5, -1 },
-        { -5, 1 },
-        { -1, 5 }
-      },
-      {
-        { 2, 5 },
-        { 5, 2 },
-        { 5, -2 },
-        { 2, -5 },
-        { -2, -5 },
-        { -5, -2 },
-        { -5, 2 },
-        { -2, 5 }
-      },
-      {
-        { 3, 5 },
-        { 5, 3 },
-        { 5, -3 },
-        { 3, -5 },
-        { -3, -5 },
-        { -5, -3 },
-        { -5, 3 },
-        { -3, 5 }
-      },
-      {
-        { 4, 5 },
-        { 5, 4 },
-        { 5, -4 },
-        { 4, -5 },
-        { -4, -5 },
-        { -5, -4 },
-        { -5, 4 },
-        { -4, 5 }
-      },
-      {
-        { 5, 5 },
-        { 5, 5 },
-        { 5, -5 },
-        { 5, -5 },
-        { -5, -5 },
-        { -5, -5 },
-        { -5, 5 },
-        { -5, 5 }
-      },
-      {
-        { 0, 6 },
-        { 6, 0 },
-        { 6, 0 },
-        { 0, -6 },
-        { 0, -6 },
-        { -6, 0 },
-        { -6, 0 },
-        { 0, 6 }
-      },
-      {
-        { 1, 6 },
-        { 6, 1 },
-        { 6, -1 },
-        { 1, -6 },
-        { -1, -6 },
-        { -6, -1 },
-        { -6, 1 },
-        { -1, 6 }
-      },
-      {
-        { 2, 6 },
-        { 6, 2 },
-        { 6, -2 },
-        { 2, -6 },
-        { -2, -6 },
-        { -6, -2 },
-        { -6, 2 },
-        { -2, 6 }
-      },
-      {
-        { 3, 6 },
-        { 6, 3 },
-        { 6, -3 },
-        { 3, -6 },
-        { -3, -6 },
-        { -6, -3 },
-        { -6, 3 },
-        { -3, 6 }
-      },
-      {
-        { 4, 6 },
-        { 6, 4 },
-        { 6, -4 },
-        { 4, -6 },
-        { -4, -6 },
-        { -6, -4 },
-        { -6, 4 },
-        { -4, 6 }
-      },
-      {
-        { 5, 6 },
-        { 6, 5 },
-        { 6, -5 },
-        { 5, -6 },
-        { -5, -6 },
-        { -6, -5 },
-        { -6, 5 },
-        { -5, 6 }
-      },
-      {
-        { 6, 6 },
-        { 6, 6 },
-        { 6, -6 },
-        { 6, -6 },
-        { -6, -6 },
-        { -6, -6 },
-        { -6, 6 },
-        { -6, 6 }
-      },
-      {
-        { 0, 7 },
-        { 7, 0 },
-        { 7, 0 },
-        { 0, -7 },
-        { 0, -7 },
-        { -7, 0 },
-        { -7, 0 },
-        { 0, 7 }
-      },
-      {
-        { 1, 7 },
-        { 7, 1 },
-        { 7, -1 },
-        { 1, -7 },
-        { -1, -7 },
-        { -7, -1 },
-        { -7, 1 },
-        { -1, 7 }
-      },
-      {
-        { 2, 7 },
-        { 7, 2 },
-        { 7, -2 },
-        { 2, -7 },
-        { -2, -7 },
-        { -7, -2 },
-        { -7, 2 },
-        { -2, 7 }
-      },
-      {
-        { 3, 7 },
-        { 7, 3 },
-        { 7, -3 },
-        { 3, -7 },
-        { -3, -7 },
-        { -7, -3 },
-        { -7, 3 },
-        { -3, 7 }
-      },
-      {
-        { 4, 7 },
-        { 7, 4 },
-        { 7, -4 },
-        { 4, -7 },
-        { -4, -7 },
-        { -7, -4 },
-        { -7, 4 },
-        { -4, 7 }
-      },
-      {
-        { 5, 7 },
-        { 7, 5 },
-        { 7, -5 },
-        { 5, -7 },
-        { -5, -7 },
-        { -7, -5 },
-        { -7, 5 },
-        { -5, 7 }
-      },
-      {
-        { 6, 7 },
-        { 7, 6 },
-        { 7, -6 },
-        { 6, -7 },
-        { -6, -7 },
-        { -7, -6 },
-        { -7, 6 },
-        { -6, 7 }
-      },
-      {
-        { 0, 8 },
-        { 8, 0 },
-        { 8, 0 },
-        { 0, -8 },
-        { 0, -8 },
-        { -8, 0 },
-        { -8, 0 },
-        { 0, 8 }
-      },
-      {
-        { 1, 8 },
-        { 8, 1 },
-        { 8, -1 },
-        { 1, -8 },
-        { -1, -8 },
-        { -8, -1 },
-        { -8, 1 },
-        { -1, 8 }
-      },
-      {
-        { 2, 8 },
-        { 8, 2 },
-        { 8, -2 },
-        { 2, -8 },
-        { -2, -8 },
-        { -8, -2 },
-        { -8, 2 },
-        { -2, 8 }
-      },
-      {
-        { 3, 8 },
-        { 8, 3 },
-        { 8, -3 },
-        { 3, -8 },
-        { -3, -8 },
-        { -8, -3 },
-        { -8, 3 },
-        { -3, 8 }
-      },
-      {
-        { 4, 8 },
-        { 8, 4 },
-        { 8, -4 },
-        { 4, -8 },
-        { -4, -8 },
-        { -8, -4 },
-        { -8, 4 },
-        { -4, 8 }
-      },
-      {
-        { 5, 8 },
-        { 8, 5 },
-        { 8, -5 },
-        { 5, -8 },
-        { -5, -8 },
-        { -8, -5 },
-        { -8, 5 },
-        { -5, 8 }
-      },
-      {
-        { 0, 9 },
-        { 9, 0 },
-        { 9, 0 },
-        { 0, -9 },
-        { 0, -9 },
-        { -9, 0 },
-        { -9, 0 },
-        { 0, 9 }
-      },
-      {
-        { 1, 9 },
-        { 9, 1 },
-        { 9, -1 },
-        { 1, -9 },
-        { -1, -9 },
-        { -9, -1 },
-        { -9, 1 },
-        { -1, 9 }
-      },
-      {
-        { 2, 9 },
-        { 9, 2 },
-        { 9, -2 },
-        { 2, -9 },
-        { -2, -9 },
-        { -9, -2 },
-        { -9, 2 },
-        { -2, 9 }
-      },
-      {
-        { 3, 9 },
-        { 9, 3 },
-        { 9, -3 },
-        { 3, -9 },
-        { -3, -9 },
-        { -9, -3 },
-        { -9, 3 },
-        { -3, 9 }
-      }
-    };
-  private static FOVInfo[] INFO = new FOVInfo[] {
+  private static final int[][][] GRID_DELTA = new int[][][]{
+      {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
+      {{0, 1}, {1, 0}, {1, 0}, {0, -1}, {0, -1}, {-1, 0}, {-1, 0}, {0, 1}},
+      {{1, 1}, {1, 1}, {1, -1}, {1, -1}, {-1, -1}, {-1, -1}, {-1, 1}, {-1, 1}},
+      {{0, 2}, {2, 0}, {2, 0}, {0, -2}, {0, -2}, {-2, 0}, {-2, 0}, {0, 2}},
+      {{1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}},
+      {{2, 2}, {2, 2}, {2, -2}, {2, -2}, {-2, -2}, {-2, -2}, {-2, 2}, {-2, 2}},
+      {{0, 3}, {3, 0}, {3, 0}, {0, -3}, {0, -3}, {-3, 0}, {-3, 0}, {0, 3}},
+      {{1, 3}, {3, 1}, {3, -1}, {1, -3}, {-1, -3}, {-3, -1}, {-3, 1}, {-1, 3}},
+      {{2, 3}, {3, 2}, {3, -2}, {2, -3}, {-2, -3}, {-3, -2}, {-3, 2}, {-2, 3}},
+      {{3, 3}, {3, 3}, {3, -3}, {3, -3}, {-3, -3}, {-3, -3}, {-3, 3}, {-3, 3}},
+      {{0, 4}, {4, 0}, {4, 0}, {0, -4}, {0, -4}, {-4, 0}, {-4, 0}, {0, 4}},
+      {{1, 4}, {4, 1}, {4, -1}, {1, -4}, {-1, -4}, {-4, -1}, {-4, 1}, {-1, 4}},
+      {{2, 4}, {4, 2}, {4, -2}, {2, -4}, {-2, -4}, {-4, -2}, {-4, 2}, {-2, 4}},
+      {{3, 4}, {4, 3}, {4, -3}, {3, -4}, {-3, -4}, {-4, -3}, {-4, 3}, {-3, 4}},
+      {{4, 4}, {4, 4}, {4, -4}, {4, -4}, {-4, -4}, {-4, -4}, {-4, 4}, {-4, 4}},
+      {{0, 5}, {5, 0}, {5, 0}, {0, -5}, {0, -5}, {-5, 0}, {-5, 0}, {0, 5}},
+      {{1, 5}, {5, 1}, {5, -1}, {1, -5}, {-1, -5}, {-5, -1}, {-5, 1}, {-1, 5}},
+      {{2, 5}, {5, 2}, {5, -2}, {2, -5}, {-2, -5}, {-5, -2}, {-5, 2}, {-2, 5}},
+      {{3, 5}, {5, 3}, {5, -3}, {3, -5}, {-3, -5}, {-5, -3}, {-5, 3}, {-3, 5}},
+      {{4, 5}, {5, 4}, {5, -4}, {4, -5}, {-4, -5}, {-5, -4}, {-5, 4}, {-4, 5}},
+      {{5, 5}, {5, 5}, {5, -5}, {5, -5}, {-5, -5}, {-5, -5}, {-5, 5}, {-5, 5}},
+      {{0, 6}, {6, 0}, {6, 0}, {0, -6}, {0, -6}, {-6, 0}, {-6, 0}, {0, 6}},
+      {{1, 6}, {6, 1}, {6, -1}, {1, -6}, {-1, -6}, {-6, -1}, {-6, 1}, {-1, 6}},
+      {{2, 6}, {6, 2}, {6, -2}, {2, -6}, {-2, -6}, {-6, -2}, {-6, 2}, {-2, 6}},
+      {{3, 6}, {6, 3}, {6, -3}, {3, -6}, {-3, -6}, {-6, -3}, {-6, 3}, {-3, 6}},
+      {{4, 6}, {6, 4}, {6, -4}, {4, -6}, {-4, -6}, {-6, -4}, {-6, 4}, {-4, 6}},
+      {{5, 6}, {6, 5}, {6, -5}, {5, -6}, {-5, -6}, {-6, -5}, {-6, 5}, {-5, 6}},
+      {{6, 6}, {6, 6}, {6, -6}, {6, -6}, {-6, -6}, {-6, -6}, {-6, 6}, {-6, 6}},
+      {{0, 7}, {7, 0}, {7, 0}, {0, -7}, {0, -7}, {-7, 0}, {-7, 0}, {0, 7}},
+      {{1, 7}, {7, 1}, {7, -1}, {1, -7}, {-1, -7}, {-7, -1}, {-7, 1}, {-1, 7}},
+      {{2, 7}, {7, 2}, {7, -2}, {2, -7}, {-2, -7}, {-7, -2}, {-7, 2}, {-2, 7}},
+      {{3, 7}, {7, 3}, {7, -3}, {3, -7}, {-3, -7}, {-7, -3}, {-7, 3}, {-3, 7}},
+      {{4, 7}, {7, 4}, {7, -4}, {4, -7}, {-4, -7}, {-7, -4}, {-7, 4}, {-4, 7}},
+      {{5, 7}, {7, 5}, {7, -5}, {5, -7}, {-5, -7}, {-7, -5}, {-7, 5}, {-5, 7}},
+      {{6, 7}, {7, 6}, {7, -6}, {6, -7}, {-6, -7}, {-7, -6}, {-7, 6}, {-6, 7}},
+      {{0, 8}, {8, 0}, {8, 0}, {0, -8}, {0, -8}, {-8, 0}, {-8, 0}, {0, 8}},
+      {{1, 8}, {8, 1}, {8, -1}, {1, -8}, {-1, -8}, {-8, -1}, {-8, 1}, {-1, 8}},
+      {{2, 8}, {8, 2}, {8, -2}, {2, -8}, {-2, -8}, {-8, -2}, {-8, 2}, {-2, 8}},
+      {{3, 8}, {8, 3}, {8, -3}, {3, -8}, {-3, -8}, {-8, -3}, {-8, 3}, {-3, 8}},
+      {{4, 8}, {8, 4}, {8, -4}, {4, -8}, {-4, -8}, {-8, -4}, {-8, 4}, {-4, 8}},
+      {{5, 8}, {8, 5}, {8, -5}, {5, -8}, {-5, -8}, {-8, -5}, {-8, 5}, {-5, 8}},
+      {{0, 9}, {9, 0}, {9, 0}, {0, -9}, {0, -9}, {-9, 0}, {-9, 0}, {0, 9}},
+      {{1, 9}, {9, 1}, {9, -1}, {1, -9}, {-1, -9}, {-9, -1}, {-9, 1}, {-1, 9}},
+      {{2, 9}, {9, 2}, {9, -2}, {2, -9}, {-2, -9}, {-9, -2}, {-9, 2}, {-2, 9}},
+      {{3, 9}, {9, 3}, {9, -3}, {3, -9}, {-3, -9}, {-9, -3}, {-9, 3}, {-3, 9}}};
+  private static FOVInfo[] INFO = new FOVInfo[]{
       new FOVInfo(GRID_DELTA[0], 0x00000000, 0x00000001, 2, 2, 0, 1),
       new FOVInfo(GRID_DELTA[1], 0x7FFFFFFF, 0x00000001, 3, 4, 1, 1),
       new FOVInfo(GRID_DELTA[2], 0xFFFF8000, 0x80000000, 5, 5, 1, 2),
@@ -523,10 +117,10 @@ public class FOV {
       new FOVInfo(GRID_DELTA[42], 0x00000001, 0x00000001, 0, 0, 9, 1),
       new FOVInfo(GRID_DELTA[43], 0x000000FE, 0x00000020, 0, 0, 9, 4),
       new FOVInfo(GRID_DELTA[44], 0x00001F00, 0x00000600, 0, 0, 9, 4),
-      new FOVInfo(GRID_DELTA[45], 0x0000F000, 0x00004000, 0, 0, 9, 4)
-    };
+      new FOVInfo(GRID_DELTA[45], 0x0000F000, 0x00004000, 0, 0, 9, 4)};
 
-  //	 We prepared the grid data so that we need only 32 bits for slopes mask, it fits just  
+  //	 We prepared the grid data so that we need only 32 bits for slopes mask, it
+  // fits just
   //	 one variable
   private static final int BIT_MASK0 = 0xFFFFFFFF;
 
@@ -557,7 +151,7 @@ public class FOV {
 
     //		Scan each octant
     for (int o = 0; o < 8; o++) {
-      //  Initialize horizontal/vertical and diagonal usage flagmask 
+      //  Initialize horizontal/vertical and diagonal usage flagmask
       //  (used in order not to call grid_callback function twice)
       int mask = (int) ((2L >> (o % 2)) | 4);
 
@@ -569,7 +163,8 @@ public class FOV {
         mask &= ~3;
       }
 
-      //  Angbandish trick, very useful for avoiding coming to the same grid twice
+      //  Angbandish trick, very useful for avoiding coming to the same grid
+      // twice
       int last = 0;
 
       //  Visibility bit vector, initially all the directions are visible
@@ -590,21 +185,23 @@ public class FOV {
         FOVInfo current = queue[head++];
 
         //  Check radius and bits
-        if (((visibility & (current.bits0)) != 0) &&
-              (current.distance <= radius)) {
+        if (((visibility & (current.bits0)) != 0)
+            && (current.distance <= radius)) {
           boolean isVisible = true;
 
-          //  For grids, disabled in flagmask, take their visibility value from cache
+          //  For grids, disabled in flagmask, take their visibility value from
+          // cache
           //  (the flags are chosen so that this value should already be there)
           if ((current.flag & mask) != 0) {
-            isVisible = scanner.scan(x + current.delta[o][X],
-                y + current.delta[o][Y], current.distance,
-                ((visibility & current.bits0_c) == current.bits0_c));
+            isVisible = scanner.scan(x + current.delta[o][X], y
+                + current.delta[o][Y], current.distance,
+              ((visibility & current.bits0_c) == current.bits0_c));
           }
 
           if (isVisible) {
             //  For each visible grid, put into a queue the next grids which
-            //  probably can be seen behind this one, there are up to two such grids
+            //  probably can be seen behind this one, there are up to two such
+            // grids
             if ((last != current.next0) && (current.next0 != 0)) {
               queue[tail++] = INFO[current.next0];
             }
@@ -613,7 +210,8 @@ public class FOV {
               queue[tail++] = INFO[last = current.next1];
             }
           } else {
-            //  Remove visibility bit flags from for the directions this solid grid hides
+            //  Remove visibility bit flags from for the directions this solid
+            // grid hides
             visibility &= ~(current.bits0);
           }
         }
@@ -622,6 +220,7 @@ public class FOV {
   }
 
   private static class FOVInfo {
+
     int[][] delta;
     long bits0;
     long bits0_c;
@@ -631,7 +230,7 @@ public class FOV {
     int flag;
 
     public FOVInfo(int[][] delta, long bits0, long bits0_c, int next0,
-      int next1, int distance, int flag) {
+        int next1, int distance, int flag) {
       this.delta = delta;
       this.bits0 = bits0;
       this.bits0_c = bits0_c;

@@ -5,20 +5,21 @@ import ironfist.persistence.PersistenceException;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class PlanBook implements Serializable {
+
   private String name;
   private Object page;
 
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
    */
   public void turnTo(String key) {
     if ((name != null) && !name.equals(key)) {
@@ -50,8 +51,10 @@ public class PlanBook implements Serializable {
   /**
    * DOCUMENT ME!
    * 
-   * @param key DOCUMENT ME!
-   * @param page DOCUMENT ME!
+   * @param key
+   *          DOCUMENT ME!
+   * @param page
+   *          DOCUMENT ME!
    */
   public void add(String key, Object page) {
     turnTo(key);

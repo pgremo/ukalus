@@ -5,13 +5,13 @@ import ironfist.Wall;
 
 import java.util.Comparator;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class DungeonRoomComparator implements Comparator {
+
   /**
    * @see java.util.Comparator#compare(Object, Object)
    */
@@ -22,8 +22,7 @@ public class DungeonRoomComparator implements Comparator {
       if (o2 == null) {
         result = false;
       } else {
-        result = (((Tile) o1).getTileType() instanceof Wall && 
-                 ((Tile) o2).getTileType() instanceof Wall);
+        result = (((Tile) o1).getTileType() instanceof Wall && ((Tile) o2).getTileType() instanceof Wall);
       }
     }
 

@@ -4,13 +4,13 @@ import ironfist.geometry.Vector;
 
 import java.io.Serializable;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class Stairs implements Portal, Serializable {
+
   public final static String UP = "up";
   public final static String DOWN = "down";
   private Vector coordinate;
@@ -38,7 +38,8 @@ public class Stairs implements Portal, Serializable {
   /**
    * Sets the coordinate.
    * 
-   * @param location The coordinate to set
+   * @param location
+   *          The coordinate to set
    */
   public void setCoordinate(Vector coordinate) {
     this.coordinate = coordinate;
@@ -65,7 +66,8 @@ public class Stairs implements Portal, Serializable {
   /**
    * Sets the levelName.
    * 
-   * @param levelName The levelName to set
+   * @param levelName
+   *          The levelName to set
    */
   public void setLevelName(String levelName) {
     this.levelName = levelName;

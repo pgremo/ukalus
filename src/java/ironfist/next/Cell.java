@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class Cell {
+
   private static final String ROOT_NAME = "";
   private static final String SEPERATOR = ".";
   private String name;
@@ -29,7 +29,7 @@ public class Cell {
 
   /**
    * Returns the name.
-   *
+   * 
    * @return String
    */
   public String getName() {
@@ -48,8 +48,9 @@ public class Cell {
 
   /**
    * Sets the name.
-   *
-   * @param name The name to set
+   * 
+   * @param name
+   *          The name to set
    */
   public void setName(String name) {
     this.name = name;
@@ -57,7 +58,7 @@ public class Cell {
 
   /**
    * Returns the parent.
-   *
+   * 
    * @return Cell
    */
   public Cell getParent() {
@@ -66,8 +67,9 @@ public class Cell {
 
   /**
    * Sets the parent.
-   *
-   * @param parent The parent to set
+   * 
+   * @param parent
+   *          The parent to set
    */
   public void setParent(Cell parent) {
     this.parent = parent;
@@ -75,7 +77,7 @@ public class Cell {
 
   /**
    * Returns the value.
-   *
+   * 
    * @return Object
    */
   public Object getValue() {
@@ -84,26 +86,24 @@ public class Cell {
 
   /**
    * Sets the value.
-   *
-   * @param value The value to set
+   * 
+   * @param value
+   *          The value to set
    */
   public void setValue(Object value) {
     this.value = value;
   }
 
   public void put(String key, Object value) {
-    getCell(key)
-      .setValue(value);
+    getCell(key).setValue(value);
   }
 
   public void remove(String key) {
-    getCell(key)
-      .removeCell();
+    getCell(key).removeCell();
   }
 
   public Object get(String key) {
-    return getCell(key)
-             .getValue();
+    return getCell(key).getValue();
   }
 
   public void removeCell() {
@@ -111,7 +111,7 @@ public class Cell {
     parent = null;
 
     Iterator iterator = children.values()
-                                .iterator();
+      .iterator();
 
     while (iterator.hasNext()) {
       Cell current = (Cell) iterator.next();

@@ -12,19 +12,16 @@ import ironfist.geometry.Vector;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class HomeGenerator {
-  private static final TileTypePredicate tilePredicate = 
-      new TileTypePredicate();
-  private static final EmptyFloorTilePredicate stairPredicate = 
-      new EmptyFloorTilePredicate();
-  private static final DungeonRoomComparator roomComparator = 
-      new DungeonRoomComparator();
+
+  private static final TileTypePredicate tilePredicate = new TileTypePredicate();
+  private static final EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
+  private static final DungeonRoomComparator roomComparator = new DungeonRoomComparator();
   private RectangleRoomFactory areaFactory = new RectangleRoomFactory();
 
   {
@@ -41,7 +38,8 @@ public class HomeGenerator {
   /**
    * DOCUMENT ME!
    * 
-   * @param name DOCUMENT ME!
+   * @param name
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -58,8 +56,8 @@ public class HomeGenerator {
     itemLocation = room.getRandom(stairPredicate);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
 
-    Vector coordinate = new Vector((result.getHeight() - 7) / 2, 
-                                           (result.getWidth() - 7) / 2);
+    Vector coordinate = new Vector((result.getHeight() - 7) / 2,
+      (result.getWidth() - 7) / 2);
 
     room.setCoordinate(coordinate);
     room.place(result);
@@ -70,9 +68,11 @@ public class HomeGenerator {
   /**
    * DOCUMENT ME!
    * 
-   * @param args DOCUMENT ME!
+   * @param args
+   *          DOCUMENT ME!
    * 
-   * @throws Exception DOCUMENT ME!
+   * @throws Exception
+   *           DOCUMENT ME!
    */
   public static void main(String[] args) throws Exception {
     HomeGenerator generator = new HomeGenerator();
@@ -99,10 +99,11 @@ public class HomeGenerator {
           if (floor.getDoor() != null) {
             output.append("+");
           } else if (floor.getPortal() != null) {
-            if (((Stairs) floor.getPortal()).getDirection().equals(Stairs.DOWN)) {
+            if (((Stairs) floor.getPortal()).getDirection()
+              .equals(Stairs.DOWN)) {
               output.append(">");
             } else if (((Stairs) floor.getPortal()).getDirection()
-                                                 .equals(Stairs.UP)) {
+              .equals(Stairs.UP)) {
               output.append("<");
             }
           } else {

@@ -5,13 +5,13 @@ import ironfist.geometry.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
 public class RecursiveShadowCastingVision {
+
   private Level level;
   private int maxRadius;
   private List seen;
@@ -21,10 +21,14 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x1 DOCUMENT ME!
-   * @param y1 DOCUMENT ME!
-   * @param x2 DOCUMENT ME!
-   * @param y2 DOCUMENT ME!
+   * @param x1
+   *          DOCUMENT ME!
+   * @param y1
+   *          DOCUMENT ME!
+   * @param x2
+   *          DOCUMENT ME!
+   * @param y2
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -42,10 +46,14 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x1 DOCUMENT ME!
-   * @param y1 DOCUMENT ME!
-   * @param x2 DOCUMENT ME!
-   * @param y2 DOCUMENT ME!
+   * @param x1
+   *          DOCUMENT ME!
+   * @param y1
+   *          DOCUMENT ME!
+   * @param x2
+   *          DOCUMENT ME!
+   * @param y2
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -62,9 +70,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanNW2N(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -77,7 +88,7 @@ public class RecursiveShadowCastingVision {
     int yCheck = yCenter - distance;
 
     // is the starting cell the leftmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (xStart != (xCenter - (1 * distance))) {
       applyCell(xStart, yCheck);
@@ -90,7 +101,7 @@ public class RecursiveShadowCastingVision {
     // scan (xCheck<=xEnd)
     for (int xCheck = xStart + 1; xCheck <= xEnd; xCheck++) {
       // is the current cell the rightmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (xCheck != xCenter) {
         // apply cell
@@ -102,22 +113,22 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by to the left of the blocking cell
       //
-      // +---+a####+---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   |#####|   |  a = old [xCheck,yCheck]
-      // |   |#####|   |  b = new [xCheck-0.00001,yCheck+0.99999]
-      // |   |#####|   |
+      // +---+a####+---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | |#####| | a = old [xCheck,yCheck]
+      // | |#####| | b = new [xCheck-0.00001,yCheck+0.99999]
+      // | |#####| |
       // +---b#####+---+
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNW2N(distance + 1, startSlope, 
-                   slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                         (double) xCheck - 0.000001, (double) yCheck + 0.999999));
+          scanNW2N(distance + 1, startSlope, slope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck - 0.000001,
+            (double) yCheck + 0.999999));
         }
 
         prevBlocked = true;
@@ -127,21 +138,21 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by to the right
       // of the blocking cells
       //
-      // #####a---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // #####|   ||   |  a = new and old [xCheck,yCheck]
-      // #####|   ||   |
-      // #####|   ||   |
+      // #####a---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // #####| || | a = new and old [xCheck,yCheck]
+      // #####| || |
+      // #####| || |
       // #####+---++---+
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                             (double) xCheck, (double) yCheck);
+          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck, (double) yCheck);
         }
 
         prevBlocked = false;
@@ -158,9 +169,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanNE2N(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -173,7 +187,7 @@ public class RecursiveShadowCastingVision {
     int yCheck = yCenter - distance;
 
     // is starting cell the rightmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (xStart != (xCenter - (-1 * distance))) {
       applyCell(xStart, yCheck);
@@ -186,7 +200,7 @@ public class RecursiveShadowCastingVision {
     // scan (xCheck>=xEnd)
     for (int xCheck = xStart - 1; xCheck >= xEnd; xCheck--) {
       // is the current cell the leftmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (xCheck != xCenter) {
         // apply cell
@@ -198,22 +212,22 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by to the right of the blocking cell
       //
-      // +---+a####+---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   |#####|   |  a = old [xCheck,yCheck]
-      // |   |#####|   |  b = new [xCheck+0.9999,yCheck-0.00001]
-      // |   |#####|   |
+      // +---+a####+---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | |#####| | a = old [xCheck,yCheck]
+      // | |#####| | b = new [xCheck+0.9999,yCheck-0.00001]
+      // | |#####| |
       // +---+#####b---+
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNE2N(distance + 1, startSlope, 
-                   slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                         (double) xCheck + 1, (double) yCheck + 0.99999));
+          scanNE2N(distance + 1, startSlope, slope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck + 1,
+            (double) yCheck + 0.99999));
         }
 
         prevBlocked = true;
@@ -223,21 +237,21 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by to the left
       // of the blocking cells
       //
-      // +---+a---b#####  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   |#####  a = old [xCheck,yCheck]
-      // |   ||   |#####  b = new [xCheck+0.99999,yCheck]
-      // |   ||   |#####
+      // +---+a---b##### @ = [xCenter+0.5,yCenter+0.5]
+      // | || |##### a = old [xCheck,yCheck]
+      // | || |##### b = new [xCheck+0.99999,yCheck]
+      // | || |#####
       // +---++---+#####
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                             (double) xCheck + 0.9999999, (double) yCheck);
+          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck + 0.9999999, (double) yCheck);
         }
 
         prevBlocked = false;
@@ -254,9 +268,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanNW2W(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -269,7 +286,7 @@ public class RecursiveShadowCastingVision {
     int xCheck = xCenter - distance;
 
     // is starting cell the topmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (yStart != (yCenter - (1 * distance))) {
       applyCell(xCheck, yStart);
@@ -282,7 +299,7 @@ public class RecursiveShadowCastingVision {
     // scan (yCheck<=yEnd)
     for (int yCheck = yStart + 1; yCheck <= yEnd; yCheck++) {
       // is the current cell the bottommost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (yCheck != yCenter) {
         // apply cell
@@ -294,28 +311,27 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by the top of the blocking cell (see fig.)
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // |   ||   ||   |  b = new [xCheck+0.99999,yCheck-0.00001]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | || || | b = new [xCheck+0.99999,yCheck-0.00001]
+      // | || || |
       // +---b+---++---+
       // a####+---++---+
-      // #####|   ||   |
-      // #####|   ||   |
-      // #####|   ||   |
+      // #####| || |
+      // #####| || |
+      // #####| || |
       // #####+---++---+
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNW2W(distance + 1, startSlope, 
-                   invSlope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                            (double) xCheck + 0.99999, 
-                            (double) yCheck - 0.00001));
+          scanNW2W(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck + 0.99999,
+            (double) yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -325,26 +341,26 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by the bottom
       // of the blocking cells
       //
-      // #####+---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // #####|   ||   |  a = old and new [xCheck,yCheck]
-      // #####|   ||   |
-      // #####|   ||   |
+      // #####+---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // #####| || | a = old and new [xCheck,yCheck]
+      // #####| || |
+      // #####| || |
       // #####+---++---+
       // a---++---++---+
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // +---++---++---+
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 
-                                0.5, (double) xCheck, (double) yCheck);
+          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck, (double) yCheck);
         }
 
         prevBlocked = false;
@@ -361,9 +377,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanSW2W(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -376,7 +395,7 @@ public class RecursiveShadowCastingVision {
     int xCheck = xCenter - distance;
 
     // is starting cell the bottommost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (yStart != (yCenter - (-1 * distance))) {
       applyCell(xCheck, yStart);
@@ -389,7 +408,7 @@ public class RecursiveShadowCastingVision {
     // scan (yCheck>=yEnd)
     for (int yCheck = yStart - 1; yCheck >= yEnd; yCheck--) {
       // is the current cell the topmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (yCheck != yCenter) {
         // apply cell
@@ -401,27 +420,27 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by the bottom of the blocking cell
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // |   ||   || @ |  b = new [xCheck+0.99999,yCheck+1]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | || || @ | b = new [xCheck+0.99999,yCheck+1]
+      // | || || |
       // +---++---++---+
       // a####+---++---+
-      // #####|   ||   |
-      // #####|   ||   |
-      // #####|   ||   |
+      // #####| || |
+      // #####| || |
+      // #####| || |
       // #####+---++---+
       // +---b+---++---+
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSW2W(distance + 1, startSlope, 
-                   invSlope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                            (double) xCheck + 0.99999, (double) yCheck + 1));
+          scanSW2W(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck + 0.99999,
+            (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -431,27 +450,26 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by the top of
       // the blocking cells
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // |   ||   || @ |  b = new [xCheck,yCheck+0.99999]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | || || @ | b = new [xCheck,yCheck+0.99999]
+      // | || || |
       // +---++---++---+
       // a---++---++---+
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // b---++---++---+
       // #####+---++---+
-      // #####|   ||   |
-      // #####|   ||   |
-      // #####|   ||   |
+      // #####| || |
+      // #####| || |
+      // #####| || |
       // #####+---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 
-                                0.5, (double) xCheck, (double) yCheck + 
-                                0.99999);
+          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck, (double) yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -468,9 +486,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanSW2S(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -483,7 +504,7 @@ public class RecursiveShadowCastingVision {
     int yCheck = yCenter + distance;
 
     // is the starting cell the leftmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (xStart != (xCenter + (-1 * distance))) {
       applyCell(xStart, yCheck);
@@ -496,7 +517,7 @@ public class RecursiveShadowCastingVision {
     // scan (xCheck<=xEnd)
     for (int xCheck = xStart + 1; xCheck <= xEnd; xCheck++) {
       // is the current cell the rightmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (xCheck != xCenter) {
         // apply cell
@@ -509,21 +530,20 @@ public class RecursiveShadowCastingVision {
       // endSlope that 'brushes' by to the left of the blocking cell
       //
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
-      // +---ba####+---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   |#####|   |  a = old [xCheck,yCheck]
-      // |   |#####|   |  b = new [xCheck-0.00001,yCheck]
-      // |   |#####|   |
+      // +---ba####+---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | |#####| | a = old [xCheck,yCheck]
+      // | |#####| | b = new [xCheck-0.00001,yCheck]
+      // | |#####| |
       // +---+#####+---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSW2S(distance + 1, startSlope, 
-                   slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                         (double) xCheck - 0.00001, (double) yCheck));
+          scanSW2S(distance + 1, startSlope, slope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck - 0.00001, (double) yCheck));
         }
 
         prevBlocked = true;
@@ -534,20 +554,20 @@ public class RecursiveShadowCastingVision {
       // of the blocking cells
       //
       // +---++---++---+
-      // |   ||   ||   |
-      // |   ||   || @ |
-      // |   ||   ||   |
+      // | || || |
+      // | || || @ |
+      // | || || |
       // +---++---++---+
-      // #####a---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // #####|   ||   |  a = old [xCheck,yCheck]
-      // #####|   ||   |  b = new [xCheck,yCheck+0.99999]
-      // #####|   ||   |
+      // #####a---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // #####| || | a = old [xCheck,yCheck]
+      // #####| || | b = new [xCheck,yCheck+0.99999]
+      // #####| || |
       // #####b---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                             (double) xCheck, (double) yCheck + 0.99999);
+          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck, (double) yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -564,9 +584,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanSE2S(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -579,7 +602,7 @@ public class RecursiveShadowCastingVision {
     int yCheck = yCenter + distance;
 
     // is starting cell the rightmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (xStart != (xCenter + (1 * distance))) {
       applyCell(xStart, yCheck);
@@ -592,7 +615,7 @@ public class RecursiveShadowCastingVision {
     // scan (xCheck>=xEnd)
     for (int xCheck = xStart - 1; xCheck >= xEnd; xCheck--) {
       // is the current cell the leftmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (xCheck != xCenter) {
         // apply cell
@@ -605,21 +628,20 @@ public class RecursiveShadowCastingVision {
       // endSlope that 'brushes' by to the right of the blocking cell
       //
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
-      // +---+a####b---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   |#####|   |  a = old [xCheck,yCheck]
-      // |   |#####|   |  b = new [xCheck+1,yCheck]
-      // |   |#####|   |
+      // +---+a####b---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | |#####| | a = old [xCheck,yCheck]
+      // | |#####| | b = new [xCheck+1,yCheck]
+      // | |#####| |
       // +---+#####+---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSE2S(distance + 1, startSlope, 
-                   slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                         (double) xCheck + 1, (double) yCheck));
+          scanSE2S(distance + 1, startSlope, slope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck + 1, (double) yCheck));
         }
 
         prevBlocked = true;
@@ -630,21 +652,20 @@ public class RecursiveShadowCastingVision {
       // of the blocking cells
       //
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
-      // +---+a---+#####  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   |#####  a = old [xCheck,yCheck]
-      // |   ||   |#####  b = new [xCheck+0.99999,yCheck+0.99999]
-      // |   ||   |#####
+      // +---+a---+##### @ = [xCenter+0.5,yCenter+0.5]
+      // | || |##### a = old [xCheck,yCheck]
+      // | || |##### b = new [xCheck+0.99999,yCheck+0.99999]
+      // | || |#####
       // +---++---b#####
       //
       else {
         if (prevBlocked) {
-          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                             (double) xCheck + 0.99999, 
-                             (double) yCheck + 0.99999);
+          startSlope = slope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck + 0.99999, (double) yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -661,9 +682,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanNE2E(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -676,7 +700,7 @@ public class RecursiveShadowCastingVision {
     int xCheck = xCenter + distance;
 
     // is starting cell the topmost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (yStart != (yCenter + (-1 * distance))) {
       applyCell(xCheck, yStart);
@@ -689,7 +713,7 @@ public class RecursiveShadowCastingVision {
     // scan (yCheck<=yEnd)
     for (int yCheck = yStart + 1; yCheck <= yEnd; yCheck++) {
       // is the current cell the bottommost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (yCheck != yCenter) {
         // apply cell
@@ -701,27 +725,26 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by the top of the blocking cell (see fig.)
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // |   ||   ||   |  b = new [xCheck,yCheck-0.00001]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | || || | b = new [xCheck,yCheck-0.00001]
+      // | || || |
       // +---++---+b---+
       // +---++---+a####
-      // |   ||   |#####
-      // |   ||   |#####
-      // |   ||   |#####
+      // | || |#####
+      // | || |#####
+      // | || |#####
       // +---++---+#####
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanNE2E(distance + 1, startSlope, 
-                   invSlope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                            (double) xCheck, (double) yCheck - 0.00001));
+          scanNE2E(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck, (double) yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -731,26 +754,26 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by the bottom
       // of the blocking cells
       //
-      // +---++---+#####  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   |#####  a = old [xCheck,yCheck]
-      // |   ||   |#####  b = new [xCheck+0.99999,yCheck]
-      // |   ||   |#####
+      // +---++---+##### @ = [xCenter+0.5,yCenter+0.5]
+      // | || |##### a = old [xCheck,yCheck]
+      // | || |##### b = new [xCheck+0.99999,yCheck]
+      // | || |#####
       // +---++---+#####
       // +---++---+a---b
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // +---++---++---+
       // +---++---++---+
-      // |   ||   ||   |
-      // | @ ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | @ || || |
+      // | || || |
       // +---++---++---+
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 
-                                0.5, (double) xCheck + 0.99999, (double) yCheck);
+          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck + 0.99999, (double) yCheck);
         }
 
         prevBlocked = false;
@@ -767,9 +790,12 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param distance DOCUMENT ME!
-   * @param startSlope DOCUMENT ME!
-   * @param endSlope DOCUMENT ME!
+   * @param distance
+   *          DOCUMENT ME!
+   * @param startSlope
+   *          DOCUMENT ME!
+   * @param endSlope
+   *          DOCUMENT ME!
    */
   private void scanSE2E(int distance, double startSlope, double endSlope) {
     if (distance > maxRadius) {
@@ -782,7 +808,7 @@ public class RecursiveShadowCastingVision {
     int xCheck = xCenter + distance;
 
     // is starting cell the bottommost cell in the octant?
-    // NO: call applyCell() to starting cell 
+    // NO: call applyCell() to starting cell
     // YES: it has already been applied in start()
     if (yStart != (yCenter + (1 * distance))) {
       applyCell(xCheck, yStart);
@@ -795,7 +821,7 @@ public class RecursiveShadowCastingVision {
     // scan (yCheck>=yEnd)
     for (int yCheck = yStart - 1; yCheck >= yEnd; yCheck--) {
       // is the current cell the topmost cell in the octant?
-      // NO: call applyCell() to current cell 
+      // NO: call applyCell() to current cell
       // YES: it has already been applied in start()
       if (yCheck != yCenter) {
         // apply cell
@@ -807,27 +833,26 @@ public class RecursiveShadowCastingVision {
       // hit a 'new' section of walls. a new scan will be started with an
       // endSlope that 'brushes' by the bottom of the blocking cell
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // | @ ||   ||   |  b = new [xCheck,yCheck+1]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | @ || || | b = new [xCheck,yCheck+1]
+      // | || || |
       // +---++---++---+
       // +---++---+a####
-      // |   ||   |#####
-      // |   ||   |#####
-      // |   ||   |#####
+      // | || |#####
+      // | || |#####
+      // | || |#####
       // +---++---+#####
       // +---++---+b---+
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // +---++---++---+
       //
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
-          scanSE2E(distance + 1, startSlope, 
-                   invSlope((double) xCenter + 0.5, (double) yCenter + 0.5, 
-                            (double) xCheck, (double) yCheck + 1));
+          scanSE2E(distance + 1, startSlope, invSlope((double) xCenter + 0.5,
+            (double) yCenter + 0.5, (double) xCheck, (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -837,27 +862,26 @@ public class RecursiveShadowCastingVision {
       // we need to calculate a new startSlope that 'brushes' by the top of
       // the blocking cells
       //
-      // +---++---++---+  @ = [xCenter+0.5,yCenter+0.5]
-      // |   ||   ||   |  a = old [xCheck,yCheck]
-      // | @ ||   ||   |  b = new [xCheck+0.99999,yCheck+0.99999]
-      // |   ||   ||   |
+      // +---++---++---+ @ = [xCenter+0.5,yCenter+0.5]
+      // | || || | a = old [xCheck,yCheck]
+      // | @ || || | b = new [xCheck+0.99999,yCheck+0.99999]
+      // | || || |
       // +---++---++---+
       // +---++---+a---+
-      // |   ||   ||   |
-      // |   ||   ||   |
-      // |   ||   ||   |
+      // | || || |
+      // | || || |
+      // | || || |
       // +---++---++---b
       // +---++---+#####
-      // |   ||   |#####
-      // |   ||   |#####
-      // |   ||   |#####
+      // | || |#####
+      // | || |#####
+      // | || |#####
       // +---++---+#####
       //
       else {
         if (prevBlocked) {
-          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 
-                                0.5, (double) xCheck + 0.99999, 
-                                (double) yCheck + 0.99999);
+          startSlope = invSlope((double) xCenter + 0.5, (double) yCenter + 0.5,
+            (double) xCheck + 0.99999, (double) yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -874,10 +898,14 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param map DOCUMENT ME!
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
-   * @param maxRadius DOCUMENT ME!
+   * @param map
+   *          DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
+   * @param maxRadius
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -891,7 +919,6 @@ public class RecursiveShadowCastingVision {
     if (map == null) {
       return seen;
     }
-
 
     // apply starting cell
     applyCell(x, y);
@@ -1056,8 +1083,10 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    * 
    * @return DOCUMENT ME!
    */
@@ -1082,12 +1111,14 @@ public class RecursiveShadowCastingVision {
   /**
    * DOCUMENT ME!
    * 
-   * @param x DOCUMENT ME!
-   * @param y DOCUMENT ME!
+   * @param x
+   *          DOCUMENT ME!
+   * @param y
+   *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
-  	int newX = Math.abs(x - xCenter);
-  	int newY = Math.abs(y - yCenter);
+    int newX = Math.abs(x - xCenter);
+    int newY = Math.abs(y - yCenter);
     if ((Math.max(newX, newY) + (Math.min(newX, newY) / 2)) <= maxRadius) {
       Tile tile = level.get(new Vector(x, y));
 

@@ -3,13 +3,13 @@ package ironfist.next.actions;
 import ironfist.next.Action;
 import ironfist.next.ActionType;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class WaitAction implements Action {
+
   private int time;
 
   public WaitAction(int time) {

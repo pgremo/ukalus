@@ -5,13 +5,13 @@ import ironfist.next.Identifier;
 import ironfist.next.Property;
 import ironfist.next.Thing;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class ProtectionRingIdentifier implements Identifier {
+
   private String description;
   private String identity;
 
@@ -37,7 +37,7 @@ public class ProtectionRingIdentifier implements Identifier {
 
   /**
    * Returns the description.
-   *
+   * 
    * @return String
    */
   public String getDescription() {
@@ -46,7 +46,7 @@ public class ProtectionRingIdentifier implements Identifier {
 
   /**
    * Returns the identity.
-   *
+   * 
    * @return String
    */
   public String getIdentity() {

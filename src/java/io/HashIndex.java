@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import java.nio.ByteBuffer;
 
-
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author pmgremo
  */
 public class HashIndex {
+
   private static final int MAX_BLOCKS = 127;
   private long location;
   private DataFile file;
@@ -22,11 +22,14 @@ public class HashIndex {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param file DOCUMENT ME!
-   * @param location DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param file
+   *          DOCUMENT ME!
+   * @param location
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public HashIndex(DataFile file, long location) throws IOException {
     this.file = file;
@@ -45,12 +48,14 @@ public class HashIndex {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   *
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * 
    * @return DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public long get(long key) throws IOException {
     return blocks[getHash(key)].get(key);
@@ -58,11 +63,14 @@ public class HashIndex {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   * @param offset DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * @param offset
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public void put(long key, long offset) throws IOException {
     blocks[getHash(key)].put(key, offset);
@@ -70,11 +78,14 @@ public class HashIndex {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   * @param offset DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * @param offset
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public void update(long key, long offset) throws IOException {
     blocks[getHash(key)].update(key, offset);
@@ -82,10 +93,12 @@ public class HashIndex {
 
   /**
    * DOCUMENT ME!
-   *
-   * @param key DOCUMENT ME!
-   *
-   * @throws IOException DOCUMENT ME!
+   * 
+   * @param key
+   *          DOCUMENT ME!
+   * 
+   * @throws IOException
+   *           DOCUMENT ME!
    */
   public void remove(long key) throws IOException {
     blocks[getHash(key)].remove(key);
@@ -104,8 +117,8 @@ public class HashIndex {
       long offset = file.add(buffer);
 
       if (offset != location) {
-        throw new IOException("Index could not be created at offset " +
-          location + ", " + offset);
+        throw new IOException("Index could not be created at offset "
+            + location + ", " + offset);
       }
     }
   }

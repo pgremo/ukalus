@@ -8,14 +8,19 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-
 public class Syllableizer {
+
   private static final char SEPERATOR = '-';
   private static final String CONSONANTS = "bcdfghjklmnpqrstvwxz";
   private static final String VOWELS = "aeiouy";
   private static final String[] DIPGRAPHS = {
-    "ch", "ph", "sh", "tch", "th", "wh", "zh"
-  };
+      "ch",
+      "ph",
+      "sh",
+      "tch",
+      "th",
+      "wh",
+      "zh"};
   private Map dictionary = null;
   private Random random;
 
@@ -34,10 +39,10 @@ public class Syllableizer {
     for (int i = 1; i < word.length(); i++) {
       char current = word.charAt(i);
 
-      if ((CONSONANTS.indexOf(current) != -1) &&
-          (CONSONANTS.indexOf(previous) != -1) &&
-          (Arrays.binarySearch(DIPGRAPHS, "" + previous + current) < 0) &&
-          ((gather.length() > 1) || (VOWELS.indexOf(gather.charAt(0)) != -1))) {
+      if ((CONSONANTS.indexOf(current) != -1)
+          && (CONSONANTS.indexOf(previous) != -1)
+          && (Arrays.binarySearch(DIPGRAPHS, "" + previous + current) < 0)
+          && ((gather.length() > 1) || (VOWELS.indexOf(gather.charAt(0)) != -1))) {
         splitted = splitted + gather + SEPERATOR;
         gather = "";
       }
@@ -57,11 +62,10 @@ public class Syllableizer {
       char current = word.charAt(i);
       char next = word.charAt(i + 1);
 
-      if ((current != SEPERATOR) &&
-          ((CONSONANTS.indexOf(current) != -1) &&
-          (CONSONANTS.indexOf(previous) == -1) &&
-          (CONSONANTS.indexOf(next) == -1)) &&
-          ((splitted.length() == 0) || (word.charAt(i + 1) != SEPERATOR))) {
+      if ((current != SEPERATOR)
+          && ((CONSONANTS.indexOf(current) != -1)
+              && (CONSONANTS.indexOf(previous) == -1) && (CONSONANTS.indexOf(next) == -1))
+          && ((splitted.length() == 0) || (word.charAt(i + 1) != SEPERATOR))) {
         splitted = splitted + SEPERATOR;
       }
 
@@ -93,7 +97,8 @@ public class Syllableizer {
 
   public String[] getSyllables(int size) {
     List result = new ArrayList(size);
-    List list = Arrays.asList(dictionary.keySet().toArray());
+    List list = Arrays.asList(dictionary.keySet()
+      .toArray());
     Object key = null;
 
     while ((result.size() <= size) && (list != null)) {
@@ -107,7 +112,7 @@ public class Syllableizer {
 
   /**
    * Returns the random.
-   *
+   * 
    * @return Random
    */
   public Random getRandom() {
@@ -116,8 +121,9 @@ public class Syllableizer {
 
   /**
    * Sets the random.
-   *
-   * @param random The random to set
+   * 
+   * @param random
+   *          The random to set
    */
   public void setRandom(Random random) {
     this.random = random;
@@ -129,7 +135,7 @@ public class Syllableizer {
   public String toString() {
     String result = "";
     Iterator keys = dictionary.keySet()
-                              .iterator();
+      .iterator();
 
     while (keys.hasNext()) {
       Object key = keys.next();
