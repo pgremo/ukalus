@@ -12,10 +12,6 @@ import java.util.Comparator;
  */
 public class NodeFComparator implements Comparator {
 
-  /**
-   *  
-   */
-
   public int compare(Object o1, Object o2) {
     double f1 = ((Node) o1).getF();
     double f2 = ((Node) o2).getF();

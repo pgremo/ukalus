@@ -66,9 +66,9 @@ public class AStar {
     Node result = null;
     Iterator iterator = collection.iterator();
     while (iterator.hasNext() && result == null) {
-      Node node = (Node) iterator.next();
+      Object node = iterator.next();
       if (node.equals(successor)) {
-        result = node;
+        result = (Node) node;
       }
     }
     return result;
