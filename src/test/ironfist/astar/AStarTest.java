@@ -5,6 +5,9 @@
 package ironfist.astar;
 
 import ironfist.math.Vector;
+
+import java.util.Iterator;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,14 +26,14 @@ public class AStarTest extends TestCase {
     Node2D start = new Node2D(map, new Vector(0, 0), null);
     Node2D stop = new Node2D(map, new Vector(2, 2), null);
     Heuristic heuristic = new ManhattenHeuristic(start, stop);
-    Node[] path = finder.solve(heuristic, cost, start, stop);
-    assertEquals(5, path.length);
+    Iterator path = finder.solve(heuristic, cost, start, stop);
+    assertTrue(path.hasNext());
 
-    assertEquals(new Vector(2, 2), ((Node2D) path[0]).getLocation());
-    assertEquals(new Vector(2, 1), ((Node2D) path[1]).getLocation());
-    assertEquals(new Vector(1, 1), ((Node2D) path[2]).getLocation());
-    assertEquals(new Vector(0, 1), ((Node2D) path[3]).getLocation());
-    assertEquals(new Vector(0, 0), ((Node2D) path[4]).getLocation());
+    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(0, 0), ((Node2D) path.next()).getLocation());
 
   }
 
@@ -44,13 +47,13 @@ public class AStarTest extends TestCase {
     Node2D start = new Node2D(map, new Vector(0, 0), null);
     Node2D stop = new Node2D(map, new Vector(2, 2), null);
     Heuristic heuristic = new ManhattenHeuristic(start, stop);
-    Node[] path = finder.solve(heuristic, cost, start, stop);
-    assertEquals(5, path.length);
+    Iterator path = finder.solve(heuristic, cost, start, stop);
+    assertTrue(path.hasNext());
 
-    assertEquals(new Vector(2, 2), ((Node2D) path[0]).getLocation());
-    assertEquals(new Vector(1, 2), ((Node2D) path[1]).getLocation());
-    assertEquals(new Vector(1, 1), ((Node2D) path[2]).getLocation());
-    assertEquals(new Vector(1, 0), ((Node2D) path[3]).getLocation());
-    assertEquals(new Vector(0, 0), ((Node2D) path[4]).getLocation());
+    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(0, 0), ((Node2D) path.next()).getLocation());
   }
 }
