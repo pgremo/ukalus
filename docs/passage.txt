@@ -1,0 +1,48 @@
+// Good
+XXX
+ S
+ N
+
+// Good
+...
+ S
+ N
+
+// Good
+..X
+ S
+ N
+
+// Good
+X..
+ S
+ N
+
+// Good
+EEE
+ S
+ N
+
+// Bad  map.contains(s) "0 <= s.getX() && s.getX() <= map.length && 0 <= s.getY() && s.getY() <= map[x1].length"
+ E
+ N
+
+// Bad	!s.equals(p)
+ P
+ N
+
+// Bad
+.XX
+ S
+ N
+
+// Bad
+XX.
+ S
+ N
+
+// Bad
+.X.
+ S
+ N
+
