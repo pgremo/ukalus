@@ -20,8 +20,8 @@ public class InstanceCreator {
 
   public Object newInstance() throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
-    Constructor constructor = new Sequence<Constructor>(
-      type.getConstructors()).detect(new ConstructorParameterLengthMatches());
+    Constructor constructor = new Sequence<Constructor>(type.getConstructors()).detect(new ConstructorParameterLengthMatches(
+      arguments));
     Object[] values = new Object[arguments.length];
     Class[] types = constructor.getParameterTypes();
     for (int i = 0; i < arguments.length; i++) {
@@ -29,15 +29,6 @@ public class InstanceCreator {
         .transform(arguments[i]);
     }
     return constructor.newInstance(values);
-  }
-
-  private final class ConstructorParameterLengthMatches
-      implements
-        Predicate<Constructor> {
-
-    public boolean invoke(Constructor item) {
-      return item.getParameterTypes().length == arguments.length;
-    }
   }
 
 }
