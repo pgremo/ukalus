@@ -20,7 +20,8 @@ public class AStar {
   private static final List<Node> EMPTY_LIST = new LinkedList<Node>();
   private static final NodeTotalComparator COMPARATOR = new NodeTotalComparator();
 
-  public Iterator<Node> solve(Heuristic heuristic, Cost cost, Node start, Node stop) {
+  public Iterator<Node> solve(Heuristic heuristic, Cost cost, Node start,
+      Node stop) {
     Queue<Node> open = new PriorityQueue<Node>(4, COMPARATOR);
     List<Node> close = new LinkedList<Node>();
     LinkedList<Node> result = null;
@@ -34,18 +35,17 @@ public class AStar {
           current = current.getParent();
         }
       } else {
-        Node[] successors = current.getSuccessors();
-        for (int i = 0; i < successors.length; i++) {
-          int newCost = cost.calculate(current, successors[i]);
-          Node openNode = get(open, successors[i]);
+        for (Node successor : current.getSuccessors()) {
+          int newCost = cost.calculate(current, successor);
+          Node openNode = get(open, successor);
           if (openNode == null || openNode.getCost() > newCost) {
-            Node closeNode = get(close, successors[i]);
+            Node closeNode = get(close, successor);
             if (closeNode == null || closeNode.getCost() > newCost) {
-              successors[i].setCost(newCost);
-              successors[i].setEstimate(heuristic.estimate(successors[i]));
+              successor.setCost(newCost);
+              successor.setEstimate(heuristic.estimate(successor));
               open.remove(openNode);
               close.remove(closeNode);
-              open.add(successors[i]);
+              open.add(successor);
             }
           }
         }
@@ -61,7 +61,7 @@ public class AStar {
     while (iterator.hasNext() && result == null) {
       Object current = iterator.next();
       if (current.equals(o)) {
-        result = (Node)current;
+        result = (Node) current;
       }
     }
     return result;

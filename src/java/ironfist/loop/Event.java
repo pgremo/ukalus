@@ -14,6 +14,6 @@ public interface Event {
 
   int getTurn();
 
-  void perform(Level level);
+  void process(Level level);
 
 }

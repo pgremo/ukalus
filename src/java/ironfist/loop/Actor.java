@@ -12,6 +12,4 @@ public interface Actor {
 
   void act(Level level);
 
-  Action getAction();
-
 }

@@ -22,7 +22,7 @@ public class ReadyToAct implements Event {
     return turn;
   }
 
-  public void perform(Level level) {
+  public void process(Level level) {
     source.act(level);
   }
 

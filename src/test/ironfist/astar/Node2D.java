@@ -8,19 +8,23 @@ import ironfist.loop.Level;
 import ironfist.math.Vector;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author gremopm
- *  
+ * 
  */
 public class Node2D implements Node {
 
-  private static final Vector[] DIRECTIONS = new Vector[]{
-      new Vector(1, 0),
-      new Vector(0, 1),
-      new Vector(-1, 0),
-      new Vector(0, -1)};
+  private static final List<Vector> DIRECTIONS = new ArrayList<Vector>(4);
+
+  static {
+    DIRECTIONS.add(new Vector(1, 0));
+    DIRECTIONS.add(new Vector(0, 1));
+    DIRECTIONS.add(new Vector(-1, 0));
+    DIRECTIONS.add(new Vector(0, -1));
+  }
 
   private Level map;
   private Vector location;
@@ -42,10 +46,9 @@ public class Node2D implements Node {
     return parent;
   }
 
-  public Node[] getSuccessors() {
-    List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
-    for (int i = 0; i < DIRECTIONS.length; i++) {
-      Vector position = location.add(DIRECTIONS[i]);
+  public Collection<Node> getSuccessors() {
+    List<Node> result = new ArrayList<Node>(DIRECTIONS.size());
+    for (Vector position : DIRECTIONS) {
       if ((parent == null || !position.equals(parent.getLocation())) // not
           // parent
           && map.contains(position) && map.get(position) != null // passable
@@ -53,7 +56,7 @@ public class Node2D implements Node {
         result.add(new Node2D(map, position, this));
       }
     }
-    return (Node[]) result.toArray(new Node[result.size()]);
+    return result;
   }
 
   public void setCost(double g) {

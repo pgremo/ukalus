@@ -4,10 +4,10 @@
  */
 package ironfist.loop.commands;
 
-import ironfist.loop.Action;
 import ironfist.loop.Actor;
 import ironfist.loop.Event;
 import ironfist.loop.Level;
+import ironfist.loop.events.ReadyToAct;
 import ironfist.persistence.Command;
 import ironfist.persistence.Reference;
 
@@ -32,9 +32,9 @@ public class ActivateLoop implements Command {
     Event current = queue.poll();
     if (current != null) {
       do {
-        current.perform(level);
+        current.process(level);
         current = queue.poll();
-      } while (current != null && current instanceof Action
+      } while (current != null && current instanceof ReadyToAct
           && !current.getSource()
             .equals(hero));
     }

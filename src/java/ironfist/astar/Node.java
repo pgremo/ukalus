@@ -4,6 +4,8 @@
  */
 package ironfist.astar;
 
+import java.util.Collection;
+
 /**
  * @author gremopm
  *  
@@ -12,7 +14,7 @@ public interface Node {
 
   Node getParent();
 
-  Node[] getSuccessors();
+  Collection<Node> getSuccessors();
 
   void setCost(double cost);
 
