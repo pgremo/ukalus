@@ -2,7 +2,7 @@
  * Created on Feb 25, 2005
  *
  */
-package ironfist.next.items;
+package ironfist.items;
 
 import java.util.Random;
 
@@ -12,8 +12,9 @@ import java.util.Random;
  */
 public class RandomNameFactory extends RandomLabelFactory {
 
-  public RandomNameFactory(Random random, String fileName, int maxSyllables) {
-    super(random, fileName, maxSyllables);
+  public RandomNameFactory(Random random, String fileName, int minSyllables,
+      int maxSyllables) {
+    super(random, fileName, minSyllables, maxSyllables);
   }
 
   public Object generate(Object argument) {

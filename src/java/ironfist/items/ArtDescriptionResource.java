@@ -1,4 +1,4 @@
-package ironfist.next.items;
+package ironfist.items;
 
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
@@ -18,18 +18,15 @@ import java.util.Set;
 public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
-
   private static final String FILE_NAME = "/wordlists/tepa.txt";
-
+  private static final int MIN_SYLLABLES = 2;
   private static final int MAX_SYLLABLES = 3;
-
   private static final int MAX_LABELS = 10;
 
   private MarkovChain rules = new MarkovChain();
-
   private Random random = new MersenneTwister();
 
-  private String[] numberNames = new String[] {
+  private String[] numberNames = new String[]{
       "One",
       "Two",
       "Three",
@@ -41,9 +38,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Nine",
       "Ten",
       "Eleven",
-      "Twelve" };
+      "Twelve"};
 
-  private Factory methods = new RandomWordFactory(random, new String[] {
+  private Factory methods = new RandomWordFactory(random, new String[]{
       "Channels",
       "Doors",
       "Forms",
@@ -57,9 +54,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Stances",
       "Stems",
       "Styles",
-      "Ways" });
+      "Ways"});
 
-  private String[] nounWords = new String[] {
+  private String[] nounWords = new String[]{
       "Tiger",
       "Pheonix",
       "Dragon",
@@ -106,13 +103,13 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Skull",
       "Stone",
       "Storm",
-      "Warp" };
+      "Warp"};
 
   private Factory noun1 = new RandomWordFactory(random, nounWords);
 
   private Factory noun2 = new RandomWordFactory(random, nounWords);
 
-  private String[] adjectiveWords = new String[] {
+  private String[] adjectiveWords = new String[]{
       "White",
       "Red",
       "Yellow",
@@ -149,14 +146,14 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ultimate",
       "Supreme",
       "Divine",
-      "Blood",
+      "Bloodied",
       "Bone",
-      "Poison",
-      "Fire",
-      "Water",
-      "Earth",
-      "Wood",
-      "Metal",
+      "Poisonous",
+      "Flaming",
+      "Flowing",
+      "Earthen",
+      "Wooden",
+      "Metalic",
       "Jade",
       "Iron",
       "Gold",
@@ -165,7 +162,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ruby",
       "Saphire",
       "Pearl",
-      "Emerald" };
+      "Emerald"};
 
   private Factory adjectives1 = new RandomWordFactory(random, adjectiveWords);
 
@@ -173,23 +170,22 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   private Factory adjectives3 = new RandomWordFactory(random, adjectiveWords);
 
-  private Factory types = new RandomWordFactory(random, new String[] {
+  private Factory types = new RandomWordFactory(random, new String[]{
       "Claw",
       "Fist",
       "Hand",
-      "Palm" });
+      "Palm"});
 
   private Factory names = new RandomNameFactory(random, FILE_NAME,
-      MAX_SYLLABLES);
+    MIN_SYLLABLES, MAX_SYLLABLES);
 
   private Factory numbers = new RandomNumberFactory(random, 2, 108, numberNames);
 
-  private Factory possesive = new RandomWordFactory(random,
-      new String[] { "'s" });
+  private Factory possesive = new RandomWordFactory(random, new String[]{"'s"});
 
-  private Factory of = new RandomWordFactory(random, new String[] { "of" });
+  private Factory of = new RandomWordFactory(random, new String[]{"of"});
 
-  private Factory the = new RandomWordFactory(random, new String[] { "the" });
+  private Factory the = new RandomWordFactory(random, new String[]{"the"});
 
   {
     rules.add(null, names);
@@ -269,7 +265,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
     Object[][] result = new Object[contents.size()][];
     Iterator iterator = contents.iterator();
     for (int index = 0; iterator.hasNext(); index++) {
-      result[index] = new Object[] { PREFIX + index, (String) iterator.next() };
+      result[index] = new Object[]{PREFIX + index, (String) iterator.next()};
     }
 
     return result;
@@ -280,10 +276,12 @@ public class ArtDescriptionResource extends ListResourceBundle {
     Enumeration enumeration = getKeys();
     while (enumeration.hasMoreElements()) {
       String key = (String) enumeration.nextElement();
+      if (result.length() > 1) {
+        result.append("\n");
+      }
       result.append(key)
         .append("=")
-        .append(getObject(key))
-        .append("\n");
+        .append(getObject(key));
     }
     return result.toString();
   }

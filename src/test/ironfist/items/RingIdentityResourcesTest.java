@@ -1,4 +1,4 @@
-package ironfist.next.items;
+package ironfist.items;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -11,15 +11,6 @@ import junit.framework.TestCase;
  * @author pmgremo
  */
 public class RingIdentityResourcesTest extends TestCase {
-
-  /**
-   * Constructor for RingIdentityResourcesTest.
-   * 
-   * @param arg0
-   */
-  public RingIdentityResourcesTest(String arg0) {
-    super(arg0);
-  }
 
   public void testLoadResource() throws Exception {
     ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.RingIdentityResources");

@@ -2,7 +2,9 @@
  * Created on Feb 25, 2005
  *
  */
-package ironfist.next.items;
+package ironfist.items;
+
+import ironfist.items.ArtDescriptionResource;
 
 import java.util.ResourceBundle;
 

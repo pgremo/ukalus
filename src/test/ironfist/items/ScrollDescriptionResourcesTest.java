@@ -1,4 +1,6 @@
-package ironfist.next.items;
+package ironfist.items;
+
+import ironfist.items.ScrollDescriptionResource;
 
 import java.text.MessageFormat;
 import java.util.Enumeration;

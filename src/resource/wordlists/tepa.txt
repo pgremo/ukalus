@@ -160,7 +160,6 @@ kupipehei
 kusu
 kusuta
 kuu
-l
 la
 lai
 lake
@@ -225,7 +224,6 @@ misi
 mu
 mukui
 muusi
-n
 naa
 naha
 nahi

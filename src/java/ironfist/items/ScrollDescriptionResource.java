@@ -1,4 +1,4 @@
-package ironfist.next.items;
+package ironfist.items;
 
 import ironfist.util.MersenneTwister;
 
@@ -23,7 +23,8 @@ public class ScrollDescriptionResource extends ListResourceBundle {
     Random random = new MersenneTwister();
     Set labels = new HashSet();
 
-    Factory factory = new RandomLabelFactory(random, FILE_NAME, MAX_SYLLABLES);
+    Factory factory = new RandomLabelFactory(random, FILE_NAME, 1,
+      MAX_SYLLABLES);
     while (labels.size() < MAX_LABELS) {
       String label = (String) factory.generate(new Integer(3));
 

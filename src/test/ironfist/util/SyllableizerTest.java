@@ -28,6 +28,7 @@ public class SyllableizerTest extends TestCase {
       chains.add(key, syllables[i]);
       key = syllables[i];
     }
+    chains.add(syllables[syllables.length - 1], null);
 
     Random random = new MersenneTwister();
     Collection expected = new ArrayList();
@@ -50,4 +51,24 @@ public class SyllableizerTest extends TestCase {
     String[] actual = Syllableizer.split("Heganshabbuttesh");
     assertTrue(Arrays.equals(expected, actual));
   }
+
+  public void testSplit2() {
+    String[] expected = new String[]{"tee", "ten", "te"};
+    String[] actual = Syllableizer.split("teetente");
+    assertTrue(Arrays.equals(expected, actual));
+  }
+
+  public void testSplit3() {
+    String[] expected = new String[]{"me", "ku"};
+    String[] actual = Syllableizer.split("meku");
+    assertTrue(Arrays.equals(expected, actual));
+  }
+  
+  public void testSplit4() {
+    String[] expected = new String[]{"ma", "sa", "tei", "pe"};
+    String[] actual = Syllableizer.split("masateipe");
+    assertTrue(Arrays.equals(expected, actual));
+  }
+
+
 }

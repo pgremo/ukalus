@@ -13,14 +13,6 @@ import java.util.Map;
  */
 public class VectorTest extends TestCase {
 
-  /**
-   * 
-   * @param arg0
-   */
-  public VectorTest(String arg0) {
-    super(arg0);
-  }
-
   public void testFindInHashMap() {
     Map map = new HashMap();
     map.put(new Vector(1, 0), null);

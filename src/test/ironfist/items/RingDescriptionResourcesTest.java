@@ -1,4 +1,4 @@
-package ironfist.next.items;
+package ironfist.items;
 
 import java.text.MessageFormat;
 import java.util.Enumeration;
@@ -12,15 +12,6 @@ import junit.framework.TestCase;
  * @author pmgremo
  */
 public class RingDescriptionResourcesTest extends TestCase {
-
-  /**
-   * Constructor for RingDescriptionResourcesTest.
-   * 
-   * @param arg0
-   */
-  public RingDescriptionResourcesTest(String arg0) {
-    super(arg0);
-  }
 
   public void testLoadResource() throws Exception {
     ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.RingDescriptionResources");
