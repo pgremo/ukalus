@@ -4,7 +4,7 @@
  */
 package ironfist.astar;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ public class Node2D implements Node {
   }
 
   public Node[] getSuccessors() {
-    List result = new LinkedList();
+    List result = new ArrayList(3);
     if (x > 0 && (parent == null || x - 1 != parent.getX())) {
       result.add(new Node2D(map, x - 1, y, this));
     }
