@@ -4,6 +4,8 @@
  */
 package ironfist.persistence;
 
+import ironfist.util.Closure;
+
 import java.io.IOException;
 
 /**
@@ -11,9 +13,9 @@ import java.io.IOException;
  * over all of them.
  * 
  * @author gremopm
- * @see Command
+ * @see Closure
  */
-public interface Log extends Iterable<Command> {
+public interface Log extends Iterable<Closure<Reference, Object>> {
 
   /**
    * Remove all objects that have been added to this Log.
@@ -29,7 +31,7 @@ public interface Log extends Iterable<Command> {
    *          to be added to this Log
    * @throws Exception
    */
-  void add(Command o) throws IOException;
+  void add(Closure<Reference, Object> o) throws IOException;
 
   /**
    * Close this Log.

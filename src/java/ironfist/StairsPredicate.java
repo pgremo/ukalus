@@ -1,23 +1,24 @@
 package ironfist;
 
-import ironfist.util.Predicate;
+import ironfist.util.Closure;
 
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
-public class StairsPredicate implements Predicate {
+public class StairsPredicate implements Closure<Tile, Boolean> {
 
+  private static final long serialVersionUID = 3257005445343688243L;
   private String direction;
 
   /**
-   * @see com.threat.game.Predicate#allow(Object)
+   * @see com.threat.game.Predicate#invoke(Object)
    */
-  public boolean allow(Object value) {
+  public Boolean apply(Tile value) {
     boolean result = false;
     if (value != null) {
-      TileType type = ((Tile) value).getTileType();
+      TileType type = value.getTileType();
 
       if (type instanceof Floor) {
         Portal portal = ((Floor) type).getPortal();

@@ -1,8 +1,9 @@
 package ironfist.items;
 
+import ironfist.util.Loop;
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
-import static ironfist.util.Strings.join;
+import ironfist.util.StringJoin;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private Random random = new MersenneTwister();
   private MarkovChain<Factory> rules = new MarkovChain<Factory>(random);
 
-  private String[] numberNames = new String[]{
+  private String[] numberNames = new String[] {
       "One",
       "Two",
       "Three",
@@ -38,9 +39,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Nine",
       "Ten",
       "Eleven",
-      "Twelve"};
+      "Twelve" };
 
-  private Factory methods = new RandomWordFactory(random, new String[]{
+  private Factory methods = new RandomWordFactory(random, new String[] {
       "Channels",
       "Doors",
       "Forms",
@@ -54,9 +55,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Stances",
       "Stems",
       "Styles",
-      "Ways"});
+      "Ways" });
 
-  private String[] nounWords = new String[]{
+  private String[] nounWords = new String[] {
       "Tiger",
       "Pheonix",
       "Dragon",
@@ -103,9 +104,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Skull",
       "Stone",
       "Storm",
-      "Warp"};
+      "Warp" };
 
-  private String[] adjectiveWords = new String[]{
+  private String[] adjectiveWords = new String[] {
       "White",
       "Red",
       "Yellow",
@@ -158,7 +159,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
       "Ruby",
       "Saphire",
       "Pearl",
-      "Emerald"};
+      "Emerald" };
 
   private Factory noun1 = new RandomWordFactory(random, nounWords);
 
@@ -170,22 +171,23 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   private Factory adjectives3 = new RandomWordFactory(random, adjectiveWords);
 
-  private Factory types = new RandomWordFactory(random, new String[]{
+  private Factory types = new RandomWordFactory(random, new String[] {
       "Claw",
       "Fist",
       "Hand",
-      "Palm"});
+      "Palm" });
 
   private Factory names = new RandomNameFactory(random, FILE_NAME,
-    MIN_SYLLABLES, MAX_SYLLABLES);
+      MIN_SYLLABLES, MAX_SYLLABLES);
 
   private Factory numbers = new RandomNumberFactory(random, 2, 108, numberNames);
 
-  private Factory possesive = new RandomWordFactory(random, new String[]{"'s"});
+  private Factory possesive = new RandomWordFactory(random,
+      new String[] { "'s" });
 
-  private Factory of = new RandomWordFactory(random, new String[]{"of"});
+  private Factory of = new RandomWordFactory(random, new String[] { "of" });
 
-  private Factory the = new RandomWordFactory(random, new String[]{"the"});
+  private Factory the = new RandomWordFactory(random, new String[] { "the" });
 
   {
     rules.add(null, names);
@@ -251,7 +253,10 @@ public class ArtDescriptionResource extends ListResourceBundle {
       }
     } while (parts.size() == 1);
 
-    return join(parts, " ").replaceAll(" 's", "'s")
+    StringBuffer result = new StringBuffer();
+    new Loop<String>(parts).forEach(new StringJoin(" ", result));
+    return result.toString()
+      .replaceAll(" 's", "'s")
       .replaceAll("s's", "s'");
   }
 
@@ -262,7 +267,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
       String current = generateName();
       if (contents.add(current)) {
         int index = contents.size() - 1;
-        result[index] = new Object[]{PREFIX + index, current};
+        result[index] = new Object[] { PREFIX + index, current };
       }
     }
 

@@ -7,7 +7,6 @@ import ironfist.Stairs;
 import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
-
 import ironfist.math.Vector;
 
 import java.util.ArrayList;

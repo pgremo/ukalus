@@ -4,14 +4,14 @@
  */
 package ironfist.items;
 
+import ironfist.util.Loop;
 import ironfist.util.MarkovChain;
-import ironfist.util.Strings;
+import ironfist.util.StringJoin;
+import ironfist.util.Tokens;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StreamTokenizer;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,33 +31,16 @@ class RandomLabelFactory implements Factory {
     this.maxSyllables = maxSyllables;
     this.chains = new MarkovChain<String>(random);
 
-    try {
-      Reader reader = new BufferedReader(new InputStreamReader(
+    Reader reader = new BufferedReader(new InputStreamReader(
         getClass().getResourceAsStream(fileName)));
-      StreamTokenizer tokenizer = new StreamTokenizer(reader);
-      while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-        if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-          String[] syllables = Strings.split(tokenizer.sval.toLowerCase());
-          String key = null;
-          for (String item : syllables) {
-            chains.add(key, item);
-            key = item;
-          }
-          chains.add(key, null);
-        }
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    new Loop<String>(new Tokens(reader)).forEach(new SyllableLoader(chains));
   }
 
   public String generate(Object argument) {
-    int maxWords = ((Integer) argument).intValue();
-
     StringBuffer result = new StringBuffer();
-    int wordCount = random.nextInt(maxWords) + 1;
+    int wordMax = random.nextInt(((Integer) argument).intValue()) + 1;
 
-    for (int index = 0; index < wordCount; index++) {
+    for (int index = 0; index < wordMax; index++) {
       if (index > 0) {
         result.append(" ");
       }
@@ -68,12 +51,11 @@ class RandomLabelFactory implements Factory {
         syllables.clear();
         Iterator<String> iterator = chains.iterator();
         while (syllables.size() <= max && iterator.hasNext()) {
-          String key = iterator.next();
-          syllables.add(key);
+          syllables.add(iterator.next());
         }
       } while (syllables.size() < minSyllables);
 
-      result.append(Strings.join(syllables, ""));
+      new Loop<String>(syllables).forEach(new StringJoin("", result));
     }
 
     return result.toString();

@@ -4,15 +4,15 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class DoubleTransformer implements Transformer<String, Double> {
+public class DoubleTransformer implements Closure<String, Double> {
 
-  public Double transform(String value) {
+  public Double apply(String value) {
     return Double.valueOf(value);
   }
 

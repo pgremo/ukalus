@@ -1,7 +1,7 @@
 package ironfist;
 
 import ironfist.math.Vector;
-import ironfist.util.Predicate;
+import ironfist.util.Closure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,7 +74,8 @@ public class Level implements Serializable {
     Collections.sort(list, new ReverseIntegerComparator());
 
     for (int index = 0; index < list.size(); index++) {
-      Creature creature = list.get(index).getCreature();
+      Creature creature = list.get(index)
+        .getCreature();
 
       if (creature.getLevel()
         .equals(this)) {
@@ -131,13 +132,13 @@ public class Level implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public Tile getRandom(Predicate predicate) {
+  public Tile getRandom(Closure<Tile, Boolean> predicate) {
     Tile result = null;
     List<Tile> candidates = new ArrayList<Tile>();
 
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {
-        if (predicate.allow(tiles[x][y])) {
+        if (predicate.apply(tiles[x][y])) {
           candidates.add(tiles[x][y]);
         }
       }
@@ -163,7 +164,7 @@ public class Level implements Serializable {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = null;
     } else {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = new Tile(
-        coordinate, type);
+          coordinate, type);
     }
   }
 

@@ -4,15 +4,15 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class ByteTransformer implements Transformer<String, Byte> {
+public class ByteTransformer implements Closure<String, Byte> {
 
-  public Byte transform(String value) {
+  public Byte apply(String value) {
     return Byte.decode(value);
   }
 

@@ -8,17 +8,17 @@ import java.io.FilenameFilter;
  * 
  * @author pmgremo
  */
-public class RepositoryFilenameFilter implements FilenameFilter {
+public class SuffixFilenameFilter implements FilenameFilter {
 
   private String suffix;
 
   /**
-   * Creates a new RepositoryFileFilter object.
+   * Creates a new SuffixFilenameFilter object.
    * 
    * @param suffix
    *          DOCUMENT ME!
    */
-  public RepositoryFilenameFilter(String suffix) {
+  public SuffixFilenameFilter(String suffix) {
     this.suffix = suffix;
   }
 

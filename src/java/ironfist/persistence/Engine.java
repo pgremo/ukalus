@@ -4,6 +4,9 @@
  */
 package ironfist.persistence;
 
+import ironfist.util.Closure;
+import ironfist.util.Loop;
+
 import java.io.IOException;
 
 /**
@@ -37,12 +40,8 @@ public class Engine {
     this.log = log;
 
     reference.set(store.load());
-    for (Command command : log) {
-      try {
-        command.execute(reference);
-      } catch (Exception e) {
-      }
-    }
+    new Loop<Closure<Reference, Object>>(log).forEach(new ReplayLog(
+        reference));
   }
 
   /**
@@ -54,9 +53,10 @@ public class Engine {
    * @return the result of the commands execute method.
    * @throws PersistenceException
    */
-  public synchronized Object update(Command command) throws IOException {
+  public synchronized Object update(Closure<Reference, Object> command)
+      throws IOException {
     log.add(command);
-    return command.execute(reference);
+    return command.apply(reference);
   }
 
   /**
@@ -68,8 +68,8 @@ public class Engine {
    * @return the result of the commands execute method.
    * @throws PersistenceException
    */
-  public synchronized Object query(Command command) {
-    return command.execute(reference);
+  public synchronized Object query(Closure<Reference, Object> command) {
+    return command.apply(reference);
   }
 
   /**

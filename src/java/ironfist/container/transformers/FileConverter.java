@@ -4,7 +4,7 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 import java.io.File;
 
@@ -12,9 +12,9 @@ import java.io.File;
  * @author gremopm
  * 
  */
-public class FileConverter implements Transformer<String, File> {
+public class FileConverter implements Closure<String, File> {
 
-  public File transform(String value) {
+  public File apply(String value) {
     return new File(value);
   }
 

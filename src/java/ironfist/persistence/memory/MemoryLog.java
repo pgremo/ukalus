@@ -1,7 +1,8 @@
 package ironfist.persistence.memory;
 
-import ironfist.persistence.Command;
 import ironfist.persistence.Log;
+import ironfist.persistence.Reference;
+import ironfist.util.Closure;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -10,20 +11,20 @@ import java.util.List;
 
 public class MemoryLog implements Log {
 
-  private List<Command> storage = new LinkedList<Command>();
+  private List<Closure<Reference, Object>> storage = new LinkedList<Closure<Reference, Object>>();
 
   public void clear() throws IOException {
     storage.clear();
   }
 
-  public void add(Command o) throws IOException {
+  public void add(Closure<Reference, Object> o) throws IOException {
     storage.add(o);
   }
 
   public void close() throws IOException {
   }
 
-  public Iterator<Command> iterator() {
+  public Iterator<Closure<Reference, Object>> iterator() {
     return storage.iterator();
   }
 

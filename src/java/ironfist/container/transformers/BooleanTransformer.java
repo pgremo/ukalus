@@ -4,17 +4,17 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class BooleanTransformer implements Transformer<String, Boolean> {
+public class BooleanTransformer implements Closure<String, Boolean> {
 
   private Object value;
 
-  public Boolean transform(String value) {
+  public Boolean apply(String value) {
     return Boolean.valueOf(value);
   }
 

@@ -3,7 +3,7 @@ package ironfist.generator;
 import ironfist.Level;
 import ironfist.Tile;
 import ironfist.math.Vector;
-import ironfist.util.Predicate;
+import ironfist.util.Closure;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -43,7 +43,7 @@ public class Area {
    * 
    * @return DOCUMENT ME!
    */
-  public Tile getRandom(Predicate predicate) {
+  public Tile getRandom(Closure<Tile, Boolean> predicate) {
     Tile result = null;
     Tile[] candidates = new Tile[list.size()];
     int count = 0;
@@ -53,7 +53,7 @@ public class Area {
     while (iterator.hasNext()) {
       Tile current = (Tile) iterator.next();
 
-      if (predicate.allow(current)) {
+      if (predicate.apply(current)) {
         candidates[count++] = current;
       }
     }

@@ -4,8 +4,9 @@
  */
 package ironfist.persistence.file;
 
-import ironfist.persistence.Command;
 import ironfist.persistence.Log;
+import ironfist.persistence.Reference;
+import ironfist.util.Closure;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,15 +42,15 @@ public class FileLogTest extends TestCase {
 
   public void testForeach() throws Exception {
     Log log = new FileLog(file);
-    Command command1 = new MockLogCommand("one");
-    Command command2 = new MockLogCommand("two");
+    Closure<Reference, Object> command1 = new MockLogCommand("one");
+    Closure<Reference, Object> command2 = new MockLogCommand("two");
     log.add(command1);
     log.add(command2);
     log = new FileLog(file);
-    Command command3 = new MockLogCommand("three");
+    Closure<Reference, Object> command3 = new MockLogCommand("three");
     log.add(command3);
-    List<Command> commands = new ArrayList<Command>();
-    Iterator<Command> iterator = log.iterator();
+    List<Closure> commands = new ArrayList<Closure>();
+    Iterator<Closure<Reference, Object>> iterator = log.iterator();
     while (iterator.hasNext()) {
       commands.add(iterator.next());
     }
@@ -59,13 +60,13 @@ public class FileLogTest extends TestCase {
 
   public void testClear() throws Exception {
     Log log = new FileLog(file);
-    Command command1 = new MockLogCommand("one");
-    Command command2 = new MockLogCommand("two");
+    Closure<Reference, Object> command1 = new MockLogCommand("one");
+    Closure<Reference, Object> command2 = new MockLogCommand("two");
     log.add(command1);
     log.add(command2);
     log.clear();
-    List<Command> commands = new ArrayList<Command>();
-    Iterator<Command> iterator = log.iterator();
+    List<Closure> commands = new ArrayList<Closure>();
+    Iterator<Closure<Reference, Object>> iterator = log.iterator();
     while (iterator.hasNext()) {
       commands.add(iterator.next());
     }

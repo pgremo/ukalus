@@ -4,9 +4,10 @@
  */
 package ironfist.persistence.file;
 
-import ironfist.persistence.Command;
 import ironfist.persistence.Log;
+import ironfist.persistence.Reference;
 import ironfist.persistence.SerializedObjectIterator;
+import ironfist.util.Closure;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,7 +33,7 @@ public class FileLog implements Log {
     channel.setLength(0);
   }
 
-  public void add(Command o) throws IOException {
+  public void add(Closure o) throws IOException {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     ObjectOutputStream stream = new ObjectOutputStream(buffer);
     stream.writeObject(o);
@@ -42,11 +43,11 @@ public class FileLog implements Log {
     channel.write(data);
   }
 
-  public Iterator<Command> iterator() {
-    Iterator<Command> result = null;
+  public Iterator<Closure<Reference, Object>> iterator() {
+    Iterator<Closure<Reference, Object>> result = null;
     try {
       channel.seek(0);
-      result = new SerializedObjectIterator<Command>(channel);
+      result = new SerializedObjectIterator<Closure<Reference, Object>>(channel);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -2,6 +2,7 @@ package ironfist.persistence;
 
 import ironfist.persistence.file.FileLog;
 import ironfist.persistence.file.FileStore;
+import ironfist.util.Closure;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -115,17 +116,17 @@ public final class Persistence {
     }
   }
 
-  private static class Create implements Command {
+  private static class Create implements Closure<Reference, Object> {
 
     private static final long serialVersionUID = 3690476935130198069L;
 
-    public Object execute(Reference reference) {
+    public Object apply(Reference reference) {
       reference.set(new HashMap<Object, Object>());
       return null;
     }
   }
 
-  private static class Get implements Command {
+  private static class Get implements Closure<Reference, Object> {
 
     private static final long serialVersionUID = 3258411724993474867L;
     private Object key;
@@ -134,12 +135,12 @@ public final class Persistence {
       this.key = key;
     }
 
-    public Object execute(Reference reference) {
+    public Object apply(Reference reference) {
       return ((HashMap<Object, Object>) reference.get()).get(key);
     }
   }
 
-  private static class Put implements Command {
+  private static class Put implements Closure<Reference, Object> {
 
     private static final long serialVersionUID = 3256727294637979448L;
     private Object key;
@@ -150,7 +151,7 @@ public final class Persistence {
       this.value = value;
     }
 
-    public Object execute(Reference reference) {
+    public Object apply(Reference reference) {
       return ((HashMap<Object, Object>) reference.get()).put(key, value);
     }
   }

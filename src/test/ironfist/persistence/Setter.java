@@ -4,13 +4,15 @@
  */
 package ironfist.persistence;
 
+import ironfist.util.Closure;
+
 import java.io.Serializable;
 
 /**
  * @author gremopm
  * 
  */
-public class Setter implements Command {
+public class Setter implements Closure<Reference, Object> {
 
   private static final long serialVersionUID = 3256442491011217201L;
   private Serializable value = null;
@@ -19,7 +21,7 @@ public class Setter implements Command {
     this.value = value;
   }
 
-  public Object execute(Reference object) {
+  public Object apply(Reference object) {
     object.set(value);
     return value;
   }

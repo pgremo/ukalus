@@ -4,15 +4,15 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class FloatTransformer implements Transformer<String, Float> {
+public class FloatTransformer implements Closure<String, Float> {
 
-  public Float transform(String value) {
+  public Float apply(String value) {
     return Float.valueOf(value);
   }
 

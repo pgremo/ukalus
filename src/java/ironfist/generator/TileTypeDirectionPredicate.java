@@ -2,25 +2,24 @@ package ironfist.generator;
 
 import ironfist.Tile;
 import ironfist.math.Vector;
-import ironfist.util.Predicate;
+import ironfist.util.Closure;
 
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
-public class TileTypeDirectionPredicate implements Predicate {
+public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
 
+  private static final long serialVersionUID = 3257282513566185784L;
   private Class tileTypeClass;
   private Vector direction;
   private Area area;
 
   /**
-   * @see com.threat.game.Predicate#allow(Object)
+   * @see com.threat.game.Predicate#invoke(Object)
    */
-  public boolean allow(Object value) {
-    Tile tile = (Tile) value;
-
+  public Boolean apply(Tile tile) {
     return tileTypeClass.equals(tile.getTileType()
       .getClass()) && (area.get(tile.getCoordinate()
       .add(direction)) == null);

@@ -1,6 +1,8 @@
 package ironfist.persistence;
 
-class Adder implements Command {
+import ironfist.util.Closure;
+
+class Adder implements Closure<Reference, Object> {
 
   private static final long serialVersionUID = 3256999939061199155L;
   private long value;
@@ -14,7 +16,7 @@ class Adder implements Command {
    * 
    * @see persistence.Command#execute(java.lang.Object)
    */
-  public Object execute(Reference object) {
+  public Object apply(Reference object) {
     return new Long(((Counter) object.get()).add(value));
   }
 

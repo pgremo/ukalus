@@ -12,15 +12,14 @@ public class InstanceCreatorTest extends TestCase {
 
   public void test0ArgConstructor() throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
-    InstanceCreator creator = new InstanceCreator(Object.class, new String[0],
-      registry);
+    InstanceCreator creator = new InstanceCreator(Object.class, new Resolver[0]);
     assertNotNull(creator.newInstance());
   }
 
   public void test1ArgConstructor() throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
     InstanceCreator creator = new InstanceCreator(Integer.class,
-      new String[]{"1"}, registry);
+        new Resolver[] { new Value(registry, "1") });
     Object actual = creator.newInstance();
     assertNotNull(actual);
     assertEquals(new Integer(1), actual);
@@ -29,11 +28,11 @@ public class InstanceCreatorTest extends TestCase {
   public void test4ArgConstructorWithNonStrings()
       throws IllegalArgumentException, InstantiationException,
       IllegalAccessException, InvocationTargetException, MalformedURLException {
-    InstanceCreator creator = new InstanceCreator(URL.class, new String[]{
-        "http",
-        "www.foo.com",
-        "80",
-        "/stuff"}, registry);
+    InstanceCreator creator = new InstanceCreator(URL.class, new Resolver[] {
+        new Value(registry, "http"),
+        new Value(registry, "www.foo.com"),
+        new Value(registry, "80"),
+        new Value(registry, "/stuff") });
     Object actual = creator.newInstance();
     assertNotNull(actual);
     assertEquals(new URL("http://www.foo.com:80/stuff"), actual);

@@ -4,15 +4,15 @@
  */
 package ironfist.container.transformers;
 
-import ironfist.container.Transformer;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class LongTransformer implements Transformer<String, Long> {
+public class LongTransformer implements Closure<String, Long> {
 
-  public Long transform(String value) {
+  public Long apply(String value) {
     return Long.decode(value);
   }
 

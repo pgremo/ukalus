@@ -1,18 +1,18 @@
 package ironfist.container;
 
+import ironfist.util.Loop;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class InstanceCreator {
 
   private Class type;
-  private Object[] arguments;
-  private Registry registry;
+  private Resolver[] arguments;
 
-  public InstanceCreator(Class type, String[] arguments, Registry registry) {
+  public InstanceCreator(Class type, Resolver[] arguments) {
     this.type = type;
     this.arguments = arguments;
-    this.registry = registry;
     if (arguments == null) {
       throw new NullPointerException();
     }
@@ -20,13 +20,12 @@ public class InstanceCreator {
 
   public Object newInstance() throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
-    Constructor constructor = new Sequence<Constructor>(type.getConstructors()).detect(new ConstructorParameterLengthMatches(
-      arguments));
+    Constructor constructor = new Loop<Constructor>(type.getConstructors()).detect(new ConstructorParameterLengthMatches(
+        arguments));
     Object[] values = new Object[arguments.length];
-    Class[] types = constructor.getParameterTypes();
+    Class<?>[] types = constructor.getParameterTypes();
     for (int i = 0; i < arguments.length; i++) {
-      values[i] = registry.getConverter(types[i])
-        .transform(arguments[i]);
+      values[i] = arguments[i].getValue(types[i]);
     }
     return constructor.newInstance(values);
   }

@@ -23,6 +23,15 @@ public class MarkovChain<E> {
     this.random = random;
   }
 
+  public void addAll(Iterable<E> items) {
+    E key = null;
+    for (E item : items) {
+      add(key, item);
+      key = item;
+    }
+    add(key, null);
+  }
+
   public void add(E current, E next) {
     Bag<E> chain = items.get(current);
     if (chain == null) {

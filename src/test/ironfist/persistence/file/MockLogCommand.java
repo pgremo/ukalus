@@ -4,16 +4,14 @@
  */
 package ironfist.persistence.file;
 
-import ironfist.persistence.Command;
 import ironfist.persistence.Reference;
-
-import java.io.Serializable;
+import ironfist.util.Closure;
 
 /**
  * @author gremopm
  * 
  */
-public class MockLogCommand implements Command, Serializable {
+public class MockLogCommand implements Closure<Reference, Object> {
 
   private static final long serialVersionUID = 3257570589924405561L;
   private String name;
@@ -27,7 +25,7 @@ public class MockLogCommand implements Command, Serializable {
    * 
    * @see persistence.Command#execute(java.lang.Object)
    */
-  public Object execute(Reference object) {
+  public Object apply(Reference object) {
     return null;
   }
 

@@ -4,8 +4,8 @@
  */
 package ironfist.loop;
 
-import ironfist.persistence.Command;
 import ironfist.persistence.Reference;
+import ironfist.util.Closure;
 
 import java.util.Queue;
 
@@ -13,7 +13,7 @@ import java.util.Queue;
  * @author gremopm
  * 
  */
-public class Activate implements Command {
+public class Activate implements Closure<Reference, Object> {
 
   private static final long serialVersionUID = 3257285825019656248L;
   private Event boundary;
@@ -25,7 +25,7 @@ public class Activate implements Command {
     }
   }
 
-  public Object execute(Reference reference) {
+  public Object apply(Reference reference) {
     Level level = (Level) reference.get();
     Queue<Event> queue = level.getQueue();
     queue.add(boundary);

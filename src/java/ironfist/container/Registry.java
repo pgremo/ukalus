@@ -13,6 +13,7 @@ import ironfist.container.transformers.IntTransformer;
 import ironfist.container.transformers.LongTransformer;
 import ironfist.container.transformers.ShortTransformer;
 import ironfist.container.transformers.StringTransformer;
+import ironfist.util.Closure;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 public class Registry {
 
-  private Map<Class, Transformer> converters = new HashMap<Class, Transformer>();
+  private Map<Class, Closure> converters = new HashMap<Class, Closure>();
 
   {
     converters.put(Boolean.TYPE, new BooleanTransformer());
@@ -38,11 +39,11 @@ public class Registry {
     converters.put(String.class, new StringTransformer());
   }
 
-  public void addConverter(Class type, Transformer converter) {
+  public void addConverter(Class type, Closure converter) {
     converters.put(type, converter);
   }
 
-  public Transformer getConverter(Class type) {
+  public Closure getConverter(Class type) {
     return converters.get(type);
   }
 
