@@ -6,7 +6,7 @@ package ironfist.loop;
 
 /**
  * @author gremopm
- *  
+ * 
  */
 public interface Actor {
 

@@ -15,14 +15,14 @@ import java.util.Queue;
  */
 public class Level {
 
-  private Queue<Action> queue = new PriorityQueue<Action>(100, new TurnComparator());
+  private Queue<Event> queue = new PriorityQueue<Event>(100, new TurnComparator());
   private Object[][] data;
 
   public Level(Object[][] data) {
     this.data = data;
   }
 
-  public Queue<Action> getQueue(){
+  public Queue<Event> getQueue(){
     return queue;
   }
 
