@@ -191,7 +191,7 @@ public class JCursesClient extends Widget implements Client {
         Tile tile = (Tile) iterator.next();
         Vector coordinate = tile.getCoordinate();
         Toolkit.printString(
-          (String) symbols.get(determineLevelMarker(plan.get(coordinate))),
+          symbols.get(determineLevelMarker(plan.get(coordinate))),
           getAbsoluteX() + (int) coordinate.getY(), getAbsoluteY()
               + (int) coordinate.getX(), colors);
       }
@@ -220,7 +220,7 @@ public class JCursesClient extends Widget implements Client {
           marker = determineLevelMarker(type);
         }
 
-        Toolkit.printString((String) symbols.get(marker), getAbsoluteX()
+        Toolkit.printString(symbols.get(marker), getAbsoluteX()
             + (int) coordinate.getY(),
           getAbsoluteY() + (int) coordinate.getX(), colors);
       }
@@ -232,7 +232,7 @@ public class JCursesClient extends Widget implements Client {
    */
   protected boolean handleInput(InputChar inputChar) {
     Integer code = new Integer(inputChar.getCode());
-    Vector direction = (Vector) directions.get(code);
+    Vector direction = directions.get(code);
 
     if (direction != null) {
       Vector coordinate = hero.getCoordinate();
@@ -263,7 +263,7 @@ public class JCursesClient extends Widget implements Client {
         }
       }
     } else {
-      CommandType current = (CommandType) commandTypes.get(code);
+      CommandType current = commandTypes.get(code);
 
       if (CommandType.UP.equals(current)) {
         command = new Command(current, null);

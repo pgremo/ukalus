@@ -74,7 +74,7 @@ public class Level implements Serializable {
     Collections.sort(list, new ReverseIntegerComparator());
 
     for (int index = 0; index < list.size(); index++) {
-      Creature creature = ((InitiativeCell) list.get(index)).getCreature();
+      Creature creature = list.get(index).getCreature();
 
       if (creature.getLevel()
         .equals(this)) {
@@ -144,7 +144,7 @@ public class Level implements Serializable {
     }
 
     if (candidates.size() > 0) {
-      result = (Tile) candidates.get(randomizer.nextInt(candidates.size()));
+      result = candidates.get(randomizer.nextInt(candidates.size()));
     }
 
     return result;
