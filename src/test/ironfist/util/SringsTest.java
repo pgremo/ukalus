@@ -1,9 +1,5 @@
 package ironfist.util;
 
-import ironfist.util.MarkovChain;
-import ironfist.util.MersenneTwister;
-import ironfist.util.Syllableizer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,12 +12,12 @@ import junit.framework.TestCase;
  * 
  * @author pmgremo
  */
-public class SyllableizerTest extends TestCase {
+public class SringsTest extends TestCase {
 
   public void testCommutative() {
     MarkovChain chains = new MarkovChain();
 
-    String[] syllables = Syllableizer.split("PROPTERFUISSEDEM".toLowerCase());
+    String[] syllables = Strings.split("PROPTERFUISSEDEM");
     Object key = syllables[0];
 
     for (int i = 1; i < syllables.length; i++) {
@@ -42,33 +38,43 @@ public class SyllableizerTest extends TestCase {
       key = chains.next(key, random.nextDouble());
     }
 
-    String[] actual = Syllableizer.split(result.toString());
+    String[] actual = Strings.split(result.toString());
     assertTrue(Arrays.equals(expected.toArray(), actual));
   }
 
-  public void testSplit() {
-    String[] expected = new String[]{"He", "gan", "shab", "but", "tesh"};
-    String[] actual = Syllableizer.split("Heganshabbuttesh");
+  public void testSplit1() {
+    String[] expected = new String[]{"he", "gan", "shab", "but", "tesh"};
+    String[] actual = Strings.split("heganshabbuttesh");
     assertTrue(Arrays.equals(expected, actual));
   }
 
   public void testSplit2() {
     String[] expected = new String[]{"tee", "ten", "te"};
-    String[] actual = Syllableizer.split("teetente");
+    String[] actual = Strings.split("teetente");
     assertTrue(Arrays.equals(expected, actual));
   }
 
   public void testSplit3() {
     String[] expected = new String[]{"me", "ku"};
-    String[] actual = Syllableizer.split("meku");
+    String[] actual = Strings.split("meku");
     assertTrue(Arrays.equals(expected, actual));
   }
-  
+
   public void testSplit4() {
     String[] expected = new String[]{"ma", "sa", "tei", "pe"};
-    String[] actual = Syllableizer.split("masateipe");
+    String[] actual = Strings.split("masateipe");
     assertTrue(Arrays.equals(expected, actual));
   }
 
+  public void testSplit5() {
+    String[] expected = new String[]{"matt"};
+    String[] actual = Strings.split("matt");
+    assertTrue(Arrays.equals(expected, actual));
+  }
 
+  public void testSplit6() {
+    String[] expected = new String[]{"ob", "re", "gon"};
+    String[] actual = Strings.split("obregon");
+    assertTrue(Arrays.equals(expected, actual));
+  }
 }

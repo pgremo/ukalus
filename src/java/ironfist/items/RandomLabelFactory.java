@@ -5,7 +5,7 @@
 package ironfist.items;
 
 import ironfist.util.MarkovChain;
-import ironfist.util.Syllableizer;
+import ironfist.util.Strings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +33,7 @@ class RandomLabelFactory implements Factory {
 
       while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
         if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-          String[] syllables = Syllableizer.split(tokenizer.sval.toLowerCase());
+          String[] syllables = Strings.split(tokenizer.sval.toLowerCase());
           String key = syllables[0];
 
           for (int i = 1; i < syllables.length; i++) {

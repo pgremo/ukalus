@@ -18,7 +18,7 @@ import java.util.Set;
 public class ArtDescriptionResource extends ListResourceBundle {
 
   private static final String PREFIX = "art.description.";
-  private static final String FILE_NAME = "/wordlists/tepa.txt";
+  private static final String FILE_NAME = "/wordlists/sumerian.txt";
   private static final int MIN_SYLLABLES = 2;
   private static final int MAX_SYLLABLES = 3;
   private static final int MAX_LABELS = 10;
@@ -252,7 +252,8 @@ public class ArtDescriptionResource extends ListResourceBundle {
     } while (parts.size() == 1);
 
     return Strings.join(parts, " ")
-      .replaceAll(" 's", "'s");
+      .replaceAll(" 's", "'s")
+      .replaceAll("s's", "s'");
   }
 
   protected Object[][] getContents() {

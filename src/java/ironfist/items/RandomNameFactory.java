@@ -18,8 +18,8 @@ public class RandomNameFactory extends RandomLabelFactory {
   }
 
   public Object generate(Object argument) {
-    String result = (String) super.generate(argument);
-    return result.substring(0, 1)
-      .toUpperCase() + result.substring(1);
+    StringBuffer result = new StringBuffer((String) super.generate(argument));
+    result.setCharAt(0, Character.toUpperCase(result.charAt(0)));
+    return result.toString();
   }
 }
