@@ -18,20 +18,16 @@ import java.util.List;
  */
 public class AStar {
 
-  public Node[] solve(Heuristic heuristic, Cost cost, Node start, Node stop) {
+  public Iterator solve(Heuristic heuristic, Cost cost, Node start, Node stop) {
     PriorityQueue open = new PriorityQueue(new NodeFComparator());
     List close = new LinkedList();
-    List result = Collections.EMPTY_LIST;
+    Iterator result = null;
 
     open.add(start);
-    while (open.size() > 0 && result == Collections.EMPTY_LIST) {
+    while (open.size() > 0 && result == null) {
       Node current = (Node) open.removeFirst();
       if (current.equals(stop)) {
-        result = new LinkedList();
-        while (current != null) {
-          result.add(current);
-          current = current.getParent();
-        }
+        result = new NodeIterator(current);
       } else {
         Node[] successors = current.getSuccessors();
         for (int i = 0; i < successors.length; i++) {
@@ -52,15 +48,18 @@ public class AStar {
           successors[i].setG(newCost);
           successors[i].setH(heuristic.estimate(successors[i]));
 
-          open.remove(successors[i]);
-          close.remove(successors[i]);
+          open.remove(openNode);
+          close.remove(closeNode);
 
           open.add(successors[i]);
         }
       }
       close.add(current);
     }
-    return (Node[]) result.toArray(new Node[result.size()]);
+    if (result == null) {
+      result = Collections.EMPTY_LIST.iterator();
+    }
+    return result;
   }
 
   private Node getNode(Collection collection, Node successor) {
