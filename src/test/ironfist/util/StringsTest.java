@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * 
  * @author pmgremo
  */
-public class SringsTest extends TestCase {
+public class StringsTest extends TestCase {
 
   public void testCommutative() {
     MarkovChain chains = new MarkovChain();
@@ -42,39 +42,49 @@ public class SringsTest extends TestCase {
     assertTrue(Arrays.equals(expected.toArray(), actual));
   }
 
-  public void testSplit1() {
+  public void testSplitComplexWord() {
     String[] expected = new String[]{"he", "gan", "shab", "but", "tesh"};
     String[] actual = Strings.split("heganshabbuttesh");
     assertTrue(Arrays.equals(expected, actual));
   }
 
-  public void testSplit2() {
-    String[] expected = new String[]{"tee", "ten", "te"};
-    String[] actual = Strings.split("teetente");
-    assertTrue(Arrays.equals(expected, actual));
-  }
-
-  public void testSplit3() {
+  public void testSplitSingleConsonant() {
     String[] expected = new String[]{"me", "ku"};
     String[] actual = Strings.split("meku");
     assertTrue(Arrays.equals(expected, actual));
   }
 
-  public void testSplit4() {
+  public void testSplitMultipleSingleConsonants() {
     String[] expected = new String[]{"ma", "sa", "tei", "pe"};
     String[] actual = Strings.split("masateipe");
     assertTrue(Arrays.equals(expected, actual));
   }
 
-  public void testSplit5() {
+  public void testSplitDoubleConsonantsAtEnd() {
     String[] expected = new String[]{"matt"};
     String[] actual = Strings.split("matt");
     assertTrue(Arrays.equals(expected, actual));
   }
 
-  public void testSplit6() {
+  public void testSplitDoubleConsonants() {
     String[] expected = new String[]{"ob", "re", "gon"};
     String[] actual = Strings.split("obregon");
+    assertTrue(Arrays.equals(expected, actual));
+  }
+
+  public void testSplitTripleConsonants() {
+    String[] expected = new String[]{"bol", "chun"};
+    String[] actual = Strings.split("bolchun");
+    assertTrue(Arrays.equals(expected, actual));
+
+    expected = new String[]{"bol", "vlun"};
+    actual = Strings.split("bolvlun");
+    assertTrue(Arrays.equals(expected, actual));
+  }
+
+  public void testSplitQuadrupleConsonants() {
+    String[] expected = new String[]{"kalt", "glon"};
+    String[] actual = Strings.split("kaltglon");
     assertTrue(Arrays.equals(expected, actual));
   }
 }
