@@ -2,8 +2,10 @@
  * Created on Feb 10, 2005
  *
  */
-package ironfist.astar;
+package ironfist.generator;
 
+import ironfist.astar.Map;
+import ironfist.astar.Node;
 import ironfist.math.Vector;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.List;
  * @author gremopm
  *  
  */
-public class Node2D implements Node {
+public class PassageNode implements Node {
 
   private static final Vector[] DIRECTIONS = new Vector[]{
       new Vector(1, 0),
@@ -23,11 +25,11 @@ public class Node2D implements Node {
 
   private Map map;
   private Vector location;
-  private Node2D parent;
+  private PassageNode parent;
   private double g;
   private double h;
 
-  public Node2D(Map map, Vector location, Node2D parent) {
+  public PassageNode(Map map, Vector location, PassageNode parent) {
     this.map = map;
     this.location = location;
     this.parent = parent;
@@ -49,7 +51,7 @@ public class Node2D implements Node {
           // parent
           && map.contains(position) && map.get(position) != null // passable
       ) {
-        result.add(new Node2D(map, position, this));
+        result.add(new PassageNode(map, position, this));
       }
     }
     return (Node[]) result.toArray(new Node[result.size()]);
@@ -76,7 +78,7 @@ public class Node2D implements Node {
   }
 
   public boolean equals(Object obj) {
-    return obj != null && obj instanceof Node2D && ((Node2D) obj).getLocation()
+    return obj != null && obj instanceof PassageNode && ((PassageNode) obj).getLocation()
       .equals(location);
   }
 

@@ -20,13 +20,24 @@ public class ManhattenHeuristic implements Heuristic {
 
   public double estimate(Node current) {
     Node2D n = (Node2D) current;
-    double heuristic = (Math.abs(n.getX() - stop.getX()) + Math.abs(n.getY()
-        - stop.getY()));
-    int dx1 = n.getX() - stop.getX();
-    int dy1 = n.getY() - stop.getY();
-    int dx2 = start.getX() - stop.getX();
-    int dy2 = start.getY() - stop.getY();
-    int cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+    double heuristic = (Math.abs(n.getLocation()
+      .getX() - stop.getLocation()
+      .getX()) + Math.abs(n.getLocation()
+      .getY() - stop.getLocation()
+      .getY()));
+    double dx1 = n.getLocation()
+      .getX() - stop.getLocation()
+      .getX();
+    double dy1 = n.getLocation()
+      .getY() - stop.getLocation()
+      .getY();
+    double dx2 = start.getLocation()
+      .getX() - stop.getLocation()
+      .getX();
+    double dy2 = start.getLocation()
+      .getY() - stop.getLocation()
+      .getY();
+    double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
     heuristic += cross * 0.001;
     return heuristic;
   }
