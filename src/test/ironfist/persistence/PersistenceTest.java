@@ -9,22 +9,22 @@ import junit.framework.TestCase;
  */
 public class PersistenceTest extends TestCase {
 
-  /**
-   * Constructor for PersistenceTest.
-   * 
-   * @param arg0
-   */
-  public PersistenceTest(String arg0) {
-    super(arg0);
+  protected void setUp() throws Exception {
+    super.setUp();
+    Persistence.create("test");
+  }
+
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    Persistence.close();
+    Persistence.delete("test");
   }
 
   public void testOperations() throws Exception {
-    Persistence.create("test");
     String key = "key";
     String value = "value";
     Persistence.put(key, value);
     assertEquals(value, Persistence.get(key));
-    Persistence.delete("test");
   }
 
 }

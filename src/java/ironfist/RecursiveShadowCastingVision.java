@@ -69,7 +69,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanNW2N(int distance, double startSlope, double endSlope) {
+  private void scanNW2N(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -119,7 +121,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanNW2N(distance + 1, startSlope, slope(xCenter + 0.5,
-              yCenter + 0.5, xCheck - 0.000001, yCheck + 0.999999));
+            yCenter + 0.5, xCheck - 0.000001, yCheck + 0.999999));
         }
 
         prevBlocked = true;
@@ -166,7 +168,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanNE2N(int distance, double startSlope, double endSlope) {
+  private void scanNE2N(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -216,7 +220,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanNE2N(distance + 1, startSlope, slope(xCenter + 0.5,
-              yCenter + 0.5, (double) xCheck + 1, yCheck + 0.99999));
+            yCenter + 0.5, (double) xCheck + 1, yCheck + 0.99999));
         }
 
         prevBlocked = true;
@@ -240,7 +244,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.9999999,
-              yCheck);
+            yCheck);
         }
 
         prevBlocked = false;
@@ -264,7 +268,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanNW2W(int distance, double startSlope, double endSlope) {
+  private void scanNW2W(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -319,7 +325,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanNW2W(distance + 1, startSlope, invSlope(xCenter + 0.5,
-              yCenter + 0.5, xCheck + 0.99999, yCheck - 0.00001));
+            yCenter + 0.5, xCheck + 0.99999, yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -371,7 +377,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanSW2W(int distance, double startSlope, double endSlope) {
+  private void scanSW2W(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -426,7 +434,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanSW2W(distance + 1, startSlope, invSlope(xCenter + 0.5,
-              yCenter + 0.5, xCheck + 0.99999, (double) yCheck + 1));
+            yCenter + 0.5, xCheck + 0.99999, (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -455,7 +463,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck,
-              yCheck + 0.99999);
+            yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -479,7 +487,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanSW2S(int distance, double startSlope, double endSlope) {
+  private void scanSW2S(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -529,7 +539,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanSW2S(distance + 1, startSlope, slope(xCenter + 0.5,
-              yCenter + 0.5, xCheck - 0.00001, yCheck));
+            yCenter + 0.5, xCheck - 0.00001, yCheck));
         }
 
         prevBlocked = true;
@@ -553,7 +563,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck,
-              yCheck + 0.99999);
+            yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -577,7 +587,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanSE2S(int distance, double startSlope, double endSlope) {
+  private void scanSE2S(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -627,7 +639,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanSE2S(distance + 1, startSlope, slope(xCenter + 0.5,
-              yCenter + 0.5, (double) xCheck + 1, yCheck));
+            yCenter + 0.5, (double) xCheck + 1, yCheck));
         }
 
         prevBlocked = true;
@@ -651,7 +663,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = slope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
-              yCheck + 0.99999);
+            yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -675,7 +687,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanNE2E(int distance, double startSlope, double endSlope) {
+  private void scanNE2E(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -730,7 +744,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanNE2E(distance + 1, startSlope, invSlope(xCenter + 0.5,
-              yCenter + 0.5, xCheck, yCheck - 0.00001));
+            yCenter + 0.5, xCheck, yCheck - 0.00001));
         }
 
         prevBlocked = true;
@@ -759,7 +773,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
-              yCheck);
+            yCheck);
         }
 
         prevBlocked = false;
@@ -783,7 +797,9 @@ public class RecursiveShadowCastingVision {
    * @param endSlope
    *          DOCUMENT ME!
    */
-  private void scanSE2E(int distance, double startSlope, double endSlope) {
+  private void scanSE2E(int distance, double start, double end) {
+    double startSlope = start;
+    double endSlope = end;
     if (distance > maxRadius) {
       return;
     }
@@ -838,7 +854,7 @@ public class RecursiveShadowCastingVision {
       if (scanCell(xCheck, yCheck)) {
         if (!prevBlocked) {
           scanSE2E(distance + 1, startSlope, invSlope(xCenter + 0.5,
-              yCenter + 0.5, xCheck, (double) yCheck + 1));
+            yCenter + 0.5, xCheck, (double) yCheck + 1));
         }
 
         prevBlocked = true;
@@ -867,7 +883,7 @@ public class RecursiveShadowCastingVision {
       else {
         if (prevBlocked) {
           startSlope = invSlope(xCenter + 0.5, yCenter + 0.5, xCheck + 0.99999,
-              yCheck + 0.99999);
+            yCheck + 0.99999);
         }
 
         prevBlocked = false;
@@ -902,164 +918,163 @@ public class RecursiveShadowCastingVision {
     this.maxRadius = maxRadius;
     seen = new ArrayList();
 
-    if (map == null) {
-      return seen;
-    }
+    if (map != null) {
 
-    // apply starting cell
-    applyCell(x, y);
+      // apply starting cell
+      applyCell(x, y);
 
-    if (maxRadius > 0) {
-      // scan and apply north
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int nL;
+      if (maxRadius > 0) {
+        // scan and apply north
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int nL;
 
-      for (nL = 1; nL <= maxRadius; nL++) {
-        applyCell(x, y - nL);
+        for (nL = 1; nL <= maxRadius; nL++) {
+          applyCell(x, y - nL);
 
-        if (scanCell(x, y - nL)) {
-          break;
+          if (scanCell(x, y - nL)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply north east
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int neL;
+        // scan and apply north east
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int neL;
 
-      for (neL = 1; neL <= maxRadius; neL++) {
-        applyCell(x + neL, y - neL);
+        for (neL = 1; neL <= maxRadius; neL++) {
+          applyCell(x + neL, y - neL);
 
-        if (scanCell(x + neL, y - neL)) {
-          break;
+          if (scanCell(x + neL, y - neL)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply east
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int eL;
+        // scan and apply east
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int eL;
 
-      for (eL = 1; eL <= maxRadius; eL++) {
-        applyCell(x + eL, y);
+        for (eL = 1; eL <= maxRadius; eL++) {
+          applyCell(x + eL, y);
 
-        if (scanCell(x + eL, y)) {
-          break;
+          if (scanCell(x + eL, y)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply south east
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int seL;
+        // scan and apply south east
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int seL;
 
-      for (seL = 1; seL <= maxRadius; seL++) {
-        applyCell(x + seL, y + seL);
+        for (seL = 1; seL <= maxRadius; seL++) {
+          applyCell(x + seL, y + seL);
 
-        if (scanCell(x + seL, y + seL)) {
-          break;
+          if (scanCell(x + seL, y + seL)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply south
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int sL;
+        // scan and apply south
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int sL;
 
-      for (sL = 1; sL <= maxRadius; sL++) {
-        applyCell(x, y + sL);
+        for (sL = 1; sL <= maxRadius; sL++) {
+          applyCell(x, y + sL);
 
-        if (scanCell(x, y + sL)) {
-          break;
+          if (scanCell(x, y + sL)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply south west
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int swL;
+        // scan and apply south west
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int swL;
 
-      for (swL = 1; swL <= maxRadius; swL++) {
-        applyCell(x - swL, y + swL);
+        for (swL = 1; swL <= maxRadius; swL++) {
+          applyCell(x - swL, y + swL);
 
-        if (scanCell(x - swL, y + swL)) {
-          break;
+          if (scanCell(x - swL, y + swL)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply west
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int wL;
+        // scan and apply west
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int wL;
 
-      for (wL = 1; wL <= maxRadius; wL++) {
-        applyCell(x - wL, y);
+        for (wL = 1; wL <= maxRadius; wL++) {
+          applyCell(x - wL, y);
 
-        if (scanCell(x - wL, y)) {
-          break;
+          if (scanCell(x - wL, y)) {
+            break;
+          }
         }
-      }
 
-      // scan and apply north west
-      // until a blocking cell is hit or
-      // until maxRadius is reached
-      int nwL;
+        // scan and apply north west
+        // until a blocking cell is hit or
+        // until maxRadius is reached
+        int nwL;
 
-      for (nwL = 1; nwL <= maxRadius; nwL++) {
-        applyCell(x - nwL, y - nwL);
+        for (nwL = 1; nwL <= maxRadius; nwL++) {
+          applyCell(x - nwL, y - nwL);
 
-        if (scanCell(x - nwL, y - nwL)) {
-          break;
+          if (scanCell(x - nwL, y - nwL)) {
+            break;
+          }
         }
-      }
 
-      // scan the octant covering the area from north west to north
-      // if it isn't blocked
-      if ((nL != 1) || (nwL != 1)) {
-        scanNW2N(1, 1, 0);
-      }
+        // scan the octant covering the area from north west to north
+        // if it isn't blocked
+        if ((nL != 1) || (nwL != 1)) {
+          scanNW2N(1, 1, 0);
+        }
 
-      // scan the octant covering the area from north east to north
-      // if it isn't blocked
-      if ((nL != 1) || (neL != 1)) {
-        scanNE2N(1, -1, 0);
-      }
+        // scan the octant covering the area from north east to north
+        // if it isn't blocked
+        if ((nL != 1) || (neL != 1)) {
+          scanNE2N(1, -1, 0);
+        }
 
-      // scan the octant covering the area from north west to west
-      // if it isn't blocked
-      if ((nwL != 1) || (wL != 1)) {
-        scanNW2W(1, 1, 0);
-      }
+        // scan the octant covering the area from north west to west
+        // if it isn't blocked
+        if ((nwL != 1) || (wL != 1)) {
+          scanNW2W(1, 1, 0);
+        }
 
-      // scan the octant covering the area from south west to west
-      // if it isn't blocked
-      if ((swL != 1) || (wL != 1)) {
-        scanSW2W(1, -1, 0);
-      }
+        // scan the octant covering the area from south west to west
+        // if it isn't blocked
+        if ((swL != 1) || (wL != 1)) {
+          scanSW2W(1, -1, 0);
+        }
 
-      // scan the octant covering the area from south west to south
-      // if it isn't blocked
-      if ((swL != 1) || (sL != 1)) {
-        scanSW2S(1, -1, 0);
-      }
+        // scan the octant covering the area from south west to south
+        // if it isn't blocked
+        if ((swL != 1) || (sL != 1)) {
+          scanSW2S(1, -1, 0);
+        }
 
-      // scan the octant covering the area from south east to south
-      // if it isn't blocked
-      if ((seL != 1) || (sL != 1)) {
-        scanSE2S(1, 1, 0);
-      }
+        // scan the octant covering the area from south east to south
+        // if it isn't blocked
+        if ((seL != 1) || (sL != 1)) {
+          scanSE2S(1, 1, 0);
+        }
 
-      // scan the octant covering the area from north east to east
-      // if it isn't blocked
-      if ((neL != 1) || (eL != 1)) {
-        scanNE2E(1, -1, 0);
-      }
+        // scan the octant covering the area from north east to east
+        // if it isn't blocked
+        if ((neL != 1) || (eL != 1)) {
+          scanNE2E(1, -1, 0);
+        }
 
-      // scan the octant covering the area from south east to east
-      // if it isn't blocked
-      if ((seL != 1) || (eL != 1)) {
-        scanSE2E(1, 1, 0);
+        // scan the octant covering the area from south east to east
+        // if it isn't blocked
+        if ((seL != 1) || (eL != 1)) {
+          scanSE2E(1, 1, 0);
+        }
       }
     }
 

@@ -72,7 +72,7 @@ public final class Persistence {
     Object result = null;
 
     try {
-      persistence.query(new Get(key));
+      result = persistence.query(new Get(key));
     } catch (Exception e) {
       throw new PersistenceException("error loading object");
     }

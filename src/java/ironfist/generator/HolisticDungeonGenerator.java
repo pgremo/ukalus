@@ -5,7 +5,6 @@
 package ironfist.generator;
 
 import ironfist.astar.AStar;
-import ironfist.astar.FixedCost;
 import ironfist.loop.Level;
 import ironfist.math.Vector;
 

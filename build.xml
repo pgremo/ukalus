@@ -22,6 +22,11 @@
 
 	<taskdef resource="repository/tasks.properties" classpath="${plugins}/repository.jar" />
 
+	<repository local="${repository.local}" fileSetId="dependencies">
+		<remote url="${repository.remote}" />
+		<artifact group="jcurses" version="0.9.5" />
+	</repository>
+
 	<path id="classpath">
 		<pathelement path="${classes}" />
 		<fileset refid="dependencies" />
@@ -41,7 +46,7 @@
 	<import file="${plugins}/jar.xml" />
 	<import file="${plugins}/version.xml" />
 
-	<target name="build" depends="clean, checkstyle.report, coverage, jar, jdepend.report, javancss.report, javadoc.report" />
+	<target name="build" depends="clean, checkstyle.report, junit, jar, jdepend.report, javancss.report, javadoc.report" />
 
 	<target name="build.release" depends="version.update, build" />
 </project>

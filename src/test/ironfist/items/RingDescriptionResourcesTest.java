@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 public class RingDescriptionResourcesTest extends TestCase {
 
   public void testLoadResource() throws Exception {
-    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.RingDescriptionResources");
+    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.items.RingDescriptionResources");
     Enumeration keys = bundle.getKeys();
 
     keys = bundle.getKeys();

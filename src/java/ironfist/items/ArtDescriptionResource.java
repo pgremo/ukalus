@@ -2,12 +2,12 @@ package ironfist.items;
 
 import ironfist.util.MarkovChain;
 import ironfist.util.MersenneTwister;
+import ironfist.util.OrderedHashSet;
 import ironfist.util.Strings;
 
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.ListResourceBundle;
 import java.util.Random;
 import java.util.Set;
@@ -240,7 +240,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
   }
 
   private String generateName() {
-    Set parts = new LinkedHashSet();
+    Set parts = new OrderedHashSet();
     do {
       parts.clear();
       Factory key = (Factory) rules.next(null, random.nextDouble());

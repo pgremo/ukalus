@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class RingIdentityResourcesTest extends TestCase {
 
   public void testLoadResource() throws Exception {
-    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.next.items.RingIdentityResources");
+    ResourceBundle bundle = ResourceBundle.getBundle("ironfist.items.RingIdentityResources");
     String pattern = bundle.getString("ring.protection.identity");
     System.out.println(MessageFormat.format(pattern, new Object[]{new Integer(
       -1)}));
