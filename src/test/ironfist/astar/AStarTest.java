@@ -30,11 +30,11 @@ public class AStarTest extends TestCase {
     Iterator path = finder.solve(heuristic, cost, start, stop);
     assertTrue(path.hasNext());
 
-    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
     assertEquals(new Vector(0, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
 
   }
 
@@ -51,10 +51,10 @@ public class AStarTest extends TestCase {
     Iterator path = finder.solve(heuristic, cost, start, stop);
     assertTrue(path.hasNext());
 
-    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
-    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
     assertEquals(new Vector(0, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 0), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 1), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(1, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(new Vector(2, 2), ((Node2D) path.next()).getLocation());
   }
 }

@@ -61,23 +61,23 @@ public class PassageNode implements Node {
     return (Node[]) result.toArray(new Node[result.size()]);
   }
 
-  public void setG(double g) {
+  public void setCost(double g) {
     this.g = g;
   }
 
-  public double getG() {
+  public double getCost() {
     return g;
   }
 
-  public double getF() {
+  public double getTotal() {
     return g + h;
   }
 
-  public double getH() {
+  public double getEstimate() {
     return h;
   }
 
-  public void setH(double h) {
+  public void setEstimate(double h) {
     this.h = h;
   }
 

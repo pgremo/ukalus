@@ -14,13 +14,13 @@ public interface Node {
 
   Node[] getSuccessors();
 
-  void setG(double cost);
+  void setCost(double cost);
 
-  double getG();
+  double getCost();
 
-  void setH(double estimage);
+  void setEstimate(double estimage);
 
-  double getH();
+  double getEstimate();
 
-  double getF();
+  double getTotal();
 }

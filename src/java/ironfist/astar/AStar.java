@@ -4,13 +4,10 @@
  */
 package ironfist.astar;
 
-import ironfist.util.PriorityQueue;
+import ironfist.util.Collections;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author gremopm
@@ -18,59 +15,41 @@ import java.util.List;
  */
 public class AStar {
 
-  public Iterator solve(Heuristic heuristic, Cost cost, Node start, Node stop) {
-    PriorityQueue open = new PriorityQueue(new NodeFComparator());
-    List close = new LinkedList();
-    Iterator result = null;
+  private static final NodeTotalComparator COMPARATOR = new NodeTotalComparator();
 
+  public Iterator solve(Heuristic heuristic, Cost cost, Node start, Node stop) {
+    OpenQueue open = new OpenQueue(COMPARATOR);
+    CloseList close = new CloseList();
+    LinkedList result = null;
     open.add(start);
     while (open.size() > 0 && result == null) {
       Node current = (Node) open.removeFirst();
       if (current.equals(stop)) {
-        result = new NodeIterator(current);
+        result = new LinkedList();
+        while (current != null) {
+          result.addFirst(current);
+          current = current.getParent();
+        }
       } else {
         Node[] successors = current.getSuccessors();
         for (int i = 0; i < successors.length; i++) {
           int newCost = cost.calculate(current, successors[i]);
-
-          Node openNode = getNode(open, successors[i]);
-
-          if (openNode != null && openNode.getG() <= newCost) {
-            continue;
+          Node openNode = (Node) open.get(successors[i]);
+          if (openNode == null || openNode.getCost() > newCost) {
+            Node closeNode = (Node) close.get(successors[i]);
+            if (closeNode == null || closeNode.getCost() > newCost) {
+              successors[i].setCost(newCost);
+              successors[i].setEstimate(heuristic.estimate(successors[i]));
+              open.remove(openNode);
+              close.remove(closeNode);
+              open.add(successors[i]);
+            }
           }
-
-          Node closeNode = getNode(close, successors[i]);
-
-          if (closeNode != null && closeNode.getG() <= newCost) {
-            continue;
-          }
-
-          successors[i].setG(newCost);
-          successors[i].setH(heuristic.estimate(successors[i]));
-
-          open.remove(openNode);
-          close.remove(closeNode);
-
-          open.add(successors[i]);
         }
       }
       close.add(current);
     }
-    if (result == null) {
-      result = Collections.EMPTY_LIST.iterator();
-    }
-    return result;
+    return result == null ? Collections.EMPTY_ITERATOR : result.iterator();
   }
 
-  private Node getNode(Collection collection, Node successor) {
-    Node result = null;
-    Iterator iterator = collection.iterator();
-    while (iterator.hasNext() && result == null) {
-      Object node = iterator.next();
-      if (node.equals(successor)) {
-        result = (Node) node;
-      }
-    }
-    return result;
-  }
 }
