@@ -4,14 +4,17 @@
  */
 package ironfist.util;
 
+import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * @author pmgremo
  * 
  */
-public class Syllables implements Iterable<String> {
+public class Syllables extends AbstractList<String> {
   private static Pattern cleanPattern = Pattern.compile("\\W+",
       Pattern.CASE_INSENSITIVE);
   private static Pattern oneConsonant = Pattern.compile(
@@ -29,7 +32,7 @@ public class Syllables implements Iterable<String> {
   private static Pattern splitPattern = Pattern.compile("-+",
       Pattern.CASE_INSENSITIVE);
 
-  private String[] syllables;
+  private List<String> syllables;
 
   public Syllables(String value) {
     String result = cleanPattern.matcher(value)
@@ -42,30 +45,19 @@ public class Syllables implements Iterable<String> {
       .replaceAll("$1-$3");
     result = fourConsonants.matcher(result)
       .replaceAll("$1-$2");
-    syllables = splitPattern.split(result);
+    syllables = Arrays.asList(splitPattern.split(result));
   }
 
   public Iterator<String> iterator() {
-    return new SyllableIterator();
+    return syllables.iterator();
   }
 
-  public String[] toArray() {
-    return syllables.clone();
+  public int size() {
+    return syllables.size();
   }
 
-  private class SyllableIterator implements Iterator<String> {
-    private int index;
-
-    public boolean hasNext() {
-      return index < syllables.length;
-    }
-
-    public String next() {
-      return syllables[index++];
-    }
-
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
+  public String get(int i) {
+    return syllables.get(i);
   }
+
 }
