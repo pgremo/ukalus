@@ -16,9 +16,9 @@ public class SetterCollector implements Closure<Method, Object> {
 
   public Object apply(Method method) {
     String name = method.getName();
-    if (name.startsWith("set")) {
-      setters.put(name.substring(3)
-        .toLowerCase(), method);
+    if (name.startsWith("set") && method.getParameterTypes().length == 1) {
+      setters.put(Character.toLowerCase(name.charAt(3)) + name.substring(4),
+        method);
     }
     return null;
   }
