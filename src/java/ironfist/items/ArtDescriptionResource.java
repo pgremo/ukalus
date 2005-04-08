@@ -285,9 +285,9 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   public String toString() {
     StringBuffer result = new StringBuffer();
-    Enumeration enumeration = getKeys();
+    Enumeration<String> enumeration = getKeys();
     while (enumeration.hasMoreElements()) {
-      String key = (String) enumeration.nextElement();
+      String key = enumeration.nextElement();
       if (result.length() > 1) {
         result.append("\n");
       }
