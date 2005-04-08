@@ -18,30 +18,24 @@ import java.util.Set;
  * visiting each grid at most once, and is (for me) much simpler to implement
  * than octant oriented or non-recursive approaches. -TSS
  */
-public class FieldOfVision {
+public class SpiralVision {
 
   /**
    * Compute and return the list of RLPoints in line-of-sight to the given
    * region. In general, this method should be very fast.
    */
-  public Set<Vector> lineOfSightPoints(Vector p, Level b, int distance) {
-    if (p == null) {
-      throw new IllegalArgumentException();
-    }
-    if (distance < 1) {
-      throw new IllegalArgumentException();
-    }
-    if (b == null) {
+  public Set<Vector> getSeen(Vector origin, Level level, int radius) {
+    if (origin == null || radius < 1 || level == null) {
       throw new IllegalArgumentException();
     }
 
-    Set<Vector> points = new HashSet<Vector>(31);
+    Set<Vector> result = new HashSet<Vector>(31);
 
-    points.add(p);
+    result.add(origin);
 
-    new Run(b, p, 1, distance, 0.0, 359.9, points).go();
+    new Run(level, origin, 1, radius, 0.0, 359.9, result).go();
 
-    return points;
+    return result;
   }
 
   class Run {
@@ -53,22 +47,21 @@ public class FieldOfVision {
     int maxDistance;
     Level board;
 
-    Run(Level board, Vector ctr, int r, int maxDistance, double th1,
+    Run(Level level, Vector origin, int r, int maxDistance, double th1,
         double th2, Set<Vector> pointSet) {
-      this.board = board;
+      this.board = level;
       this.r = r;
       this.th1 = th1;
       this.th2 = th2;
       this.pointSet = pointSet;
-      this.ctr = ctr;
+      this.ctr = origin;
       this.maxDistance = maxDistance;
     }
 
     void go() {
-      if (r > maxDistance)
+      if (r < 1 || r > maxDistance) {
         throw new IllegalArgumentException();
-      if (r <= 0)
-        throw new IllegalArgumentException();
+      }
       ArrayList<ArcPoint> circle = circles.get(r);
       int circSize = circle.size();
       boolean wasObstacle = false;
@@ -176,23 +169,26 @@ public class FieldOfVision {
 
   static class ArcPoint implements Comparable<ArcPoint> {
 
-    int x, y;
+    int x;
+    int y;
     double theta;
     double leading;
     double lagging;
 
     public String toString() {
-      return "[" + x + "," + y + "=" + (int) (theta) + "/" + (int) (leading)
-          + "/" + (int) (lagging);
+      return "(" + x + "," + y + ")=[theta=" + theta + ",leading=" + leading
+          + ",lagging=" + lagging + "]";
     }
 
     double angle(double y, double x) {
       double a1 = atan2(y, x);
-      if (a1 < 0)
+      if (a1 < 0) {
         a1 = 2 * PI + a1;
+      }
       double a2 = 360.0 - a1 * 180.0 / PI;
-      if (a2 == 360.0)
+      if (a2 == 360.0) {
         a2 = 0;
+      }
       return a2;
     }
 
