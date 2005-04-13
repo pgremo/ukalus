@@ -2,7 +2,7 @@
  * Created on Feb 11, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
 
 import java.util.Comparator;
 

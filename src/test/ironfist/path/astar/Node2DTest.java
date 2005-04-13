@@ -2,10 +2,11 @@
  * Created on Feb 11, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector;
+import ironfist.path.astar.Node;
 
 import java.util.Collection;
 

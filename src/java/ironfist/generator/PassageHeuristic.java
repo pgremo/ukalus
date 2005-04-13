@@ -4,8 +4,8 @@
  */
 package ironfist.generator;
 
-import ironfist.astar.Heuristic;
-import ironfist.astar.Node;
+import ironfist.path.astar.Heuristic;
+import ironfist.path.astar.Node;
 
 /**
  * @author gremopm

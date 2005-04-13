@@ -2,7 +2,7 @@
  * Created on Feb 10, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
 
 import ironfist.util.IsEqual;
 import ironfist.util.Loop;

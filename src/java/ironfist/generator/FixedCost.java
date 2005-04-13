@@ -4,8 +4,8 @@
  */
 package ironfist.generator;
 
-import ironfist.astar.Cost;
-import ironfist.astar.Node;
+import ironfist.path.astar.Cost;
+import ironfist.path.astar.Node;
 
 /**
  * @author gremopm

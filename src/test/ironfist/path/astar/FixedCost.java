@@ -2,7 +2,10 @@
  * Created on Feb 10, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
+
+import ironfist.path.astar.Cost;
+import ironfist.path.astar.Node;
 
 /**
  * @author gremopm

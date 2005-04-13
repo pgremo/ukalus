@@ -2,10 +2,13 @@
  * Created on Feb 15, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector;
+import ironfist.path.astar.AStar;
+import ironfist.path.astar.Cost;
+import ironfist.path.astar.Heuristic;
 
 import java.util.Iterator;
 

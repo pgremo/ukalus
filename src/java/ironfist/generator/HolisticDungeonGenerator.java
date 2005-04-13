@@ -4,10 +4,10 @@
  */
 package ironfist.generator;
 
-import ironfist.astar.AStar;
-import ironfist.astar.Node;
 import ironfist.loop.Level;
 import ironfist.math.Vector;
+import ironfist.path.astar.AStar;
+import ironfist.path.astar.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;

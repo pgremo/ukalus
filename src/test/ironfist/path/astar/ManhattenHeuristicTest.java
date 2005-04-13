@@ -2,9 +2,10 @@
  * Created on Feb 15, 2005
  *
  */
-package ironfist.astar;
+package ironfist.path.astar;
 
 import ironfist.math.Vector;
+import ironfist.path.astar.Heuristic;
 import junit.framework.TestCase;
 
 /**
