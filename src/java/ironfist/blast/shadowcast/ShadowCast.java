@@ -1,4 +1,4 @@
-package ironfist.vision;
+package ironfist.blast.shadowcast;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector;
@@ -11,7 +11,7 @@ import java.util.Set;
  * 
  * @author pmgremo
  */
-public class RecursiveShadowCastingVision {
+public class ShadowCast {
 
   private Level level;
   private int maxRadius;

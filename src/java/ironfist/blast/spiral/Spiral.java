@@ -1,4 +1,4 @@
-package ironfist.vision;
+package ironfist.blast.spiral;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.atan2;
@@ -18,7 +18,7 @@ import java.util.Set;
  * visiting each grid at most once, and is (for me) much simpler to implement
  * than octant oriented or non-recursive approaches. -TSS
  */
-public class SpiralVision {
+public class Spiral {
 
   /**
    * Compute and return the list of RLPoints in line-of-sight to the given

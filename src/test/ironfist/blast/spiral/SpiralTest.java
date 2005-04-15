@@ -1,5 +1,6 @@
-package ironfist.vision;
+package ironfist.blast.spiral;
 
+import ironfist.blast.spiral.Spiral;
 import ironfist.loop.Level;
 import ironfist.math.Vector;
 
@@ -8,7 +9,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-public class SpiralVisionTest extends TestCase {
+public class SpiralTest extends TestCase {
 
   private static final Object WALL = null;
   private static final Object FLOOR = new Object();
@@ -27,7 +28,7 @@ public class SpiralVisionTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector> actual = new SpiralVision().getSeen(new Vector(
+    Set<Vector> actual = new Spiral().getSeen(new Vector(
       2, 2), level, 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -49,7 +50,7 @@ public class SpiralVisionTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector> actual = new SpiralVision().getSeen(new Vector(
+    Set<Vector> actual = new Spiral().getSeen(new Vector(
       2, 2), level, 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -73,8 +74,8 @@ public class SpiralVisionTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector> actual = new SpiralVision().getSeen(new Vector(
-      2, 1), level, 5);
+    Set<Vector> actual = new Spiral().getSeen(new Vector(
+      3, 1), level, 5);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
