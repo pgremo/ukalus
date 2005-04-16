@@ -11,16 +11,6 @@ public class RayTracing {
   private static final int MAX_LIGHT_RADIUS = 20;
   private static final int CIRC_MAX = 32000;
   private static final int BIG_SHADOW = 32000;
-  private static final int MINSEE = 11;
-
-  // the following two constants represent the 'middle' of the sh array.
-  // since the current shown area is 19x19, centering the view at (9,9)
-  // means it will be exactly centered.
-  // This is done to accomodate possible future changes in viewable screen
-  // area - simply change sh_xo and sh_yo to the new view center.
-
-//  private static final int sh_xo = 9; // X and Y origins for the sh array
-//  private static final int sh_yo = 9;
 
   // the Cell class, used in the shadow-casting LOS algorithm
   class Cell {
@@ -134,10 +124,10 @@ public class RayTracing {
   }
 
   // for easy x,y octant translation
-  private static final int[] xxcomp = new int[]{1, 0, 0, -1, -1, 0, 0, 1};
-  private static final int[] xycomp = new int[]{0, 1, -1, 0, 0, -1, 1, 0};
-  private static final int[] yxcomp = new int[]{0, 1, 1, 0, 0, -1, -1, 0};
-  private static final int[] yycomp = new int[]{1, 0, 0, 1, -1, 0, 0, -1};
+  private static final int[] xxcomp = new int[] { 1, 0, 0, -1, -1, 0, 0, 1 };
+  private static final int[] xycomp = new int[] { 0, 1, -1, 0, 0, -1, 1, 0 };
+  private static final int[] yxcomp = new int[] { 0, 1, 1, 0, 0, -1, -1, 0 };
+  private static final int[] yycomp = new int[] { 1, 0, 0, 1, -1, 0, 0, -1 };
 
   private void scanOctant(int o, Closure<Vector, Boolean> scanner, int x_p,
       int y_p, Set<Vector> result) {
@@ -168,7 +158,6 @@ public class RayTracing {
         // check for all_dark - we've finished the octant but
         // have yet to fill in '0' for the rest of the sight grid
         if (all_dark) {
-          result.remove(new Vector(tx, ty));
           continue;
         }
 
@@ -216,8 +205,6 @@ public class RayTracing {
             cells[cell].visible = true;
 
             int upper = calcUpper(row, cell);
-            int lower = calcLower(row, cell);
-
             if (upper < cells[cell].up_max || cells[cell].up_max == 0) {
               // new upper shadow
               cells[cell].up_max = upper;
@@ -225,6 +212,7 @@ public class RayTracing {
               up_inc = 0;
             }
 
+            int lower = calcLower(row, cell);
             if (lower > cells[cell].low_max || cells[cell].low_max == 0) {
               // new lower shadow
               cells[cell].low_max = lower;
@@ -296,13 +284,14 @@ public class RayTracing {
     } // end for - rows
   }
 
-  public Set<Vector> solve(int radius, Closure<Vector, Boolean> scanner,
-      int x_p, int y_p) {
+  public Set<Vector> getArea(int radius, Closure<Vector, Boolean> scanner,
+      Vector location) {
     Set<Vector> result = new HashSet<Vector>();
-    result.add(new Vector(x_p, y_p));
+    result.add(location);
     setRadius(radius);
     for (int o = 0; o < 8; o++) {
-      scanOctant(o, scanner, x_p, y_p, result);
+      scanOctant(o, scanner, (int) location.getX(), (int) location.getY(),
+          result);
     }
     return result;
   }

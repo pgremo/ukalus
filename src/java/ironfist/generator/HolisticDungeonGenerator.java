@@ -22,11 +22,11 @@ import java.util.Random;
 public class HolisticDungeonGenerator {
 
   private Random randomizer = new Random();
-  private double roomProbability = 1.0;
-  private int minRoomHeight = 5;
-  private int minRoomWidth = 4;
+  private double roomProbability = .6;
+  private int minRoomHeight = 7;
+  private int minRoomWidth = 5;
   private int minRegionHeight = 8;
-  private int minRegionWidth = 5;
+  private int minRegionWidth = 6;
   private int cuts = 15;
 
   private Level level;

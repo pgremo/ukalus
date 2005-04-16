@@ -32,8 +32,7 @@ public class RayTracingTest extends TestCase {
     expected.remove(new Vector(4, 4));
 
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(2, new LevelScanner(level), 2,
-      2);
+    Set<Vector> actual = new RayTracing().getArea(2, new LevelScanner(level), new Vector(2, 2));
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -59,8 +58,7 @@ public class RayTracingTest extends TestCase {
     expected.remove(new Vector(4, 4));
 
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(2, new LevelScanner(level), 2,
-      2);
+    Set<Vector> actual = new RayTracing().getArea(2, new LevelScanner(level),new Vector(2, 2));
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -82,8 +80,7 @@ public class RayTracingTest extends TestCase {
     }
 
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(3, new LevelScanner(level), 2,
-      2);
+    Set<Vector> actual = new RayTracing().getArea(3, new LevelScanner(level), new Vector(2, 2));
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -111,8 +108,7 @@ public class RayTracingTest extends TestCase {
     expected.remove(new Vector(5, 5));
 
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(2, new LevelScanner(level), 3,
-      3);
+    Set<Vector> actual = new RayTracing().getArea(2, new LevelScanner(level),new Vector(3, 3));
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -135,8 +131,7 @@ public class RayTracingTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(5, new LevelScanner(level), 3,
-      1);
+    Set<Vector> actual = new RayTracing().getArea(5, new LevelScanner(level), new Vector(3, 1));
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));

@@ -18,7 +18,6 @@ public class ShadowCast {
   private Set<Vector> seen;
   private int xCenter;
   private int yCenter;
-  private Vector origin;
 
   /**
    * DOCUMENT ME!
@@ -915,7 +914,6 @@ public class ShadowCast {
    */
   public Set<Vector> getSeen(Vector origin, Level map, int maxRadius) {
     this.level = map;
-    this.origin = origin;
     int x = (int) origin.getX();
     int y = (int) origin.getY();
     this.xCenter = x;

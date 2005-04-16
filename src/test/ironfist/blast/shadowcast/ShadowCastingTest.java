@@ -1,8 +1,5 @@
 package ironfist.blast.shadowcast;
 
-import ironfist.blast.raytrace.LevelScanner;
-import ironfist.blast.raytrace.RayTracing;
-import ironfist.blast.shadowcast.ShadowCast;
 import ironfist.loop.Level;
 import ironfist.math.Vector;
 
@@ -73,8 +70,7 @@ public class ShadowCastingTest extends TestCase {
     }
 
     Level level = new Level(area);
-    Set<Vector> actual = new RayTracing().solve(3, new LevelScanner(level), 2,
-      2);
+    Set<Vector> actual = new ShadowCast().getSeen(new Vector(2, 2), level, 2);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
