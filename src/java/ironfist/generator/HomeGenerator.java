@@ -43,7 +43,7 @@ public class HomeGenerator {
    */
   public Level generate(String name) {
     Level result = new Level(name);
-    List list = areaFactory.create();
+    List<Tile> list = areaFactory.create();
     Area room = new Area(list);
     stairPredicate.setTileTypeClass(Floor.class);
 

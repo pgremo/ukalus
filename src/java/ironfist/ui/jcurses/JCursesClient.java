@@ -150,11 +150,11 @@ public class JCursesClient extends Widget implements Client {
    * @param list
    *          DOCUMENT ME!
    */
-  private void updatePlan(List list) {
-    Iterator iterator = list.iterator();
+  private void updatePlan(List<Tile> list) {
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext()) {
-      Tile current = (Tile) iterator.next();
+      Tile current = iterator.next();
       plan.set(current.getCoordinate(), current.getTileType());
     }
   }
@@ -165,7 +165,7 @@ public class JCursesClient extends Widget implements Client {
    * @param list
    *          DOCUMENT ME!
    */
-  private void updateFromPlan(List list) {
+  private void updateFromPlan(List<Tile> list) {
     CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE,
       CharColor.NORMAL);
 
@@ -185,10 +185,10 @@ public class JCursesClient extends Widget implements Client {
         plan.getWidth(), plan.getHeight());
       Toolkit.printString(buffer.toString(), area, colors);
     } else {
-      Iterator iterator = list.iterator();
+      Iterator<Tile> iterator = list.iterator();
 
       while (iterator.hasNext()) {
-        Tile tile = (Tile) iterator.next();
+        Tile tile = iterator.next();
         Vector coordinate = tile.getCoordinate();
         Toolkit.printString(
           symbols.get(determineLevelMarker(plan.get(coordinate))),
@@ -204,14 +204,14 @@ public class JCursesClient extends Widget implements Client {
    * @param list
    *          DOCUMENT ME!
    */
-  private void updateFromVision(List list) {
+  private void updateFromVision(List<Tile> list) {
     if (list != null) {
       CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE,
         CharColor.BOLD);
-      Iterator iterator = list.iterator();
+      Iterator<Tile> iterator = list.iterator();
 
       while (iterator.hasNext()) {
-        Tile tile = (Tile) iterator.next();
+        Tile tile = iterator.next();
         Vector coordinate = tile.getCoordinate();
         TileType type = tile.getTileType();
         Marker marker = determineCreatureMarker(type);
@@ -400,7 +400,7 @@ public class JCursesClient extends Widget implements Client {
           objects.add(floor.getDoor());
         }
 
-        Iterator iterator = floor.getThings();
+        Iterator<Thing> iterator = floor.getThings();
 
         while (iterator.hasNext()) {
           objects.add(iterator.next());

@@ -19,7 +19,7 @@ public class Area {
 
   private Random randomizer;
   private Vector coordinate;
-  private List list;
+  private List<Tile> list;
 
   {
     randomizer = new Random();
@@ -31,7 +31,7 @@ public class Area {
    * @param list
    *          DOCUMENT ME!
    */
-  public Area(List list) {
+  public Area(List<Tile> list) {
     this.list = list;
   }
 
@@ -48,10 +48,10 @@ public class Area {
     Tile[] candidates = new Tile[list.size()];
     int count = 0;
 
-    Iterator iterator = list.iterator();
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext()) {
-      Tile current = (Tile) iterator.next();
+      Tile current = iterator.next();
 
       if (predicate.apply(current)) {
         candidates[count++] = current;
@@ -75,10 +75,10 @@ public class Area {
    */
   public Tile get(Vector coordinate) {
     Tile result = null;
-    Iterator iterator = list.iterator();
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext() && (result == null)) {
-      Tile current = (Tile) iterator.next();
+      Tile current = iterator.next();
 
       if (current.getCoordinate()
         .equals(coordinate)) {
@@ -115,10 +115,10 @@ public class Area {
    *          DOCUMENT ME!
    */
   public void place(Level level) {
-    Iterator iterator = list.iterator();
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext()) {
-      Tile current = (Tile) iterator.next();
+      Tile current = iterator.next();
       level.set(current.getCoordinate()
         .add(coordinate), current.getTileType());
     }
@@ -136,10 +136,10 @@ public class Area {
    */
   public boolean check(Level level, Comparator<Tile> comparator) {
     boolean result = true;
-    Iterator iterator = list.iterator();
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext() && result) {
-      Tile current = (Tile) iterator.next();
+      Tile current = iterator.next();
       Vector currentCoordinate = current.getCoordinate()
         .add(coordinate);
 

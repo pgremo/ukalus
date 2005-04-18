@@ -60,7 +60,7 @@ public class Inventory implements ItemListener {
       .setLayoutManager(layout);
     window.setShadow(false);
 
-    Iterator iterator = creature.getThings();
+    Iterator<Thing> iterator = creature.getThings();
 
     if (iterator.hasNext()) {
       menu = new MenuList();

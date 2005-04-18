@@ -69,7 +69,7 @@ public class Pickup implements ItemListener {
 
     things.clear();
 
-    Iterator iterator = floor.getThings();
+    Iterator<Thing> iterator = floor.getThings();
 
     while (iterator.hasNext()) {
       Object current = iterator.next();

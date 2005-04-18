@@ -225,14 +225,14 @@ public class Level implements Serializable {
     }
   }
 
-  private class ReverseIntegerComparator implements Comparator {
+  private class ReverseIntegerComparator implements Comparator<InitiativeCell> {
 
     /**
      * @see java.util.Comparator#compare(Object, Object)
      */
-    public int compare(Object o1, Object o2) {
-      int rank1 = ((InitiativeCell) o1).getInitiative();
-      int rank2 = ((InitiativeCell) o2).getInitiative();
+    public int compare(InitiativeCell o1, InitiativeCell o2) {
+      int rank1 = o1.getInitiative();
+      int rank2 = o2.getInitiative();
 
       return (rank1 < rank2) ? 1 : (rank1 > rank2) ? (-1) : 0;
     }

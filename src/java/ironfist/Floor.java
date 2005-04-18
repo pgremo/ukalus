@@ -66,7 +66,7 @@ public class Floor implements TileType, Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public Iterator getThings() {
+  public Iterator<Thing> getThings() {
     return things.iterator();
   }
 

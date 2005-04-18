@@ -34,10 +34,10 @@ public class RecursiveDungeonGenerator {
       new Vector(0, 1),
       new Vector(1, 0),
       new Vector(0, -1)};
-  private static final Class FLOOR = Floor.class;
-  private static final Class terminal = Terminal.class;
-  private static final Class wall = Wall.class;
-  private static final Class BARRIER = Barrier.class;
+  private static final Class<? extends TileType> FLOOR = Floor.class;
+  private static final Class<? extends TileType> terminal = Terminal.class;
+  private static final Class<? extends TileType> wall = Wall.class;
+  private static final Class<? extends TileType> BARRIER = Barrier.class;
   private RectangleRoomFactory areaFactory;
   private PassageFactory connectorFactory;
   private Random randomizer;
@@ -75,13 +75,13 @@ public class RecursiveDungeonGenerator {
 
     int areaMax = 15;
     int tries = 0;
-    List list = areaFactory.create();
+    List<Tile> list = areaFactory.create();
     int largestX = 0;
     int largestY = 0;
-    Iterator iterator = list.iterator();
+    Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext()) {
-      Vector current = ((Tile) iterator.next()).getCoordinate();
+      Vector current = iterator.next().getCoordinate();
 
       if (largestX < current.getX()) {
         largestX = (int) current.getX();

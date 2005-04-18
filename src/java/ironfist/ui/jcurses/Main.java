@@ -1,6 +1,5 @@
 package ironfist.ui.jcurses;
 
-import jcurses.event.ActionEvent;
 import jcurses.event.ItemEvent;
 import jcurses.event.ItemListener;
 import jcurses.system.CharColor;

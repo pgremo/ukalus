@@ -16,9 +16,9 @@ import java.util.Random;
 public class RectangleRoomFactory {
 
   private Random randomizer;
-  private Class floorClass;
-  private Class wallClass;
-  private Class cornerClass;
+  private Class<? extends TileType> floorClass;
+  private Class<? extends TileType> wallClass;
+  private Class<? extends TileType> cornerClass;
   private int maxRoomHeight;
   private int maxRoomWidth;
   private int minRoomHeight;
@@ -29,7 +29,7 @@ public class RectangleRoomFactory {
    * 
    * @return DOCUMENT ME!
    */
-  public List create() {
+  public List<Tile> create() {
     List<Tile> list = new LinkedList<Tile>();
     int height = randomizer.nextInt(maxRoomHeight - minRoomHeight + 1)
         + minRoomHeight;
@@ -45,12 +45,12 @@ public class RectangleRoomFactory {
           if (((i == 0) && (j == 0)) || ((i == height - 1) && (j == 0))
               || ((i == 0) && (j == width - 1))
               || ((i == height - 1) && (j == width - 1))) {
-            type = (TileType) cornerClass.newInstance();
+            type = cornerClass.newInstance();
           } else if ((i == 0) || (j == 0) || (i == height - 1)
               || (j == width - 1)) {
-            type = (TileType) wallClass.newInstance();
+            type = wallClass.newInstance();
           } else {
-            type = (TileType) floorClass.newInstance();
+            type = floorClass.newInstance();
           }
         } catch (InstantiationException e) {
         } catch (IllegalAccessException e) {
@@ -172,7 +172,7 @@ public class RectangleRoomFactory {
    * @param cornerClass
    *          The cornerClass to set
    */
-  public void setCornerClass(Class cornerClass) {
+  public void setCornerClass(Class<? extends TileType> cornerClass) {
     this.cornerClass = cornerClass;
   }
 
@@ -182,7 +182,7 @@ public class RectangleRoomFactory {
    * @param floorClass
    *          The floorClass to set
    */
-  public void setFloorClass(Class floorClass) {
+  public void setFloorClass(Class<? extends TileType> floorClass) {
     this.floorClass = floorClass;
   }
 
@@ -192,7 +192,7 @@ public class RectangleRoomFactory {
    * @param wallClass
    *          The wallClass to set
    */
-  public void setWallClass(Class wallClass) {
+  public void setWallClass(Class<? extends TileType> wallClass) {
     this.wallClass = wallClass;
   }
 

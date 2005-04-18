@@ -215,7 +215,7 @@ public class Creature implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public Iterator getThings() {
+  public Iterator<Thing> getThings() {
     return things.iterator();
   }
 
