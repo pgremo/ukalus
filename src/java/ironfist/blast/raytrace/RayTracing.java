@@ -53,45 +53,29 @@ public class RayTracing {
 
   }
 
-  // the cell array
-  private Cell[] cells = new Cell[MAX_LIGHT_RADIUS];
-
-  // the 'circle' array. For any given row, we won't check higher than
-  // this given cell.
-  private int[] circle = new int[MAX_LIGHT_RADIUS + 1];
-
-  // current light radius
-  private int LR = 0;
+  private static final int[][] CIRCLES = new int[20][];
 
   // View constant
-  static int view = 2; // 1=widest LOS .. 5=narrowest
+  private static int VIEW = 2; // 1=widest LOS .. 5=narrowest
 
-  {
-    for (int i = 0; i < cells.length; i++) {
-      cells[i] = new Cell();
-    }
-  }
-
-  // initialize LOS code for a given light radius
-  public void setRadius(int newLR) {
-    // sanity check - also allows multiple calls w/out performance loss
-    if (LR != newLR) {
-      LR = newLR;
-      // cells should already be initted. calculate the circle array.
+  static {
+    for (int radius = 1; radius < 20; radius++) {
+      int[] circle = new int[radius + 1];
+      CIRCLES[radius] = circle;
 
       // note that rows 0 and 1 will always go to infinity.
       circle[0] = circle[1] = CIRC_MAX;
 
       // for the rest, simply calculate max height based on radius.
-      for (int i = 2; i <= LR; i++) {
+      for (int i = 2; i <= radius; i++) {
         // check top
-        if (2 * i * i <= LR * LR) {
+        if (2 * i * i <= radius * radius) {
           circle[i] = CIRC_MAX;
         } else {
           for (int j = i - 1; j >= 0; j--) {
             // check that Distance (I^2 + J^2) is no more than (R+0.5)^2
             // this rounding allows for *much* better looking circles.
-            if (i * i + j * j <= LR * LR + LR) {
+            if (i * i + j * j <= radius * radius + radius) {
               circle[i] = j;
               break;
             }
@@ -101,10 +85,26 @@ public class RayTracing {
     }
   }
 
-  private int calcUpper(int bX, int bY) {
+  // the cell array
+  private Cell[] cells = new Cell[MAX_LIGHT_RADIUS];
+
+  // the 'circle' array. For any given row, we won't check higher than
+  // this given cell.
+  private int[] circle = new int[MAX_LIGHT_RADIUS + 1];
+
+  // current light radius
+  private int radius = 0;
+
+  {
+    for (int i = 0; i < cells.length; i++) {
+      cells[i] = new Cell();
+    }
+  }
+
+  private int getUpper(int bX, int bY) {
     // got a blocker at row bX, cell bY. do all values
     // and scale by a factor of 10 for the integer math.
-    int result = (10 * (10 * bX - view)) / (10 * bY + view);
+    int result = (10 * (10 * bX - VIEW)) / (10 * bY + VIEW);
     if (result < 10) {// upper bound for blocker on diagonal
       result = 10;
     }
@@ -112,12 +112,12 @@ public class RayTracing {
     return result;
   }
 
-  private int calcLower(int bX, int bY) {
+  private int getLower(int bX, int bY) {
     // got a blocker at row bX, cell bY. do all values
     // and scale by a factor of 10 for the integer math.
     int result = BIG_SHADOW;
     if (bY != 0) {
-      result = (10 * (10 * bX + view)) / (10 * bY - view);
+      result = (10 * (10 * bX + VIEW)) / (10 * bY - VIEW);
     }
 
     return result;
@@ -137,7 +137,7 @@ public class RayTracing {
     boolean vis_corner = false;
 
     // loop through each row
-    for (int row = 1; row <= LR; row++) {
+    for (int row = 1; row <= radius; row++) {
       boolean row_dark = true;
 
       // loop through each cell, up to the max allowed by circle[]
@@ -204,7 +204,7 @@ public class RayTracing {
             cells[cell].lit = false;
             cells[cell].visible = true;
 
-            int upper = calcUpper(row, cell);
+            int upper = getUpper(row, cell);
             if (upper < cells[cell].up_max || cells[cell].up_max == 0) {
               // new upper shadow
               cells[cell].up_max = upper;
@@ -212,7 +212,7 @@ public class RayTracing {
               up_inc = 0;
             }
 
-            int lower = calcLower(row, cell);
+            int lower = getLower(row, cell);
             if (lower > cells[cell].low_max || cells[cell].low_max == 0) {
               // new lower shadow
               cells[cell].low_max = lower;
@@ -286,9 +286,10 @@ public class RayTracing {
 
   public Set<Vector> getArea(int radius, Closure<Vector, Boolean> scanner,
       Vector location) {
+    this.radius = radius;
+    circle = CIRCLES[radius];
     Set<Vector> result = new HashSet<Vector>();
     result.add(location);
-    setRadius(radius);
     for (int o = 0; o < 8; o++) {
       scanOctant(o, scanner, (int) location.getX(), (int) location.getY(),
           result);
