@@ -23,7 +23,6 @@ public class Spiral implements Blast {
   private static final HashMap<Integer, ArrayList<ArcPoint>> CIRCLES = new HashMap<Integer, ArrayList<ArcPoint>>();
 
   static {
-
     Vector2D origin = Vector2D.get(0, 0);
 
     for (int i = -20; i <= 20; i++) {
@@ -63,107 +62,86 @@ public class Spiral implements Blast {
 
     result.add(origin);
 
-    new Run(scanner, origin, 1, radius, 0.0, 359.9, result).go();
+    process(scanner, origin, 1, radius, 0.0, 359.9, result);
 
     return result;
   }
 
-  private class Run {
+  void process(Closure<Vector2D, Boolean> scanner, Vector2D origin, int r,
+      int maxDistance, double th1, double th2, Set<Vector2D> pointSet) {
+    if (r < 1 || r > maxDistance) {
+      throw new IllegalArgumentException();
+    }
+    ArrayList<ArcPoint> circle = CIRCLES.get(r);
+    int circSize = circle.size();
+    boolean wasObstacle = false;
+    boolean foundClear = false;
+    for (int i = 0; i < circSize; i++) {
+      ArcPoint arcPoint = circle.get(i);
+      Vector2D point = Vector2D.get(origin.getX() + arcPoint.x, origin.getY()
+          + arcPoint.y);
 
-    int r;
-    double th1;
-    double th2;
-    Set<Vector2D> pointSet;
-    Vector2D origin;
-    int maxDistance;
-    Closure<Vector2D, Boolean> scanner;
+      if (arcPoint.lagging < th1 && arcPoint.theta != th1
+          && arcPoint.theta != th2) {
+        continue;
+      }
+      if (arcPoint.leading > th2 && arcPoint.theta != th1
+          && arcPoint.theta != th2) {
+        continue;
+      }
 
-    Run(Closure<Vector2D, Boolean> scanner, Vector2D origin, int r,
-        int maxDistance, double th1, double th2, Set<Vector2D> pointSet) {
-      this.scanner = scanner;
-      this.r = r;
-      this.th1 = th1;
-      this.th2 = th2;
-      this.pointSet = pointSet;
-      this.origin = origin;
-      this.maxDistance = maxDistance;
+      // Accept this point
+      pointSet.add(point);
+
+      // Check to see if we have an obstacle here
+      boolean isObstacle = scanner.apply(point); // terrain.config().check("opaque");
+
+      // If obstacle is encountered, we start a new run from our start theta
+      // to the rightTheta of the current point at radius+1
+      // We then proceed to the next non-obstacle, whose leftTheta becomes
+      // our new start theta
+      // If the last point is an obstacle, we do not start a new Run at the
+      // end.
+      if (isObstacle) {
+        // keep going
+        if (wasObstacle) {
+          continue;
+        }
+        // start a new run from our start to this point's right side
+        else if (foundClear) {
+          double runEndTheta = arcPoint.leading;
+          double runStartTheta = th1;
+          if (r < maxDistance) {
+            process(scanner, origin, r + 1, maxDistance, runStartTheta,
+              runEndTheta, pointSet);
+          }
+          wasObstacle = true;
+        } else {
+          if (arcPoint.theta == 0.0) {
+            th1 = 0.0;
+          } else {
+            th1 = arcPoint.leading;
+          }
+        }
+      } else {
+        foundClear = true;
+        // we're clear of obstacle; any runs propogated from this run starts
+        // at this
+        // point's leftTheta
+        if (wasObstacle) {
+          ArcPoint last = circle.get(i - 1);
+          th1 = last.lagging;
+          wasObstacle = false;
+        } else {
+          wasObstacle = false;
+          continue;
+        }
+      }
+      wasObstacle = isObstacle;
     }
 
-    void go() {
-      if (r < 1 || r > maxDistance) {
-        throw new IllegalArgumentException();
-      }
-      ArrayList<ArcPoint> circle = CIRCLES.get(r);
-      int circSize = circle.size();
-      boolean wasObstacle = false;
-      boolean foundClear = false;
-      for (int i = 0; i < circSize; i++) {
-        ArcPoint arcPoint = circle.get(i);
-        Vector2D point = Vector2D.get(origin.getX() + arcPoint.x, origin.getY()
-            + arcPoint.y);
-
-        if (arcPoint.lagging < th1 && arcPoint.theta != th1
-            && arcPoint.theta != th2) {
-          continue;
-        }
-        if (arcPoint.leading > th2 && arcPoint.theta != th1
-            && arcPoint.theta != th2) {
-          continue;
-        }
-
-        // Accept this point
-        pointSet.add(point);
-
-        // Check to see if we have an obstacle here
-        boolean isObstacle = scanner.apply(point); // terrain.config().check("opaque");
-
-        // If obstacle is encountered, we start a new run from our start theta
-        // to the rightTheta of the current point at radius+1
-        // We then proceed to the next non-obstacle, whose leftTheta becomes
-        // our new start theta
-        // If the last point is an obstacle, we do not start a new Run at the
-        // end.
-        if (isObstacle) {
-          // keep going
-          if (wasObstacle) {
-            continue;
-          }
-          // start a new run from our start to this point's right side
-          else if (foundClear) {
-            double runEndTheta = arcPoint.leading;
-            double runStartTheta = th1;
-            if (r < maxDistance) {
-              new Run(scanner, origin, r + 1, maxDistance, runStartTheta,
-                runEndTheta, pointSet).go();
-            }
-            wasObstacle = true;
-          } else {
-            if (arcPoint.theta == 0.0) {
-              th1 = 0.0;
-            } else {
-              th1 = arcPoint.leading;
-            }
-          }
-        } else {
-          foundClear = true;
-          // we're clear of obstacle; any runs propogated from this run starts
-          // at this
-          // point's leftTheta
-          if (wasObstacle) {
-            ArcPoint last = circle.get(i - 1);
-            th1 = last.lagging;
-            wasObstacle = false;
-          } else {
-            wasObstacle = false;
-            continue;
-          }
-        }
-        wasObstacle = isObstacle;
-      }
-
-      if (!wasObstacle && r < maxDistance) {
-        new Run(scanner, origin, r + 1, maxDistance, th1, th2, pointSet).go();
-      }
+    if (!wasObstacle && r < maxDistance) {
+      process(scanner, origin, r + 1, maxDistance, th1, th2, pointSet);
     }
   }
 
