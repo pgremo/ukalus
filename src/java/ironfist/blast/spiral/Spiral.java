@@ -2,9 +2,9 @@ package ironfist.blast.spiral;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.atan2;
-import static java.lang.Math.floor;
-import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.blast.Blast;
+import ironfist.math.Vector2D;
+import ironfist.util.Closure;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,43 +18,74 @@ import java.util.Set;
  * visiting each grid at most once, and is (for me) much simpler to implement
  * than octant oriented or non-recursive approaches. -TSS
  */
-public class Spiral {
+public class Spiral implements Blast {
+
+  private static final HashMap<Integer, ArrayList<ArcPoint>> CIRCLES = new HashMap<Integer, ArrayList<ArcPoint>>();
+
+  static {
+
+    Vector2D origin = Vector2D.get(0, 0);
+
+    for (int i = -20; i <= 20; i++) {
+      for (int j = -20; j <= 20; j++) {
+        int distance = (int) Math.floor(origin.distance(Vector2D.get(i, j)));
+
+        // If filled, add anything where floor(distance) <= radius
+        // If not filled, require that floor(distance) == radius
+        if (distance <= 50) {
+          ArrayList<ArcPoint> circle = CIRCLES.get(distance);
+          if (circle == null) {
+            circle = new ArrayList<ArcPoint>();
+            CIRCLES.put(distance, circle);
+          }
+          circle.add(new ArcPoint(i, j));
+        }
+      }
+    }
+
+    for (ArrayList<ArcPoint> list : CIRCLES.values()) {
+      Collections.sort(list);
+    }
+
+  }
 
   /**
    * Compute and return the list of RLPoints in line-of-sight to the given
    * region. In general, this method should be very fast.
    */
-  public Set<Vector> getSeen(Vector origin, Level level, int radius) {
-    if (origin == null || radius < 1 || level == null) {
+  public Set<Vector2D> getTemplate(Vector2D origin,
+      Closure<Vector2D, Boolean> scanner, int radius) {
+    if (origin == null || radius < 1 || scanner == null) {
       throw new IllegalArgumentException();
     }
 
-    Set<Vector> result = new HashSet<Vector>(31);
+    Set<Vector2D> result = new HashSet<Vector2D>(31);
 
     result.add(origin);
 
-    new Run(level, origin, 1, radius, 0.0, 359.9, result).go();
+    new Run(scanner, origin, 1, radius, 0.0, 359.9, result).go();
 
     return result;
   }
 
-  class Run {
+  private class Run {
 
     int r;
-    double th1, th2;
-    Set<Vector> pointSet;
-    Vector ctr;
+    double th1;
+    double th2;
+    Set<Vector2D> pointSet;
+    Vector2D origin;
     int maxDistance;
-    Level board;
+    Closure<Vector2D, Boolean> scanner;
 
-    Run(Level level, Vector origin, int r, int maxDistance, double th1,
-        double th2, Set<Vector> pointSet) {
-      this.board = level;
+    Run(Closure<Vector2D, Boolean> scanner, Vector2D origin, int r,
+        int maxDistance, double th1, double th2, Set<Vector2D> pointSet) {
+      this.scanner = scanner;
       this.r = r;
       this.th1 = th1;
       this.th2 = th2;
       this.pointSet = pointSet;
-      this.ctr = origin;
+      this.origin = origin;
       this.maxDistance = maxDistance;
     }
 
@@ -62,32 +93,21 @@ public class Spiral {
       if (r < 1 || r > maxDistance) {
         throw new IllegalArgumentException();
       }
-      ArrayList<ArcPoint> circle = circles.get(r);
+      ArrayList<ArcPoint> circle = CIRCLES.get(r);
       int circSize = circle.size();
       boolean wasObstacle = false;
       boolean foundClear = false;
       for (int i = 0; i < circSize; i++) {
         ArcPoint arcPoint = circle.get(i);
-        Vector point = new Vector(ctr.getX() + arcPoint.x, ctr.getY()
+        Vector2D point = Vector2D.get(origin.getX() + arcPoint.x, origin.getY()
             + arcPoint.y);
-
-        // if outside the board, ignore it and move to the next one
-        if (!board.contains(point)) {
-          wasObstacle = true;
-          continue;
-        }
-        // System.out.println("Theta " + arcPoint.theta + " (" + th1 + "," + th2
-        // +
-        // "," + r);
 
         if (arcPoint.lagging < th1 && arcPoint.theta != th1
             && arcPoint.theta != th2) {
-          // System.out.println("< than " + arcPoint);
           continue;
         }
         if (arcPoint.leading > th2 && arcPoint.theta != th1
             && arcPoint.theta != th2) {
-          // System.out.println("> than " + arcPoint);
           continue;
         }
 
@@ -95,11 +115,7 @@ public class Spiral {
         pointSet.add(point);
 
         // Check to see if we have an obstacle here
-        Object terrain = board.get(point);
-        // assert terrain != null : "terrain null @ " + point
-        // + " in board with dims " + board.getWidth() + "x"
-        // + board.getLength();
-        boolean isObstacle = terrain == null; // terrain.config().check("opaque");
+        boolean isObstacle = scanner.apply(point); // terrain.config().check("opaque");
 
         // If obstacle is encountered, we start a new run from our start theta
         // to the rightTheta of the current point at radius+1
@@ -112,28 +128,21 @@ public class Spiral {
           if (wasObstacle) {
             continue;
           }
-
           // start a new run from our start to this point's right side
           else if (foundClear) {
             double runEndTheta = arcPoint.leading;
             double runStartTheta = th1;
-            // System.out.println("Spawn obstacle at " + arcPoint);
             if (r < maxDistance) {
-              new Run(board, ctr, r + 1, maxDistance, runStartTheta,
+              new Run(scanner, origin, r + 1, maxDistance, runStartTheta,
                 runEndTheta, pointSet).go();
             }
             wasObstacle = true;
-            // System.out.println("Continuing..." + (runs++) + ": " + r + "," +
-            // (int)(th1) +
-            // ":" + (int)(th2));
           } else {
             if (arcPoint.theta == 0.0) {
               th1 = 0.0;
             } else {
               th1 = arcPoint.leading;
             }
-            // System.out.println("Adjusting start for obstacle "+th1+" at " +
-            // arcPoint);
           }
         } else {
           foundClear = true;
@@ -142,16 +151,7 @@ public class Spiral {
           // point's leftTheta
           if (wasObstacle) {
             ArcPoint last = circle.get(i - 1);
-            // if (last.theta == 0.0) {
-            // th1 = 0.0;
-            // }
-            // else {
             th1 = last.lagging;
-            // }
-
-            // System.out.println("Adjusting start for clear of obstacle "+th1+"
-            // at " + arcPoint);
-
             wasObstacle = false;
           } else {
             wasObstacle = false;
@@ -162,12 +162,12 @@ public class Spiral {
       }
 
       if (!wasObstacle && r < maxDistance) {
-        new Run(board, ctr, r + 1, maxDistance, th1, th2, pointSet).go();
+        new Run(scanner, origin, r + 1, maxDistance, th1, th2, pointSet).go();
       }
     }
   }
 
-  static class ArcPoint implements Comparable<ArcPoint> {
+  private static class ArcPoint implements Comparable<ArcPoint> {
 
     int x;
     int y;
@@ -196,7 +196,6 @@ public class Spiral {
       this.x = dx;
       this.y = dy;
       theta = angle(y, x);
-      // System.out.println(x + "," + y + ", theta=" + theta);
       // top left
       if (x < 0 && y < 0) {
         leading = angle(y - 0.5, x + 0.5);
@@ -231,39 +230,6 @@ public class Spiral {
     public int hashCode() {
       return x * y;
     }
-  }
-
-  private static final HashMap<Integer, ArrayList<ArcPoint>> circles = new HashMap<Integer, ArrayList<ArcPoint>>();
-
-  static {
-
-    Vector origin = new Vector(0, 0);
-    long t1 = System.currentTimeMillis();
-
-    for (int i = -50; i <= 50; i++) {
-      for (int j = -50; j <= 50; j++) {
-        int distance = (int) floor(origin.distance(new Vector(i, j)));
-
-        // If filled, add anything where floor(distance) <= radius
-        // If not filled, require that floor(distance) == radius
-        if (distance <= 50) {
-          ArrayList<ArcPoint> circ = circles.get(distance);
-          if (circ == null) {
-            circ = new ArrayList<ArcPoint>();
-            circles.put(distance, circ);
-          }
-          circ.add(new ArcPoint(i, j));
-        }
-      }
-    }
-
-    for (ArrayList<ArcPoint> list : circles.values()) {
-      Collections.sort(list);
-      // System.out.println("r: "+r+" "+list);
-    }
-
-    System.out.println("Circles cached after "
-        + (System.currentTimeMillis() - t1));
   }
 
 }

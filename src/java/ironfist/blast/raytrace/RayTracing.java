@@ -1,12 +1,13 @@
 package ironfist.blast.raytrace;
 
+import ironfist.blast.Blast;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class RayTracing {
+public class RayTracing implements Blast {
 
   private static final int MAX_LIGHT_RADIUS = 20;
   private static final int CIRC_MAX = 32000;
@@ -238,8 +239,8 @@ public class RayTracing {
     } // end for - rows
   }
 
-  public Set<Vector2D> getArea(int radius, Closure<Vector2D, Boolean> scanner,
-      Vector2D location) {
+  public Set<Vector2D> getTemplate(Vector2D location, Closure<Vector2D, Boolean> scanner,
+      int radius) {
     this.radius = radius;
     circle = CIRCLES[radius];
     Set<Vector2D> result = new HashSet<Vector2D>();

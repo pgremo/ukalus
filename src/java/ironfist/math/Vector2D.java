@@ -35,6 +35,18 @@ public class Vector2D {
     return get(x + value.x, y + value.y);
   }
 
+  public Vector2D subtract(Vector2D value) {
+    return get(x - value.x, y - value.y);
+  }
+
+  public double distance(Vector2D destination) {
+    return subtract(destination).magnitude();
+  }
+
+  public double magnitude() {
+    return Math.sqrt((x * x) + (y * y));
+  }
+
   public Object clone() {
     return get(x, y);
   }

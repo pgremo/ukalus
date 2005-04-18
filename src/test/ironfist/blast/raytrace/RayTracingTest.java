@@ -1,5 +1,6 @@
 package ironfist.blast.raytrace;
 
+import ironfist.blast.LevelScanner;
 import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
@@ -32,8 +33,8 @@ public class RayTracingTest extends TestCase {
     expected.remove(Vector2D.get(4, 4));
 
     Level level = new Level(area);
-    Set<Vector2D> actual = new RayTracing().getArea(2, new LevelScanner(level),
-      Vector2D.get(2, 2));
+    Set<Vector2D> actual = new RayTracing().getTemplate(Vector2D.get(2, 2),
+      new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -59,8 +60,8 @@ public class RayTracingTest extends TestCase {
     expected.remove(Vector2D.get(4, 4));
 
     Level level = new Level(area);
-    Set<Vector2D> actual = new RayTracing().getArea(2, new LevelScanner(level),
-      Vector2D.get(2, 2));
+    Set<Vector2D> actual = new RayTracing().getTemplate(Vector2D.get(2, 2),
+      new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -82,8 +83,8 @@ public class RayTracingTest extends TestCase {
     }
 
     Level level = new Level(area);
-    Set<Vector2D> actual = new RayTracing().getArea(3, new LevelScanner(level),
-      Vector2D.get(2, 2));
+    Set<Vector2D> actual = new RayTracing().getTemplate(Vector2D.get(2, 2),
+      new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -111,8 +112,8 @@ public class RayTracingTest extends TestCase {
     expected.remove(Vector2D.get(5, 5));
 
     Level level = new Level(area);
-    Set<Vector2D> actual = new RayTracing().getArea(2, new LevelScanner(level),
-      Vector2D.get(3, 3));
+    Set<Vector2D> actual = new RayTracing().getTemplate(Vector2D.get(3, 3),
+      new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -135,8 +136,8 @@ public class RayTracingTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector2D> actual = new RayTracing().getArea(5, new LevelScanner(level),
-      Vector2D.get(3, 1));
+    Set<Vector2D> actual = new RayTracing().getTemplate(Vector2D.get(3, 1),
+      new LevelScanner(level), 5);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));

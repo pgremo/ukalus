@@ -1,4 +1,4 @@
-package ironfist.blast.raytrace;
+package ironfist.blast;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector2D;

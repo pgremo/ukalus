@@ -1,7 +1,8 @@
 package ironfist.blast.shadowcast;
 
-import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.blast.Blast;
+import ironfist.math.Vector2D;
+import ironfist.util.Closure;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,11 +12,11 @@ import java.util.Set;
  * 
  * @author pmgremo
  */
-public class ShadowCast {
+public class ShadowCast implements Blast {
 
-  private Level level;
+  private Closure<Vector2D, Boolean> scanner;
   private int maxRadius;
-  private Set<Vector> seen;
+  private Set<Vector2D> seen;
   private int xCenter;
   private int yCenter;
 
@@ -912,175 +913,172 @@ public class ShadowCast {
    * 
    * @return DOCUMENT ME!
    */
-  public Set<Vector> getSeen(Vector origin, Level map, int maxRadius) {
-    this.level = map;
+  public Set<Vector2D> getTemplate(Vector2D origin,
+      Closure<Vector2D, Boolean> scanner, int maxRadius) {
+    this.scanner = scanner;
     int x = (int) origin.getX();
     int y = (int) origin.getY();
     this.xCenter = x;
     this.yCenter = y;
     this.maxRadius = maxRadius;
-    seen = new HashSet<Vector>();
+    seen = new HashSet<Vector2D>();
 
-    if (map != null) {
+    // apply starting cell
+    applyCell(x, y);
 
-      // apply starting cell
-      applyCell(x, y);
+    if (maxRadius > 0) {
+      // scan and apply north
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int nL;
 
-      if (maxRadius > 0) {
-        // scan and apply north
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int nL;
+      for (nL = 1; nL <= maxRadius; nL++) {
+        applyCell(x, y - nL);
 
-        for (nL = 1; nL <= maxRadius; nL++) {
-          applyCell(x, y - nL);
-
-          if (isOpaque(x, y - nL)) {
-            break;
-          }
-        }
-
-        // scan and apply north east
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int neL;
-
-        for (neL = 1; neL <= maxRadius; neL++) {
-          applyCell(x + neL, y - neL);
-
-          if (isOpaque(x + neL, y - neL)) {
-            break;
-          }
-        }
-
-        // scan and apply east
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int eL;
-
-        for (eL = 1; eL <= maxRadius; eL++) {
-          applyCell(x + eL, y);
-
-          if (isOpaque(x + eL, y)) {
-            break;
-          }
-        }
-
-        // scan and apply south east
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int seL;
-
-        for (seL = 1; seL <= maxRadius; seL++) {
-          applyCell(x + seL, y + seL);
-
-          if (isOpaque(x + seL, y + seL)) {
-            break;
-          }
-        }
-
-        // scan and apply south
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int sL;
-
-        for (sL = 1; sL <= maxRadius; sL++) {
-          applyCell(x, y + sL);
-
-          if (isOpaque(x, y + sL)) {
-            break;
-          }
-        }
-
-        // scan and apply south west
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int swL;
-
-        for (swL = 1; swL <= maxRadius; swL++) {
-          applyCell(x - swL, y + swL);
-
-          if (isOpaque(x - swL, y + swL)) {
-            break;
-          }
-        }
-
-        // scan and apply west
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int wL;
-
-        for (wL = 1; wL <= maxRadius; wL++) {
-          applyCell(x - wL, y);
-
-          if (isOpaque(x - wL, y)) {
-            break;
-          }
-        }
-
-        // scan and apply north west
-        // until a blocking cell is hit or
-        // until maxRadius is reached
-        int nwL;
-
-        for (nwL = 1; nwL <= maxRadius; nwL++) {
-          applyCell(x - nwL, y - nwL);
-
-          if (isOpaque(x - nwL, y - nwL)) {
-            break;
-          }
-        }
-
-        // scan the octant covering the area from north west to north
-        // if it isn't blocked
-        if ((nL != 1) || (nwL != 1)) {
-          scanNW2N(1, 1, 0);
-        }
-
-        // scan the octant covering the area from north east to north
-        // if it isn't blocked
-        if ((nL != 1) || (neL != 1)) {
-          scanNE2N(1, -1, 0);
-        }
-
-        // scan the octant covering the area from north west to west
-        // if it isn't blocked
-        if ((nwL != 1) || (wL != 1)) {
-          scanNW2W(1, 1, 0);
-        }
-
-        // scan the octant covering the area from south west to west
-        // if it isn't blocked
-        if ((swL != 1) || (wL != 1)) {
-          scanSW2W(1, -1, 0);
-        }
-
-        // scan the octant covering the area from south west to south
-        // if it isn't blocked
-        if ((swL != 1) || (sL != 1)) {
-          scanSW2S(1, -1, 0);
-        }
-
-        // scan the octant covering the area from south east to south
-        // if it isn't blocked
-        if ((seL != 1) || (sL != 1)) {
-          scanSE2S(1, 1, 0);
-        }
-
-        // scan the octant covering the area from north east to east
-        // if it isn't blocked
-        if ((neL != 1) || (eL != 1)) {
-          scanNE2E(1, -1, 0);
-        }
-
-        // scan the octant covering the area from south east to east
-        // if it isn't blocked
-        if ((seL != 1) || (eL != 1)) {
-          scanSE2E(1, 1, 0);
+        if (isOpaque(x, y - nL)) {
+          break;
         }
       }
-    }
 
+      // scan and apply north east
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int neL;
+
+      for (neL = 1; neL <= maxRadius; neL++) {
+        applyCell(x + neL, y - neL);
+
+        if (isOpaque(x + neL, y - neL)) {
+          break;
+        }
+      }
+
+      // scan and apply east
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int eL;
+
+      for (eL = 1; eL <= maxRadius; eL++) {
+        applyCell(x + eL, y);
+
+        if (isOpaque(x + eL, y)) {
+          break;
+        }
+      }
+
+      // scan and apply south east
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int seL;
+
+      for (seL = 1; seL <= maxRadius; seL++) {
+        applyCell(x + seL, y + seL);
+
+        if (isOpaque(x + seL, y + seL)) {
+          break;
+        }
+      }
+
+      // scan and apply south
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int sL;
+
+      for (sL = 1; sL <= maxRadius; sL++) {
+        applyCell(x, y + sL);
+
+        if (isOpaque(x, y + sL)) {
+          break;
+        }
+      }
+
+      // scan and apply south west
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int swL;
+
+      for (swL = 1; swL <= maxRadius; swL++) {
+        applyCell(x - swL, y + swL);
+
+        if (isOpaque(x - swL, y + swL)) {
+          break;
+        }
+      }
+
+      // scan and apply west
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int wL;
+
+      for (wL = 1; wL <= maxRadius; wL++) {
+        applyCell(x - wL, y);
+
+        if (isOpaque(x - wL, y)) {
+          break;
+        }
+      }
+
+      // scan and apply north west
+      // until a blocking cell is hit or
+      // until maxRadius is reached
+      int nwL;
+
+      for (nwL = 1; nwL <= maxRadius; nwL++) {
+        applyCell(x - nwL, y - nwL);
+
+        if (isOpaque(x - nwL, y - nwL)) {
+          break;
+        }
+      }
+
+      // scan the octant covering the area from north west to north
+      // if it isn't blocked
+      if ((nL != 1) || (nwL != 1)) {
+        scanNW2N(1, 1, 0);
+      }
+
+      // scan the octant covering the area from north east to north
+      // if it isn't blocked
+      if ((nL != 1) || (neL != 1)) {
+        scanNE2N(1, -1, 0);
+      }
+
+      // scan the octant covering the area from north west to west
+      // if it isn't blocked
+      if ((nwL != 1) || (wL != 1)) {
+        scanNW2W(1, 1, 0);
+      }
+
+      // scan the octant covering the area from south west to west
+      // if it isn't blocked
+      if ((swL != 1) || (wL != 1)) {
+        scanSW2W(1, -1, 0);
+      }
+
+      // scan the octant covering the area from south west to south
+      // if it isn't blocked
+      if ((swL != 1) || (sL != 1)) {
+        scanSW2S(1, -1, 0);
+      }
+
+      // scan the octant covering the area from south east to south
+      // if it isn't blocked
+      if ((seL != 1) || (sL != 1)) {
+        scanSE2S(1, 1, 0);
+      }
+
+      // scan the octant covering the area from north east to east
+      // if it isn't blocked
+      if ((neL != 1) || (eL != 1)) {
+        scanNE2E(1, -1, 0);
+      }
+
+      // scan the octant covering the area from south east to east
+      // if it isn't blocked
+      if ((seL != 1) || (eL != 1)) {
+        scanSE2E(1, 1, 0);
+      }
+    }
     return seen;
   }
 
@@ -1095,8 +1093,7 @@ public class ShadowCast {
    * @return DOCUMENT ME!
    */
   private boolean isOpaque(int x, int y) {
-    Vector vector = new Vector(x, y);
-    return !level.contains(vector) || level.get(vector) == null;
+    return scanner.apply(Vector2D.get(x, y));
   }
 
   /**
@@ -1108,6 +1105,6 @@ public class ShadowCast {
    *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
-    seen.add(new Vector(x, y));
+    seen.add(Vector2D.get(x, y));
   }
 }
