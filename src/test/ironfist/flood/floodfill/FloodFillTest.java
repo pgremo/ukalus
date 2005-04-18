@@ -1,9 +1,7 @@
 package ironfist.flood.floodfill;
 
-import ironfist.flood.floodfill.FloodFill;
-import ironfist.flood.floodfill.Node;
 import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.Set;
 
@@ -21,7 +19,7 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR}};
     FloodFill fill = new FloodFill();
     Set<Node> actual = fill.solve(1,
-      new Node(new Level(data), new Vector(1, 1)));
+      new Node(new Level(data), Vector2D.get(1, 1)));
     assertEquals(9, actual.size());
   }
   public void testFill1WithObstacles() {
@@ -31,7 +29,7 @@ public class FloodFillTest extends TestCase {
         {FLOOR, WALL, FLOOR}};
     FloodFill fill = new FloodFill();
     Set<Node> actual = fill.solve(1,
-      new Node(new Level(data), new Vector(1, 1)));
+      new Node(new Level(data), Vector2D.get(1, 1)));
     assertEquals(7, actual.size());
   }
 }

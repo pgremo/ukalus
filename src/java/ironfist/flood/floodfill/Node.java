@@ -1,36 +1,36 @@
 package ironfist.flood.floodfill;
 
 import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
 
-  private static final Vector[] DIRECTIONS = new Vector[]{
-      new Vector(1, 1),
-      new Vector(1, 0),
-      new Vector(1, -1),
-      new Vector(0, 1),
-      new Vector(0, -1),
-      new Vector(-1, 1),
-      new Vector(-1, 0),
-      new Vector(-1, -1)};
+  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
+      Vector2D.get(1, 1),
+      Vector2D.get(1, 0),
+      Vector2D.get(1, -1),
+      Vector2D.get(0, 1),
+      Vector2D.get(0, -1),
+      Vector2D.get(-1, 1),
+      Vector2D.get(-1, 0),
+      Vector2D.get(-1, -1)};
 
   private Level level;
-  private Vector location;
+  private Vector2D location;
   private int distance;
 
-  public Node(Level level, Vector vector) {
+  public Node(Level level, Vector2D vector) {
     this.level = level;
     this.location = vector;
   }
 
   public Node[] getChildren() {
     List<Node> result = new ArrayList<Node>(4);
-    for (Vector current : DIRECTIONS) {
-      Vector target = location.add(current);
+    for (Vector2D current : DIRECTIONS) {
+      Vector2D target = location.add(current);
       if (level.contains(target) && level.get(target) != null) {
         result.add(new Node(level, target));
       }
@@ -38,7 +38,7 @@ public class Node {
     return result.toArray(new Node[result.size()]);
   }
 
-  public Vector getLocation() {
+  public Vector2D getLocation() {
     return location;
   }
 

@@ -5,8 +5,7 @@
 package ironfist.path.astar;
 
 import ironfist.loop.Level;
-import ironfist.math.Vector;
-import ironfist.path.astar.Node;
+import ironfist.math.Vector2D;
 
 import java.util.Collection;
 
@@ -23,8 +22,8 @@ public class Node2DTest extends TestCase {
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
-    Node2D parent = new Node2D(map, new Vector(1, 0), null);
-    Node2D current = new Node2D(map, new Vector(1, 1), parent);
+    Node2D parent = new Node2D(map, Vector2D.get(1, 0), null);
+    Node2D current = new Node2D(map, Vector2D.get(1, 1), parent);
     Collection<Node> successors = current.getSuccessors();
     assertEquals(3, successors.size());
   }
@@ -34,8 +33,8 @@ public class Node2DTest extends TestCase {
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
-    Node2D parent = new Node2D(map, new Vector(1, 0), null);
-    Node2D current = new Node2D(map, new Vector(0, 0), parent);
+    Node2D parent = new Node2D(map, Vector2D.get(1, 0), null);
+    Node2D current = new Node2D(map, Vector2D.get(0, 0), parent);
     Collection<Node> successors = current.getSuccessors();
     assertEquals(1, successors.size());
   }
@@ -45,8 +44,8 @@ public class Node2DTest extends TestCase {
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
-    Node2D parent = new Node2D(map, new Vector(0, 0), null);
-    Node2D current = new Node2D(map, new Vector(0, 1), parent);
+    Node2D parent = new Node2D(map, Vector2D.get(0, 0), null);
+    Node2D current = new Node2D(map, Vector2D.get(0, 1), parent);
     Collection<Node> successors = current.getSuccessors();
     assertEquals(2, successors.size());
   }
@@ -56,7 +55,7 @@ public class Node2DTest extends TestCase {
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
         {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
-    Node2D current = new Node2D(map, new Vector(1, 1), null);
+    Node2D current = new Node2D(map, Vector2D.get(1, 1), null);
     Collection<Node> successors = current.getSuccessors();
     assertEquals(4, successors.size());
   }

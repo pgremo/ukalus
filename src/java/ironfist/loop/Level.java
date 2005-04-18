@@ -5,6 +5,7 @@
 package ironfist.loop;
 
 import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.io.Serializable;
 import java.util.PriorityQueue;
@@ -35,8 +36,18 @@ public class Level implements Serializable {
         && location.getY() < data[(int) location.getX()].length;
   }
 
+  public boolean contains(Vector2D location) {
+    return 0 <= location.getX() && location.getX() < data.length
+        && 0 <= location.getY()
+        && location.getY() < data[location.getX()].length;
+  }
+
   public Object get(Vector location) {
     return data[(int) location.getX()][(int) location.getY()];
+  }
+
+  public Object get(Vector2D location) {
+    return data[location.getX()][location.getY()];
   }
 
   public void set(Vector location, Object value) {

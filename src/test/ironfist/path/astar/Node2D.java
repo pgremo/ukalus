@@ -5,8 +5,7 @@
 package ironfist.path.astar;
 
 import ironfist.loop.Level;
-import ironfist.math.Vector;
-import ironfist.path.astar.Node;
+import ironfist.math.Vector2D;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,25 +17,25 @@ import java.util.List;
  */
 public class Node2D implements Node {
 
-  private static final Vector[] DIRECTIONS = new Vector[]{
-      new Vector(1, 0),
-      new Vector(0, 1),
-      new Vector(-1, 0),
-      new Vector(0, -1)};
+  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
+      Vector2D.get(1, 0),
+      Vector2D.get(0, 1),
+      Vector2D.get(-1, 0),
+      Vector2D.get(0, -1)};
 
   private Level map;
-  private Vector location;
+  private Vector2D location;
   private Node2D parent;
   private double g;
   private double h;
 
-  public Node2D(Level map, Vector location, Node2D parent) {
+  public Node2D(Level map, Vector2D location, Node2D parent) {
     this.map = map;
     this.location = location;
     this.parent = parent;
   }
 
-  public Vector getLocation() {
+  public Vector2D getLocation() {
     return location;
   }
 
@@ -46,8 +45,8 @@ public class Node2D implements Node {
 
   public Collection<Node> getSuccessors() {
     List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
-    for (Vector direction : DIRECTIONS) {
-      Vector position = location.add(direction);
+    for (Vector2D direction : DIRECTIONS) {
+      Vector2D position = location.add(direction);
       if ((parent == null || !position.equals(parent.getLocation())) // not
           // parent
           && map.contains(position) && map.get(position) != null // passable
