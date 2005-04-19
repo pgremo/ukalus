@@ -6,45 +6,39 @@ import ironfist.blast.Blast;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-/**
- * Recursive field-of-view class implementing a spiraling shadow-casting
- * algorithm. This algorithm chosen because it can establish field-of-view by
- * visiting each grid at most once, and is (for me) much simpler to implement
- * than octant oriented or non-recursive approaches. -TSS
- */
 public class Spiral implements Blast {
 
-  private static final HashMap<Integer, List<ArcPoint>> CIRCLES = new HashMap<Integer, List<ArcPoint>>();
+  private static final ArcPoint[][] CIRCLES;
 
   static {
+    Map<Integer, SortedSet<ArcPoint>> circles = new HashMap<Integer, SortedSet<ArcPoint>>();
     Vector2D origin = Vector2D.get(0, 0);
 
     for (int i = -20; i <= 20; i++) {
       for (int j = -20; j <= 20; j++) {
-        int distance = (int) Math.floor(origin.distance(Vector2D.get(i, j)));
-
-        // If filled, add anything where floor(distance) <= radius
-        // If not filled, require that floor(distance) == radius
+        int distance = (int) (origin.distance(Vector2D.get(i, j)) + 0.5);
         if (distance <= 20) {
-          List<ArcPoint> circle = CIRCLES.get(distance);
+          SortedSet<ArcPoint> circle = circles.get(distance);
           if (circle == null) {
-            circle = new ArrayList<ArcPoint>();
-            CIRCLES.put(distance, circle);
+            circle = new TreeSet<ArcPoint>();
+            circles.put(distance, circle);
           }
           circle.add(new ArcPoint(i, j));
         }
       }
     }
 
-    for (List<ArcPoint> list : CIRCLES.values()) {
-      Collections.sort(list);
+    CIRCLES = new ArcPoint[circles.size()][];
+    for (int i = 0; i < circles.size(); i++) {
+      SortedSet<ArcPoint> points = circles.get(i);
+      CIRCLES[i] = points.toArray(new ArcPoint[points.size()]);
     }
 
   }
@@ -57,7 +51,7 @@ public class Spiral implements Blast {
 
   public Set<Vector2D> getTemplate(Vector2D origin,
       Closure<Vector2D, Boolean> scanner, int radius) {
-    
+
     if (origin == null || radius < 1 || scanner == null) {
       throw new IllegalArgumentException();
     }
@@ -69,52 +63,36 @@ public class Spiral implements Blast {
     result = new HashSet<Vector2D>(31);
     result.add(origin);
 
-    process(1, 0.0, 359.9);
+    processCircle(1, 0.0, 359.9);
 
     return result;
   }
 
-  void process(int r, double th1, double th2) {
-    List<ArcPoint> circle = CIRCLES.get(r);
-    int circSize = circle.size();
-    boolean wasObstacle = false;
-    boolean foundClear = false;
-    for (int i = 0; i < circSize; i++) {
-      ArcPoint arcPoint = circle.get(i);
-      Vector2D point = origin.add(Vector2D.get(arcPoint.x, arcPoint.y));
+  void processCircle(int r, double th1, double th2) {
+    ArcPoint[] circle = CIRCLES[r];
+    boolean wasBlocked = false;
+    boolean isClear = false;
+    for (int i = 0; i < circle.length; i++) {
+      ArcPoint arcPoint = circle[i];
 
-      if (arcPoint.lagging < th1 && arcPoint.theta != th1
-          && arcPoint.theta != th2) {
-        continue;
-      }
-      if (arcPoint.leading > th2 && arcPoint.theta != th1
-          && arcPoint.theta != th2) {
-        continue;
-      }
-
-      // Accept this point
-      result.add(point);
-
-      // Check to see if we have an obstacle here
-      boolean isObstacle = scanner.apply(point);
-
-      // If obstacle is encountered, we start a new run from our start theta
-      // to the rightTheta of the current point at radius+1
-      // We then proceed to the next non-obstacle, whose leftTheta becomes
-      // our new start theta
-      // If the last point is an obstacle, we do not start a new Run at the
-      // end.
-      if (isObstacle) {
-        // keep going
-        if (wasObstacle) {
+      if (arcPoint.theta != th1 && arcPoint.theta != th2) {
+        if (arcPoint.leading > th2 || arcPoint.lagging < th1) {
           continue;
         }
-        // start a new run from our start to this point's right side
-        else if (foundClear) {
+      }
+
+      Vector2D point = origin.add(Vector2D.get(arcPoint.x, arcPoint.y));
+      result.add(point);
+      boolean isBlocked = scanner.apply(point);
+
+      if (isBlocked) {
+        if (wasBlocked) {
+          continue;
+        } else if (isClear) {
           if (r < radius) {
-            process(r + 1, th1, arcPoint.leading);
+            processCircle(r + 1, th1, arcPoint.leading);
           }
-          wasObstacle = true;
+          wasBlocked = true;
         } else {
           if (arcPoint.theta == 0.0) {
             th1 = 0.0;
@@ -123,24 +101,20 @@ public class Spiral implements Blast {
           }
         }
       } else {
-        foundClear = true;
-        // we're clear of obstacle; any runs propogated from this run starts
-        // at this
-        // point's leftTheta
-        if (wasObstacle) {
-          ArcPoint last = circle.get(i - 1);
-          th1 = last.lagging;
-          wasObstacle = false;
+        isClear = true;
+        if (wasBlocked) {
+          th1 = circle[i - 1].lagging;
+          wasBlocked = false;
         } else {
-          wasObstacle = false;
+          wasBlocked = false;
           continue;
         }
       }
-      wasObstacle = isObstacle;
+      wasBlocked = isBlocked;
     }
 
-    if (!wasObstacle && r < radius) {
-      process(r + 1, th1, th2);
+    if (!wasBlocked && r < radius) {
+      processCircle(r + 1, th1, th2);
     }
   }
 
