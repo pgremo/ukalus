@@ -1,12 +1,19 @@
 package ironfist.math;
 
 public class Vector2D {
+  
+  private static int RANGE = 100;
+  
+  public static int MIN_X = -RANGE;
+  public static int MAX_X = RANGE;
+  public static int MIN_Y = -RANGE;
+  public static int MAX_Y = RANGE;
 
-  private static final Vector2D[][] cache = new Vector2D[48][160];
+  private static final Vector2D[][] cache = new Vector2D[RANGE*2][RANGE*2];
 
   public static Vector2D get(int x, int y) {
-    int tx = x + 24;
-    int ty = y + 80;
+    int tx = x + RANGE;
+    int ty = y + RANGE;
     Vector2D result = cache[tx][ty];
     if (result == null) {
       result = new Vector2D(x, y);
@@ -39,12 +46,20 @@ public class Vector2D {
     return get(x - value.x, y - value.y);
   }
 
+  public Vector2D multiply(double value) {
+    return get((int) (x * value), (int) (y * value));
+  }
+
   public double distance(Vector2D destination) {
     return subtract(destination).magnitude();
   }
 
   public double magnitude() {
     return Math.sqrt((x * x) + (y * y));
+  }
+
+  public Vector2D orthoganal() {
+    return get(y, -x);
   }
 
   public Object clone() {

@@ -2,7 +2,7 @@ package ironfist.ui.jcurses;
 
 import ironfist.Tile;
 import ironfist.TileType;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.io.Serializable;
 
@@ -60,8 +60,8 @@ public class Plan implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public TileType get(Vector value) {
-    return markers[(int) value.getX()][(int) value.getY()];
+  public TileType get(Vector2D value) {
+    return markers[value.getX()][value.getY()];
   }
 
   /**
@@ -72,8 +72,8 @@ public class Plan implements Serializable {
    * @param type
    *          DOCUMENT ME!
    */
-  public void set(Vector coordinate, TileType type) {
-    markers[(int) coordinate.getX()][(int) coordinate.getY()] = type;
+  public void set(Vector2D coordinate, TileType type) {
+    markers[coordinate.getX()][coordinate.getY()] = type;
   }
 
   /**

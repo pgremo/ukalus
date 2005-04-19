@@ -7,7 +7,7 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.Weapon;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.List;
 import java.util.Random;
@@ -54,7 +54,7 @@ public class HomeGenerator {
     itemLocation = room.getRandom(stairPredicate);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
 
-    Vector coordinate = new Vector((result.getHeight() - 7) / 2,
+    Vector2D coordinate = Vector2D.get((result.getHeight() - 7) / 2,
       (result.getWidth() - 7) / 2);
 
     room.setCoordinate(coordinate);
@@ -80,7 +80,7 @@ public class HomeGenerator {
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {
-        Tile current = dungeon.get(new Vector(x, y));
+        Tile current = dungeon.get(Vector2D.get(x, y));
         TileType type = null;
 
         if (current != null) {

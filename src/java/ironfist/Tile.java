@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Tile implements Serializable {
 
   private static final long serialVersionUID = 3616447882467882032L;
-  private Vector coordinate;
+  private Vector2D coordinate;
   private TileType type;
 
   /**
@@ -23,7 +23,7 @@ public class Tile implements Serializable {
    * @param type
    *          DOCUMENT ME!
    */
-  public Tile(Vector coordinate, TileType type) {
+  public Tile(Vector2D coordinate, TileType type) {
     this.coordinate = coordinate;
     this.type = type;
   }
@@ -33,7 +33,7 @@ public class Tile implements Serializable {
    * 
    * @return Coordinate
    */
-  public Vector getCoordinate() {
+  public Vector2D getCoordinate() {
     return coordinate;
   }
 

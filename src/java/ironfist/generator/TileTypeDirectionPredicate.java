@@ -1,7 +1,7 @@
 package ironfist.generator;
 
 import ironfist.Tile;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
 /**
@@ -13,7 +13,7 @@ public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
 
   private static final long serialVersionUID = 3257282513566185784L;
   private Class tileTypeClass;
-  private Vector direction;
+  private Vector2D direction;
   private Area area;
 
   /**
@@ -31,7 +31,7 @@ public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
    * @param direction
    *          The direction to set
    */
-  public void setDirection(Vector direction) {
+  public void setDirection(Vector2D direction) {
     this.direction = direction;
   }
 

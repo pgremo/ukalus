@@ -7,18 +7,12 @@ import ironfist.Stairs;
 import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class RecursiveDungeonGenerator {
 
   private static final TileTypeDirectionPredicate DIRECTION_PREDICATE = new TileTypeDirectionPredicate();
@@ -29,11 +23,11 @@ public class RecursiveDungeonGenerator {
   private static final int MAX_ROOM_WIDTH = 12;
   private static final int MIN_ROOM_HEIGHT = 5;
   private static final int MIN_ROOM_WIDTH = 5;
-  private static final Vector[] DIRECTIONS = {
-      new Vector(-1, 0),
-      new Vector(0, 1),
-      new Vector(1, 0),
-      new Vector(0, -1)};
+  private static final Vector2D[] DIRECTIONS = {
+      Vector2D.get(-1, 0),
+      Vector2D.get(0, 1),
+      Vector2D.get(1, 0),
+      Vector2D.get(0, -1)};
   private static final Class<? extends TileType> FLOOR = Floor.class;
   private static final Class<? extends TileType> terminal = Terminal.class;
   private static final Class<? extends TileType> wall = Wall.class;
@@ -65,11 +59,6 @@ public class RecursiveDungeonGenerator {
     areaFactory.setRandomizer(randomizer);
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public Level generate(String name) {
     level = new Level(name);
 
@@ -78,25 +67,18 @@ public class RecursiveDungeonGenerator {
     List<Tile> list = areaFactory.create();
     int largestX = 0;
     int largestY = 0;
-    Iterator<Tile> iterator = list.iterator();
 
-    while (iterator.hasNext()) {
-      Vector current = iterator.next().getCoordinate();
-
-      if (largestX < current.getX()) {
-        largestX = (int) current.getX();
-      }
-
-      if (largestY < current.getY()) {
-        largestY = (int) current.getY();
-      }
+    for (Tile tile : list) {
+      Vector2D current = tile.getCoordinate();
+      largestX = Math.max(largestX, current.getX());
+      largestY = Math.max(largestY, current.getY());
     }
 
     List<Area> areas = new ArrayList<Area>();
     Area target = new Area(list);
     int x = randomizer.nextInt(level.getHeight() - largestX - 1);
     int y = randomizer.nextInt(level.getWidth() - largestY - 1);
-    target.setCoordinate(new Vector(x, y));
+    target.setCoordinate(Vector2D.get(x, y));
     areas.add(target);
     target.place(level);
 
@@ -125,16 +107,6 @@ public class RecursiveDungeonGenerator {
     return level;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param source
-   *          DOCUMENT ME!
-   * @param target
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   private boolean connectAreas(Area source, Area target) {
     boolean result = false;
     Tile sourceDoor;
@@ -147,14 +119,14 @@ public class RecursiveDungeonGenerator {
     do {
       tilePredicate.setTileTypeClass(wall);
 
-      Vector sourceSide;
+      Vector2D sourceSide;
 
       do {
         sourceDoor = source.getRandom(tilePredicate);
         connectorFactory.setBaseLength(tries);
         sourceSide = getSide(source, sourceDoor.getCoordinate());
 
-        Vector originalSide = sourceSide;
+        Vector2D originalSide = sourceSide;
 
         if (randomizer.nextBoolean()) {
           sourceSide = sourceSide.orthoganal();
@@ -176,18 +148,18 @@ public class RecursiveDungeonGenerator {
 
       tilePredicate.setTileTypeClass(terminal);
 
-      Vector lastLocationCoordinate = connector.getRandom(tilePredicate)
+      Vector2D lastLocationCoordinate = connector.getRandom(tilePredicate)
         .getCoordinate();
 
       DIRECTION_PREDICATE.setTileTypeClass(wall);
       DIRECTION_PREDICATE.setArea(target);
-      DIRECTION_PREDICATE.setDirection(getSide(connector, lastLocationCoordinate).multiply(
-        -1));
+      DIRECTION_PREDICATE.setDirection(getSide(connector,
+        lastLocationCoordinate).multiply(-1));
 
       targetDoor = target.getRandom(DIRECTION_PREDICATE);
 
-      Vector connectorCoordinate = connector.getCoordinate();
-      Vector total = connectorCoordinate.add(lastLocationCoordinate)
+      Vector2D connectorCoordinate = connector.getCoordinate();
+      Vector2D total = connectorCoordinate.add(lastLocationCoordinate)
         .subtract(targetDoor.getCoordinate());
 
       target.setCoordinate(total);
@@ -211,18 +183,8 @@ public class RecursiveDungeonGenerator {
     return result;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param region
-   *          DOCUMENT ME!
-   * @param coordinate
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
-  private Vector getSide(Area region, Vector coordinate) {
-    Vector result = null;
+  private Vector2D getSide(Area region, Vector2D coordinate) {
+    Vector2D result = null;
 
     for (int index = 0; (index < 4) && (result == null); index++) {
       if (region.get(coordinate.add(DIRECTIONS[index])) == null) {
@@ -233,15 +195,6 @@ public class RecursiveDungeonGenerator {
     return result;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param args
-   *          DOCUMENT ME!
-   * 
-   * @throws Exception
-   *           DOCUMENT ME!
-   */
   public static void main(String[] args) throws Exception {
     long seed = System.currentTimeMillis();
     RecursiveDungeonGenerator generator = new RecursiveDungeonGenerator(seed);
@@ -250,11 +203,11 @@ public class RecursiveDungeonGenerator {
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {
-        Tile current = dungeon.get(new Vector(x, y));
+        Tile cell = dungeon.get(Vector2D.get(x, y));
         TileType type = null;
 
-        if (current != null) {
-          type = current.getTileType();
+        if (cell != null) {
+          type = cell.getTileType();
         }
 
         if (type == null) {

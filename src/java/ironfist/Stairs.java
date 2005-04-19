@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ public class Stairs implements Portal, Serializable {
   private static final long serialVersionUID = 3833188025416037685L;
   public final static String UP = "up";
   public final static String DOWN = "down";
-  private Vector coordinate;
+  private Vector2D coordinate;
   private String direction;
   private String levelName;
 
@@ -32,7 +32,7 @@ public class Stairs implements Portal, Serializable {
    * 
    * @return Coordinate
    */
-  public Vector getCoordinate() {
+  public Vector2D getCoordinate() {
     return coordinate;
   }
 
@@ -42,7 +42,7 @@ public class Stairs implements Portal, Serializable {
    * @param location
    *          The coordinate to set
    */
-  public void setCoordinate(Vector coordinate) {
+  public void setCoordinate(Vector2D coordinate) {
     this.coordinate = coordinate;
   }
 

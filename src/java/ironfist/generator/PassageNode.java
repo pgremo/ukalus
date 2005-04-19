@@ -5,7 +5,7 @@
 package ironfist.generator;
 
 import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.path.astar.Node;
 
 import java.util.ArrayList;
@@ -18,28 +18,28 @@ import java.util.List;
  */
 public class PassageNode implements Node {
 
-  private static final List<Vector> DIRECTIONS = new ArrayList<Vector>(4);
+  private static final List<Vector2D> DIRECTIONS = new ArrayList<Vector2D>(4);
 
   static {
-    DIRECTIONS.add(new Vector(1, 0));
-    DIRECTIONS.add(new Vector(0, 1));
-    DIRECTIONS.add(new Vector(-1, 0));
-    DIRECTIONS.add(new Vector(0, -1));
+    DIRECTIONS.add(Vector2D.get(1, 0));
+    DIRECTIONS.add(Vector2D.get(0, 1));
+    DIRECTIONS.add(Vector2D.get(-1, 0));
+    DIRECTIONS.add(Vector2D.get(0, -1));
   }
 
   private Level map;
-  private Vector location;
+  private Vector2D location;
   private PassageNode parent;
   private double g;
   private double h;
 
-  public PassageNode(Level map, Vector location, PassageNode parent) {
+  public PassageNode(Level map, Vector2D location, PassageNode parent) {
     this.map = map;
     this.location = location;
     this.parent = parent;
   }
 
-  public Vector getLocation() {
+  public Vector2D getLocation() {
     return location;
   }
 
@@ -49,9 +49,9 @@ public class PassageNode implements Node {
 
   public Collection<Node> getSuccessors() {
     List<Node> result = new ArrayList<Node>(DIRECTIONS.size());
-    for (Vector position : DIRECTIONS) {
-      Vector right = location.add(position.orthoganal());
-      Vector left = location.add(position.orthoganal()
+    for (Vector2D position : DIRECTIONS) {
+      Vector2D right = location.add(position.orthoganal());
+      Vector2D left = location.add(position.orthoganal()
         .multiply(-1));
       if ((parent == null || !position.equals(parent.getLocation())) // not
           // parent

@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class Creature implements Serializable {
 
   private Map<Object, Object> properties;
   private String name;
-  private Vector coordinate;
+  private Vector2D coordinate;
   private Client client;
   private boolean levelChanged;
   private Level level;
@@ -49,7 +49,7 @@ public class Creature implements Serializable {
    * 
    * @return Coordinate
    */
-  public Vector getCoordinate() {
+  public Vector2D getCoordinate() {
     return coordinate;
   }
 
@@ -59,7 +59,7 @@ public class Creature implements Serializable {
    * @param coordinate
    *          The coordinate to set
    */
-  public void setCoordinate(Vector coordinate) {
+  public void setCoordinate(Vector2D coordinate) {
     this.coordinate = coordinate;
   }
 
@@ -94,7 +94,7 @@ public class Creature implements Serializable {
     CommandType type = command.getType();
 
     if (CommandType.MOVE.equals(type)) {
-      Referee.move(this, (Vector) command.getParameter());
+      Referee.move(this, (Vector2D) command.getParameter());
     } else if (CommandType.OPEN.equals(type)) {
       Referee.open(this, (Door) command.getParameter());
     } else if (CommandType.CLOSE.equals(type)) {
@@ -225,7 +225,7 @@ public class Creature implements Serializable {
    * @return DOCUMENT ME!
    */
   public List<Tile> getVision() {
-    Vector location = getCoordinate();
+    Vector2D location = getCoordinate();
     return fov.getSeen(getLevel(), (int) location.getX(),
       (int) location.getY(), 3);
   }

@@ -13,7 +13,7 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.Weapon;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,24 +37,24 @@ import jcurses.widgets.Widget;
  */
 public class JCursesClient extends Widget implements Client {
 
-  private static Map<Integer, Vector> directions;
+  private static Map<Integer, Vector2D> directions;
   private static Map<Integer, CommandType> commandTypes;
   private static Map<Marker, String> symbols;
 
   static {
-    directions = new HashMap<Integer, Vector>();
-    directions.put(new Integer(InputChar.KEY_UP), new Vector(-1, 0));
-    directions.put(new Integer(InputChar.KEY_RIGHT), new Vector(0, 1));
-    directions.put(new Integer(InputChar.KEY_DOWN), new Vector(1, 0));
-    directions.put(new Integer(InputChar.KEY_LEFT), new Vector(0, -1));
-    directions.put(new Integer('8'), new Vector(-1, 0));
-    directions.put(new Integer('9'), new Vector(-1, 1));
-    directions.put(new Integer('6'), new Vector(0, 1));
-    directions.put(new Integer('3'), new Vector(1, 1));
-    directions.put(new Integer('2'), new Vector(1, 0));
-    directions.put(new Integer('1'), new Vector(1, -1));
-    directions.put(new Integer('4'), new Vector(0, -1));
-    directions.put(new Integer('7'), new Vector(-1, -1));
+    directions = new HashMap<Integer, Vector2D>();
+    directions.put(new Integer(InputChar.KEY_UP), Vector2D.get(-1, 0));
+    directions.put(new Integer(InputChar.KEY_RIGHT), Vector2D.get(0, 1));
+    directions.put(new Integer(InputChar.KEY_DOWN), Vector2D.get(1, 0));
+    directions.put(new Integer(InputChar.KEY_LEFT), Vector2D.get(0, -1));
+    directions.put(new Integer('8'), Vector2D.get(-1, 0));
+    directions.put(new Integer('9'), Vector2D.get(-1, 1));
+    directions.put(new Integer('6'), Vector2D.get(0, 1));
+    directions.put(new Integer('3'), Vector2D.get(1, 1));
+    directions.put(new Integer('2'), Vector2D.get(1, 0));
+    directions.put(new Integer('1'), Vector2D.get(1, -1));
+    directions.put(new Integer('4'), Vector2D.get(0, -1));
+    directions.put(new Integer('7'), Vector2D.get(-1, -1));
 
     commandTypes = new HashMap<Integer, CommandType>();
     commandTypes.put(new Integer('c'), CommandType.CLOSE);
@@ -174,7 +174,7 @@ public class JCursesClient extends Widget implements Client {
 
       for (int x = 0; x < plan.getHeight(); x++) {
         for (int y = 0; y < plan.getWidth(); y++) {
-          buffer.append(symbols.get(determineLevelMarker(plan.get(new Vector(x,
+          buffer.append(symbols.get(determineLevelMarker(plan.get(Vector2D.get(x,
             y)))));
         }
 
@@ -189,7 +189,7 @@ public class JCursesClient extends Widget implements Client {
 
       while (iterator.hasNext()) {
         Tile tile = iterator.next();
-        Vector coordinate = tile.getCoordinate();
+        Vector2D coordinate = tile.getCoordinate();
         Toolkit.printString(
           symbols.get(determineLevelMarker(plan.get(coordinate))),
           getAbsoluteX() + (int) coordinate.getY(), getAbsoluteY()
@@ -212,7 +212,7 @@ public class JCursesClient extends Widget implements Client {
 
       while (iterator.hasNext()) {
         Tile tile = iterator.next();
-        Vector coordinate = tile.getCoordinate();
+        Vector2D coordinate = tile.getCoordinate();
         TileType type = tile.getTileType();
         Marker marker = determineCreatureMarker(type);
 
@@ -232,10 +232,10 @@ public class JCursesClient extends Widget implements Client {
    */
   protected boolean handleInput(InputChar inputChar) {
     Integer code = new Integer(inputChar.getCode());
-    Vector direction = directions.get(code);
+    Vector2D direction = directions.get(code);
 
     if (direction != null) {
-      Vector coordinate = hero.getCoordinate();
+      Vector2D coordinate = hero.getCoordinate();
       TileType type = plan.get(coordinate.add(direction));
 
       if (type instanceof Floor) {
@@ -284,7 +284,7 @@ public class JCursesClient extends Widget implements Client {
         command = new Command(current, null);
         commandReady = true;
       } else if (CommandType.PICKUP.equals(current)) {
-        Vector coordinate = hero.getCoordinate();
+        Vector2D coordinate = hero.getCoordinate();
         TileType type = plan.get(coordinate);
 
         if (type instanceof Floor) {

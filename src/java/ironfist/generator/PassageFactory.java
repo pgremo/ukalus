@@ -2,7 +2,7 @@ package ironfist.generator;
 
 import ironfist.Tile;
 import ironfist.TileType;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Random;
 public class PassageFactory {
 
   private Random randomizer;
-  private Vector direction;
+  private Vector2D direction;
   private int baseLength;
   private Class<? extends TileType> floorClass;
   private Class<? extends TileType> wallClass;
@@ -33,21 +33,18 @@ public class PassageFactory {
     int length = 3 + randomizer.nextInt(4)
         + ((randomizer.nextInt(5) == 0) ? randomizer.nextInt(5) : 0)
         + baseLength;
-    Vector right = direction.orthoganal();
-    Vector left = right.multiply(-1);
+    Vector2D right = direction.orthoganal();
+    Vector2D left = right.multiply(-1);
 
     try {
-      list.add(new Tile(right.add(direction),
-        cornerClass.newInstance()));
+      list.add(new Tile(right.add(direction), cornerClass.newInstance()));
       list.add(new Tile(direction, wallClass.newInstance()));
-      list.add(new Tile(left.add(direction),
-        cornerClass.newInstance()));
+      list.add(new Tile(left.add(direction), cornerClass.newInstance()));
 
       for (int index = 2; index < (length - 1); index++) {
         list.add(new Tile(right.add(direction.multiply(index)),
           cornerClass.newInstance()));
-        list.add(new Tile(direction.multiply(index),
-          floorClass.newInstance()));
+        list.add(new Tile(direction.multiply(index), floorClass.newInstance()));
         list.add(new Tile(left.add(direction.multiply(index)),
           wallClass.newInstance()));
       }
@@ -61,8 +58,7 @@ public class PassageFactory {
 
       list.add(new Tile(right.add(direction.multiply(length)),
         cornerClass.newInstance()));
-      list.add(new Tile(direction.multiply(length),
-        terminalClass.newInstance()));
+      list.add(new Tile(direction.multiply(length), terminalClass.newInstance()));
       list.add(new Tile(left.add(direction.multiply(length)),
         cornerClass.newInstance()));
     } catch (InstantiationException e) {
@@ -86,7 +82,7 @@ public class PassageFactory {
    * 
    * @return Coordinate
    */
-  public Vector getDirection() {
+  public Vector2D getDirection() {
     return direction;
   }
 
@@ -106,7 +102,7 @@ public class PassageFactory {
    * @param direction
    *          The direction to set
    */
-  public void setDirection(Vector direction) {
+  public void setDirection(Vector2D direction) {
     this.direction = direction;
   }
 

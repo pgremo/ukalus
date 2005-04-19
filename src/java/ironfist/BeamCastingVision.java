@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class BeamCastingVision {
    */
   private boolean scanCell(int x, int y) {
     boolean result = false;
-    Tile tile = level.get(new Vector(x, y));
+    Tile tile = level.get(Vector2D.get(x, y));
 
     if (tile != null) {
       TileType type = tile.getTileType();
@@ -68,7 +68,7 @@ public class BeamCastingVision {
    *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
-    Tile tile = level.get(new Vector(x, y));
+    Tile tile = level.get(Vector2D.get(x, y));
 
     if (tile != null) {
       vision.add(tile);

@@ -1,7 +1,7 @@
 package ironfist;
 
 import ironfist.generator.RecursiveDungeonGenerator;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
 
@@ -66,7 +66,7 @@ public final class Referee {
    *          DOCUMENT ME!
    */
   public static void down(Creature creature) {
-    Vector sourceLocation = creature.getCoordinate();
+    Vector2D sourceLocation = creature.getCoordinate();
     Level sourceLevel = creature.getLevel();
     Tile tile = sourceLevel.get(sourceLocation);
     TileType type = tile.getTileType();
@@ -79,7 +79,7 @@ public final class Referee {
         Stairs sourceStairs = (Stairs) portal;
 
         if (Stairs.DOWN.equals(sourceStairs.getDirection())) {
-          Vector targetLocation = sourceStairs.getCoordinate();
+          Vector2D targetLocation = sourceStairs.getCoordinate();
           String targetName = sourceStairs.getLevelName();
           Tile targetTile = null;
           Level targetLevel = null;
@@ -124,7 +124,7 @@ public final class Referee {
    *          DOCUMENT ME!
    */
   public static void up(Creature creature) {
-    Vector sourceLocation = creature.getCoordinate();
+    Vector2D sourceLocation = creature.getCoordinate();
     Level sourceLevel = creature.getLevel();
     Tile tile = sourceLevel.get(sourceLocation);
     TileType type = tile.getTileType();
@@ -137,7 +137,7 @@ public final class Referee {
         Stairs sourceStairs = (Stairs) portal;
 
         if (Stairs.UP.equals(sourceStairs.getDirection())) {
-          Vector targetLocation = sourceStairs.getCoordinate();
+          Vector2D targetLocation = sourceStairs.getCoordinate();
           String targetName = sourceStairs.getLevelName();
           Tile targetTile = null;
           Level targetLevel = null;
@@ -183,9 +183,9 @@ public final class Referee {
    * @param direction
    *          DOCUMENT ME!
    */
-  static public void move(Creature creature, Vector direction) {
-    Vector oldCoordinate = creature.getCoordinate();
-    Vector coordinate = oldCoordinate.add(direction);
+  static public void move(Creature creature, Vector2D direction) {
+    Vector2D oldCoordinate = creature.getCoordinate();
+    Vector2D coordinate = oldCoordinate.add(direction);
     Level level = creature.getLevel();
     Tile tile = level.get(coordinate);
     TileType type = tile.getTileType();
@@ -214,7 +214,7 @@ public final class Referee {
    *          DOCUMENT ME!
    */
   static public void pickup(Creature creature, Thing thing) {
-    Vector coordinate = creature.getCoordinate();
+    Vector2D coordinate = creature.getCoordinate();
     Level level = creature.getLevel();
     Tile tile = level.get(coordinate);
     TileType type = tile.getTileType();
@@ -236,7 +236,7 @@ public final class Referee {
    *          DOCUMENT ME!
    */
   static public void drop(Creature creature, Thing thing) {
-    Vector coordinate = creature.getCoordinate();
+    Vector2D coordinate = creature.getCoordinate();
     Level level = creature.getLevel();
     Tile tile = level.get(coordinate);
     TileType type = tile.getTileType();

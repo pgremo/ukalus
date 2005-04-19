@@ -5,7 +5,7 @@
 package ironfist.generator;
 
 import ironfist.loop.Level;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.path.astar.AStar;
 import ironfist.path.astar.Node;
 
@@ -146,7 +146,7 @@ public class HolisticDungeonGenerator {
     for (Region cell : rooms) {
       for (int y = 1; y < cell.getHeight() - 1; y++) {
         for (int x = 1; x < cell.getWidth() - 1; x++) {
-          level.set(new Vector(x + cell.getX(), y + cell.getY()), Feature.ROOM);
+          level.set(Vector2D.get(x + cell.getX(), y + cell.getY()), Feature.ROOM);
         }
       }
     }
@@ -166,7 +166,7 @@ public class HolisticDungeonGenerator {
           Iterator<Node> path = finder.solve(new PassageHeuristic(start, stop),
             new FixedCost(1), start, stop);
           while (path.hasNext()) {
-            Vector location = ((PassageNode) path.next()).getLocation();
+            Vector2D location = ((PassageNode) path.next()).getLocation();
             if (level.get(location) == null)
               level.set(location, Feature.PASSAGE);
           }
@@ -183,7 +183,7 @@ public class HolisticDungeonGenerator {
 
     for (int x = 0; x < result.getLength(); x++) {
       for (int y = 0; y < result.getWidth(); y++) {
-        if (result.get(new Vector(x, y)) != null) {
+        if (result.get(Vector2D.get(x, y)) != null) {
           System.out.print(".");
         } else {
           System.out.print("#");
@@ -247,8 +247,8 @@ public class HolisticDungeonGenerator {
       return y;
     }
 
-    Vector getRandomLocation(Random randomizer) {
-      return new Vector(x + 1 + randomizer.nextInt(width - 2), y + 1
+    Vector2D getRandomLocation(Random randomizer) {
+      return Vector2D.get(x + 1 + randomizer.nextInt(width - 2), y + 1
           + randomizer.nextInt(height - 2));
     }
 

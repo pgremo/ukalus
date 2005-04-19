@@ -1,6 +1,6 @@
 package ironfist.generator;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
 
 import java.util.Random;
@@ -12,11 +12,11 @@ import java.util.Random;
  */
 public class MazeGenerator {
 
-  private static final Vector[] DIRECTIONS = new Vector[]{
-      new Vector(0, 1),
-      new Vector(1, 0),
-      new Vector(0, -1),
-      new Vector(-1, 0)};
+  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
+      Vector2D.get(0, 1),
+      Vector2D.get(1, 0),
+      Vector2D.get(0, -1),
+      Vector2D.get(-1, 0)};
   private Random random;
   private int height;
   private int width;
@@ -31,19 +31,19 @@ public class MazeGenerator {
       }
     }
 
-    iterate(new Vector((random.nextInt((height - 1) / 2) * 2) + 1,
+    iterate(Vector2D.get((random.nextInt((height - 1) / 2) * 2) + 1,
       (random.nextInt((width - 1) / 2) * 2) + 1));
 
     return walls;
   }
 
-  private void iterate(Vector location) {
+  private void iterate(Vector2D location) {
     set(location, false);
     int direction = random.nextInt(DIRECTIONS.length);
     for (int index = 0; index < DIRECTIONS.length; index++) {
-      Vector step1 = location.add(DIRECTIONS[direction]);
+      Vector2D step1 = location.add(DIRECTIONS[direction]);
       if (contains(step1) && get(step1)) {
-        Vector step2 = step1.add(DIRECTIONS[direction]);
+        Vector2D step2 = step1.add(DIRECTIONS[direction]);
         if (contains(step2) && get(step2)) {
           set(step1, false);
           iterate(step2);
@@ -53,18 +53,18 @@ public class MazeGenerator {
     }
   }
 
-  private void set(Vector location, boolean value) {
-    walls[(int) location.getX()][(int) location.getY()] = value;
+  private void set(Vector2D location, boolean value) {
+    walls[location.getX()][location.getY()] = value;
 
   }
 
-  private boolean get(Vector nextPassage) {
-    return walls[(int) nextPassage.getX()][(int) nextPassage.getY()];
+  private boolean get(Vector2D location) {
+    return walls[location.getX()][location.getY()];
   }
 
-  private boolean contains(Vector nextPassage) {
-    return (nextPassage.getX() > 0) && (nextPassage.getX() < height - 1)
-        && (nextPassage.getY() > 0) && (nextPassage.getY() < width - 1);
+  private boolean contains(Vector2D location) {
+    return (location.getX() > 0) && (location.getX() < height - 1)
+        && (location.getY() > 0) && (location.getY() < width - 1);
   }
 
   /**
@@ -140,7 +140,7 @@ public class MazeGenerator {
         if (result[x][y]) {
           System.out.print("#");
         } else {
-          System.out.print(" ");
+          System.out.print(".");
         }
       }
 

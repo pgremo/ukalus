@@ -2,9 +2,10 @@ package ironfist.generator;
 
 import ironfist.Level;
 import ironfist.Tile;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class Area {
 
   private Random randomizer;
-  private Vector coordinate;
+  private Vector2D coordinate;
   private List<Tile> list;
 
   {
@@ -45,21 +46,16 @@ public class Area {
    */
   public Tile getRandom(Closure<Tile, Boolean> predicate) {
     Tile result = null;
-    Tile[] candidates = new Tile[list.size()];
-    int count = 0;
+    List<Tile> candidates = new ArrayList<Tile>(list.size());
 
-    Iterator<Tile> iterator = list.iterator();
-
-    while (iterator.hasNext()) {
-      Tile current = iterator.next();
-
+    for (Tile current : list) {
       if (predicate.apply(current)) {
-        candidates[count++] = current;
+        candidates.add(current);
       }
     }
 
-    if (count > 0) {
-      result = candidates[randomizer.nextInt(count)];
+    if (candidates.size() > 0) {
+      result = candidates.get(randomizer.nextInt(candidates.size()));
     }
 
     return result;
@@ -73,11 +69,11 @@ public class Area {
    * 
    * @return DOCUMENT ME!
    */
-  public Tile get(Vector coordinate) {
+  public Tile get(Vector2D coordinate) {
     Tile result = null;
     Iterator<Tile> iterator = list.iterator();
 
-    while (iterator.hasNext() && (result == null)) {
+    while (iterator.hasNext() && result == null) {
       Tile current = iterator.next();
 
       if (current.getCoordinate()
@@ -94,7 +90,7 @@ public class Area {
    * 
    * @return Coordinate
    */
-  public Vector getCoordinate() {
+  public Vector2D getCoordinate() {
     return coordinate;
   }
 
@@ -104,7 +100,7 @@ public class Area {
    * @param coordinate
    *          The coordinate to set
    */
-  public void setCoordinate(Vector coordinate) {
+  public void setCoordinate(Vector2D coordinate) {
     this.coordinate = coordinate;
   }
 
@@ -115,10 +111,7 @@ public class Area {
    *          DOCUMENT ME!
    */
   public void place(Level level) {
-    Iterator<Tile> iterator = list.iterator();
-
-    while (iterator.hasNext()) {
-      Tile current = iterator.next();
+    for (Tile current : list) {
       level.set(current.getCoordinate()
         .add(coordinate), current.getTileType());
     }
@@ -140,7 +133,7 @@ public class Area {
 
     while (iterator.hasNext() && result) {
       Tile current = iterator.next();
-      Vector currentCoordinate = current.getCoordinate()
+      Vector2D currentCoordinate = current.getCoordinate()
         .add(coordinate);
 
       if ((currentCoordinate.getX() < 0)

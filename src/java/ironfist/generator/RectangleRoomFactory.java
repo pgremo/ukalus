@@ -2,7 +2,7 @@ package ironfist.generator;
 
 import ironfist.Tile;
 import ironfist.TileType;
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class RectangleRoomFactory {
         } catch (IllegalAccessException e) {
         }
 
-        list.add(new Tile(new Vector(i, j), type));
+        list.add(new Tile(Vector2D.get(i, j), type));
       }
     }
 

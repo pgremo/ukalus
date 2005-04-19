@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.math.Vector;
+import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
 import java.io.Serializable;
@@ -110,9 +110,9 @@ public class Level implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public Tile get(Vector coordinate) {
-    int x = (int) coordinate.getX();
-    int y = (int) coordinate.getY();
+  public Tile get(Vector2D coordinate) {
+    int x = coordinate.getX();
+    int y = coordinate.getY();
     Tile result = null;
 
     if ((x < 0) || (x > height - 1) || (y < 0) || (y > width - 1)) {
@@ -151,20 +151,12 @@ public class Level implements Serializable {
     return result;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param coordinate
-   *          DOCUMENT ME!
-   * @param type
-   *          DOCUMENT ME!
-   */
-  public void set(Vector coordinate, TileType type) {
+  public void set(Vector2D coordinate, TileType type) {
     if (type == null) {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = null;
     } else {
       tiles[(int) coordinate.getX()][(int) coordinate.getY()] = new Tile(
-          coordinate, type);
+        coordinate, type);
     }
   }
 
