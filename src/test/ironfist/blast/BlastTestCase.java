@@ -1,6 +1,5 @@
-package ironfist.blast.shadowcast;
+package ironfist.blast;
 
-import ironfist.blast.LevelScanner;
 import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
@@ -9,10 +8,12 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-public class ShadowCastingTest extends TestCase {
+public class BlastTestCase extends TestCase {
 
   private static final Object WALL = null;
   private static final Object FLOOR = new Object();
+
+  protected Blast blast;
 
   public void testSeeAll() {
     Object[][] area = new Object[][]{
@@ -27,8 +28,13 @@ public class ShadowCastingTest extends TestCase {
         expected.add(Vector2D.get(i, j));
       }
     }
+    expected.remove(Vector2D.get(0, 0));
+    expected.remove(Vector2D.get(4, 0));
+    expected.remove(Vector2D.get(0, 4));
+    expected.remove(Vector2D.get(4, 4));
+
     Level level = new Level(area);
-    Set<Vector2D> actual = new ShadowCast().getTemplate(Vector2D.get(2, 2),
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(2, 2),
       new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -49,8 +55,13 @@ public class ShadowCastingTest extends TestCase {
         expected.add(Vector2D.get(i, j));
       }
     }
+    expected.remove(Vector2D.get(0, 0));
+    expected.remove(Vector2D.get(4, 0));
+    expected.remove(Vector2D.get(0, 4));
+    expected.remove(Vector2D.get(4, 4));
+
     Level level = new Level(area);
-    Set<Vector2D> actual = new ShadowCast().getTemplate(Vector2D.get(2, 2),
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(2, 2),
       new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -73,8 +84,8 @@ public class ShadowCastingTest extends TestCase {
     }
 
     Level level = new Level(area);
-    Set<Vector2D> actual = new ShadowCast().getTemplate(Vector2D.get(2, 2),
-      new LevelScanner(level), 2);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(2, 2),
+      new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
@@ -96,8 +107,13 @@ public class ShadowCastingTest extends TestCase {
         expected.add(Vector2D.get(i, j));
       }
     }
+    expected.remove(Vector2D.get(1, 1));
+    expected.remove(Vector2D.get(5, 1));
+    expected.remove(Vector2D.get(1, 5));
+    expected.remove(Vector2D.get(5, 5));
+
     Level level = new Level(area);
-    Set<Vector2D> actual = new ShadowCast().getTemplate(Vector2D.get(3, 3),
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(3, 3),
       new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -121,7 +137,7 @@ public class ShadowCastingTest extends TestCase {
       }
     }
     Level level = new Level(area);
-    Set<Vector2D> actual = new ShadowCast().getTemplate(Vector2D.get(3, 1),
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(3, 1),
       new LevelScanner(level), 5);
     printSight(actual, level);
     assertNotNull(actual);

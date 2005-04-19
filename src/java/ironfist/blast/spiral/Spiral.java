@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Set;
  */
 public class Spiral implements Blast {
 
-  private static final HashMap<Integer, ArrayList<ArcPoint>> CIRCLES = new HashMap<Integer, ArrayList<ArcPoint>>();
+  private static final HashMap<Integer, List<ArcPoint>> CIRCLES = new HashMap<Integer, List<ArcPoint>>();
 
   static {
     Vector2D origin = Vector2D.get(0, 0);
@@ -31,8 +32,8 @@ public class Spiral implements Blast {
 
         // If filled, add anything where floor(distance) <= radius
         // If not filled, require that floor(distance) == radius
-        if (distance <= 50) {
-          ArrayList<ArcPoint> circle = CIRCLES.get(distance);
+        if (distance <= 20) {
+          List<ArcPoint> circle = CIRCLES.get(distance);
           if (circle == null) {
             circle = new ArrayList<ArcPoint>();
             CIRCLES.put(distance, circle);
@@ -42,44 +43,45 @@ public class Spiral implements Blast {
       }
     }
 
-    for (ArrayList<ArcPoint> list : CIRCLES.values()) {
+    for (List<ArcPoint> list : CIRCLES.values()) {
       Collections.sort(list);
     }
 
   }
 
-  /**
-   * Compute and return the list of RLPoints in line-of-sight to the given
-   * region. In general, this method should be very fast.
-   */
+  private Closure<Vector2D, Boolean> scanner;
+  private Vector2D origin;
+  private int radius;
+
+  private Set<Vector2D> result;
+
   public Set<Vector2D> getTemplate(Vector2D origin,
       Closure<Vector2D, Boolean> scanner, int radius) {
+    
     if (origin == null || radius < 1 || scanner == null) {
       throw new IllegalArgumentException();
     }
 
-    Set<Vector2D> result = new HashSet<Vector2D>(31);
+    this.scanner = scanner;
+    this.origin = origin;
+    this.radius = radius;
 
+    result = new HashSet<Vector2D>(31);
     result.add(origin);
 
-    process(scanner, origin, 1, radius, 0.0, 359.9, result);
+    process(1, 0.0, 359.9);
 
     return result;
   }
 
-  void process(Closure<Vector2D, Boolean> scanner, Vector2D origin, int r,
-      int maxDistance, double th1, double th2, Set<Vector2D> pointSet) {
-    if (r < 1 || r > maxDistance) {
-      throw new IllegalArgumentException();
-    }
-    ArrayList<ArcPoint> circle = CIRCLES.get(r);
+  void process(int r, double th1, double th2) {
+    List<ArcPoint> circle = CIRCLES.get(r);
     int circSize = circle.size();
     boolean wasObstacle = false;
     boolean foundClear = false;
     for (int i = 0; i < circSize; i++) {
       ArcPoint arcPoint = circle.get(i);
-      Vector2D point = Vector2D.get(origin.getX() + arcPoint.x, origin.getY()
-          + arcPoint.y);
+      Vector2D point = origin.add(Vector2D.get(arcPoint.x, arcPoint.y));
 
       if (arcPoint.lagging < th1 && arcPoint.theta != th1
           && arcPoint.theta != th2) {
@@ -91,10 +93,10 @@ public class Spiral implements Blast {
       }
 
       // Accept this point
-      pointSet.add(point);
+      result.add(point);
 
       // Check to see if we have an obstacle here
-      boolean isObstacle = scanner.apply(point); // terrain.config().check("opaque");
+      boolean isObstacle = scanner.apply(point);
 
       // If obstacle is encountered, we start a new run from our start theta
       // to the rightTheta of the current point at radius+1
@@ -109,11 +111,8 @@ public class Spiral implements Blast {
         }
         // start a new run from our start to this point's right side
         else if (foundClear) {
-          double runEndTheta = arcPoint.leading;
-          double runStartTheta = th1;
-          if (r < maxDistance) {
-            process(scanner, origin, r + 1, maxDistance, runStartTheta,
-              runEndTheta, pointSet);
+          if (r < radius) {
+            process(r + 1, th1, arcPoint.leading);
           }
           wasObstacle = true;
         } else {
@@ -140,8 +139,8 @@ public class Spiral implements Blast {
       wasObstacle = isObstacle;
     }
 
-    if (!wasObstacle && r < maxDistance) {
-      process(scanner, origin, r + 1, maxDistance, th1, th2, pointSet);
+    if (!wasObstacle && r < radius) {
+      process(r + 1, th1, th2);
     }
   }
 
