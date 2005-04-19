@@ -89,6 +89,27 @@ public class BlastTestCase extends TestCase {
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
+    assertEquals(expected.size(), actual.size());
+  }
+
+  public void testSeeAllCornersSmall() {
+    Object[][] area = new Object[][]{
+        {WALL, WALL, WALL},
+        {WALL, FLOOR, WALL},
+        {WALL, WALL, WALL}};
+    Set<Vector2D> expected = new HashSet<Vector2D>();
+    for (int i = 0; i < area.length; i++) {
+      for (int j = 0; j < area[i].length; j++) {
+        expected.add(Vector2D.get(i, j));
+      }
+    }
+
+    Level level = new Level(area);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.get(1, 1),
+      new LevelScanner(level), 3);
+    printSight(actual, level);
+    assertNotNull(actual);
+    assertTrue(actual.containsAll(expected));
     assertEquals(actual.size(), expected.size());
   }
 
@@ -131,11 +152,26 @@ public class BlastTestCase extends TestCase {
         {WALL, WALL, WALL, FLOOR, FLOOR, WALL},
         {WALL, WALL, WALL, WALL, WALL, WALL}};
     Set<Vector2D> expected = new HashSet<Vector2D>();
-    for (int i = 0; i < area.length; i++) {
-      for (int j = 0; j < area[i].length; j++) {
-        expected.add(Vector2D.get(i, j));
-      }
-    }
+    expected.add(Vector2D.get(1, 5));
+    expected.add(Vector2D.get(2, 0));
+    expected.add(Vector2D.get(2, 1));
+    expected.add(Vector2D.get(2, 2));
+    expected.add(Vector2D.get(2, 3));
+    expected.add(Vector2D.get(2, 4));
+    expected.add(Vector2D.get(2, 5));
+    expected.add(Vector2D.get(3, 0));
+    expected.add(Vector2D.get(3, 1));
+    expected.add(Vector2D.get(3, 2));
+    expected.add(Vector2D.get(3, 3));
+    expected.add(Vector2D.get(3, 4));
+    expected.add(Vector2D.get(3, 5));
+    expected.add(Vector2D.get(4, 0));
+    expected.add(Vector2D.get(4, 1));
+    expected.add(Vector2D.get(4, 2));
+    expected.add(Vector2D.get(4, 3));
+    expected.add(Vector2D.get(4, 4));
+    expected.add(Vector2D.get(4, 5));
+    expected.add(Vector2D.get(5, 5));
     Level level = new Level(area);
     Set<Vector2D> actual = blast.getTemplate(Vector2D.get(3, 1),
       new LevelScanner(level), 5);
