@@ -18,7 +18,7 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR},
         {FLOOR, FLOOR, FLOOR}};
     FloodFill fill = new FloodFill();
-    Set<Node> actual = fill.solve(1,
+    Set<Node> actual = fill.getTemplate(1,
       new Node(new Level(data), Vector2D.get(1, 1)));
     assertEquals(9, actual.size());
   }
@@ -28,7 +28,7 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR},
         {FLOOR, WALL, FLOOR}};
     FloodFill fill = new FloodFill();
-    Set<Node> actual = fill.solve(1,
+    Set<Node> actual = fill.getTemplate(1,
       new Node(new Level(data), Vector2D.get(1, 1)));
     assertEquals(7, actual.size());
   }

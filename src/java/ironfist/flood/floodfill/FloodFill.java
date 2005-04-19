@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class FloodFill {
 
-  public Set<Node> solve(int distance, Node start) {
+  public Set<Node> getTemplate(int distance, Node start) {
     Set<Node> result = new HashSet<Node>();
     Set<Node> current = new HashSet<Node>();
     current.add(start);
