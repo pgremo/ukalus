@@ -17,6 +17,7 @@ public class ShadowCast implements Blast {
   private Closure<Vector2D, Boolean> scanner;
   private int maxRadius;
   private Set<Vector2D> seen;
+  private Vector2D origin;
   private int xCenter;
   private int yCenter;
 
@@ -916,6 +917,7 @@ public class ShadowCast implements Blast {
   public Set<Vector2D> getTemplate(Vector2D origin,
       Closure<Vector2D, Boolean> scanner, int maxRadius) {
     this.scanner = scanner;
+    this.origin = origin;
     int x = (int) origin.getX();
     int y = (int) origin.getY();
     this.xCenter = x;
@@ -1105,6 +1107,9 @@ public class ShadowCast implements Blast {
    *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
-    seen.add(Vector2D.get(x, y));
+    int distance = (int) (origin.distance(Vector2D.get(x, y)) + 0.5);
+    if (distance <= maxRadius) {
+      seen.add(Vector2D.get(x, y));
+    }
   }
 }
