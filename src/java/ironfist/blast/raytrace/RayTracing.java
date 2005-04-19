@@ -31,13 +31,15 @@ public class RayTracing implements Blast {
       // for the rest, simply calculate max height based on radius.
       for (int i = 2; i <= radius; i++) {
         // check top
-        if (2 * i * i <= radius * radius) {
+        int i2 = i * i;
+        int radius2 = radius * radius;
+        if (2 * i2 <= radius2) {
           circle[i] = CIRC_MAX;
         } else {
           for (int j = i - 1; j >= 0; j--) {
             // check that Distance (I^2 + J^2) is no more than (R+0.5)^2
             // this rounding allows for *much* better looking circles.
-            if (i * i + j * j <= radius * radius + radius) {
+            if (i2 + j * j <= radius2 + radius) {
               circle[i] = j;
               break;
             }
