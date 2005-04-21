@@ -44,8 +44,7 @@ public class HomeGenerator {
     Level result = new Level(name);
     List<Tile> list = areaFactory.create();
     Area room = new Area(list);
-    EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate(
-      Floor.class);
+    EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
 
     Tile downLocation = room.getRandom(stairPredicate);
     ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));

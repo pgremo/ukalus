@@ -9,7 +9,6 @@ import ironfist.Tile;
 import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.math.Vector2D;
-import ironfist.util.Closure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +16,11 @@ import java.util.Random;
 
 public class RecursiveDungeonGenerator {
 
+  private static final int MAX_TRIES = 20;
   private static final int MAX_ROOM_HEIGHT = 10;
   private static final int MAX_ROOM_WIDTH = 12;
   private static final int MIN_ROOM_HEIGHT = 5;
   private static final int MIN_ROOM_WIDTH = 5;
-  private static final Vector2D[] DIRECTIONS = {
-      Vector2D.get(-1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(1, 0),
-      Vector2D.get(0, -1)};
   private static final Class<? extends TileType> FLOOR = Floor.class;
   private static final Class<? extends TileType> TERMINAL = Terminal.class;
   private static final Class<? extends TileType> WALL = Wall.class;
@@ -48,6 +43,7 @@ public class RecursiveDungeonGenerator {
     areaFactory.setMaxRoomWidth(MAX_ROOM_WIDTH);
     areaFactory.setFloorClass(FLOOR);
     areaFactory.setWallClass(WALL);
+    areaFactory.setTerminalClass(TERMINAL);
     areaFactory.setCornerClass(BARRIER);
   }
 
@@ -91,8 +87,7 @@ public class RecursiveDungeonGenerator {
         tries++;
       }
     }
-    EmptyFloorTilePredicate EMPTY_FLOOR_PREDICATE = new EmptyFloorTilePredicate(
-      FLOOR);
+    EmptyFloorTilePredicate EMPTY_FLOOR_PREDICATE = new EmptyFloorTilePredicate();
     Area upRegion = areas.get(0);
     Tile upLocation = upRegion.getRandom(EMPTY_FLOOR_PREDICATE);
     ((Floor) upLocation.getTileType()).setPortal(new Stairs(Stairs.UP));
@@ -105,19 +100,15 @@ public class RecursiveDungeonGenerator {
   }
 
   private boolean connectAreas(Area source, Area target) {
+    Area connector = null;
+    Tile sourceDoor = null;
+    Tile targetDoor = null;
+
     boolean result = false;
-
-    Area connector;
-    Tile sourceDoor;
-    Tile targetDoor;
-
-    int tries = 0;
-    int maxTries = 20;
-
-    do {
-      sourceDoor = source.getRandom(new TileTypePredicate(WALL));
+    for (int tries = MAX_TRIES; tries > 0 && !result; tries--) {
+      sourceDoor = source.getRandom(new TileTypePredicate(TERMINAL));
       connectorFactory.setBaseLength(tries);
-      Vector2D sourceSide = getSide(source, sourceDoor.getCoordinate());
+      Vector2D sourceSide = source.getSide(sourceDoor.getCoordinate());
 
       Vector2D originalSide = sourceSide;
 
@@ -128,9 +119,8 @@ public class RecursiveDungeonGenerator {
       if (flip == 2) {
         sourceSide = sourceSide.multiply(-1);
       }
-      connectorFactory.setDirection(sourceSide);
 
-      connector = new Area(connectorFactory.create());
+      connector = new Area(connectorFactory.create(sourceSide));
       connector.setCoordinate(sourceDoor.getCoordinate()
         .add(originalSide)
         .subtract(sourceSide.multiply(2))
@@ -141,7 +131,8 @@ public class RecursiveDungeonGenerator {
         .getCoordinate();
 
       targetDoor = target.getRandom(new TileTypeDirectionPredicate(WALL,
-        getSide(connector, lastLocationCoordinate).multiply(-1), target));
+        connector.getSide(lastLocationCoordinate)
+          .multiply(-1), target));
 
       Vector2D connectorCoordinate = connector.getCoordinate();
       Vector2D total = connectorCoordinate.add(lastLocationCoordinate)
@@ -149,20 +140,12 @@ public class RecursiveDungeonGenerator {
 
       target.setCoordinate(total);
 
-      Closure<Tile, Boolean> passageComparator = new DungeonRoomPredicate(
-        level, connectorCoordinate);
-      Closure<Tile, Boolean> roomComparator = new DungeonRoomPredicate(level,
-        total);
+      result = connector.check(new DungeonRoomPredicate(level,
+        connectorCoordinate))
+          && target.check(new DungeonRoomPredicate(level, total));
+    }
 
-      result = connector.check(passageComparator)
-          && target.check(roomComparator);
-      if (!result) {
-        tries++;
-      }
-
-    } while (!result && tries < maxTries);
-
-    if (tries < maxTries) {
+    if (result) {
       Floor doorWay = new Floor();
       doorWay.setDoor(new Door(null, random.nextBoolean()));
       sourceDoor.setTileType(doorWay);
@@ -172,20 +155,6 @@ public class RecursiveDungeonGenerator {
       connector.place(level);
       source.place(level);
       target.place(level);
-      result = true;
-    }
-
-    return result;
-  }
-
-  private Vector2D getSide(Area area, Vector2D coordinate) {
-    Vector2D result = null;
-    int direction = random.nextInt(DIRECTIONS.length);
-    for (int index = 0; index < DIRECTIONS.length; index++) {
-      if (area.get(coordinate.add(DIRECTIONS[direction])) == null) {
-        result = DIRECTIONS[direction];
-      }
-      direction = (direction + 1) % DIRECTIONS.length;
     }
 
     return result;

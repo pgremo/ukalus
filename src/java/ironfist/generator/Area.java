@@ -12,6 +12,12 @@ import java.util.Random;
 
 public class Area {
 
+  private static final Vector2D[] DIRECTIONS = {
+      Vector2D.get(-1, 0),
+      Vector2D.get(0, 1),
+      Vector2D.get(1, 0),
+      Vector2D.get(0, -1)};
+
   private Random randomizer;
   private Vector2D coordinate;
   private List<Tile> list;
@@ -70,12 +76,24 @@ public class Area {
     }
   }
 
-  public boolean check(Closure<Tile, Boolean> comparator) {
+  public boolean check(Closure<Tile, Boolean> predicate) {
     boolean result = true;
     Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext() && result) {
-      result = comparator.apply(iterator.next());
+      result = predicate.apply(iterator.next());
+    }
+
+    return result;
+  }
+
+  public Vector2D getSide(Vector2D coordinate) {
+    Vector2D result = null;
+
+    for (int index = 0; index < 4 && result == null; index++) {
+      if (get(coordinate.add(DIRECTIONS[index])) == null) {
+        result = DIRECTIONS[index];
+      }
     }
 
     return result;

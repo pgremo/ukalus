@@ -8,27 +8,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class RectangleRoomFactory {
 
   private Random randomizer;
   private Class<? extends TileType> floorClass;
   private Class<? extends TileType> wallClass;
+  private Class<? extends TileType> terminalClass;
   private Class<? extends TileType> cornerClass;
   private int maxRoomHeight;
   private int maxRoomWidth;
   private int minRoomHeight;
   private int minRoomWidth;
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public List<Tile> create() {
     List<Tile> list = new LinkedList<Tile>();
     int height = randomizer.nextInt(maxRoomHeight - minRoomHeight + 1)
@@ -37,27 +28,44 @@ public class RectangleRoomFactory {
     int width = randomizer.nextInt(maxRoomWidth - minRoomWidth + 1)
         + minRoomWidth;
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        TileType type = null;
+    try {
+      list.add(new Tile(Vector2D.get(0, 0), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(0, width - 1), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(height - 1, 0), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(height - 1, width - 1),
+        cornerClass.newInstance()));
 
-        try {
-          if (((i == 0) && (j == 0)) || ((i == height - 1) && (j == 0))
-              || ((i == 0) && (j == width - 1))
-              || ((i == height - 1) && (j == width - 1))) {
-            type = cornerClass.newInstance();
-          } else if ((i == 0) || (j == 0) || (i == height - 1)
-              || (j == width - 1)) {
-            type = wallClass.newInstance();
-          } else {
-            type = floorClass.newInstance();
-          }
-        } catch (InstantiationException e) {
-        } catch (IllegalAccessException e) {
+      for (int i = 1; i < height - 1; i++) {
+        for (int j = 1; j < width - 1; j++) {
+          list.add(new Tile(Vector2D.get(i, j), floorClass.newInstance()));
         }
-
-        list.add(new Tile(Vector2D.get(i, j), type));
       }
+      boolean flip1 = randomizer.nextBoolean();
+      boolean flip2 = randomizer.nextBoolean();
+      for (int i = 1; i < height - 1; i++) {
+        list.add(new Tile(Vector2D.get(i, 0), flip1
+            ? terminalClass.newInstance()
+            : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(i, width - 1), flip2
+            ? terminalClass.newInstance()
+            : wallClass.newInstance()));
+        flip1 = !flip1;
+        flip2 = !flip2;
+      }
+      flip1 = randomizer.nextBoolean();
+      flip2 = randomizer.nextBoolean();
+      for (int i = 1; i < width - 1; i++) {
+        list.add(new Tile(Vector2D.get(0, i), flip1
+            ? terminalClass.newInstance()
+            : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(height - 1, i), flip2
+            ? terminalClass.newInstance()
+            : wallClass.newInstance()));
+        flip1 = !flip1;
+        flip2 = !flip2;
+      }
+    } catch (InstantiationException e) {
+    } catch (IllegalAccessException e) {
     }
 
     return list;
@@ -194,6 +202,10 @@ public class RectangleRoomFactory {
    */
   public void setWallClass(Class<? extends TileType> wallClass) {
     this.wallClass = wallClass;
+  }
+
+  public void setTerminalClass(Class<? extends TileType> terminalClass) {
+    this.terminalClass = terminalClass;
   }
 
   /**

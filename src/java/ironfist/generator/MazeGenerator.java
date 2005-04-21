@@ -12,6 +12,7 @@ import java.util.Random;
  */
 public class MazeGenerator {
 
+  private static final int MASK = Integer.MAX_VALUE - 1;
   private static final Vector2D[] DIRECTIONS = new Vector2D[]{
       Vector2D.get(0, 1),
       Vector2D.get(1, 0),
@@ -102,7 +103,7 @@ public class MazeGenerator {
    *          The height to set
    */
   public void setHeight(int height) {
-    this.height = ((height - 1) / 2 * 2) + 1;
+    this.height = ((height - 1) & MASK) + 1;
   }
 
   /**
@@ -121,7 +122,7 @@ public class MazeGenerator {
    *          The width to set
    */
   public void setWidth(int width) {
-    this.width = ((width - 1) / 2 * 2) + 1;
+    this.width = ((width - 1) & MASK) + 1;
   }
 
   public static void main(String[] args) {

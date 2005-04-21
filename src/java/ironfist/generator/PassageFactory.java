@@ -11,14 +11,13 @@ import java.util.Random;
 public class PassageFactory {
 
   private Random randomizer;
-  private Vector2D direction;
   private int baseLength;
   private Class<? extends TileType> floorClass;
   private Class<? extends TileType> wallClass;
   private Class<? extends TileType> cornerClass;
   private Class<? extends TileType> terminalClass;
 
-  public List<Tile> create() {
+  public List<Tile> create(Vector2D direction) {
     List<Tile> list = new LinkedList<Tile>();
     int length = 3 + randomizer.nextInt(4)
         + ((randomizer.nextInt(5) == 0) ? randomizer.nextInt(5) : 0)
@@ -62,16 +61,8 @@ public class PassageFactory {
     return baseLength;
   }
 
-  public Vector2D getDirection() {
-    return direction;
-  }
-
   public void setBaseLength(int baseLength) {
     this.baseLength = baseLength;
-  }
-
-  public void setDirection(Vector2D direction) {
-    this.direction = direction;
   }
 
   public Class getCornerClass() {
