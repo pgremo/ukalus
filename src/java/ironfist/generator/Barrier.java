@@ -10,4 +10,9 @@ import ironfist.Wall;
 public class Barrier extends Wall {
 
   private static final long serialVersionUID = 4049357504733655089L;
+
+  public String toString() {
+    return "Barrier";
+  }
+
 }

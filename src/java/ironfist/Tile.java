@@ -15,44 +15,24 @@ public class Tile implements Serializable {
   private Vector2D coordinate;
   private TileType type;
 
-  /**
-   * Creates a new Tile object.
-   * 
-   * @param coordinate
-   *          DOCUMENT ME!
-   * @param type
-   *          DOCUMENT ME!
-   */
   public Tile(Vector2D coordinate, TileType type) {
     this.coordinate = coordinate;
     this.type = type;
   }
 
-  /**
-   * Returns the coordinate.
-   * 
-   * @return Coordinate
-   */
   public Vector2D getCoordinate() {
     return coordinate;
   }
 
-  /**
-   * Returns the type.
-   * 
-   * @return TileType
-   */
   public TileType getTileType() {
     return type;
   }
 
-  /**
-   * Sets the type.
-   * 
-   * @param type
-   *          The type to set
-   */
   public void setTileType(TileType type) {
     this.type = type;
+  }
+
+  public String toString() {
+    return coordinate + "=" + type;
   }
 }

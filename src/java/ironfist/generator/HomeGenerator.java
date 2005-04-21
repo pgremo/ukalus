@@ -19,7 +19,6 @@ import java.util.Random;
  */
 public class HomeGenerator {
 
-  private static final EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
   private RectangleRoomFactory areaFactory = new RectangleRoomFactory();
 
   {
@@ -45,7 +44,8 @@ public class HomeGenerator {
     Level result = new Level(name);
     List<Tile> list = areaFactory.create();
     Area room = new Area(list);
-    stairPredicate.setTileTypeClass(Floor.class);
+    EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate(
+      Floor.class);
 
     Tile downLocation = room.getRandom(stairPredicate);
     ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));

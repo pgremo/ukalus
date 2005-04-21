@@ -30,8 +30,7 @@ public class CreateCommand {
 
     HomeGenerator generator = new HomeGenerator();
     Level level = generator.generate("0");
-    TileTypePredicate predicate = new TileTypePredicate();
-    predicate.setTileTypeClass(Floor.class);
+    TileTypePredicate predicate = new TileTypePredicate(Floor.class);
 
     Tile tile = level.getRandom(predicate);
     Floor floor = (Floor) tile.getTileType();

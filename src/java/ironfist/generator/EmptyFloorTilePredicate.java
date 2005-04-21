@@ -11,9 +11,10 @@ public class EmptyFloorTilePredicate extends TileTypePredicate {
 
   private static final long serialVersionUID = 3256440322119905848L;
 
-  /**
-   * @see com.threat.game.Predicate#invoke(Object)
-   */
+  public EmptyFloorTilePredicate(Class tileTypeClass) {
+    super(tileTypeClass);
+  }
+
   public Boolean apply(Tile value) {
     boolean result = super.apply(value);
     if ((value).getTileType() instanceof Floor) {

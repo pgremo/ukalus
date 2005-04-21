@@ -8,11 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class PassageFactory {
 
   private Random randomizer;
@@ -23,11 +18,6 @@ public class PassageFactory {
   private Class<? extends TileType> cornerClass;
   private Class<? extends TileType> terminalClass;
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public List<Tile> create() {
     List<Tile> list = new LinkedList<Tile>();
     int length = 3 + randomizer.nextInt(4)
@@ -68,130 +58,58 @@ public class PassageFactory {
     return list;
   }
 
-  /**
-   * Returns the baseLength.
-   * 
-   * @return int
-   */
   public int getBaseLength() {
     return baseLength;
   }
 
-  /**
-   * Returns the direction.
-   * 
-   * @return Coordinate
-   */
   public Vector2D getDirection() {
     return direction;
   }
 
-  /**
-   * Sets the baseLength.
-   * 
-   * @param baseLength
-   *          The baseLength to set
-   */
   public void setBaseLength(int baseLength) {
     this.baseLength = baseLength;
   }
 
-  /**
-   * Sets the direction.
-   * 
-   * @param direction
-   *          The direction to set
-   */
   public void setDirection(Vector2D direction) {
     this.direction = direction;
   }
 
-  /**
-   * Returns the cornerClass.
-   * 
-   * @return Class
-   */
   public Class getCornerClass() {
     return cornerClass;
   }
 
-  /**
-   * Returns the floorClass.
-   * 
-   * @return Class
-   */
   public Class getFloorClass() {
     return floorClass;
   }
 
-  /**
-   * Returns the terminalClass.
-   * 
-   * @return Class
-   */
   public Class getTerminalClass() {
     return terminalClass;
   }
 
-  /**
-   * Returns the wallClass.
-   * 
-   * @return Class
-   */
   public Class getWallClass() {
     return wallClass;
   }
 
-  /**
-   * Sets the cornerClass.
-   * 
-   * @param cornerClass
-   *          The cornerClass to set
-   */
   public void setCornerClass(Class<? extends TileType> cornerClass) {
     this.cornerClass = cornerClass;
   }
 
-  /**
-   * Sets the floorClass.
-   * 
-   * @param floorClass
-   *          The floorClass to set
-   */
   public void setFloorClass(Class<? extends TileType> floorClass) {
     this.floorClass = floorClass;
   }
 
-  /**
-   * Sets the terminalClass.
-   * 
-   * @param terminalClass
-   *          The terminalClass to set
-   */
   public void setTerminalClass(Class<? extends TileType> terminalClass) {
     this.terminalClass = terminalClass;
   }
 
-  /**
-   * Sets the wallClass.
-   * 
-   * @param wallClass
-   *          The wallClass to set
-   */
   public void setWallClass(Class<? extends TileType> wallClass) {
     this.wallClass = wallClass;
   }
 
-  /**
-   * @return
-   */
   public Random getRandomizer() {
     return randomizer;
   }
 
-  /**
-   * @param random
-   */
   public void setRandomizer(Random random) {
     randomizer = random;
   }

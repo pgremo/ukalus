@@ -6,16 +6,10 @@ import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class Area {
 
   private Random randomizer;
@@ -26,24 +20,10 @@ public class Area {
     randomizer = new Random();
   }
 
-  /**
-   * Creates a new Area object.
-   * 
-   * @param list
-   *          DOCUMENT ME!
-   */
   public Area(List<Tile> list) {
     this.list = list;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param predicate
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public Tile getRandom(Closure<Tile, Boolean> predicate) {
     Collections.shuffle(list, randomizer);
     Tile result = null;
@@ -59,14 +39,6 @@ public class Area {
     return result;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param coordinate
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public Tile get(Vector2D coordinate) {
     Tile result = null;
     Iterator<Tile> iterator = list.iterator();
@@ -83,31 +55,14 @@ public class Area {
     return result;
   }
 
-  /**
-   * Returns the coordinate.
-   * 
-   * @return Coordinate
-   */
   public Vector2D getCoordinate() {
     return coordinate;
   }
 
-  /**
-   * Sets the coordinate.
-   * 
-   * @param coordinate
-   *          The coordinate to set
-   */
   public void setCoordinate(Vector2D coordinate) {
     this.coordinate = coordinate;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param level
-   *          DOCUMENT ME!
-   */
   public void place(Level level) {
     for (Tile current : list) {
       level.set(current.getCoordinate()
@@ -115,37 +70,15 @@ public class Area {
     }
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param level
-   *          DOCUMENT ME!
-   * @param comparator
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
-  public boolean check(Level level, Comparator<Tile> comparator) {
+  public boolean check(Closure<Tile, Boolean> comparator) {
     boolean result = true;
     Iterator<Tile> iterator = list.iterator();
 
     while (iterator.hasNext() && result) {
-      Tile current = iterator.next();
-      Vector2D currentCoordinate = current.getCoordinate()
-        .add(coordinate);
-
-      if ((currentCoordinate.getX() < 0)
-          || (currentCoordinate.getX() > level.getHeight() - 1)
-          || (currentCoordinate.getY() < 0)
-          || (currentCoordinate.getY() > level.getWidth() - 1)) {
-        result = false;
-      } else {
-        Tile tile = level.get(current.getCoordinate()
-          .add(coordinate));
-        result = comparator.compare(tile, current) == 0;
-      }
+      result = comparator.apply(iterator.next());
     }
 
     return result;
   }
+
 }

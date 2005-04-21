@@ -188,6 +188,13 @@ public class Level implements Serializable {
     this.active = active;
   }
 
+  public boolean contains(Vector2D currentCoordinate) {
+    return (currentCoordinate.getX() >= 0)
+        && (currentCoordinate.getX() < getHeight() - 1)
+        && (currentCoordinate.getY() >= 0)
+        && (currentCoordinate.getY() < getWidth() - 1);
+  }
+
   private class InitiativeCell {
 
     private int initiative;

@@ -116,4 +116,8 @@ public class Floor implements TileType, Serializable {
   public void setDoor(Door value) {
     this.door = value;
   }
+  
+  public String toString(){
+    return "Floor";
+  }
 }
