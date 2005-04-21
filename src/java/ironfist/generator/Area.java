@@ -5,7 +5,7 @@ import ironfist.Tile;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -45,17 +45,15 @@ public class Area {
    * @return DOCUMENT ME!
    */
   public Tile getRandom(Closure<Tile, Boolean> predicate) {
+    Collections.shuffle(list, randomizer);
     Tile result = null;
-    List<Tile> candidates = new ArrayList<Tile>(list.size());
 
-    for (Tile current : list) {
+    Iterator<Tile> iterator = list.iterator();
+    while (iterator.hasNext() && result == null) {
+      Tile current = iterator.next();
       if (predicate.apply(current)) {
-        candidates.add(current);
+        result = current;
       }
-    }
-
-    if (candidates.size() > 0) {
-      result = candidates.get(randomizer.nextInt(candidates.size()));
     }
 
     return result;
