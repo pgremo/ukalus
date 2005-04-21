@@ -6,12 +6,9 @@ package ironfist.generator;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector2D;
-import ironfist.path.astar.AStar;
-import ironfist.path.astar.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -146,31 +143,8 @@ public class HolisticDungeonGenerator {
     for (Region cell : rooms) {
       for (int y = 1; y < cell.getHeight() - 1; y++) {
         for (int x = 1; x < cell.getWidth() - 1; x++) {
-          level.set(Vector2D.get(x + cell.getX(), y + cell.getY()), Feature.ROOM);
-        }
-      }
-    }
-
-    AStar finder = new AStar();
-    Collections.shuffle(rooms, randomizer);
-    Iterator<Region> iterator = rooms.iterator();
-    if (iterator.hasNext()) {
-      Region startRoom = iterator.next();
-      if (iterator.hasNext()) {
-        while (iterator.hasNext()) {
-          Region stopRoom = iterator.next();
-          PassageNode start = new PassageNode(level,
-            startRoom.getRandomLocation(randomizer), null);
-          PassageNode stop = new PassageNode(level,
-            stopRoom.getRandomLocation(randomizer), null);
-          Iterator<Node> path = finder.solve(new PassageHeuristic(start, stop),
-            new FixedCost(1), start, stop);
-          while (path.hasNext()) {
-            Vector2D location = ((PassageNode) path.next()).getLocation();
-            if (level.get(location) == null)
-              level.set(location, Feature.PASSAGE);
-          }
-          startRoom = stopRoom;
+          level.set(Vector2D.get(x + cell.getX(), y + cell.getY()),
+            Feature.ROOM);
         }
       }
     }
