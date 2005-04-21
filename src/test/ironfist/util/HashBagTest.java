@@ -54,7 +54,7 @@ public class HashBagTest extends TestCase {
     assertEquals(0, bag.size());
     assertTrue(bag.add(object));
     assertEquals(1, bag.size());
-    Iterator iterator = bag.iterator();
+    Iterator<Object> iterator = bag.iterator();
     assertTrue(iterator.hasNext());
     assertEquals(object, iterator.next());
     assertTrue(!iterator.hasNext());
@@ -70,7 +70,7 @@ public class HashBagTest extends TestCase {
     assertTrue(bag.add(o2));
     assertTrue(bag.add(o3));
     assertEquals(3, bag.size());
-    Iterator iterator = bag.iterator();
+    Iterator<Object> iterator = bag.iterator();
     assertTrue(iterator.hasNext());
     assertNotNull(iterator.next());
     assertTrue(iterator.hasNext());

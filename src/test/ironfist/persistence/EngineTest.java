@@ -1,6 +1,5 @@
 package ironfist.persistence;
 
-
 import ironfist.persistence.file.FileLog;
 import ironfist.persistence.file.FileStore;
 
@@ -20,15 +19,15 @@ public class EngineTest extends TestCase {
   public void testServer() throws Exception {
     crashRecover();
     set();
-    add(40, 40); //1
-    add(30, 70); //2
+    add(40, 40); // 1
+    add(30, 70); // 2
     assertTotal(70);
 
     crashRecover();
     assertTotal(70);
 
-    add(20, 90); //3
-    add(15, 105); //4
+    add(20, 90); // 3
+    add(15, 105); // 4
     server.checkpoint();
     server.checkpoint();
     assertTotal(105);
@@ -36,14 +35,14 @@ public class EngineTest extends TestCase {
 
     crashRecover();
     server.checkpoint();
-    add(10, 115); //5
+    add(10, 115); // 5
     server.checkpoint();
-    add(5, 120); //6
-    add(4, 124); //7
+    add(5, 120); // 6
+    add(4, 124); // 7
     assertTotal(124);
 
     crashRecover();
-    add(3, 127); //8
+    add(3, 127); // 8
     assertTotal(127);
 
     server.checkpoint();
@@ -52,7 +51,7 @@ public class EngineTest extends TestCase {
     crashRecover();
     assertTotal(127);
 
-    add(2, 129); //9
+    add(2, 129); // 9
     crashRecover();
     assertTotal(129);
 
@@ -92,9 +91,10 @@ public class EngineTest extends TestCase {
   }
 
   private void clearPersistence() throws Exception {
-    Iterator iterator = servers.iterator();
+    Iterator<Engine> iterator = servers.iterator();
     while (iterator.hasNext()) {
-      ((Engine) iterator.next()).checkpoint();
+      iterator.next()
+        .checkpoint();
       iterator.remove();
     }
 
