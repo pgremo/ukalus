@@ -1,26 +1,24 @@
 package ironfist.flood.floodfill;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class FloodFill {
 
   public Set<Node> getTemplate(int distance, Node start) {
     Set<Node> result = new HashSet<Node>();
-    Set<Node> current = new HashSet<Node>();
-    current.add(start);
-    for (int i = 0; i <= distance; i++) {
-      Set<Node> next = new HashSet<Node>();
-      for (Node target : current) {
-        for (Node child : target.getChildren()) {
-          if (!result.contains(child) && !current.contains(child)) {
-            next.add(child);
-          }
+    Queue<Node> open = new LinkedList<Node>();
+    open.add(start);
+    while (open.size() > 0) {
+      Node current = open.remove();
+      for (Node child : current.getChildren()) {
+        if (child.getDistance() <= distance && !open.contains(child)) {
+          open.add(child);
         }
-        target.setDistance(i);
-        result.add(target);
       }
-      current = next;
+      result.add(current);
     }
     return result;
   }
