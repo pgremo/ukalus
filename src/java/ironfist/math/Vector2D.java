@@ -2,7 +2,7 @@ package ironfist.math;
 
 public class Vector2D {
   
-  private static int RANGE = 100;
+  private static int RANGE = 200;
   
   public static int MIN_X = -RANGE;
   public static int MAX_X = RANGE;
