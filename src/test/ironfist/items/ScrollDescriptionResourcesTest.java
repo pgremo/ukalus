@@ -17,10 +17,10 @@ public class ScrollDescriptionResourcesTest extends TestCase {
 
   public void testLoadResource() throws Exception {
     ResourceBundle bundle = ResourceBundle.getBundle(ScrollDescriptionResource.class.getName());
-    Enumeration keys = bundle.getKeys();
+    Enumeration<String> keys = bundle.getKeys();
 
     while (keys.hasMoreElements()) {
-      String key = (String) keys.nextElement();
+      String key = keys.nextElement();
       System.out.println(key + "=" + bundle.getString(key));
     }
     keys = bundle.getKeys();

@@ -15,11 +15,11 @@ public class RingDescriptionResourcesTest extends TestCase {
 
   public void testLoadResource() throws Exception {
     ResourceBundle bundle = ResourceBundle.getBundle("ironfist.items.RingDescriptionResources");
-    Enumeration keys = bundle.getKeys();
+    Enumeration<String> keys = bundle.getKeys();
 
     keys = bundle.getKeys();
 
-    String pattern = bundle.getString((String) keys.nextElement());
+    String pattern = bundle.getString(keys.nextElement());
     System.out.println(MessageFormat.format(pattern,
       new Object[]{new Integer(0)}));
     System.out.println(MessageFormat.format(pattern,

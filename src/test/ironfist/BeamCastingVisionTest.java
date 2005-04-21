@@ -1,10 +1,5 @@
 package ironfist;
 
-import ironfist.CreateCommand;
-import ironfist.Creature;
-import ironfist.Referee;
-
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -31,14 +26,11 @@ public class BeamCastingVisionTest extends TestCase {
    * DOCUMENT ME!
    */
   public void testVision() {
-    List vision = creature.getVision();
+    List<Tile> vision = creature.getVision();
     assertNotNull(vision);
     assertTrue(vision.size() > 0);
-
-    Iterator iterator = vision.iterator();
-
-    while (iterator.hasNext()) {
-      assertNotNull(iterator.next());
+    for (Tile current : vision) {
+      assertNotNull(current);
     }
   }
 
