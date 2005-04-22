@@ -20,7 +20,7 @@ public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
 
   public Boolean apply(Tile tile) {
     return tileTypeClass.equals(tile.getTileType()
-      .getClass()) && (area.get(tile.getCoordinate()
+      .getClass()) && (area.get(tile.getLocation()
       .add(direction)) == null);
   }
 

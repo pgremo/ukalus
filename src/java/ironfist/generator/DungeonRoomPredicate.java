@@ -25,7 +25,7 @@ public class DungeonRoomPredicate implements Closure<Tile, Boolean> {
 
   public Boolean apply(Tile o1) {
     boolean result = false;
-    Vector2D coordinate = o1.getCoordinate().add(location);
+    Vector2D coordinate = o1.getLocation().add(location);
     if (level.contains(coordinate)) {
       Tile tile = level.get(coordinate);
       if (tile == null) {

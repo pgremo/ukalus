@@ -94,7 +94,7 @@ public final class Referee {
             Stairs targetStairs = (Stairs) ((Floor) targetTile.getTileType()).getPortal();
             targetStairs.setCoordinate(sourceLocation);
             targetStairs.setLevelName(sourceName);
-            targetLocation = targetTile.getCoordinate();
+            targetLocation = targetTile.getLocation();
             sourceStairs.setCoordinate(targetLocation);
             sourceStairs.setLevelName(targetName);
           } else {
@@ -152,7 +152,7 @@ public final class Referee {
             Stairs targetStairs = (Stairs) ((Floor) targetTile.getTileType()).getPortal();
             targetStairs.setCoordinate(sourceLocation);
             targetStairs.setLevelName(sourceName);
-            targetLocation = targetTile.getCoordinate();
+            targetLocation = targetTile.getLocation();
             sourceStairs.setCoordinate(targetLocation);
             sourceStairs.setLevelName(targetName);
           } else {

@@ -155,7 +155,7 @@ public class JCursesClient extends Widget implements Client {
 
     while (iterator.hasNext()) {
       Tile current = iterator.next();
-      plan.set(current.getCoordinate(), current.getTileType());
+      plan.set(current.getLocation(), current.getTileType());
     }
   }
 
@@ -189,7 +189,7 @@ public class JCursesClient extends Widget implements Client {
 
       while (iterator.hasNext()) {
         Tile tile = iterator.next();
-        Vector2D coordinate = tile.getCoordinate();
+        Vector2D coordinate = tile.getLocation();
         Toolkit.printString(
           symbols.get(determineLevelMarker(plan.get(coordinate))),
           getAbsoluteX() + (int) coordinate.getY(), getAbsoluteY()
@@ -212,7 +212,7 @@ public class JCursesClient extends Widget implements Client {
 
       while (iterator.hasNext()) {
         Tile tile = iterator.next();
-        Vector2D coordinate = tile.getCoordinate();
+        Vector2D coordinate = tile.getLocation();
         TileType type = tile.getTileType();
         Marker marker = determineCreatureMarker(type);
 

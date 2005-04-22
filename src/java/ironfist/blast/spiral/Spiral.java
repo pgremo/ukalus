@@ -63,12 +63,12 @@ public class Spiral implements Blast {
     result = new HashSet<Vector2D>(31);
     result.add(origin);
 
-    processCircle(1, 0.0, 359.9);
+    scanCircle(1, 0.0, 359.9);
 
     return result;
   }
 
-  void processCircle(int r, double th1, double th2) {
+  void scanCircle(int r, double th1, double th2) {
     ArcPoint[] circle = CIRCLES[r];
     boolean wasBlocked = false;
     boolean isClear = false;
@@ -90,7 +90,7 @@ public class Spiral implements Blast {
           continue;
         } else if (isClear) {
           if (r < radius) {
-            processCircle(r + 1, th1, arcPoint.leading);
+            scanCircle(r + 1, th1, arcPoint.leading);
           }
           wasBlocked = true;
         } else {
@@ -114,7 +114,7 @@ public class Spiral implements Blast {
     }
 
     if (!wasBlocked && r < radius) {
-      processCircle(r + 1, th1, th2);
+      scanCircle(r + 1, th1, th2);
     }
   }
 

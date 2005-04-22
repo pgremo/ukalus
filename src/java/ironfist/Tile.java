@@ -20,8 +20,12 @@ public class Tile implements Serializable {
     this.type = type;
   }
 
-  public Vector2D getCoordinate() {
+  public Vector2D getLocation() {
     return coordinate;
+  }
+
+  public void setLocation(Vector2D coordinate) {
+    this.coordinate = coordinate;
   }
 
   public TileType getTileType() {

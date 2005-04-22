@@ -84,7 +84,7 @@ public class Plan implements Serializable {
    */
   public void set(Tile value) {
     if (value != null) {
-      set(value.getCoordinate(), value.getTileType());
+      set(value.getLocation(), value.getTileType());
     }
   }
 

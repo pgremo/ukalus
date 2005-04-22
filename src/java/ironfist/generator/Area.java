@@ -52,7 +52,7 @@ public class Area {
     while (iterator.hasNext() && result == null) {
       Tile current = iterator.next();
 
-      if (current.getCoordinate()
+      if (current.getLocation()
         .equals(coordinate)) {
         result = current;
       }
@@ -71,7 +71,7 @@ public class Area {
 
   public void place(Level level) {
     for (Tile current : list) {
-      level.set(current.getCoordinate()
+      level.set(current.getLocation()
         .add(coordinate), current.getTileType());
     }
   }
@@ -97,6 +97,17 @@ public class Area {
     }
 
     return result;
+  }
+
+  public void rotate(Vector2D direction) {
+    for (Tile current : list) {
+      current.setLocation(current.getLocation()
+        .rotate(direction));
+    }
+  }
+
+  public String toString() {
+    return coordinate + "=" + list;
   }
 
 }

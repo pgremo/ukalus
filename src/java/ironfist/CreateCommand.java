@@ -35,7 +35,7 @@ public class CreateCommand {
     Tile tile = level.getRandom(predicate);
     Floor floor = (Floor) tile.getTileType();
     floor.setCreature(creature);
-    creature.setCoordinate(tile.getCoordinate());
+    creature.setCoordinate(tile.getLocation());
     creature.setLevel(level);
     return creature;
   }

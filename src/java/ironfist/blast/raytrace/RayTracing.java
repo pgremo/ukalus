@@ -14,10 +14,25 @@ public class RayTracing implements Blast {
   private static final int BIG_SHADOW = 32000;
   private static int VIEW = 2; // 1=widest LOS .. 5=narrowest
   // for easy x,y octant translation
-  private static final int[] xxcomp = new int[]{1, 0, 0, -1, -1, 0, 0, 1};
-  private static final int[] xycomp = new int[]{0, 1, -1, 0, 0, -1, 1, 0};
-  private static final int[] yxcomp = new int[]{0, 1, 1, 0, 0, -1, -1, 0};
-  private static final int[] yycomp = new int[]{1, 0, 0, 1, -1, 0, 0, -1};
+  private static final Vector2D[] ROW_TRANSFORM = new Vector2D[]{
+      Vector2D.get(1, 0),
+      Vector2D.get(0, 1),
+      Vector2D.get(0, 1),
+      Vector2D.get(-1, 0),
+      Vector2D.get(-1, 0),
+      Vector2D.get(0, -1),
+      Vector2D.get(0, -1),
+      Vector2D.get(1, 0)};
+  private static final Vector2D[] CELL_TRANSFORM = new Vector2D[]{
+      Vector2D.get(0, 1),
+      Vector2D.get(1, 0),
+      Vector2D.get(-1, 0),
+      Vector2D.get(0, 1),
+      Vector2D.get(0, -1),
+      Vector2D.get(-1, 0),
+      Vector2D.get(1, 0),
+      Vector2D.get(0, -1)};
+
   private static final int[][] CIRCLES = new int[20][];
 
   static {
@@ -58,6 +73,9 @@ public class RayTracing implements Blast {
 
   // current light radius
   private int radius;
+  private Set<Vector2D> result;
+  private Vector2D origin;
+  private Closure<Vector2D, Boolean> scanner;
 
   {
     cells = new Cell[MAX_LIGHT_RADIUS];
@@ -70,7 +88,8 @@ public class RayTracing implements Blast {
     // got a blocker at row bX, cell bY. do all values
     // and scale by a factor of 10 for the integer math.
     int result = (10 * (10 * x - VIEW)) / (10 * y + VIEW);
-    if (result < 10) {// upper bound for blocker on diagonal
+    // check upper bound for blocker on diagonal
+    if (result < 10) {
       result = 10;
     }
 
@@ -88,18 +107,15 @@ public class RayTracing implements Blast {
     return result;
   }
 
-  private void scanOctant(int octant, Closure<Vector2D, Boolean> scanner,
-      int x_p, int y_p, Set<Vector2D> result) {
-    // init cell[0]. this is the only one that needs clearing.
+  private void scanOctant(int octant) {
     cells[0].init();
+
     boolean isAllDark = false;
     boolean isCornerVisible = false;
 
-    // loop through each row
     for (int row = 1; row <= radius; row++) {
       boolean isRowDark = true;
 
-      // loop through each cell, up to the max allowed by circle[]
       int top = circle[row];
       if (top > row) {
         top = row;
@@ -112,12 +128,10 @@ public class RayTracing implements Blast {
           continue;
         }
 
-        // translate X,Y co'ord
-        Vector2D location = Vector2D.get(x_p
-            + (row * xxcomp[octant] + cell * xycomp[octant]), y_p
-            + (row * yxcomp[octant] + cell * yycomp[octant]));
+        // translate X,Y coordinate
+        Vector2D location = origin.add(ROW_TRANSFORM[octant].multiply(row))
+          .add(CELL_TRANSFORM[octant].multiply(cell));
 
-        // get grid value.. see if it blocks LOS
         boolean blocker = scanner.apply(location);
 
         int upInc = 10;
@@ -128,7 +142,8 @@ public class RayTracing implements Blast {
         if (cell < row) {
           // check for delayed lighting
           if (cells[cell].isLitDelay) {
-            if (!blocker) { // blockers don't light up with lit_delay.
+            // blockers don't light up with lit_delay.
+            if (!blocker) {
               if (cells[previous].isLit) {
                 if (cells[previous].lowMax != 0) {
                   cells[cell].isLit = false;
@@ -137,7 +152,8 @@ public class RayTracing implements Blast {
                   cells[cell].lowCount = cells[previous].lowCount;
                   cells[previous].lowCount = 0;
                   cells[previous].lowMax = 0;
-                  lowInc = 0; // avoid double-inc.
+                  // avoid double-inc.
+                  lowInc = 0;
                 } else {
                   cells[cell].isLit = true;
                 }
@@ -178,13 +194,12 @@ public class RayTracing implements Blast {
               if (lower <= 30) { // somewhat arbitrary
                 cells[cell].isLitDelay = true;
               }
-              // set dark_delay if lower > 20?? how to decide?
             }
           } else {
             cells[cell].isVisible = false;
           }
         } else {
-          cells[cell].isVisible = false; // special flags for blockers
+          cells[cell].isVisible = false;
         }
 
         // STEP 3 - add increments to upper, lower counts
@@ -204,7 +219,7 @@ public class RayTracing implements Blast {
           }
         }
 
-        // STEP 5 - nuke lower if south lower
+        // STEP 5 - nuke lower if previous lower
         if (previous >= 0) {
           if (cells[previous].reachedLower()) {
             cells[cell].lowMax = cells[previous].lowMax;
@@ -241,20 +256,29 @@ public class RayTracing implements Blast {
     } // end for - rows
   }
 
-  public Set<Vector2D> getTemplate(Vector2D location, Closure<Vector2D, Boolean> scanner,
-      int radius) {
-    this.radius = radius;
-    circle = CIRCLES[radius];
-    Set<Vector2D> result = new HashSet<Vector2D>();
-    result.add(location);
-    for (int o = 0; o < 8; o++) {
-      scanOctant(o, scanner, (int) location.getX(), (int) location.getY(),
-        result);
+  public Set<Vector2D> getTemplate(Vector2D origin,
+      Closure<Vector2D, Boolean> scanner, int radius) {
+
+    if (origin == null || radius < 1 || scanner == null) {
+      throw new IllegalArgumentException();
     }
+
+    this.origin = origin;
+    this.scanner = scanner;
+    this.radius = radius;
+
+    circle = CIRCLES[radius];
+    result = new HashSet<Vector2D>();
+    result.add(origin);
+
+    for (int octant = 0; octant < 8; octant++) {
+      scanOctant(octant);
+    }
+
     return result;
   }
 
-  class Cell {
+  private class Cell {
 
     int upCount;
     int upMax;
