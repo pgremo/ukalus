@@ -48,12 +48,4 @@ public class Loop<E> {
     }
   }
 
-  public void doWhile(Closure<E, Boolean> block) {
-    boolean done = false;
-    Iterator<E> iterator = storage.iterator();
-    while (iterator.hasNext() && !done) {
-      done = block.apply(iterator.next());
-    }
-  }
-
 }

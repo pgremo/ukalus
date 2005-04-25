@@ -4,61 +4,36 @@ import ironfist.Level;
 import ironfist.Tile;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
+import ironfist.util.Loop;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class Area {
 
-  private static final Vector2D[] DIRECTIONS = {
+  protected static final Vector2D[] DIRECTIONS = {
       Vector2D.get(-1, 0),
       Vector2D.get(0, 1),
       Vector2D.get(1, 0),
-      Vector2D.get(0, -1)};
+      Vector2D.get(0, -1) };
 
   private Random randomizer;
   private Vector2D coordinate;
   private List<Tile> list;
 
-  {
-    randomizer = new Random();
-  }
-
-  public Area(List<Tile> list) {
+  public Area(List<Tile> list, Random randomizer) {
     this.list = list;
+    this.randomizer = randomizer;
   }
 
   public Tile getRandom(Closure<Tile, Boolean> predicate) {
     Collections.shuffle(list, randomizer);
-    Tile result = null;
-
-    Iterator<Tile> iterator = list.iterator();
-    while (iterator.hasNext() && result == null) {
-      Tile current = iterator.next();
-      if (predicate.apply(current)) {
-        result = current;
-      }
-    }
-
-    return result;
+    return new Loop<Tile>(list).detect(predicate);
   }
 
   public Tile get(Vector2D coordinate) {
-    Tile result = null;
-    Iterator<Tile> iterator = list.iterator();
-
-    while (iterator.hasNext() && result == null) {
-      Tile current = iterator.next();
-
-      if (current.getLocation()
-        .equals(coordinate)) {
-        result = current;
-      }
-    }
-
-    return result;
+    return new Loop<Tile>(list).detect(new MatchesVector(coordinate));
   }
 
   public Vector2D getCoordinate() {
@@ -70,21 +45,11 @@ public class Area {
   }
 
   public void place(Level level) {
-    for (Tile current : list) {
-      level.set(current.getLocation()
-        .add(coordinate), current.getTileType());
-    }
+    new Loop<Tile>(list).forEach(new Place(level, coordinate));
   }
 
   public boolean check(Closure<Tile, Boolean> predicate) {
-    boolean result = true;
-    Iterator<Tile> iterator = list.iterator();
-
-    while (iterator.hasNext() && result) {
-      result = predicate.apply(iterator.next());
-    }
-
-    return result;
+    return new Loop<Tile>(list).detect(predicate) == null;
   }
 
   public Vector2D getSide(Vector2D coordinate) {
@@ -100,10 +65,7 @@ public class Area {
   }
 
   public void rotate(Vector2D direction) {
-    for (Tile current : list) {
-      current.setLocation(current.getLocation()
-        .rotate(direction));
-    }
+    new Loop<Tile>(list).forEach(new Rotate(direction));
   }
 
   public String toString() {

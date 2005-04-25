@@ -14,7 +14,6 @@ public class PassageFactory {
   private int baseLength;
   private Class<? extends TileType> floorClass;
   private Class<? extends TileType> wallClass;
-  private Class<? extends TileType> cornerClass;
   private Class<? extends TileType> terminalClass;
 
   public List<Tile> create() {
@@ -23,9 +22,9 @@ public class PassageFactory {
 
     try {
       int distance = 1;
-      list.add(new Tile(Vector2D.get(distance, -1), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(distance, -1), wallClass.newInstance()));
       list.add(new Tile(Vector2D.get(distance, 0), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.get(distance, 1), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(distance, 1), wallClass.newInstance()));
 
       while (distance < length - 1) {
         distance++;
@@ -40,9 +39,9 @@ public class PassageFactory {
       list.add(new Tile(Vector2D.get(distance, 1), terminalClass.newInstance()));
 
       distance++;
-      list.add(new Tile(Vector2D.get(distance, -1), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(distance, -1), wallClass.newInstance()));
       list.add(new Tile(Vector2D.get(distance, 0), terminalClass.newInstance()));
-      list.add(new Tile(Vector2D.get(distance, 1), cornerClass.newInstance()));
+      list.add(new Tile(Vector2D.get(distance, 1), wallClass.newInstance()));
     } catch (InstantiationException e) {
     } catch (IllegalAccessException e) {
     }
@@ -58,10 +57,6 @@ public class PassageFactory {
     this.baseLength = baseLength;
   }
 
-  public Class getCornerClass() {
-    return cornerClass;
-  }
-
   public Class getFloorClass() {
     return floorClass;
   }
@@ -72,10 +67,6 @@ public class PassageFactory {
 
   public Class getWallClass() {
     return wallClass;
-  }
-
-  public void setCornerClass(Class<? extends TileType> cornerClass) {
-    this.cornerClass = cornerClass;
   }
 
   public void setFloorClass(Class<? extends TileType> floorClass) {

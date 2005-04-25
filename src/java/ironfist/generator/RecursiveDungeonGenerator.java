@@ -3,7 +3,6 @@ package ironfist.generator;
 import ironfist.Door;
 import ironfist.Floor;
 import ironfist.Level;
-import ironfist.PassageFloor;
 import ironfist.Stairs;
 import ironfist.Tile;
 import ironfist.TileType;
@@ -17,14 +16,13 @@ import java.util.Random;
 public class RecursiveDungeonGenerator {
 
   private static final int MAX_TRIES = 20;
-  private static final int MAX_ROOM_HEIGHT = 10;
+  private static final int MAX_ROOM_HEIGHT = 5;
   private static final int MAX_ROOM_WIDTH = 12;
   private static final int MIN_ROOM_HEIGHT = 5;
-  private static final int MIN_ROOM_WIDTH = 5;
+  private static final int MIN_ROOM_WIDTH = 7;
   private static final Class<? extends TileType> FLOOR = Floor.class;
   private static final Class<? extends TileType> TERMINAL = Terminal.class;
   private static final Class<? extends TileType> WALL = Wall.class;
-  private static final Class<? extends TileType> BARRIER = Barrier.class;
   private RectangleRoomFactory areaFactory;
   private PassageFactory connectorFactory;
   private Random random;
@@ -34,7 +32,6 @@ public class RecursiveDungeonGenerator {
     connectorFactory = new PassageFactory();
     connectorFactory.setFloorClass(PassageFloor.class);
     connectorFactory.setWallClass(WALL);
-    connectorFactory.setCornerClass(BARRIER);
     connectorFactory.setTerminalClass(TERMINAL);
     areaFactory = new RectangleRoomFactory();
     areaFactory.setMinRoomHeight(MIN_ROOM_HEIGHT);
@@ -44,7 +41,6 @@ public class RecursiveDungeonGenerator {
     areaFactory.setFloorClass(FLOOR);
     areaFactory.setWallClass(WALL);
     areaFactory.setTerminalClass(TERMINAL);
-    areaFactory.setCornerClass(BARRIER);
   }
 
   public RecursiveDungeonGenerator(long seed) {
@@ -69,7 +65,7 @@ public class RecursiveDungeonGenerator {
     }
 
     List<Area> areas = new ArrayList<Area>();
-    Area target = new Area(list);
+    Area target = new Area(list, random);
     int x = random.nextInt(level.getHeight() - largestX - 1);
     int y = random.nextInt(level.getWidth() - largestY - 1);
     target.setCoordinate(Vector2D.get(x, y));
@@ -77,7 +73,7 @@ public class RecursiveDungeonGenerator {
     target.place(level);
 
     while ((areas.size() < areaMax) && (tries < (areaMax * 10))) {
-      target = new Area(areaFactory.create());
+      target = new Area(areaFactory.create(), random);
 
       Area source = areas.get(random.nextInt(areas.size()));
 
@@ -103,7 +99,7 @@ public class RecursiveDungeonGenerator {
     Area connector = null;
     Tile enter = null;
     Tile exit = null;
-    TileTypePredicate terminalPredicate = new TileTypePredicate(TERMINAL);
+    IsTileType terminalPredicate = new IsTileType(TERMINAL);
 
     boolean result = false;
     for (int tries = MAX_TRIES; tries > 0 && !result; tries--) {
@@ -120,7 +116,7 @@ public class RecursiveDungeonGenerator {
       }
 
       connectorFactory.setBaseLength(tries);
-      connector = new Area(connectorFactory.create());
+      connector = new Area(connectorFactory.create(), random);
       connector.rotate(direction);
       connector.setCoordinate(enter.getLocation()
         .add(originalDirection)
@@ -131,18 +127,19 @@ public class RecursiveDungeonGenerator {
         .getLocation();
 
       exit = target.getRandom(new TileTypeDirectionPredicate(WALL,
-        connector.getSide(lastLocationCoordinate)
-          .multiply(-1), target));
+          connector.getSide(lastLocationCoordinate)
+            .multiply(-1), target));
 
       Vector2D connectorCoordinate = connector.getCoordinate();
 
-      Vector2D total = connectorCoordinate.add(lastLocationCoordinate)
+      Vector2D targetCoordinate = connectorCoordinate.add(
+          lastLocationCoordinate)
         .subtract(exit.getLocation());
-      target.setCoordinate(total);
+      target.setCoordinate(targetCoordinate);
 
       result = connector.check(new DungeonRoomPredicate(level,
-        connectorCoordinate))
-          && target.check(new DungeonRoomPredicate(level, total));
+          connectorCoordinate))
+          && target.check(new DungeonRoomPredicate(level, targetCoordinate));
     }
 
     if (result) {

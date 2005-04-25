@@ -14,7 +14,6 @@ public class RectangleRoomFactory {
   private Class<? extends TileType> floorClass;
   private Class<? extends TileType> wallClass;
   private Class<? extends TileType> terminalClass;
-  private Class<? extends TileType> cornerClass;
   private int maxRoomHeight;
   private int maxRoomWidth;
   private int minRoomHeight;
@@ -29,41 +28,39 @@ public class RectangleRoomFactory {
         + minRoomWidth - 1;
 
     try {
-      list.add(new Tile(Vector2D.get(0, 0), cornerClass.newInstance()));
-      list.add(new Tile(Vector2D.get(0, width), cornerClass.newInstance()));
-      list.add(new Tile(Vector2D.get(height, 0), cornerClass.newInstance()));
-      list.add(new Tile(Vector2D.get(height, width),
-        cornerClass.newInstance()));
-
       for (int i = 1; i < height; i++) {
         for (int j = 1; j < width; j++) {
           list.add(new Tile(Vector2D.get(i, j), floorClass.newInstance()));
         }
       }
+
       boolean flip1 = randomizer.nextBoolean();
       boolean flip2 = randomizer.nextBoolean();
       for (int i = 1; i < height; i++) {
-        list.add(new Tile(Vector2D.get(i, 0), flip1
-            ? terminalClass.newInstance()
-            : wallClass.newInstance()));
-        list.add(new Tile(Vector2D.get(i, width), flip2
-            ? terminalClass.newInstance()
-            : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(i, 0),
+            flip1 ? terminalClass.newInstance() : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(i, width),
+            flip2 ? terminalClass.newInstance() : wallClass.newInstance()));
         flip1 = !flip1;
         flip2 = !flip2;
       }
+
       flip1 = randomizer.nextBoolean();
       flip2 = randomizer.nextBoolean();
       for (int i = 1; i < width; i++) {
-        list.add(new Tile(Vector2D.get(0, i), flip1
-            ? terminalClass.newInstance()
-            : wallClass.newInstance()));
-        list.add(new Tile(Vector2D.get(height, i), flip2
-            ? terminalClass.newInstance()
-            : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(0, i),
+            flip1 ? terminalClass.newInstance() : wallClass.newInstance()));
+        list.add(new Tile(Vector2D.get(height, i),
+            flip2 ? terminalClass.newInstance() : wallClass.newInstance()));
         flip1 = !flip1;
         flip2 = !flip2;
       }
+
+      list.add(new Tile(Vector2D.get(0, 0), wallClass.newInstance()));
+      list.add(new Tile(Vector2D.get(0, width), wallClass.newInstance()));
+      list.add(new Tile(Vector2D.get(height, 0), wallClass.newInstance()));
+      list.add(new Tile(Vector2D.get(height, width), wallClass.newInstance()));
+
     } catch (InstantiationException e) {
     } catch (IllegalAccessException e) {
     }
@@ -148,15 +145,6 @@ public class RectangleRoomFactory {
   }
 
   /**
-   * Returns the cornerClass.
-   * 
-   * @return Class
-   */
-  public Class getCornerClass() {
-    return cornerClass;
-  }
-
-  /**
    * Returns the floorClass.
    * 
    * @return Class
@@ -172,16 +160,6 @@ public class RectangleRoomFactory {
    */
   public Class getWallClass() {
     return wallClass;
-  }
-
-  /**
-   * Sets the cornerClass.
-   * 
-   * @param cornerClass
-   *          The cornerClass to set
-   */
-  public void setCornerClass(Class<? extends TileType> cornerClass) {
-    this.cornerClass = cornerClass;
   }
 
   /**

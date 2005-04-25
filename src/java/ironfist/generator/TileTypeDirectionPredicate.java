@@ -1,5 +1,6 @@
 package ironfist.generator;
 
+import ironfist.Floor;
 import ironfist.Tile;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
@@ -19,9 +20,12 @@ public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
   }
 
   public Boolean apply(Tile tile) {
+    Tile floor = area.get(tile.getLocation()
+      .subtract(direction));
     return tileTypeClass.equals(tile.getTileType()
-      .getClass()) && (area.get(tile.getLocation()
-      .add(direction)) == null);
+      .getClass()) && area.get(tile.getLocation()
+      .add(direction)) == null && floor != null
+        && floor.getTileType() instanceof Floor;
   }
 
 }

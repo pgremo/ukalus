@@ -6,11 +6,6 @@ import ironfist.Wall;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class DungeonRoomPredicate implements Closure<Tile, Boolean> {
 
   private static final long serialVersionUID = 3617287926447551285L;
@@ -25,16 +20,13 @@ public class DungeonRoomPredicate implements Closure<Tile, Boolean> {
 
   public Boolean apply(Tile o1) {
     boolean result = false;
-    Vector2D coordinate = o1.getLocation().add(location);
+    Vector2D coordinate = o1.getLocation()
+      .add(location);
     if (level.contains(coordinate)) {
       Tile tile = level.get(coordinate);
-      if (tile == null) {
-        result = true;
-      } else {
-        result = o1.getTileType() instanceof Wall
-            && tile.getTileType() instanceof Wall;
-      }
+      result = tile == null
+          || (o1.getTileType() instanceof Wall && tile.getTileType() instanceof Wall);
     }
-    return result;
+    return !result;
   }
 }

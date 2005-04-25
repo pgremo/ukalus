@@ -27,8 +27,8 @@ public class Level implements Serializable {
 
   private String name;
   private Tile[][] tiles;
-  private int height = 19;
-  private int width = 79;
+  private int height = 20;
+  private int width = 80;
   private Random randomizer;
   private boolean active;
 
@@ -153,9 +153,9 @@ public class Level implements Serializable {
 
   public void set(Vector2D coordinate, TileType type) {
     if (type == null) {
-      tiles[(int) coordinate.getX()][(int) coordinate.getY()] = null;
+      tiles[coordinate.getX()][coordinate.getY()] = null;
     } else {
-      tiles[(int) coordinate.getX()][(int) coordinate.getY()] = new Tile(
+      tiles[coordinate.getX()][coordinate.getY()] = new Tile(
         coordinate, type);
     }
   }

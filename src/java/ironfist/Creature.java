@@ -226,7 +226,7 @@ public class Creature implements Serializable {
    */
   public List<Tile> getVision() {
     Vector2D location = getCoordinate();
-    return fov.getSeen(getLevel(), (int) location.getX(),
-      (int) location.getY(), 3);
+    return fov.getSeen(getLevel(), location.getX(),
+      location.getY(), 3);
   }
 }

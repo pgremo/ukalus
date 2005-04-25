@@ -28,7 +28,6 @@ public class HomeGenerator {
     areaFactory.setMaxRoomWidth(7);
     areaFactory.setFloorClass(Floor.class);
     areaFactory.setWallClass(Wall.class);
-    areaFactory.setCornerClass(Barrier.class);
     areaFactory.setRandomizer(new Random());
   }
 
@@ -43,7 +42,7 @@ public class HomeGenerator {
   public Level generate(String name) {
     Level result = new Level(name);
     List<Tile> list = areaFactory.create();
-    Area room = new Area(list);
+    Area room = new Area(list, null);
     EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
 
     Tile downLocation = room.getRandom(stairPredicate);

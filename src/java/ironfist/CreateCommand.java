@@ -1,7 +1,7 @@
 package ironfist;
 
 import ironfist.generator.HomeGenerator;
-import ironfist.generator.TileTypePredicate;
+import ironfist.generator.IsTileType;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
 
@@ -30,7 +30,7 @@ public class CreateCommand {
 
     HomeGenerator generator = new HomeGenerator();
     Level level = generator.generate("0");
-    TileTypePredicate predicate = new TileTypePredicate(Floor.class);
+    IsTileType predicate = new IsTileType(Floor.class);
 
     Tile tile = level.getRandom(predicate);
     Floor floor = (Floor) tile.getTileType();
