@@ -10,7 +10,7 @@ import java.util.Random;
  * 
  * @author pmgremo
  */
-public class MazeGenerator {
+public class DepthFirstMazeGenerator {
 
   private static final int MASK = Integer.MAX_VALUE - 1;
   private static final Vector2D[] DIRECTIONS = new Vector2D[]{
@@ -128,7 +128,7 @@ public class MazeGenerator {
   public static void main(String[] args) {
     long seed = 1;
     Random random = new MersenneTwister(seed);
-    MazeGenerator generator = new MazeGenerator();
+    DepthFirstMazeGenerator generator = new DepthFirstMazeGenerator();
     generator.setRandom(random);
     generator.setHeight(13);
     generator.setWidth(13);

@@ -8,6 +8,7 @@ import ironfist.TileType;
 import ironfist.Wall;
 import ironfist.Weapon;
 import ironfist.math.Vector2D;
+import ironfist.util.MersenneTwister;
 
 import java.util.List;
 import java.util.Random;
@@ -19,6 +20,7 @@ import java.util.Random;
  */
 public class HomeGenerator {
 
+  private Random random = new MersenneTwister();
   private RectangleRoomFactory areaFactory = new RectangleRoomFactory();
 
   {
@@ -42,14 +44,14 @@ public class HomeGenerator {
   public Level generate(String name) {
     Level result = new Level(name);
     List<Tile> list = areaFactory.create();
-    Area room = new Area(list, null);
+    Area room = new Area(list);
     EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
 
-    Tile downLocation = room.getRandom(stairPredicate);
+    Tile downLocation = room.getRandom(stairPredicate, random);
     ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));
-    Tile itemLocation = room.getRandom(stairPredicate);
+    Tile itemLocation = room.getRandom(stairPredicate, random);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
-    itemLocation = room.getRandom(stairPredicate);
+    itemLocation = room.getRandom(stairPredicate, random);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
 
     Vector2D coordinate = Vector2D.get((result.getHeight() - 7) / 2,

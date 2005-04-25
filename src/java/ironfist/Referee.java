@@ -4,6 +4,7 @@ import ironfist.generator.RecursiveDungeonGenerator;
 import ironfist.math.Vector2D;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
+import ironfist.util.MersenneTwister;
 
 /**
  * DOCUMENT ME!
@@ -18,12 +19,13 @@ public final class Referee {
   private static boolean run;
 
   static {
-    generator = new RecursiveDungeonGenerator(System.currentTimeMillis());
+    generator = new RecursiveDungeonGenerator(new MersenneTwister(
+      System.currentTimeMillis()));
     stairsPredicate = new StairsPredicate();
   }
-  
-  private Referee(){
-    
+
+  private Referee() {
+
   }
 
   /**

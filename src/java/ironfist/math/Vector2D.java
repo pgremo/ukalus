@@ -1,6 +1,11 @@
 package ironfist.math;
 
-public class Vector2D {
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
+public class Vector2D implements Serializable {
+
+  private static final long serialVersionUID = 3256441421631207224L;
 
   private static int RANGE = 200;
 
@@ -72,6 +77,28 @@ public class Vector2D {
 
   public String toString() {
     return "(x=" + x + ",y=" + y + ")";
+  }
+
+  Object writeReplace() throws ObjectStreamException {
+    return new SerializedForm(x, y);
+  }
+
+  private static class SerializedForm implements Serializable {
+
+    private static final long serialVersionUID = 3257848779250939185L;
+
+    private int x;
+    private int y;
+
+    public SerializedForm(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    Object readResolve() throws ObjectStreamException {
+      return get(x, y);
+    }
+
   }
 
 }

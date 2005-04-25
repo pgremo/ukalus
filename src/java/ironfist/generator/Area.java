@@ -16,18 +16,16 @@ public class Area {
       Vector2D.get(-1, 0),
       Vector2D.get(0, 1),
       Vector2D.get(1, 0),
-      Vector2D.get(0, -1) };
+      Vector2D.get(0, -1)};
 
-  private Random randomizer;
   private Vector2D coordinate;
   private List<Tile> list;
 
-  public Area(List<Tile> list, Random randomizer) {
+  public Area(List<Tile> list) {
     this.list = list;
-    this.randomizer = randomizer;
   }
 
-  public Tile getRandom(Closure<Tile, Boolean> predicate) {
+  public Tile getRandom(Closure<Tile, Boolean> predicate, Random randomizer) {
     Collections.shuffle(list, randomizer);
     return new Loop<Tile>(list).detect(predicate);
   }

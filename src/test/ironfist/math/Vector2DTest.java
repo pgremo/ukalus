@@ -1,5 +1,10 @@
 package ironfist.math;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +42,18 @@ public class Vector2DTest extends TestCase {
     Vector2D angle = Vector2D.get(1, 1);
     result = result.subtract(angle);
     assertEquals(Vector2D.get(0, -1), result);
+  }
+
+  public void testSerialization() throws IOException, ClassNotFoundException {
+    Vector2D expected = Vector2D.get(1, 1);
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oout = new ObjectOutputStream(out);
+    oout.writeObject(expected);
+    ObjectInputStream oin = new ObjectInputStream(new ByteArrayInputStream(
+      out.toByteArray()));
+    Vector2D actual = (Vector2D) oin.readObject();
+    assertEquals(expected, actual);
+    assertTrue(expected == actual);
   }
 
 }
