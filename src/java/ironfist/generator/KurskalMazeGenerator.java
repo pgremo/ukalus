@@ -17,10 +17,9 @@ public class KurskalMazeGenerator {
   public boolean[][] generate() {
     boolean[][] result = new boolean[height][width];
 
-    UnionFind connected = new UnionFind(height * width);
     List<WallCell> walls = new ArrayList<WallCell>(height * width);
 
-    // add walls
+    // add walls / open cells
     for (int x = 1; x < result.length - 1; x++) {
       for (int y = 1; y < result[x].length - 1; y++) {
         if (x % 2 == 0 && y % 2 == 1) {
@@ -33,20 +32,15 @@ public class KurskalMazeGenerator {
           WallCell wall = new WallCell(x, y, x * width + y - 1, x * width + y
               + 1);
           walls.add(wall);
-        }
-      }
-    }
-
-    Collections.shuffle(walls, random);
-
-    // open cells
-    for (int x = 1; x < result.length - 1; x++) {
-      for (int y = 1; y < result[x].length - 1; y++) {
-        if (x % 2 == 1 && y % 2 == 1) {
+        } else if (x % 2 == 1 && y % 2 == 1) {
+          // open cell
           result[x][y] = true;
         }
       }
     }
+
+    DisjointSet connected = new DisjointSet(height * width);
+    Collections.shuffle(walls, random);
 
     for (WallCell wall : walls) {
       if (connected.find(wall.left) != connected.find(wall.right)) {

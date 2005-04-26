@@ -5,11 +5,6 @@ import ironfist.util.MersenneTwister;
 
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class DepthFirstMazeGenerator {
 
   private static final int MASK = Integer.MAX_VALUE - 1;
@@ -21,32 +16,30 @@ public class DepthFirstMazeGenerator {
   private Random random;
   private int height;
   private int width;
-  private boolean[][] walls;
+  private boolean[][] result;
 
   public boolean[][] generate() {
-    walls = new boolean[height][width];
-
-    for (int x = 0; x < walls.length; x++) {
-      for (int y = 0; y < walls[x].length; y++) {
-        walls[x][y] = true;
-      }
-    }
+    result = new boolean[height][width];
 
     iterate(Vector2D.get((random.nextInt((height - 1) / 2) * 2) + 1,
       (random.nextInt((width - 1) / 2) * 2) + 1));
 
-    return walls;
+    return result;
   }
 
   private void iterate(Vector2D location) {
-    set(location, false);
+    result[location.getX()][location.getY()] = true;
     int direction = random.nextInt(DIRECTIONS.length);
     for (int index = 0; index < DIRECTIONS.length; index++) {
       Vector2D step1 = location.add(DIRECTIONS[direction]);
-      if (contains(step1) && get(step1)) {
+      if (((step1.getX() > 0) && (step1.getX() < height - 1)
+          && (step1.getY() > 0) && (step1.getY() < width - 1))
+          && !result[step1.getX()][step1.getY()]) {
         Vector2D step2 = step1.add(DIRECTIONS[direction]);
-        if (contains(step2) && get(step2)) {
-          set(step1, false);
+        if (((step2.getX() > 0) && (step2.getX() < height - 1)
+            && (step2.getY() > 0) && (step2.getY() < width - 1))
+            && !result[step2.getX()][step2.getY()]) {
+          result[step1.getX()][step1.getY()] = true;
           iterate(step2);
         }
       }
@@ -54,73 +47,14 @@ public class DepthFirstMazeGenerator {
     }
   }
 
-  private void set(Vector2D location, boolean value) {
-    walls[location.getX()][location.getY()] = value;
-
-  }
-
-  private boolean get(Vector2D location) {
-    return walls[location.getX()][location.getY()];
-  }
-
-  private boolean contains(Vector2D location) {
-    return (location.getX() > 0) && (location.getX() < height - 1)
-        && (location.getY() > 0) && (location.getY() < width - 1);
-  }
-
-  /**
-   * Returns the random.
-   * 
-   * @return Random
-   */
-  public Random getRandom() {
-    return random;
-  }
-
-  /**
-   * Sets the random.
-   * 
-   * @param random
-   *          The random to set
-   */
   public void setRandom(Random random) {
     this.random = random;
   }
 
-  /**
-   * Returns the height.
-   * 
-   * @return int
-   */
-  public int getHeight() {
-    return height;
-  }
-
-  /**
-   * Sets the height.
-   * 
-   * @param height
-   *          The height to set
-   */
   public void setHeight(int height) {
     this.height = ((height - 1) & MASK) + 1;
   }
 
-  /**
-   * Returns the width.
-   * 
-   * @return int
-   */
-  public int getWidth() {
-    return width;
-  }
-
-  /**
-   * Sets the width.
-   * 
-   * @param width
-   *          The width to set
-   */
   public void setWidth(int width) {
     this.width = ((width - 1) & MASK) + 1;
   }
@@ -139,9 +73,9 @@ public class DepthFirstMazeGenerator {
     for (int x = 0; x < result.length; x++) {
       for (int y = 0; y < result[x].length; y++) {
         if (result[x][y]) {
-          System.out.print("#");
-        } else {
           System.out.print(".");
+        } else {
+          System.out.print("#");
         }
       }
 

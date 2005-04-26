@@ -55,6 +55,10 @@ public class Vector2D implements Serializable {
     return get((int) (x * value), (int) (y * value));
   }
 
+  public Vector2D divide(double value) {
+    return get((int) (x / value), (int) (y / value));
+  }
+
   public double distance(Vector2D destination) {
     return subtract(destination).magnitude();
   }
@@ -65,6 +69,10 @@ public class Vector2D implements Serializable {
 
   public Vector2D rotate(Vector2D vector) {
     return get((x * vector.x) - (y * vector.y), (x * vector.y) + (y * vector.x));
+  }
+
+  public Vector2D normal() {
+    return divide(magnitude());
   }
 
   public Vector2D orthoganal() {

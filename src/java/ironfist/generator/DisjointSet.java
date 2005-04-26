@@ -1,10 +1,10 @@
 package ironfist.generator;
 
-public class UnionFind {
+public class DisjointSet {
 
   private UnionFindElement elements[];
 
-  public UnionFind(int size) {
+  public DisjointSet(int size) {
     elements = new UnionFindElement[size];
     for (int i = 0; i < size; i++) {
       elements[i] = new UnionFindElement(i);

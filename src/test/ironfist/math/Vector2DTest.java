@@ -56,4 +56,11 @@ public class Vector2DTest extends TestCase {
     assertTrue(expected == actual);
   }
 
+  public void testGetDirection() {
+    Vector2D start = Vector2D.get(1, 0);
+    Vector2D end = Vector2D.get(3, 0);
+    assertEquals(Vector2D.get(1, 0), end.subtract(start)
+      .normal());
+  }
+
 }
