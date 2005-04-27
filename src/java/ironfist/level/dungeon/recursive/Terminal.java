@@ -1,4 +1,4 @@
-package ironfist.generator;
+package ironfist.level.dungeon.recursive;
 
 import ironfist.Wall;
 

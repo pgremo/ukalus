@@ -2,7 +2,7 @@
  * Created on Feb 16, 2005
  *
  */
-package ironfist.generator;
+package ironfist.level.dungeon.holistic;
 
 /**
  * @author gremopm

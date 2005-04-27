@@ -1,6 +1,6 @@
 package ironfist;
 
-import ironfist.generator.RecursiveDungeonGenerator;
+import ironfist.level.dungeon.recursive.RecursiveDungeonGenerator;
 import ironfist.math.Vector2D;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;

@@ -2,7 +2,7 @@
  * Created on May 19, 2003
  *
  */
-package ironfist.generator;
+package ironfist.level.dungeon.holistic;
 
 import ironfist.loop.Level;
 import ironfist.math.Vector2D;

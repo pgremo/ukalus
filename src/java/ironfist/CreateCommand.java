@@ -1,7 +1,7 @@
 package ironfist;
 
-import ironfist.generator.HomeGenerator;
-import ironfist.generator.IsTileType;
+import ironfist.level.dungeon.recursive.HomeGenerator;
+import ironfist.level.dungeon.recursive.IsTileType;
 import ironfist.persistence.Persistence;
 import ironfist.persistence.PersistenceException;
 
