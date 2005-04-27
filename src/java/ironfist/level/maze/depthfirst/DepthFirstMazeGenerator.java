@@ -3,8 +3,10 @@ package ironfist.level.maze.depthfirst;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,10 +14,10 @@ public class DepthFirstMazeGenerator {
 
   private static final int EVEN_MASK = Integer.MAX_VALUE - 1;
   private static final List<Vector2D> DIRECTIONS = Arrays.asList(new Vector2D[]{
-      Vector2D.get(0, 1),
-      Vector2D.get(1, 0),
-      Vector2D.get(0, -1),
-      Vector2D.get(-1, 0)});
+      Vector2D.get(0, 2),
+      Vector2D.get(2, 0),
+      Vector2D.get(0, -2),
+      Vector2D.get(-2, 0)});
   private Random random;
   private int height;
   private int width;
@@ -23,24 +25,37 @@ public class DepthFirstMazeGenerator {
 
   public boolean[][] generate() {
     walls = new boolean[height][width];
-
-    iterate(Vector2D.get((random.nextInt((height - 1) / 2) * 2) + 1,
-      (random.nextInt((width - 1) / 2) * 2) + 1));
+    LinkedList<Vector2D> steps = new LinkedList<Vector2D>();
+    Vector2D current = Vector2D.get((random.nextInt((height - 1) / 2) * 2) + 1,
+      (random.nextInt((width - 1) / 2) * 2) + 1);
+    set(current, true);
+    while (current != null) {
+      List<Vector2D> directions = getDirections(current);
+      if (!directions.isEmpty()) {
+        Collections.shuffle(directions, random);
+        Vector2D direction = directions.get(0);
+        Vector2D target = current.add(direction);
+        set(target, true);
+        set(current.add(direction.normal()), true);
+        steps.addLast(current);
+        current = target;
+      } else {
+        current = steps.isEmpty() ? null : steps.removeLast();
+      }
+    }
 
     return walls;
   }
 
-  private void iterate(Vector2D location) {
-    set(location, true);
-    Collections.shuffle(DIRECTIONS, random);
+  public List<Vector2D> getDirections(Vector2D location) {
+    List<Vector2D> result = new ArrayList<Vector2D>(4);
     for (Vector2D direction : DIRECTIONS) {
-      Vector2D step1 = location.add(direction);
-      Vector2D step2 = step1.add(direction);
-      if (contains(step2) && !get(step2)) {
-        set(step1, true);
-        iterate(step2);
+      Vector2D child = location.add(direction);
+      if (contains(child) && !get(child)) {
+        result.add(direction);
       }
     }
+    return result;
   }
 
   private void set(Vector2D location, boolean value) {
@@ -74,8 +89,8 @@ public class DepthFirstMazeGenerator {
     Random random = new MersenneTwister(seed);
     DepthFirstMazeGenerator generator = new DepthFirstMazeGenerator();
     generator.setRandom(random);
-    generator.setHeight(13);
-    generator.setWidth(13);
+    generator.setHeight(20);
+    generator.setWidth(80);
     generator.setRandom(new MersenneTwister());
 
     boolean[][] result = generator.generate();
