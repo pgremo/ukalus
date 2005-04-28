@@ -11,10 +11,15 @@ import java.util.Random;
 
 public class KurskalMazeGenerator {
 
-  private static final int EVEN_MASK = Integer.MAX_VALUE - 1;
   private Random random;
   private int height;
   private int width;
+
+  public KurskalMazeGenerator(Random random, int height, int width) {
+    this.random = random;
+    this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
+    this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
+  }
 
   public boolean[][] generate() {
     boolean[][] result = new boolean[height][width];
@@ -43,26 +48,7 @@ public class KurskalMazeGenerator {
     return result;
   }
 
-  public void setRandom(Random random) {
-    this.random = random;
-  }
-
-  public void setHeight(int height) {
-    this.height = ((height - 1) & EVEN_MASK) + 1;
-  }
-
-  public void setWidth(int width) {
-    this.width = ((width - 1) & EVEN_MASK) + 1;
-  }
-
-  public static void main(String[] args) {
-    KurskalMazeGenerator generator = new KurskalMazeGenerator();
-    generator.setRandom(new MersenneTwister());
-    generator.setHeight(20);
-    generator.setWidth(80);
-
-    boolean[][] result = generator.generate();
-
+  public void toString(boolean[][] result) {
     for (int x = 0; x < result.length; x++) {
       for (int y = 0; y < result[x].length; y++) {
         if (result[x][y]) {
@@ -73,6 +59,15 @@ public class KurskalMazeGenerator {
       }
       System.out.println();
     }
+  }
+
+  public static void main(String[] args) {
+    KurskalMazeGenerator generator = new KurskalMazeGenerator(
+      new MersenneTwister(), 20, 80);
+    boolean[][] result = generator.generate();
+
+    generator.toString(result);
 
   }
+
 }
