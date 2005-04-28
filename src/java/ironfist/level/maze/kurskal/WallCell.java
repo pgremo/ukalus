@@ -13,4 +13,8 @@ class WallCell {
     this.left = left;
     this.right = right;
   }
+
+  public String toString() {
+    return "(" + x + "," + y + ")=[" + left + "," + right + "]";
+  }
 }
