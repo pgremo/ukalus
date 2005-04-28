@@ -6,9 +6,9 @@ import ironfist.util.MersenneTwister;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class DepthFirstMazeGenerator {
 
@@ -25,7 +25,7 @@ public class DepthFirstMazeGenerator {
 
   public boolean[][] generate() {
     walls = new boolean[height][width];
-    LinkedList<Vector2D> steps = new LinkedList<Vector2D>();
+    Stack<Vector2D> steps = new Stack<Vector2D>();
     Vector2D current = Vector2D.get((random.nextInt((height - 1) / 2) * 2) + 1,
       (random.nextInt((width - 1) / 2) * 2) + 1);
     set(current, true);
@@ -37,10 +37,10 @@ public class DepthFirstMazeGenerator {
         Vector2D target = current.add(direction);
         set(target, true);
         set(current.add(direction.normal()), true);
-        steps.addLast(current);
+        steps.push(current);
         current = target;
       } else {
-        current = steps.isEmpty() ? null : steps.removeLast();
+        current = steps.isEmpty() ? null : steps.pop();
       }
     }
 
@@ -85,13 +85,10 @@ public class DepthFirstMazeGenerator {
   }
 
   public static void main(String[] args) {
-    long seed = 1;
-    Random random = new MersenneTwister(seed);
     DepthFirstMazeGenerator generator = new DepthFirstMazeGenerator();
-    generator.setRandom(random);
+    generator.setRandom(new MersenneTwister());
     generator.setHeight(20);
     generator.setWidth(80);
-    generator.setRandom(new MersenneTwister());
 
     boolean[][] result = generator.generate();
 
