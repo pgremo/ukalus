@@ -13,34 +13,16 @@ import ironfist.util.MersenneTwister;
 import java.util.List;
 import java.util.Random;
 
-/**
- * DOCUMENT ME!
- * 
- * @author pmgremo
- */
 public class HomeGenerator {
 
   private Random random = new MersenneTwister();
-  private RectangleRoomFactory areaFactory = new RectangleRoomFactory();
+  private RectangleRoomFactory areaFactory;
 
   {
-    areaFactory.setMinRoomHeight(7);
-    areaFactory.setMinRoomWidth(7);
-    areaFactory.setMaxRoomHeight(7);
-    areaFactory.setMaxRoomWidth(7);
-    areaFactory.setFloorClass(Floor.class);
-    areaFactory.setWallClass(Wall.class);
-    areaFactory.setRandomizer(new Random());
+    areaFactory = new RectangleRoomFactory(random, Floor.class, Wall.class,
+      Terminal.class, 7, 7, 7, 7);
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param name
-   *          DOCUMENT ME!
-   * 
-   * @return DOCUMENT ME!
-   */
   public Level generate(String name) {
     Level result = new Level(name);
     List<Tile> list = areaFactory.create();
@@ -63,15 +45,6 @@ public class HomeGenerator {
     return result;
   }
 
-  /**
-   * DOCUMENT ME!
-   * 
-   * @param args
-   *          DOCUMENT ME!
-   * 
-   * @throws Exception
-   *           DOCUMENT ME!
-   */
   public static void main(String[] args) throws Exception {
     HomeGenerator generator = new HomeGenerator();
     Level dungeon = generator.generate("0");

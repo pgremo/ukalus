@@ -31,26 +31,11 @@ public class RecursiveDungeonGenerator {
   private Random random;
   private Level level;
 
-  {
-    connectorFactory = new PassageFactory();
-    connectorFactory.setBaseLength(20);
-    connectorFactory.setFloorClass(FLOOR);
-    connectorFactory.setWallClass(WALL);
-    connectorFactory.setTerminalClass(TERMINAL);
-    areaFactory = new RectangleRoomFactory();
-    areaFactory.setMinRoomHeight(MIN_ROOM_HEIGHT);
-    areaFactory.setMinRoomWidth(MIN_ROOM_WIDTH);
-    areaFactory.setMaxRoomHeight(MAX_ROOM_HEIGHT);
-    areaFactory.setMaxRoomWidth(MAX_ROOM_WIDTH);
-    areaFactory.setFloorClass(FLOOR);
-    areaFactory.setWallClass(WALL);
-    areaFactory.setTerminalClass(TERMINAL);
-  }
-
   public RecursiveDungeonGenerator(Random random) {
     this.random = random;
-    connectorFactory.setRandomizer(random);
-    areaFactory.setRandomizer(random);
+    connectorFactory = new PassageFactory(random, FLOOR, WALL, TERMINAL, 20);
+    areaFactory = new RectangleRoomFactory(random, FLOOR, WALL, TERMINAL,
+      MAX_ROOM_HEIGHT, MAX_ROOM_WIDTH, MIN_ROOM_HEIGHT, MIN_ROOM_WIDTH);
   }
 
   public Level generate(String name) {

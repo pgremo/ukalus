@@ -16,6 +16,17 @@ public class PassageFactory {
   private Class<? extends TileType> wallClass;
   private Class<? extends TileType> terminalClass;
 
+  public PassageFactory(Random randomizer,
+      Class<? extends TileType> floorClass,
+      Class<? extends TileType> wallClass,
+      Class<? extends TileType> terminalClass, int baseLength) {
+    this.randomizer = randomizer;
+    this.floorClass = floorClass;
+    this.wallClass = wallClass;
+    this.terminalClass = terminalClass;
+    this.baseLength = baseLength;
+  }
+
   public List<Tile> create() {
     List<Tile> list = new LinkedList<Tile>();
     int length = 3 + randomizer.nextInt(baseLength);
@@ -47,46 +58,6 @@ public class PassageFactory {
     }
 
     return list;
-  }
-
-  public int getBaseLength() {
-    return baseLength;
-  }
-
-  public void setBaseLength(int baseLength) {
-    this.baseLength = baseLength;
-  }
-
-  public Class getFloorClass() {
-    return floorClass;
-  }
-
-  public Class getTerminalClass() {
-    return terminalClass;
-  }
-
-  public Class getWallClass() {
-    return wallClass;
-  }
-
-  public void setFloorClass(Class<? extends TileType> floorClass) {
-    this.floorClass = floorClass;
-  }
-
-  public void setTerminalClass(Class<? extends TileType> terminalClass) {
-    this.terminalClass = terminalClass;
-  }
-
-  public void setWallClass(Class<? extends TileType> wallClass) {
-    this.wallClass = wallClass;
-  }
-
-  public Random getRandomizer() {
-    return randomizer;
-  }
-
-  public void setRandomizer(Random random) {
-    randomizer = random;
   }
 
 }
