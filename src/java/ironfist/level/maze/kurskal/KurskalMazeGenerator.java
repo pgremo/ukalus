@@ -57,10 +57,9 @@ public class KurskalMazeGenerator {
 
   public static void main(String[] args) {
     KurskalMazeGenerator generator = new KurskalMazeGenerator();
-    generator.setRandom(new MersenneTwister(1));
+    generator.setRandom(new MersenneTwister());
     generator.setHeight(20);
     generator.setWidth(80);
-    generator.setRandom(new MersenneTwister());
 
     boolean[][] result = generator.generate();
 
