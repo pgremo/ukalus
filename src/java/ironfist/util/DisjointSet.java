@@ -1,6 +1,5 @@
 package ironfist.util;
 
-
 public class DisjointSet {
 
   private Node nodes[];
@@ -40,15 +39,15 @@ public class DisjointSet {
 
     int parent;
     int size;
-    int name;
+    int id;
 
     public Node(int i) {
       size = 1;
-      name = parent = i;
+      id = parent = i;
     }
 
     public String toString() {
-      return name + "->" + parent;
+      return id + "->" + parent;
     }
   }
 }
