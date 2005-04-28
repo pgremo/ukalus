@@ -1,7 +1,3 @@
-/*
- * Created on Aug 19, 2004
- *
- */
 package ironfist.util;
 
 import java.util.Collection;
@@ -10,14 +6,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * @author gremopm
- * 
- */
-public class MarkovChain<E> {
+public class MarkovChain<E> implements Iterable<E> {
 
   private Map<E, Bag<E>> items = new HashMap<E, Bag<E>>();
-  private Random random;
+  Random random;
 
   public MarkovChain(Random random) {
     this.random = random;
@@ -42,7 +34,7 @@ public class MarkovChain<E> {
   }
 
   public Iterator<E> iterator() {
-    return new ChainIterator<E>(items);
+    return new MarkovChainIterator<E>(items, random);
   }
 
   public String toString() {
@@ -58,46 +50,5 @@ public class MarkovChain<E> {
         .append("\n");
     }
     return result.toString();
-  }
-
-  private class ChainIterator<E> implements Iterator<E> {
-
-    private Map<E, Bag<E>> items;
-    private E next;
-
-    public ChainIterator(Map<E, Bag<E>> items) {
-      this.items = items;
-      setNext();
-    }
-
-    public boolean hasNext() {
-      return next != null;
-    }
-
-    public E next() {
-      E result = next;
-      setNext();
-      return result;
-    }
-
-    private void setNext() {
-      Map.Entry<E, Counter> result = null;
-      Bag<E> chain = items.get(next);
-      if (chain != null) {
-        int limit = (int) Math.ceil(chain.size() * random.nextDouble());
-        Iterator<Map.Entry<E, Counter>> iterator = chain.occurenceIterator();
-        while (limit > 0) {
-          result = iterator.next();
-          limit -= result.getValue()
-            .getCount();
-        }
-      }
-      next = result == null ? null : result.getKey();
-    }
-
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
   }
 }
