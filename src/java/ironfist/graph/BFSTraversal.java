@@ -1,6 +1,7 @@
 package ironfist.graph;
 
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BFSTraversal extends GraphTraversal {
 
@@ -9,18 +10,18 @@ public class BFSTraversal extends GraphTraversal {
   }
 
   public void start(Node root) {
-    Vector<Node> queue = new Vector<Node>();
-    queue.addElement(root);
+    Queue<Node> queue = new LinkedList<Node>();
+    queue.add(root);
 
     while (!queue.isEmpty()) {
-      Node node = queue.elementAt(0);
+      Node node = queue.peek();
 
       if (delegate.hasUnvisitedNeighbour(node)) {
         Edge edge = delegate.getUnvisitedNeighbour(node);
         delegate.traverse(edge);
-        queue.addElement(edge.getTail());
+        queue.add(edge.getTail());
       } else
-        queue.removeElementAt(0);
+        queue.poll();
     }
   }
 

@@ -1,6 +1,6 @@
 package ironfist.graph;
 
-public abstract class Edge {
+public class Edge {
 
   protected Node head;
   protected Node tail;

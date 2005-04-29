@@ -1,26 +1,33 @@
 package ironfist.graph;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class PrimTraversal extends GraphTraversal {
 
-  public PrimTraversal(Graph graph, GraphTraversalDelegate delegate) {
+  private Random random;
+
+  public PrimTraversal(Graph graph, GraphTraversalDelegate delegate,
+      Random random) {
     super(graph, delegate);
+    this.random = random;
   }
 
   public void start(Node root) {
-    Vector<Node> shell = new Vector<Node>();
-    shell.addElement(root);
+    List<Node> shell = new ArrayList<Node>();
+    shell.add(root);
 
-    for (int i; !shell.isEmpty();) {
-      Node node = shell.elementAt(i = (int) (shell.size() * Math.random()));
+    while (!shell.isEmpty()) {
+      int i = random.nextInt(shell.size());
+      Node node = shell.get(i);
 
       if (delegate.hasUnvisitedNeighbour(node)) {
         Edge edge = delegate.getUnvisitedNeighbour(node);
         delegate.traverse(edge);
-        shell.addElement(edge.getTail());
+        shell.add(edge.getTail());
       } else
-        shell.removeElementAt(i);
+        shell.remove(i);
     }
   }
 

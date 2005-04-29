@@ -1,6 +1,6 @@
 package ironfist.graph;
 
-import java.util.Vector;
+import java.util.Stack;
 
 public class DFSTraversal extends GraphTraversal {
 
@@ -9,18 +9,18 @@ public class DFSTraversal extends GraphTraversal {
   }
 
   public void start(Node root) {
-    Vector<Node> stack = new Vector<Node>();
-    stack.addElement(root);
+    Stack<Node> stack = new Stack<Node>();
+    stack.push(root);
 
     while (!stack.isEmpty()) {
-      Node node = stack.elementAt(stack.size() - 1);
+      Node node = stack.peek();
 
       if (delegate.hasUnvisitedNeighbour(node)) {
         Edge edge = delegate.getUnvisitedNeighbour(node);
         delegate.traverse(edge);
-        stack.addElement(edge.getTail());
+        stack.push(edge.getTail());
       } else
-        stack.removeElementAt(stack.size() - 1);
+        stack.pop();
     }
   }
 
