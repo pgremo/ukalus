@@ -1,4 +1,4 @@
-package ironfist.level.maze.kurskal;
+package ironfist.level.maze.kruskal;
 
 import ironfist.util.DisjointSet;
 import ironfist.util.Loop;
@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class KurskalMazeGenerator {
+public class KruskalMazeGenerator {
 
   private Random random;
   private int height;
   private int width;
 
-  public KurskalMazeGenerator(Random random, int height, int width) {
+  public KruskalMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -23,17 +23,17 @@ public class KurskalMazeGenerator {
 
   public boolean[][] generate() {
     boolean[][] result = new boolean[height][width];
-    List<WallCell> walls = new ArrayList<WallCell>(height * width);
+    List<EdgeCell> walls = new ArrayList<EdgeCell>(height * width);
 
     // add walls / open cells
     for (int x = 1; x < result.length - 1; x++) {
       for (int y = 1; y < result[x].length - 1; y++) {
         if (x % 2 == 0 && y % 2 == 1) {
           // horizontal wall
-          walls.add(new WallCell(x, y, (x - 1) * width + y, (x + 1) * width + y));
+          walls.add(new EdgeCell(x, y, (x - 1) * width + y, (x + 1) * width + y));
         } else if (x % 2 == 1 && y % 2 == 0) {
           // vertical wall
-          walls.add(new WallCell(x, y, x * width + y - 1, x * width + y + 1));
+          walls.add(new EdgeCell(x, y, x * width + y - 1, x * width + y + 1));
         } else if (x % 2 == 1 && y % 2 == 1) {
           // open cell
           result[x][y] = true;
@@ -42,7 +42,7 @@ public class KurskalMazeGenerator {
     }
 
     Collections.shuffle(walls, random);
-    new Loop<WallCell>(walls).forEach(new RemoveWall(new DisjointSet(height
+    new Loop<EdgeCell>(walls).forEach(new RemoveWall(new DisjointSet(height
         * width), result));
 
     return result;
@@ -62,7 +62,7 @@ public class KurskalMazeGenerator {
   }
 
   public static void main(String[] args) {
-    KurskalMazeGenerator generator = new KurskalMazeGenerator(
+    KruskalMazeGenerator generator = new KruskalMazeGenerator(
       new MersenneTwister(), 20, 80);
     boolean[][] result = generator.generate();
 

@@ -1,13 +1,13 @@
-package ironfist.level.maze.kurskal;
+package ironfist.level.maze.kruskal;
 
-class WallCell {
+class EdgeCell {
 
   int x;
   int y;
   int left;
   int right;
 
-  WallCell(int x, int y, int left, int right) {
+  EdgeCell(int x, int y, int left, int right) {
     this.x = x;
     this.y = y;
     this.left = left;

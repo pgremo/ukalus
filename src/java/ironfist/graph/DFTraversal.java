@@ -13,9 +13,8 @@ public class DFTraversal extends GraphTraversal {
     stack.push(root);
 
     while (!stack.isEmpty()) {
-      Node node = stack.peek();
-      if (delegate.hasUnvisitedNeighbour(node)) {
-        Edge edge = delegate.getUnvisitedNeighbour(node);
+      Edge edge = delegate.getUnvisitedNeighbour(stack.peek());
+      if (edge != null) {
         delegate.traverse(edge);
         stack.push(edge.getTail());
       } else {

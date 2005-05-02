@@ -14,10 +14,9 @@ public class BFTraversal extends GraphTraversal {
     queue.add(root);
 
     while (!queue.isEmpty()) {
-      Node node = queue.peek();
+      Edge edge = delegate.getUnvisitedNeighbour(queue.peek());
 
-      if (delegate.hasUnvisitedNeighbour(node)) {
-        Edge edge = delegate.getUnvisitedNeighbour(node);
+      if (edge != null) {
         delegate.traverse(edge);
         queue.add(edge.getTail());
       } else {

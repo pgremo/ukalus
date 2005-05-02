@@ -20,10 +20,8 @@ public class PrimTraversal extends GraphTraversal {
 
     while (!shell.isEmpty()) {
       int i = random.nextInt(shell.size());
-      Node node = shell.get(i);
-
-      if (delegate.hasUnvisitedNeighbour(node)) {
-        Edge edge = delegate.getUnvisitedNeighbour(node);
+      Edge edge = delegate.getUnvisitedNeighbour(shell.get(i));
+      if (edge != null) {
         delegate.traverse(edge);
         shell.add(edge.getTail());
       } else {

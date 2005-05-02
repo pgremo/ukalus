@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class PrimMazeGenerator {
+
   private Random random;
   private int height;
   private int width;
@@ -36,7 +37,7 @@ public class PrimMazeGenerator {
     return result;
   }
 
-public boolean[][] generate() {
+  public boolean[][] generate() {
     cells = new boolean[height][width];
 
     // create nodes / edges
@@ -63,12 +64,14 @@ public boolean[][] generate() {
     }
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
-    PrimTraversal traversal = new PrimTraversal(null, new MazeTraversalDelegate(
-        cells, random), random);
+    PrimTraversal traversal = new PrimTraversal(null,
+      new MazeTraversalDelegate(cells, random), random);
     traversal.start(start);
 
     return cells;
-  }  public void toString(boolean[][] result) {
+  }
+
+  public void toString(boolean[][] result) {
     PrintStream out = System.out;
     for (int x = 0; x < result.length; x++) {
       for (int y = 0; y < result[x].length; y++) {
@@ -84,7 +87,7 @@ public boolean[][] generate() {
 
   public static void main(String[] args) {
     PrimMazeGenerator generator = new PrimMazeGenerator(new MersenneTwister(),
-        20, 80);
+      20, 80);
 
     boolean[][] result = generator.generate();
 
