@@ -1,11 +1,11 @@
 package ironfist.graph;
 
-import java.util.Enumeration;
+import java.util.Iterator;
 
 public interface Graph {
 
-  public Enumeration nodes();
+  public Iterator<Node> nodes();
 
-  public Enumeration edges();
+  public Iterator<Edge> edges();
 
 }

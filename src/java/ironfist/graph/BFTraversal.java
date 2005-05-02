@@ -3,9 +3,9 @@ package ironfist.graph;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BFSTraversal extends GraphTraversal {
+public class BFTraversal extends GraphTraversal {
 
-  public BFSTraversal(Graph graph, GraphTraversalDelegate delegate) {
+  public BFTraversal(Graph graph, GraphTraversalDelegate delegate) {
     super(graph, delegate);
   }
 
@@ -20,8 +20,9 @@ public class BFSTraversal extends GraphTraversal {
         Edge edge = delegate.getUnvisitedNeighbour(node);
         delegate.traverse(edge);
         queue.add(edge.getTail());
-      } else
+      } else {
         queue.poll();
+      }
     }
   }
 

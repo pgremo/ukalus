@@ -5,7 +5,7 @@ public class Edge {
   protected Node head;
   protected Node tail;
 
-  protected Edge(Node head, Node tail) {
+  public Edge(Node head, Node tail) {
     this.head = head;
     this.tail = tail;
   }
@@ -17,4 +17,5 @@ public class Edge {
   public Node getTail() {
     return tail;
   }
+
 }

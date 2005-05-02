@@ -26,8 +26,9 @@ public class PrimTraversal extends GraphTraversal {
         Edge edge = delegate.getUnvisitedNeighbour(node);
         delegate.traverse(edge);
         shell.add(edge.getTail());
-      } else
+      } else {
         shell.remove(i);
+      }
     }
   }
 

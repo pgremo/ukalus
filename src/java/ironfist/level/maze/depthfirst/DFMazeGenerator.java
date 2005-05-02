@@ -1,7 +1,7 @@
-package ironfist.level.maze.prim;
+package ironfist.level.maze.depthfirst;
 
+import ironfist.graph.DFTraversal;
 import ironfist.graph.Node;
-import ironfist.graph.PrimTraversal;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeNode;
 import ironfist.level.maze.MazeTraversalDelegate;
@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class PrimMazeGenerator {
+public class DFMazeGenerator {
   private Random random;
   private int height;
   private int width;
   private boolean[][] cells;
   private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
 
-  public PrimMazeGenerator(Random random, int height, int width) {
+  public DFMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -36,7 +36,7 @@ public class PrimMazeGenerator {
     return result;
   }
 
-public boolean[][] generate() {
+  public boolean[][] generate() {
     cells = new boolean[height][width];
 
     // create nodes / edges
@@ -63,12 +63,14 @@ public boolean[][] generate() {
     }
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
-    PrimTraversal traversal = new PrimTraversal(null, new MazeTraversalDelegate(
-        cells, random), random);
+    DFTraversal traversal = new DFTraversal(null, new MazeTraversalDelegate(
+        cells, random));
     traversal.start(start);
 
     return cells;
-  }  public void toString(boolean[][] result) {
+  }
+
+  public void toString(boolean[][] result) {
     PrintStream out = System.out;
     for (int x = 0; x < result.length; x++) {
       for (int y = 0; y < result[x].length; y++) {
@@ -83,8 +85,8 @@ public boolean[][] generate() {
   }
 
   public static void main(String[] args) {
-    PrimMazeGenerator generator = new PrimMazeGenerator(new MersenneTwister(),
-        20, 80);
+    DFMazeGenerator generator = new DFMazeGenerator(new MersenneTwister(), 20,
+        80);
 
     boolean[][] result = generator.generate();
 

@@ -1,9 +1,9 @@
 package ironfist.graph;
 
-import java.util.Enumeration;
+import java.util.List;
 
 public interface Node {
 
-  public Enumeration edges();
+  public List<Edge> getEdges();
 
 }
