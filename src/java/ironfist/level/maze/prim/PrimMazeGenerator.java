@@ -1,7 +1,8 @@
 package ironfist.level.maze.prim;
 
+import ironfist.graph.NodeTraversal;
 import ironfist.graph.Node;
-import ironfist.graph.PrimTraversal;
+import ironfist.graph.VisitedRandom;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
@@ -9,7 +10,6 @@ import ironfist.level.maze.MazeTraversalDelegate;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,25 +64,26 @@ public class PrimMazeGenerator implements MazeGenerator {
     }
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
-    PrimTraversal traversal = new PrimTraversal(null,
-      new MazeTraversalDelegate(cells, random), random);
+    NodeTraversal traversal = new NodeTraversal(null,
+      new MazeTraversalDelegate(cells, random), new VisitedRandom<Node>(random));
     traversal.start(start);
 
     return cells;
   }
 
-  public void toString(int[][] result) {
-    PrintStream out = System.out;
-    for (int x = 0; x < result.length; x++) {
-      for (int y = 0; y < result[x].length; y++) {
-        if (result[x][y] > 0) {
-          out.print(".");
+  public void toString(int[][] cells) {
+    StringBuffer result = new StringBuffer();
+    for (int x = 0; x < cells.length; x++) {
+      for (int y = 0; y < cells[x].length; y++) {
+        if (cells[x][y] == 1) {
+          result.append(".");
         } else {
-          out.print("#");
+          result.append("#");
         }
       }
-      out.println();
+      result.append("\n");
     }
+    System.out.print(result);
   }
 
   public static void main(String[] args) {
