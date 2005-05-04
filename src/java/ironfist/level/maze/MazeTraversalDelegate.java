@@ -13,11 +13,11 @@ import java.util.Set;
 
 public class MazeTraversalDelegate implements GraphTraversalDelegate {
 
-  private boolean cells[][];
+  private int cells[][];
   private Random random;
   private Set<Node> visited = new HashSet<Node>();
 
-  public MazeTraversalDelegate(boolean[][] cells, Random random) {
+  public MazeTraversalDelegate(int[][] cells, Random random) {
     this.cells = cells;
     this.random = random;
   }
@@ -36,7 +36,7 @@ public class MazeTraversalDelegate implements GraphTraversalDelegate {
 
   public void traverse(Edge edge) {
     Vector2D location = ((MazeEdge) edge).getLocation();
-    cells[location.getX()][location.getY()] = true;
+    cells[location.getX()][location.getY()] = 1;
     visited.add(edge.getHead());
     visited.add(edge.getTail());
   }

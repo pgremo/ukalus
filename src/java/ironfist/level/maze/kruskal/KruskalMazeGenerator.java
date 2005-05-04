@@ -1,5 +1,6 @@
 package ironfist.level.maze.kruskal;
 
+import ironfist.level.maze.MazeGenerator;
 import ironfist.util.DisjointSet;
 import ironfist.util.Loop;
 import ironfist.util.MersenneTwister;
@@ -9,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class KruskalMazeGenerator {
+public class KruskalMazeGenerator implements MazeGenerator {
 
   private Random random;
   private int height;
@@ -21,50 +22,52 @@ public class KruskalMazeGenerator {
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
   }
 
-  public boolean[][] generate() {
-    boolean[][] result = new boolean[height][width];
-    List<EdgeCell> walls = new ArrayList<EdgeCell>(height * width);
+  public int[][] generate() {
+    int[][] nodes = new int[height][width];
+    List<EdgeCell> edges = new ArrayList<EdgeCell>(height * width);
 
     // add walls / open cells
-    for (int x = 1; x < result.length - 1; x++) {
-      for (int y = 1; y < result[x].length - 1; y++) {
+    for (int x = 1; x < nodes.length - 1; x++) {
+      for (int y = 1; y < nodes[x].length - 1; y++) {
         if (x % 2 == 0 && y % 2 == 1) {
           // horizontal wall
-          walls.add(new EdgeCell(x, y, (x - 1) * width + y, (x + 1) * width + y));
+          edges.add(new EdgeCell(x, y, (x - 1) * width + y, (x + 1) * width + y));
         } else if (x % 2 == 1 && y % 2 == 0) {
           // vertical wall
-          walls.add(new EdgeCell(x, y, x * width + y - 1, x * width + y + 1));
+          edges.add(new EdgeCell(x, y, x * width + y - 1, x * width + y + 1));
         } else if (x % 2 == 1 && y % 2 == 1) {
           // open cell
-          result[x][y] = true;
+          nodes[x][y] = 1;
         }
       }
     }
 
-    Collections.shuffle(walls, random);
-    new Loop<EdgeCell>(walls).forEach(new RemoveWall(new DisjointSet(height
-        * width), result));
+    Collections.shuffle(edges, random);
+    new Loop<EdgeCell>(edges).forEach(new RemoveWall(new DisjointSet(height
+        * width), nodes));
 
-    return result;
+    return nodes;
   }
 
-  public void toString(boolean[][] result) {
-    for (int x = 0; x < result.length; x++) {
-      for (int y = 0; y < result[x].length; y++) {
-        if (result[x][y]) {
-          System.out.print(".");
+  public void toString(int[][] cells) {
+    StringBuffer result = new StringBuffer();
+    for (int x = 0; x < cells.length; x++) {
+      for (int y = 0; y < cells[x].length; y++) {
+        if (cells[x][y] == 1) {
+          result.append(".");
         } else {
-          System.out.print("#");
+          result.append("#");
         }
       }
-      System.out.println();
+      result.append("\n");
     }
+    System.out.print(result);
   }
 
   public static void main(String[] args) {
     KruskalMazeGenerator generator = new KruskalMazeGenerator(
       new MersenneTwister(), 20, 80);
-    boolean[][] result = generator.generate();
+    int[][] result = generator.generate();
 
     generator.toString(result);
 
