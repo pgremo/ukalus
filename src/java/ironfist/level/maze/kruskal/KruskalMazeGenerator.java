@@ -43,7 +43,7 @@ public class KruskalMazeGenerator implements MazeGenerator {
     }
 
     Collections.shuffle(edges, random);
-    new Loop<EdgeCell>(edges).forEach(new RemoveWall(new DisjointSet(height
+    new Loop<EdgeCell>(edges).forEach(new TraverseEdge(new DisjointSet(height
         * width), nodes));
 
     return nodes;
