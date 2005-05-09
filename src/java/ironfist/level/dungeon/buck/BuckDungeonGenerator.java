@@ -11,11 +11,11 @@ import java.util.Random;
 
 public class BuckDungeonGenerator {
 
-  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
+  private static final Vector2D[] DIRECTIONS = new Vector2D[] {
       Vector2D.get(1, 0),
       Vector2D.get(0, 1),
       Vector2D.get(0, -1),
-      Vector2D.get(-1, 0)};
+      Vector2D.get(-1, 0) };
 
   private Random random = new MersenneTwister();
   private MazeGenerator generator = new PrimMazeGenerator(random, 20, 80);
@@ -23,8 +23,9 @@ public class BuckDungeonGenerator {
   public int[][] generate() {
     int[][] result = generator.generate();
     sparcify(result);
+toString(result);    
     addRooms(result);
-//    removeDeadEnds(result);
+    removeDeadEnds(result);
     return result;
   }
 
@@ -35,8 +36,8 @@ public class BuckDungeonGenerator {
       int width = room.getWidth();
       int best = Integer.MAX_VALUE;
       Vector2D bestCell = null;
-      for (int x = 1; x < cells.length - height - 1; x++) {
-        for (int y = 1; y < cells[x].length - width - 1; y++) {
+      for (int x = 1; x < cells.length - height - 1; x += 2) {
+        for (int y = 1; y < cells[x].length - width - 1; y += 2) {
           Vector2D levelCell = Vector2D.get(x, y);
           room.setLocation(levelCell);
           int cost = room.cost(cells);
@@ -49,6 +50,11 @@ public class BuckDungeonGenerator {
       if (best < Integer.MAX_VALUE) {
         room.setLocation(bestCell);
         room.place(cells);
+//         System.out.println();
+//         toString(cells);
+        room.placeDoors(cells);
+//         System.out.println();
+//         toString(cells);
       }
     }
   }
@@ -97,6 +103,7 @@ public class BuckDungeonGenerator {
     for (Vector2D cell : deadEnds) {
       int count = 0;
       Vector2D current = cell;
+      cells[current.getX()][current.getY()] = 0;
       do {
         Vector2D next = null;
         count = 0;
