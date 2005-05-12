@@ -19,91 +19,92 @@ public class BuckDungeonGenerator {
 
   private Random random = new MersenneTwister();
   private MazeGenerator generator = new PrimMazeGenerator(random, 20, 80);
+  private int sparceness = 7;
+  private int maxRooms = 12;
+  private int minRoomHeight = 5;
+  private int maxRoomHeight = 9;
+  private int minRoomWidth = 9;
+  private int maxRoomWidth = 14;
 
   public int[][] generate() {
     int[][] result = generator.generate();
-    removeDeadEnds(result, 5);
+    removeDeadEnds(result, sparceness);
     addRooms(result);
     removeDeadEnds(result, result.length * result[0].length);
     return result;
   }
 
   private void addRooms(int[][] cells) {
-    for (int rooms = 0; rooms < 12; rooms++) {
-      Room room = createRoom();
+    for (int id = 2; id < maxRooms + 2; id++) {
+      Room room = createRoom(id);
       int height = room.getHeight();
       int width = room.getWidth();
       int best = Integer.MAX_VALUE;
       Vector2D bestCell = null;
       for (int x = 0; x < cells.length - height; x++) {
         for (int y = 0; y < cells[x].length - width; y++) {
-          Vector2D levelCell = Vector2D.get(x, y);
-          room.setLocation(levelCell);
+          Vector2D target = Vector2D.get(x, y);
+          room.setLocation(target);
           int cost = room.cost(cells);
           if (cost > 0 && cost < best) {
             best = cost;
-            bestCell = levelCell;
+            bestCell = target;
           }
         }
       }
       if (best < Integer.MAX_VALUE) {
         room.setLocation(bestCell);
         room.place(cells);
-        room.placeDoors(cells);
       }
     }
   }
 
-  private Room createRoom() {
-    return new Room(random, random.nextInt(4) + 5, random.nextInt(5) + 9);
+  private Room createRoom(int id) {
+    return new Room(random, random.nextInt(maxRoomHeight - minRoomHeight)
+        + minRoomHeight, random.nextInt(maxRoomWidth - minRoomWidth)
+        + minRoomWidth, id);
   }
 
   private void removeDeadEnds(int[][] cells, int maxSteps) {
     List<Vector2D> deadEnds = new LinkedList<Vector2D>();
     for (int x = 1; x < cells.length - 1; x++) {
       for (int y = 1; y < cells[x].length - 1; y++) {
-        int edges = 0;
         Vector2D target = Vector2D.get(x, y);
-        for (Vector2D direction : DIRECTIONS) {
-          Vector2D location = target.add(direction);
-          if (cells[location.getX()][location.getY()] > 0) {
-            edges++;
-          }
-        }
-        if (edges == 1) {
+        if (getNeighbors(cells, target).size() == 1) {
           deadEnds.add(target);
         }
       }
     }
-    for (Vector2D cell : deadEnds) {
-      int steps = 0;
-      int edges = 0;
-      Vector2D current = cell;
-      cells[current.getX()][current.getY()] = 0;
-      do {
-        Vector2D next = null;
-        edges = 0;
-        for (Vector2D direction : DIRECTIONS) {
-          Vector2D location = current.add(direction);
-          if (cells[location.getX()][location.getY()] > 0) {
-            next = location;
-            edges++;
-          }
-        }
-        if (edges == 1) {
+    for (Vector2D current : deadEnds) {
+      List<Vector2D> edges = getNeighbors(cells, current);
+      for (int steps = 0; edges.size() == 1 && steps < maxSteps; steps++) {
+        if (edges.size() == 1) {
           cells[current.getX()][current.getY()] = 0;
-          current = next;
+          current = edges.get(0);
         }
-        steps++;
-      } while (edges == 1 && steps < maxSteps);
+        edges = getNeighbors(cells, current);
+      }
     }
+  }
+
+  private List<Vector2D> getNeighbors(int[][] cells, Vector2D target) {
+    List<Vector2D> edges = new LinkedList<Vector2D>();
+    for (Vector2D direction : DIRECTIONS) {
+      Vector2D location = target.add(direction);
+      if (cells[location.getX()][location.getY()] > 0) {
+        edges.add(location);
+      }
+    }
+    return edges;
   }
 
   public void toString(int[][] cells) {
     StringBuffer result = new StringBuffer();
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
-        if (cells[x][y] > 0) {
+        if (cells[x][y] == 100) {
+          result.append("+");
+        } else if (cells[x][y] > 0) {
           result.append(".");
         } else {
           result.append("#");
