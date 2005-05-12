@@ -13,15 +13,14 @@ public class NodeTraversal {
     this.visited = visited;
   }
 
-  public void start(Node root) {
+  public void traverse(Node root) {
     visited.add(root);
-
     while (!visited.isEmpty()) {
-      Edge edge = delegate.getUnvisitedNeighbour(visited.get());
-
+      Node node = visited.get();
+      Edge edge = delegate.getNode(node);
       if (edge != null) {
-        delegate.traverse(edge);
-        visited.add(edge.getTail());
+        delegate.traverse(node, edge);
+        visited.add(edge.getNode(node));
       } else {
         visited.remove();
       }

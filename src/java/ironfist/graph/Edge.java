@@ -1,21 +1,38 @@
 package ironfist.graph;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Edge {
 
-  protected Node head;
-  protected Node tail;
+  protected Node from;
+  protected Node to;
 
-  public Edge(Node head, Node tail) {
-    this.head = head;
-    this.tail = tail;
+  public Edge(Node from, Node to) {
+    this.from = from;
+    this.to = to;
   }
 
-  public Node getHead() {
-    return head;
+  public List<Node> getNodes() {
+    return Arrays.asList(new Node[]{from, to});
   }
 
-  public Node getTail() {
-    return tail;
+  public Node getNode(Node node) {
+    Node result = null;
+    if (node.equals(from)) {
+      result = to;
+    } else if (node.equals(to)) {
+      result = from;
+    }
+    return result;
   }
+
+  // public Node getFrom() {
+  // return from;
+  // }
+  //
+  // public Node getTo() {
+  // return to;
+  // }
 
 }

@@ -2,8 +2,8 @@ package ironfist.graph;
 
 public interface GraphTraversalDelegate {
 
-  public Edge getUnvisitedNeighbour(Node node);
+  public Edge getNode(Node node);
 
-  public void traverse(Edge edge);
+  public void traverse(Node node, Edge edge);
 
 }

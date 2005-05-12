@@ -3,7 +3,6 @@ package ironfist.level.maze;
 import ironfist.graph.Edge;
 import ironfist.graph.GraphTraversalDelegate;
 import ironfist.graph.Node;
-import ironfist.math.Vector2D;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,19 +12,19 @@ import java.util.Set;
 
 public class MazeTraversalDelegate implements GraphTraversalDelegate {
 
-  private int cells[][];
   private Random random;
   private Set<Node> visited = new HashSet<Node>();
+  private Set<MazeEdge> path;
 
-  public MazeTraversalDelegate(int[][] cells, Random random) {
-    this.cells = cells;
+  public MazeTraversalDelegate(Set<MazeEdge> path, Random random) {
+    this.path = path;
     this.random = random;
   }
 
-  public Edge getUnvisitedNeighbour(Node node) {
+  public Edge getNode(Node node) {
     List<Edge> unvisited = new ArrayList<Edge>();
     for (Edge edge : node.getEdges()) {
-      if (!visited.contains(edge.getTail())) {
+      if (!visited.contains(edge.getNode(node))) {
         unvisited.add(edge);
       }
     }
@@ -34,11 +33,9 @@ public class MazeTraversalDelegate implements GraphTraversalDelegate {
         : unvisited.get(random.nextInt(unvisited.size()));
   }
 
-  public void traverse(Edge edge) {
-    Vector2D location = ((MazeEdge) edge).getLocation();
-    cells[location.getX()][location.getY()] = 1;
-    visited.add(edge.getHead());
-    visited.add(edge.getTail());
+  public void traverse(Node node, Edge edge) {
+    path.add((MazeEdge) edge);
+    visited.add(edge.getNode(node));
   }
 
 }

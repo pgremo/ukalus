@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Room {
 
-  private static final Vector2D[] DIRECTIONS = new Vector2D[] {
+  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
       Vector2D.get(1, 0),
       Vector2D.get(0, 1),
       Vector2D.get(0, -1),
-      Vector2D.get(-1, 0) };
+      Vector2D.get(-1, 0)};
 
   private Random random;
   private Vector2D location;
@@ -45,74 +45,76 @@ public class Room {
     level[startX + height - 1][startY + width - 1] = 0;
 
     // left
-    System.out.println("left");
     List<Vector2D> open = new LinkedList<Vector2D>();
-    all.add(open);
     for (int i = startX + 1; i < startX + height - 1; i++) {
-      if (level[i][startY - 1] == 0) {
-        if (!open.isEmpty()) {
-          System.out.println(open);
-          open = new LinkedList<Vector2D>();
-          all.add(open);
+      if (startY > 0) {
+        if (level[i][startY - 1] == 0) {
+          if (!open.isEmpty()) {
+            all.add(open);
+            open = new LinkedList<Vector2D>();
+          }
+        } else {
+          open.add(Vector2D.get(i, startY));
         }
-      } else {
-        open.add(Vector2D.get(i, startY));
       }
       level[i][startY] = 0;
     }
-    System.out.println(open);
+    if (!open.isEmpty()) {
+      // System.out.println(open);
+      all.add(open);
+    }
 
     // right
-    System.out.println("right");
     open = new LinkedList<Vector2D>();
-    all.add(open);
     for (int i = startX + 1; i < startX + height - 1; i++) {
       if (level[i][startY + width] == 0) {
         if (!open.isEmpty()) {
-          System.out.println(open);
-          open = new LinkedList<Vector2D>();
           all.add(open);
+          open = new LinkedList<Vector2D>();
         }
       } else {
         open.add(Vector2D.get(i, startY + width - 1));
       }
       level[i][startY + width - 1] = 0;
     }
-    System.out.println(open);
+    if (!open.isEmpty()) {
+      all.add(open);
+    }
 
     // top
-    System.out.println("top");
     open = new LinkedList<Vector2D>();
-    all.add(open);
     for (int i = startY + 1; i < startY + width - 1; i++) {
-      if (level[startX - 1][i] == 0) {
-        if (!open.isEmpty()) {
-          System.out.println(open);
-          open = new LinkedList<Vector2D>();
-          all.add(open);
+      if (startX > 0) {
+        if (level[startX - 1][i] == 0) {
+          if (!open.isEmpty()) {
+            all.add(open);
+            open = new LinkedList<Vector2D>();
+          }
+        } else {
+          open.add(Vector2D.get(startX, i));
         }
-      } else {
-        open.add(Vector2D.get(startX, i));
       }
       level[startX][i] = 0;
     }
-    System.out.println(open);
+    if (!open.isEmpty()) {
+      all.add(open);
+    }
 
     // bottom
-    System.out.println("bottom");
     open = new LinkedList<Vector2D>();
-    all.add(open);
     for (int i = startY + 1; i < startY + width - 1; i++) {
       if (level[startX + height][i] == 0) {
         if (!open.isEmpty()) {
-          System.out.println(open);
-          open = new LinkedList<Vector2D>();
           all.add(open);
+          open = new LinkedList<Vector2D>();
         }
       } else {
         open.add(Vector2D.get(startX + height - 1, i));
       }
       level[startX + height - 1][i] = 0;
+    }
+    if (!open.isEmpty()) {
+      all.add(open);
     }
   }
 
@@ -128,25 +130,55 @@ public class Room {
 
   public int cost(int[][] cells) {
     int result = 0;
-    for (int x = -1; x < height + 1; x++) {
-      for (int y = -1; y < width + 1; y++) {
-        Vector2D target = location.add(Vector2D.get(x, y));
-        if (cells[target.getX()][target.getY()] == 1) {
-          if ((x == 0 && y == 0) || (x == 0 && y == width - 1)
-              || (x == height - 1 && y == 0) || (x == height - 1 && y == width - 1)) {
-            result += 100;
-          }
-          if (x == 0 || x == height - 1 || y == 0 || y == height - 1) {
-            result++;
-          } else {
-            result += 3;
-          }
+    int startX = location.getX();
+    int startY = location.getY();
+     if (cells[startX][startY] == 0 && cells[startX][startY + width - 1] == 0
+        && cells[startX + height - 1][startY] == 0
+        && cells[startX + height - 1][startY + width - 1] == 0) {
+
+    for (int i = startX + 1; i < startX + height - 1; i++) {
+      if (startY > 0) {
+        if (cells[i][startY - 1] == 1) {
+          result++;
         }
-        if (cells[target.getX()][target.getY()] > 1) {
-          result += 100;
+        if (cells[i][startY + width] == 1) {
+          result++;
+        }
+        if (cells[i][startY - 1] > 1) {
+          result += 3;
+        }
+        if (cells[i][startY + width] > 1) {
+          result += 3;
         }
       }
     }
+    for (int i = startY + 1; i < startY + width - 1; i++) {
+      if (startX > 0) {
+        if (cells[startX - 1][i] == 1) {
+          result++;
+        }
+        if (cells[startX + height][i] == 1) {
+          result++;
+        }
+        if (cells[startX - 1][i] > 1) {
+          result += 3;
+        }
+        if (cells[startX + height][i] > 1) {
+          result += 3;
+        }
+      }
+    }
+    for (int x = startX + 1; x < startX + height - 1; x++) {
+      for (int y = startY + 1; y < startY + width - 1; y++) {
+        if (cells[x][y] == 1) {
+          result++;
+        }
+        if (cells[x][y] > 1) {
+          result += 3;
+        }
+      }
+    }
+     }
     return result;
   }
 

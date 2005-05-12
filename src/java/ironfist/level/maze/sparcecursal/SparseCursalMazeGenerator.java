@@ -1,8 +1,9 @@
-package ironfist.level.maze.depthfirst;
+package ironfist.level.maze.sparcecursal;
 
+import ironfist.graph.Edge;
 import ironfist.graph.Node;
 import ironfist.graph.NodeTraversal;
-import ironfist.graph.VisitedStack;
+import ironfist.graph.VisitedRandom;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
@@ -13,18 +14,21 @@ import ironfist.util.MersenneTwister;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class DFMazeGenerator implements MazeGenerator {
+public class SparseCursalMazeGenerator implements MazeGenerator {
 
   private Random random;
   private int height;
   private int width;
   private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
+  private Map<Vector2D, MazeEdge> edges = new HashMap<Vector2D, MazeEdge>();
 
-  public DFMazeGenerator(Random random, int height, int width) {
+  public SparseCursalMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -39,6 +43,15 @@ public class DFMazeGenerator implements MazeGenerator {
     return result;
   }
 
+  private MazeEdge getEdge(Vector2D location, MazeNode head, MazeNode tail) {
+    MazeEdge result = edges.get(location);
+    if (result == null) {
+      result = new MazeEdge(location, head, tail);
+      edges.put(location, result);
+    }
+    return result;
+  }
+
   public int[][] generate() {
     int[][] cells = new int[height][width];
 
@@ -49,38 +62,64 @@ public class DFMazeGenerator implements MazeGenerator {
           // vertical edge
           MazeNode head = getNode(Vector2D.get(x - 1, y));
           MazeNode tail = getNode(Vector2D.get(x + 1, y));
-          head.addEdge(new MazeEdge(Vector2D.get(x, y), head, tail));
-          tail.addEdge(new MazeEdge(Vector2D.get(x, y), tail, head));
+          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          head.addEdge(edge);
+          tail.addEdge(edge);
         } else if (x % 2 == 1 && y % 2 == 0) {
           // horizontal edge
           MazeNode head = getNode(Vector2D.get(x, y - 1));
           MazeNode tail = getNode(Vector2D.get(x, y + 1));
-          head.addEdge(new MazeEdge(Vector2D.get(x, y), head, tail));
-          tail.addEdge(new MazeEdge(Vector2D.get(x, y), tail, head));
-        } else if (x % 2 == 1 && y % 2 == 1) {
-          // node
-          getNode(Vector2D.get(x, y));
-          cells[x][y] = 1;
+          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          head.addEdge(edge);
+          tail.addEdge(edge);
         }
       }
     }
 
     Set<MazeEdge> path = new HashSet<MazeEdge>();
-    
+
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
-    
-    NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(path, random), new VisitedStack<Node>());
-    
-    traversal.traverse(start);
+
+    new NodeTraversal(null, new MazeTraversalDelegate(path, random),
+      new VisitedRandom<Node>(random)).traverse(start);
+
+    sparcify(path, 4);
+
+    closeDeadEnds(path);
 
     for (MazeEdge edge : path) {
-      cells[edge.getLocation()
-        .getX()][edge.getLocation()
-        .getY()] = 1;
+      Vector2D location = edge.getLocation();
+      cells[location.getX()][location.getY()] = 1;
+      for (Node node : edge.getNodes()) {
+        location = ((MazeNode) node).getLocation();
+        cells[location.getX()][location.getY()] = 1;
+      }
     }
 
     return cells;
+  }
+
+  private void closeDeadEnds(Set<MazeEdge> path) {
+    for (MazeNode node : nodes.values()) {
+      List<Edge> visited = new LinkedList<Edge>(node.getEdges());
+      visited.retainAll(path);
+      if (visited.size() == 1) {
+        new NodeTraversal(null, new CursalMazeTraversalDelegate(path, random),
+          new VisitedLast<Node>()).traverse(node);
+      }
+    }
+  }
+
+  private void sparcify(Set<MazeEdge> path, int maxSteps) {
+    for (int i = 0; i < maxSteps; i++) {
+      for (MazeNode node : nodes.values()) {
+        List<Edge> visited = new LinkedList<Edge>(node.getEdges());
+        visited.retainAll(path);
+        if (visited.size() == 1) {
+          path.remove(visited.get(0));
+        }
+      }
+    }
   }
 
   public void toString(int[][] cells) {
@@ -99,8 +138,8 @@ public class DFMazeGenerator implements MazeGenerator {
   }
 
   public static void main(String[] args) {
-    DFMazeGenerator generator = new DFMazeGenerator(new MersenneTwister(), 20,
-      80);
+    SparseCursalMazeGenerator generator = new SparseCursalMazeGenerator(
+      new MersenneTwister(), 20, 80);
 
     int[][] result = generator.generate();
 

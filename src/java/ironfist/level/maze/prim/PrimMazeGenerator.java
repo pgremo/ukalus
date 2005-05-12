@@ -1,7 +1,7 @@
 package ironfist.level.maze.prim;
 
-import ironfist.graph.NodeTraversal;
 import ironfist.graph.Node;
+import ironfist.graph.NodeTraversal;
 import ironfist.graph.VisitedRandom;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
@@ -12,8 +12,10 @@ import ironfist.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class PrimMazeGenerator implements MazeGenerator {
 
@@ -63,10 +65,20 @@ public class PrimMazeGenerator implements MazeGenerator {
       }
     }
 
+    Set<MazeEdge> path = new HashSet<MazeEdge>();
+
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
+
     NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(cells, random), new VisitedRandom<Node>(random));
-    traversal.start(start);
+      new MazeTraversalDelegate(path, random), new VisitedRandom<Node>(random));
+
+    traversal.traverse(start);
+
+    for (MazeEdge edge : path) {
+      cells[edge.getLocation()
+        .getX()][edge.getLocation()
+        .getY()] = 1;
+    }
 
     return cells;
   }

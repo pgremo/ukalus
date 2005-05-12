@@ -1,39 +1,57 @@
 package ironfist.util;
 
-import java.util.Arrays;
-
 public class DisjointSet {
 
-  private int[] storage;
+  private Node nodes[];
 
   public DisjointSet(int size) {
-    storage = new int[size];
-    Arrays.fill(storage, -1);
-  }
-
-  public void union(int s1, int s2) {
-    int root1 = find(s1);
-    int root2 = find(s2);
-    if (root1 != root2) {
-      if (storage[root2] < storage[root1]) {
-        storage[root2] += storage[root1];
-        storage[root1] = root2;
-      } else {
-        storage[root1] += storage[root2];
-        storage[root2] = root1;
-      }
+    nodes = new Node[size];
+    for (int i = 0; i < size; i++) {
+      nodes[i] = new Node(i);
     }
   }
 
-  public int find(int s) {
-    int result;
-    if (storage[s] < 0) {
-      result = s;
-    } else {
-      storage[s] = find(storage[s]);
-      result = storage[s];
+  public int find(int target) {
+    int result = target;
+    if (nodes[target].parent != target) {
+      result = find(nodes[target].parent);
+      nodes[target].parent = result;
     }
     return result;
   }
+  
+  public int size(int target){
+    return nodes[find(target)].size;
+  }
 
+  public int union(int s1, int s2) {
+    s1 = find(s1);
+    s2 = find(s2);
+    if (s1 != s2) {
+      if (nodes[s1].size < nodes[s2].size) {
+        int temp = s1;
+        s1 = s2;
+        s2 = temp;
+      }
+      nodes[s2].parent = s1;
+      nodes[s1].size += nodes[s2].size;
+    }
+    return s1;
+  }
+
+  private class Node {
+
+    int parent;
+    int size;
+    int id;
+
+    public Node(int i) {
+      size = 1;
+      id = parent = i;
+    }
+
+    public String toString() {
+      return id + "->" + parent;
+    }
+  }
 }
