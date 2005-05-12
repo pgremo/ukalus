@@ -18,13 +18,13 @@ public class Room {
   private Vector2D location;
   private int height;
   private int width;
+  private int id;
 
-  private List<List<Vector2D>> all = new LinkedList<List<Vector2D>>();
-
-  public Room(Random random, int height, int width) {
+  public Room(Random random, int height, int width, int id) {
     this.random = random;
     this.height = height;
     this.width = width;
+    this.id = id;
   }
 
   public void place(int[][] level) {
@@ -34,7 +34,7 @@ public class Room {
     // interior
     for (int x = startX + 1; x < startX + height - 1; x++) {
       for (int y = startY + 1; y < startY + width - 1; y++) {
-        level[x][y] = 2;
+        level[x][y] = id;
       }
     }
 
@@ -43,6 +43,8 @@ public class Room {
     level[startX + height - 1][startY] = 0;
     level[startX][startY + width - 1] = 0;
     level[startX + height - 1][startY + width - 1] = 0;
+
+    List<List<Vector2D>> all = new LinkedList<List<Vector2D>>();
 
     // left
     List<Vector2D> open = new LinkedList<Vector2D>();
@@ -60,7 +62,6 @@ public class Room {
       level[i][startY] = 0;
     }
     if (!open.isEmpty()) {
-      // System.out.println(open);
       all.add(open);
     }
 
@@ -116,14 +117,10 @@ public class Room {
     if (!open.isEmpty()) {
       all.add(open);
     }
-  }
-
-  public void placeDoors(int[][] level) {
-    // place doors
     for (List<Vector2D> list : all) {
       if (!list.isEmpty()) {
         Vector2D location = list.get(random.nextInt(list.size()));
-        level[location.getX()][location.getY()] = 1;
+        level[location.getX()][location.getY()] = 100;
       }
     }
   }
@@ -132,53 +129,53 @@ public class Room {
     int result = 0;
     int startX = location.getX();
     int startY = location.getY();
-     if (cells[startX][startY] == 0 && cells[startX][startY + width - 1] == 0
+    if (cells[startX][startY] == 0 && cells[startX][startY + width - 1] == 0
         && cells[startX + height - 1][startY] == 0
         && cells[startX + height - 1][startY + width - 1] == 0) {
 
-    for (int i = startX + 1; i < startX + height - 1; i++) {
-      if (startY > 0) {
-        if (cells[i][startY - 1] == 1) {
-          result++;
+      for (int i = startX + 1; i < startX + height - 1; i++) {
+        if (startY > 0) {
+          if (cells[i][startY - 1] == 1) {
+            result++;
+          }
+          if (cells[i][startY + width] == 1) {
+            result++;
+          }
+          if (cells[i][startY - 1] > 1) {
+            result += 3;
+          }
+          if (cells[i][startY + width] > 1) {
+            result += 3;
+          }
         }
-        if (cells[i][startY + width] == 1) {
-          result++;
+      }
+      for (int i = startY + 1; i < startY + width - 1; i++) {
+        if (startX > 0) {
+          if (cells[startX - 1][i] == 1) {
+            result++;
+          }
+          if (cells[startX + height][i] == 1) {
+            result++;
+          }
+          if (cells[startX - 1][i] > 1) {
+            result += 3;
+          }
+          if (cells[startX + height][i] > 1) {
+            result += 3;
+          }
         }
-        if (cells[i][startY - 1] > 1) {
-          result += 3;
-        }
-        if (cells[i][startY + width] > 1) {
-          result += 3;
+      }
+      for (int x = startX + 1; x < startX + height - 1; x++) {
+        for (int y = startY + 1; y < startY + width - 1; y++) {
+          if (cells[x][y] == 1) {
+            result++;
+          }
+          if (cells[x][y] > 1) {
+            result += 3;
+          }
         }
       }
     }
-    for (int i = startY + 1; i < startY + width - 1; i++) {
-      if (startX > 0) {
-        if (cells[startX - 1][i] == 1) {
-          result++;
-        }
-        if (cells[startX + height][i] == 1) {
-          result++;
-        }
-        if (cells[startX - 1][i] > 1) {
-          result += 3;
-        }
-        if (cells[startX + height][i] > 1) {
-          result += 3;
-        }
-      }
-    }
-    for (int x = startX + 1; x < startX + height - 1; x++) {
-      for (int y = startY + 1; y < startY + width - 1; y++) {
-        if (cells[x][y] == 1) {
-          result++;
-        }
-        if (cells[x][y] > 1) {
-          result += 3;
-        }
-      }
-    }
-     }
     return result;
   }
 
