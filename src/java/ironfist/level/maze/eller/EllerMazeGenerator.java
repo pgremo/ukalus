@@ -34,11 +34,11 @@ public class EllerMazeGenerator implements MazeGenerator {
         int left = right - 1;
         if (sets.find(left) != sets.find(right) && random.nextBoolean()) {
           sets.union(left, right);
-          current[left * 2 + 1] = 1;
+          current[right * 2 - 1] = 1;
         }
       }
       // vertical passages
-      for (int y = 0; y < width / 2; y++) {
+      for (int y = 1; y < width / 2; y++) {
         if (sets.size(y) == 1) {
           next[y * 2] = 1;
         }
