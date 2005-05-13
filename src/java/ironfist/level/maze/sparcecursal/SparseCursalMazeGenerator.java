@@ -3,7 +3,7 @@ package ironfist.level.maze.sparcecursal;
 import ironfist.graph.Edge;
 import ironfist.graph.Node;
 import ironfist.graph.NodeTraversal;
-import ironfist.graph.VisitedRandom;
+import ironfist.graph.NodeRandom;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
@@ -81,7 +81,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
     new NodeTraversal(null, new MazeTraversalDelegate(path, random),
-      new VisitedRandom<Node>(random)).traverse(start);
+      new NodeRandom(random)).traverse(start);
 
     sparcify(path, 4);
 
@@ -105,7 +105,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
       visited.retainAll(path);
       if (visited.size() == 1) {
         new NodeTraversal(null, new CursalMazeTraversalDelegate(path, random),
-          new VisitedLast<Node>()).traverse(node);
+          new VisitedLast()).traverse(node);
       }
     }
   }

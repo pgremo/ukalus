@@ -27,12 +27,4 @@ public class Edge {
     return result;
   }
 
-  // public Node getFrom() {
-  // return from;
-  // }
-  //
-  // public Node getTo() {
-  // return to;
-  // }
-
 }

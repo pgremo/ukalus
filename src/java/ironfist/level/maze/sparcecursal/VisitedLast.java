@@ -1,16 +1,17 @@
 package ironfist.level.maze.sparcecursal;
 
-import ironfist.graph.VisitedList;
+import ironfist.graph.Node;
+import ironfist.graph.NodeCollection;
 
-public class VisitedLast<E> implements VisitedList<E> {
+public class VisitedLast implements NodeCollection {
 
-  private E last;
+  private Node last;
 
-  public void add(E e) {
+  public void add(Node e) {
     last = e;
   }
 
-  public E get() {
+  public Node get() {
     return last;
   }
 

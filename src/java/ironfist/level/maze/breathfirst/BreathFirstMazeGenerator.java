@@ -1,8 +1,8 @@
-package ironfist.level.maze.prim;
+package ironfist.level.maze.breathfirst;
 
 import ironfist.graph.Node;
 import ironfist.graph.NodeTraversal;
-import ironfist.graph.NodeRandom;
+import ironfist.graph.NodeQueue;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class PrimMazeGenerator implements MazeGenerator {
+public class BreathFirstMazeGenerator implements MazeGenerator {
 
   private Random random;
   private int height;
@@ -25,7 +25,7 @@ public class PrimMazeGenerator implements MazeGenerator {
   private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
   private Map<Vector2D, MazeEdge> edges = new HashMap<Vector2D, MazeEdge>();
 
-  public PrimMazeGenerator(Random random, int height, int width) {
+  public BreathFirstMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -82,7 +82,7 @@ public class PrimMazeGenerator implements MazeGenerator {
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
     NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(path, random), new NodeRandom(random));
+      new MazeTraversalDelegate(path, random), new NodeQueue());
 
     traversal.traverse(start);
 
@@ -111,8 +111,8 @@ public class PrimMazeGenerator implements MazeGenerator {
   }
 
   public static void main(String[] args) {
-    PrimMazeGenerator generator = new PrimMazeGenerator(new MersenneTwister(),
-      20, 80);
+    BreathFirstMazeGenerator generator = new BreathFirstMazeGenerator(
+      new MersenneTwister(), 20, 80);
 
     int[][] result = generator.generate();
 

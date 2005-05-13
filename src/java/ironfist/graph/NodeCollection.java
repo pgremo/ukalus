@@ -1,10 +1,10 @@
 package ironfist.graph;
 
-public interface VisitedList<E> {
+public interface NodeCollection {
 
-  void add(E e);
+  void add(Node e);
 
-  E get();
+  Node get();
 
   void remove();
 

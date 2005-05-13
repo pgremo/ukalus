@@ -4,10 +4,10 @@ public class NodeTraversal {
 
   private Graph graph;
   private GraphTraversalDelegate delegate;
-  private VisitedList<Node> visited;
+  private NodeCollection visited;
 
   public NodeTraversal(Graph graph, GraphTraversalDelegate delegate,
-      VisitedList<Node> visited) {
+      NodeCollection visited) {
     this.graph = graph;
     this.delegate = delegate;
     this.visited = visited;

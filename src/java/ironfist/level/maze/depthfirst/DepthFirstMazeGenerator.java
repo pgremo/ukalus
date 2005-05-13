@@ -2,7 +2,7 @@ package ironfist.level.maze.depthfirst;
 
 import ironfist.graph.Node;
 import ironfist.graph.NodeTraversal;
-import ironfist.graph.VisitedStack;
+import ironfist.graph.NodeStack;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
@@ -17,14 +17,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class DFMazeGenerator implements MazeGenerator {
+public class DepthFirstMazeGenerator implements MazeGenerator {
 
   private Random random;
   private int height;
   private int width;
   private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
+  private Map<Vector2D, MazeEdge> edges = new HashMap<Vector2D, MazeEdge>();
 
-  public DFMazeGenerator(Random random, int height, int width) {
+  public DepthFirstMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -39,6 +40,15 @@ public class DFMazeGenerator implements MazeGenerator {
     return result;
   }
 
+  private MazeEdge getEdge(Vector2D location, MazeNode head, MazeNode tail) {
+    MazeEdge result = edges.get(location);
+    if (result == null) {
+      result = new MazeEdge(location, head, tail);
+      edges.put(location, result);
+    }
+    return result;
+  }
+
   public int[][] generate() {
     int[][] cells = new int[height][width];
 
@@ -49,14 +59,16 @@ public class DFMazeGenerator implements MazeGenerator {
           // vertical edge
           MazeNode head = getNode(Vector2D.get(x - 1, y));
           MazeNode tail = getNode(Vector2D.get(x + 1, y));
-          head.addEdge(new MazeEdge(Vector2D.get(x, y), head, tail));
-          tail.addEdge(new MazeEdge(Vector2D.get(x, y), tail, head));
+          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          head.addEdge(edge);
+          tail.addEdge(edge);
         } else if (x % 2 == 1 && y % 2 == 0) {
           // horizontal edge
           MazeNode head = getNode(Vector2D.get(x, y - 1));
           MazeNode tail = getNode(Vector2D.get(x, y + 1));
-          head.addEdge(new MazeEdge(Vector2D.get(x, y), head, tail));
-          tail.addEdge(new MazeEdge(Vector2D.get(x, y), tail, head));
+          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          head.addEdge(edge);
+          tail.addEdge(edge);
         } else if (x % 2 == 1 && y % 2 == 1) {
           // node
           getNode(Vector2D.get(x, y));
@@ -66,12 +78,12 @@ public class DFMazeGenerator implements MazeGenerator {
     }
 
     Set<MazeEdge> path = new HashSet<MazeEdge>();
-    
+
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
-    
+
     NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(path, random), new VisitedStack<Node>());
-    
+      new MazeTraversalDelegate(path, random), new NodeStack());
+
     traversal.traverse(start);
 
     for (MazeEdge edge : path) {
@@ -99,8 +111,8 @@ public class DFMazeGenerator implements MazeGenerator {
   }
 
   public static void main(String[] args) {
-    DFMazeGenerator generator = new DFMazeGenerator(new MersenneTwister(), 20,
-      80);
+    DepthFirstMazeGenerator generator = new DepthFirstMazeGenerator(
+      new MersenneTwister(), 20, 80);
 
     int[][] result = generator.generate();
 
