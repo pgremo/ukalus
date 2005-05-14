@@ -8,12 +8,6 @@ import java.util.Random;
 
 public class Room {
 
-  private static final Vector2D[] DIRECTIONS = new Vector2D[]{
-      Vector2D.get(1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(0, -1),
-      Vector2D.get(-1, 0)};
-
   private Random random;
   private Vector2D location;
   private int height;
@@ -68,13 +62,15 @@ public class Room {
     // right
     open = new LinkedList<Vector2D>();
     for (int i = startX + 1; i < startX + height - 1; i++) {
-      if (level[i][startY + width] == 0) {
-        if (!open.isEmpty()) {
-          all.add(open);
-          open = new LinkedList<Vector2D>();
+      if (startY + width < level[startX].length) {
+        if (level[i][startY + width] == 0) {
+          if (!open.isEmpty()) {
+            all.add(open);
+            open = new LinkedList<Vector2D>();
+          }
+        } else {
+          open.add(Vector2D.get(i, startY + width - 1));
         }
-      } else {
-        open.add(Vector2D.get(i, startY + width - 1));
       }
       level[i][startY + width - 1] = 0;
     }
@@ -104,13 +100,15 @@ public class Room {
     // bottom
     open = new LinkedList<Vector2D>();
     for (int i = startY + 1; i < startY + width - 1; i++) {
-      if (level[startX + height][i] == 0) {
-        if (!open.isEmpty()) {
-          all.add(open);
-          open = new LinkedList<Vector2D>();
+      if (startX + height < level.length) {
+        if (level[startX + height][i] == 0) {
+          if (!open.isEmpty()) {
+            all.add(open);
+            open = new LinkedList<Vector2D>();
+          }
+        } else {
+          open.add(Vector2D.get(startX + height - 1, i));
         }
-      } else {
-        open.add(Vector2D.get(startX + height - 1, i));
       }
       level[startX + height - 1][i] = 0;
     }
@@ -129,12 +127,14 @@ public class Room {
     int result = 0;
     int startX = location.getX();
     int startY = location.getY();
-    if (cells[startX][startY] == 0 && cells[startX][startY + width - 1] == 0
+    if (startY >= 0 && startY + width <= cells[startX].length && startX >= 0
+        && startX + height <= cells.length && cells[startX][startY] == 0
+        && cells[startX][startY + width - 1] == 0
         && cells[startX + height - 1][startY] == 0
         && cells[startX + height - 1][startY + width - 1] == 0) {
 
       for (int i = startX + 1; i < startX + height - 1; i++) {
-        if (startY > 0) {
+        if (startY > 0 && startY + width < cells[startX].length) {
           if (cells[i][startY - 1] == 1) {
             result++;
           }
@@ -150,7 +150,8 @@ public class Room {
         }
       }
       for (int i = startY + 1; i < startY + width - 1; i++) {
-        if (startX > 0) {
+        if (startX > 0 && startX + height < cells.length
+            && cells[startX][startY] == 0) {
           if (cells[startX - 1][i] == 1) {
             result++;
           }
