@@ -80,8 +80,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    new NodeTraversal(null, new MazeTraversalDelegate(path, random),
-      new NodeRandom(random)).traverse(start);
+    new NodeTraversal(new MazeTraversalDelegate(start, path, random), new NodeRandom(random)).traverse(start);
 
     sparcify(path, 4);
 
@@ -104,8 +103,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
       List<Edge> visited = new LinkedList<Edge>(node.getEdges());
       visited.retainAll(path);
       if (visited.size() == 1) {
-        new NodeTraversal(null, new CursalMazeTraversalDelegate(path, random),
-          new VisitedLast()).traverse(node);
+        new NodeTraversal(new CursalMazeTraversalDelegate(path, random), new VisitedLast()).traverse(node);
       }
     }
   }

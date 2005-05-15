@@ -81,8 +81,8 @@ public class DepthFirstMazeGenerator implements MazeGenerator {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(path, random), new NodeStack());
+    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(start, path, random),
+      new NodeStack());
 
     traversal.traverse(start);
 

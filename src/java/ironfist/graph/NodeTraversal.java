@@ -2,13 +2,10 @@ package ironfist.graph;
 
 public class NodeTraversal {
 
-  private Graph graph;
   private GraphTraversalDelegate delegate;
   private NodeCollection visited;
 
-  public NodeTraversal(Graph graph, GraphTraversalDelegate delegate,
-      NodeCollection visited) {
-    this.graph = graph;
+  public NodeTraversal(GraphTraversalDelegate delegate, NodeCollection visited) {
     this.delegate = delegate;
     this.visited = visited;
   }

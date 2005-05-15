@@ -16,7 +16,8 @@ public class MazeTraversalDelegate implements GraphTraversalDelegate {
   private Set<Node> visited = new HashSet<Node>();
   private Set<MazeEdge> path;
 
-  public MazeTraversalDelegate(Set<MazeEdge> path, Random random) {
+  public MazeTraversalDelegate(Node start, Set<MazeEdge> path, Random random) {
+    visited.add(start);
     this.path = path;
     this.random = random;
   }

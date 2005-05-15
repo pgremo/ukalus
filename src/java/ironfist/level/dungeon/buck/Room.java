@@ -40,7 +40,7 @@ public class Room {
 
     List<List<Vector2D>> all = new LinkedList<List<Vector2D>>();
 
-    // left
+    // west
     List<Vector2D> open = new LinkedList<Vector2D>();
     for (int i = startX + 1; i < startX + height - 1; i++) {
       if (startY > 0) {
@@ -57,10 +57,10 @@ public class Room {
     }
     if (!open.isEmpty()) {
       all.add(open);
+      open = new LinkedList<Vector2D>();
     }
 
-    // right
-    open = new LinkedList<Vector2D>();
+    // east
     for (int i = startX + 1; i < startX + height - 1; i++) {
       if (startY + width < level[startX].length) {
         if (level[i][startY + width] == 0) {
@@ -76,10 +76,10 @@ public class Room {
     }
     if (!open.isEmpty()) {
       all.add(open);
+      open = new LinkedList<Vector2D>();
     }
 
-    // top
-    open = new LinkedList<Vector2D>();
+    // north
     for (int i = startY + 1; i < startY + width - 1; i++) {
       if (startX > 0) {
         if (level[startX - 1][i] == 0) {
@@ -95,10 +95,10 @@ public class Room {
     }
     if (!open.isEmpty()) {
       all.add(open);
+      open = new LinkedList<Vector2D>();
     }
 
-    // bottom
-    open = new LinkedList<Vector2D>();
+    // south
     for (int i = startY + 1; i < startY + width - 1; i++) {
       if (startX + height < level.length) {
         if (level[startX + height][i] == 0) {
@@ -115,6 +115,8 @@ public class Room {
     if (!open.isEmpty()) {
       all.add(open);
     }
+
+    // pick door ways
     for (List<Vector2D> list : all) {
       if (!list.isEmpty()) {
         Vector2D location = list.get(random.nextInt(list.size()));
@@ -133,46 +135,33 @@ public class Room {
         && cells[startX + height - 1][startY] == 0
         && cells[startX + height - 1][startY + width - 1] == 0) {
 
-      for (int i = startX + 1; i < startX + height - 1; i++) {
-        if (startY > 0 && startY + width < cells[startX].length) {
-          if (cells[i][startY - 1] == 1) {
+      if (startY > 0 && startY + width < cells[startX].length) {
+        for (int x = startX + 1; x < startX + height - 1; x++) {
+          if (cells[x][startY - 1] == 1) {
             result++;
           }
-          if (cells[i][startY + width] == 1) {
+          if (cells[x][startY + width] == 1) {
             result++;
-          }
-          if (cells[i][startY - 1] > 1) {
-            result += 3;
-          }
-          if (cells[i][startY + width] > 1) {
-            result += 3;
           }
         }
       }
-      for (int i = startY + 1; i < startY + width - 1; i++) {
-        if (startX > 0 && startX + height < cells.length
-            && cells[startX][startY] == 0) {
-          if (cells[startX - 1][i] == 1) {
+      if (startX > 0 && startX + height < cells.length) {
+        for (int y = startY + 1; y < startY + width - 1; y++) {
+          if (cells[startX - 1][y] == 1) {
             result++;
           }
-          if (cells[startX + height][i] == 1) {
+          if (cells[startX + height][y] == 1) {
             result++;
-          }
-          if (cells[startX - 1][i] > 1) {
-            result += 3;
-          }
-          if (cells[startX + height][i] > 1) {
-            result += 3;
           }
         }
       }
       for (int x = startX + 1; x < startX + height - 1; x++) {
         for (int y = startY + 1; y < startY + width - 1; y++) {
           if (cells[x][y] == 1) {
-            result++;
+            result += 3;
           }
           if (cells[x][y] > 1) {
-            result += 3;
+            result += 100;
           }
         }
       }

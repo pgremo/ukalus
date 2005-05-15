@@ -81,8 +81,8 @@ public class PrimMazeGenerator implements MazeGenerator {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    NodeTraversal traversal = new NodeTraversal(null,
-      new MazeTraversalDelegate(path, random), new NodeRandom(random));
+    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(start, path, random),
+      new NodeRandom(random));
 
     traversal.traverse(start);
 
@@ -100,7 +100,7 @@ public class PrimMazeGenerator implements MazeGenerator {
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
         if (cells[x][y] == 1) {
-          result.append(".");
+          result.append(" ");
         } else {
           result.append("#");
         }
