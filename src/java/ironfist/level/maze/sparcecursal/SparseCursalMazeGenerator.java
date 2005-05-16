@@ -2,11 +2,13 @@ package ironfist.level.maze.sparcecursal;
 
 import ironfist.graph.Edge;
 import ironfist.graph.Node;
-import ironfist.graph.NodeTraversal;
 import ironfist.graph.NodeRandom;
+import ironfist.graph.NodeTraversal;
+import ironfist.level.Region;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
+import ironfist.level.maze.MazeRegion;
 import ironfist.level.maze.MazeTraversalDelegate;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
@@ -52,7 +54,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
     return result;
   }
 
-  public int[][] generate() {
+  public Region generate() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -80,7 +82,8 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    new NodeTraversal(new MazeTraversalDelegate(start, path, random), new NodeRandom(random)).traverse(start);
+    new NodeTraversal(new MazeTraversalDelegate(start, path, random),
+      new NodeRandom(random)).traverse(start);
 
     sparcify(path, 4);
 
@@ -95,7 +98,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
       }
     }
 
-    return cells;
+    return new MazeRegion(cells);
   }
 
   private void closeDeadEnds(Set<MazeEdge> path) {
@@ -103,7 +106,8 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
       List<Edge> visited = new LinkedList<Edge>(node.getEdges());
       visited.retainAll(path);
       if (visited.size() == 1) {
-        new NodeTraversal(new CursalMazeTraversalDelegate(path, random), new VisitedLast()).traverse(node);
+        new NodeTraversal(new CursalMazeTraversalDelegate(path, random),
+          new VisitedLast()).traverse(node);
       }
     }
   }
@@ -120,7 +124,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
     }
   }
 
-  public void toString(int[][] cells) {
+  public static void toString(int[][] cells) {
     StringBuffer result = new StringBuffer();
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
@@ -136,12 +140,15 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
   }
 
   public static void main(String[] args) {
-    SparseCursalMazeGenerator generator = new SparseCursalMazeGenerator(
+    MazeGenerator generator = new SparseCursalMazeGenerator(
       new MersenneTwister(), 20, 80);
 
-    int[][] result = generator.generate();
+    int[][] result = new int[20][80];
+    Region region = generator.generate();
+    region.setLocation(Vector2D.get(0, 0));
+    region.place(result);
 
-    generator.toString(result);
+    toString(result);
   }
 
 }

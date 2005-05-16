@@ -1,11 +1,13 @@
 package ironfist.level.maze.depthfirst;
 
 import ironfist.graph.Node;
-import ironfist.graph.NodeTraversal;
 import ironfist.graph.NodeStack;
+import ironfist.graph.NodeTraversal;
+import ironfist.level.Region;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
+import ironfist.level.maze.MazeRegion;
 import ironfist.level.maze.MazeTraversalDelegate;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
@@ -49,7 +51,7 @@ public class DepthFirstMazeGenerator implements MazeGenerator {
     return result;
   }
 
-  public int[][] generate() {
+  public Region generate() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -92,10 +94,10 @@ public class DepthFirstMazeGenerator implements MazeGenerator {
         .getY()] = 1;
     }
 
-    return cells;
+    return new MazeRegion(cells);
   }
 
-  public void toString(int[][] cells) {
+  public static void toString(int[][] cells) {
     StringBuffer result = new StringBuffer();
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
@@ -111,12 +113,15 @@ public class DepthFirstMazeGenerator implements MazeGenerator {
   }
 
   public static void main(String[] args) {
-    DepthFirstMazeGenerator generator = new DepthFirstMazeGenerator(
+    MazeGenerator generator = new DepthFirstMazeGenerator(
       new MersenneTwister(), 20, 80);
 
-    int[][] result = generator.generate();
+    int[][] result =new int[20][80];
+    Region region = generator.generate();
+    region.setLocation(Vector2D.get(0, 0));
+    region.place(result);
 
-    generator.toString(result);
+    toString(result);
   }
 
 }

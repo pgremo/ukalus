@@ -1,12 +1,13 @@
 package ironfist.level.dungeon.buck;
 
+import ironfist.level.Region;
 import ironfist.math.Vector2D;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Room {
+public class Room implements Region {
 
   private Random random;
   private Vector2D location;
@@ -175,14 +176,6 @@ public class Room {
 
   public void setLocation(Vector2D location) {
     this.location = location;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public int getWidth() {
-    return width;
   }
 
 }

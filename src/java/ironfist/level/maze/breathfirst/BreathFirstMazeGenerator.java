@@ -1,11 +1,13 @@
 package ironfist.level.maze.breathfirst;
 
 import ironfist.graph.Node;
-import ironfist.graph.NodeTraversal;
 import ironfist.graph.NodeQueue;
+import ironfist.graph.NodeTraversal;
+import ironfist.level.Region;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
+import ironfist.level.maze.MazeRegion;
 import ironfist.level.maze.MazeTraversalDelegate;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
@@ -49,7 +51,7 @@ public class BreathFirstMazeGenerator implements MazeGenerator {
     return result;
   }
 
-  public int[][] generate() {
+  public Region generate() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -81,8 +83,8 @@ public class BreathFirstMazeGenerator implements MazeGenerator {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(start, path, random),
-      new NodeQueue());
+    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(
+      start, path, random), new NodeQueue());
 
     traversal.traverse(start);
 
@@ -92,7 +94,7 @@ public class BreathFirstMazeGenerator implements MazeGenerator {
         .getY()] = 1;
     }
 
-    return cells;
+    return new MazeRegion(cells);
   }
 
   public void toString(int[][] cells) {
@@ -114,7 +116,10 @@ public class BreathFirstMazeGenerator implements MazeGenerator {
     BreathFirstMazeGenerator generator = new BreathFirstMazeGenerator(
       new MersenneTwister(), 20, 80);
 
-    int[][] result = generator.generate();
+    int[][] result =new int[20][80];
+    Region region = generator.generate();
+    region.setLocation(Vector2D.get(0, 0));
+    region.place(result);
 
     generator.toString(result);
   }
