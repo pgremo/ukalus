@@ -50,28 +50,7 @@ public class BuckDungeonGenerator {
 
     removeDeadEnds(result, cells.size());
 
-    center(result);
-
     return result;
-  }
-
-  private void center(Level level) {
-    int north = level.getLength() / 2;
-    int south = level.getLength() / 2;
-    int east = level.getWidth() / 2;
-    int west = level.getWidth() / 2;
-    for (Vector2D current : cells) {
-      if ((Integer) level.get(current) > 0) {
-        int x = current.getX();
-        int y = current.getY();
-        north = Math.min(north, x - 1);
-        south = Math.max(south, x + 1);
-        west = Math.min(west, y - 1);
-        east = Math.max(east, y + 1);
-      }
-    }
-    System.out.println("north=" + north + ",south=" + south + ",east=" + east
-        + ",west=" + west);
   }
 
   private void addRooms(Level level) {
@@ -117,7 +96,8 @@ public class BuckDungeonGenerator {
   }
 
   public static void main(String[] args) {
-    System.out.println(new BuckDungeonGenerator().generate());
+    Level level = new BuckDungeonGenerator().generate();
+    System.out.println(level);
   }
 
 }
