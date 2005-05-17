@@ -1,12 +1,13 @@
 package ironfist.level;
 
+import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
 public interface Region {
 
-  void place(int[][] level);
+  void place(Level level);
 
-  int cost(int[][] cells);
+  int cost(Level level);
 
   Vector2D getLocation();
 

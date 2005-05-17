@@ -1,8 +1,9 @@
 package ironfist.level.maze.kruskal;
 
 import ironfist.level.Region;
-import ironfist.level.maze.MazeGenerator;
+import ironfist.level.RegionFactory;
 import ironfist.level.maze.MazeRegion;
+import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.DisjointSet;
 import ironfist.util.Loop;
@@ -13,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class KruskalMazeGenerator implements MazeGenerator {
+public class KruskalMazeGenerator implements RegionFactory {
 
   private Random random;
   private int height;
@@ -25,7 +26,7 @@ public class KruskalMazeGenerator implements MazeGenerator {
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
   }
 
-  public Region generate() {
+  public Region create() {
     int[][] nodes = new int[height][width];
     List<EdgeCell> edges = new ArrayList<EdgeCell>(height * width);
 
@@ -52,32 +53,16 @@ public class KruskalMazeGenerator implements MazeGenerator {
     return new MazeRegion(nodes);
   }
 
-  public static void toString(int[][] cells) {
-    StringBuffer result = new StringBuffer();
-    for (int x = 0; x < cells.length; x++) {
-      for (int y = 0; y < cells[x].length; y++) {
-        if (cells[x][y] == 1) {
-          result.append(".");
-        } else {
-          result.append("#");
-        }
-      }
-      result.append("\n");
-    }
-    System.out.print(result);
-  }
-
   public static void main(String[] args) {
-    KruskalMazeGenerator generator = new KruskalMazeGenerator(
-      new MersenneTwister(), 20, 80);
+    RegionFactory generator = new KruskalMazeGenerator(new MersenneTwister(),
+      20, 80);
 
-    int[][] result =new int[20][80];
-    Region region = generator.generate();
+    Region region = generator.create();
     region.setLocation(Vector2D.get(0, 0));
-    region.place(result);
+    Level level = new Level(new Object[20][80]);
+    region.place(level);
 
-    toString(result);
-
+    System.out.println(level);
   }
 
 }

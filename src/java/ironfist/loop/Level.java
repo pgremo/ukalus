@@ -51,4 +51,26 @@ public class Level implements Serializable {
     return data[0].length;
   }
 
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    for (int x = 0; x < getLength(); x++) {
+      for (int y = 0; y < getWidth(); y++) {
+        Integer value = (Integer) get(Vector2D.get(x, y));
+        if (value != null) {
+          if (value == 100) {
+            result.append("+");
+          } else if (value > 0) {
+            result.append(" ");
+          } else {
+            result.append("#");
+          }
+        }
+      }
+
+      result.append("\n");
+    }
+
+    return result.toString();
+  }
+
 }

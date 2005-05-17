@@ -1,15 +1,16 @@
 package ironfist.level.maze.eller;
 
 import ironfist.level.Region;
-import ironfist.level.maze.MazeGenerator;
+import ironfist.level.RegionFactory;
 import ironfist.level.maze.MazeRegion;
+import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.DisjointSet;
 import ironfist.util.MersenneTwister;
 
 import java.util.Random;
 
-public class EllerMazeGenerator implements MazeGenerator {
+public class EllerMazeGenerator implements RegionFactory {
 
   private Random random;
   private int height;
@@ -21,7 +22,7 @@ public class EllerMazeGenerator implements MazeGenerator {
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
   }
 
-  public Region generate() {
+  public Region create() {
     int[][] result = new int[height][width];
 
     DisjointSet sets = new DisjointSet(width / 2);
@@ -46,39 +47,22 @@ public class EllerMazeGenerator implements MazeGenerator {
           next[y * 2] = 1;
         }
       }
-      toString(result);
 
     }
 
     return new MazeRegion(result);
   }
 
-  public static void toString(int[][] cells) {
-    StringBuffer result = new StringBuffer();
-    for (int x = 0; x < cells.length; x++) {
-      for (int y = 0; y < cells[x].length; y++) {
-        if (cells[x][y] == 1) {
-          result.append(".");
-        } else {
-          result.append("#");
-        }
-      }
-      result.append("\n");
-    }
-    System.out.print(result);
-  }
-
   public static void main(String[] args) {
-    MazeGenerator generator = new EllerMazeGenerator(
-      new MersenneTwister(), 20, 80);
-    
-    int[][] result =new int[20][80];
-    Region region = generator.generate();
+    RegionFactory generator = new EllerMazeGenerator(new MersenneTwister(), 20,
+      80);
+
+    Region region = generator.create();
     region.setLocation(Vector2D.get(0, 0));
-    region.place(result);
+    Level level = new Level(new Object[20][80]);
+    region.place(level);
 
-    toString(result);
-
+    System.out.println(level);
   }
 
 }

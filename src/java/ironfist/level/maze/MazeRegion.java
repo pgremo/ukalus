@@ -1,6 +1,7 @@
 package ironfist.level.maze;
 
 import ironfist.level.Region;
+import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
 public class MazeRegion implements Region {
@@ -12,16 +13,16 @@ public class MazeRegion implements Region {
     this.cells = cells;
   }
 
-  public void place(int[][] level) {
+  public void place(Level level) {
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
         Vector2D target = location.add(Vector2D.get(x, y));
-        level[target.getX()][target.getY()] = cells[x][y];
+        level.set(target, cells[x][y]);
       }
     }
   }
 
-  public int cost(int[][] cells) {
+  public int cost(Level level) {
     return 0;
   }
 

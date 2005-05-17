@@ -5,11 +5,12 @@ import ironfist.graph.Node;
 import ironfist.graph.NodeRandom;
 import ironfist.graph.NodeTraversal;
 import ironfist.level.Region;
+import ironfist.level.RegionFactory;
 import ironfist.level.maze.MazeEdge;
-import ironfist.level.maze.MazeGenerator;
 import ironfist.level.maze.MazeNode;
 import ironfist.level.maze.MazeRegion;
 import ironfist.level.maze.MazeTraversalDelegate;
+import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
 
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class SparseCursalMazeGenerator implements MazeGenerator {
+public class SparseCursalMazeGenerator implements RegionFactory {
 
   private Random random;
   private int height;
@@ -54,7 +55,7 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
     return result;
   }
 
-  public Region generate() {
+  public Region create() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -124,31 +125,16 @@ public class SparseCursalMazeGenerator implements MazeGenerator {
     }
   }
 
-  public static void toString(int[][] cells) {
-    StringBuffer result = new StringBuffer();
-    for (int x = 0; x < cells.length; x++) {
-      for (int y = 0; y < cells[x].length; y++) {
-        if (cells[x][y] == 1) {
-          result.append(".");
-        } else {
-          result.append("#");
-        }
-      }
-      result.append("\n");
-    }
-    System.out.print(result);
-  }
-
   public static void main(String[] args) {
-    MazeGenerator generator = new SparseCursalMazeGenerator(
+    RegionFactory generator = new SparseCursalMazeGenerator(
       new MersenneTwister(), 20, 80);
 
-    int[][] result = new int[20][80];
-    Region region = generator.generate();
+    Region region = generator.create();
     region.setLocation(Vector2D.get(0, 0));
-    region.place(result);
+    Level level = new Level(new Object[20][80]);
+    region.place(level);
 
-    toString(result);
+    System.out.println(level);
   }
 
 }
