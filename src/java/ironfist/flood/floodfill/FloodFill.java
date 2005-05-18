@@ -11,7 +11,7 @@ public class FloodFill {
     Set<Node> result = new HashSet<Node>();
     Queue<Node> open = new LinkedList<Node>();
     open.add(start);
-    while (open.size() > 0) {
+    while (!open.isEmpty()) {
       Node current = open.remove();
       for (Node child : current.getChildren()) {
         if (child.getDistance() <= distance && !open.contains(child)) {
