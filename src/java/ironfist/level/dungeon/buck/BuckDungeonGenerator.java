@@ -70,11 +70,13 @@ public class BuckDungeonGenerator {
   }
 
   private void removeDeadEnds(Level level, int maxSteps) {
-    List<Vector2D> deadEnds = cells;
+    List<Vector2D> deadEnds = new LinkedList<Vector2D>(cells);
     for (int step = 0; step < maxSteps && !deadEnds.isEmpty(); step++) {
       List<Vector2D> ends = new LinkedList<Vector2D>();
       for (Vector2D current : deadEnds) {
-        List<Vector2D> edges = getEdges(level, current);
+        List<Vector2D> edges = new LinkedList<Vector2D>();
+        new Loop<Vector2D>(DIRECTIONS).forEach(new CollectEdges(current, level,
+          edges));
         if (edges.size() == 1) {
           level.set(current, 0);
           ends.add(edges.get(0));
@@ -82,17 +84,6 @@ public class BuckDungeonGenerator {
       }
       deadEnds = ends;
     }
-  }
-
-  private List<Vector2D> getEdges(Level level, Vector2D target) {
-    List<Vector2D> edges = new LinkedList<Vector2D>();
-    for (Vector2D direction : DIRECTIONS) {
-      Vector2D location = target.add(direction);
-      if (level.contains(location) && (Integer) level.get(location) > 0) {
-        edges.add(location);
-      }
-    }
-    return edges;
   }
 
   public static void main(String[] args) {
