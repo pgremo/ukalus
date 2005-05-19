@@ -154,18 +154,7 @@ public class HolisticDungeonGenerator {
     HolisticDungeonGenerator generator = new HolisticDungeonGenerator();
 
     Level result = generator.generate();
-
-    for (int x = 0; x < result.getLength(); x++) {
-      for (int y = 0; y < result.getWidth(); y++) {
-        if (result.get(Vector2D.get(x, y)) != null) {
-          System.out.print(".");
-        } else {
-          System.out.print("#");
-        }
-      }
-
-      System.out.println();
-    }
+    System.out.println(result);
   }
 
   private class Region {
