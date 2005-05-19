@@ -88,7 +88,7 @@ public class BuckDungeonGenerator {
 
   public static void main(String[] args) {
     Level level = new BuckDungeonGenerator().generate();
-    System.out.println(level);
+    System.out.print(level);
   }
 
 }
