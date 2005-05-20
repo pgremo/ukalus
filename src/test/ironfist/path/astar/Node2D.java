@@ -23,14 +23,14 @@ public class Node2D implements Node {
       Vector2D.get(-1, 0),
       Vector2D.get(0, -1)};
 
-  private Level map;
+  private Level level;
   private Vector2D location;
   private Node2D parent;
   private double g;
   private double h;
 
   public Node2D(Level map, Vector2D location, Node2D parent) {
-    this.map = map;
+    this.level = map;
     this.location = location;
     this.parent = parent;
   }
@@ -47,11 +47,9 @@ public class Node2D implements Node {
     List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
     for (Vector2D direction : DIRECTIONS) {
       Vector2D position = location.add(direction);
-      if ((parent == null || !position.equals(parent.getLocation())) // not
-          // parent
-          && map.contains(position) && map.get(position) != null // passable
-      ) {
-        result.add(new Node2D(map, position, this));
+      if ((parent == null || !position.equals(parent.getLocation()))
+          && level.contains(position) && level.get(position) != null) {
+        result.add(new Node2D(level, position, this));
       }
     }
     return result;
@@ -78,8 +76,9 @@ public class Node2D implements Node {
   }
 
   public boolean equals(Object obj) {
-    return obj != null && obj instanceof Node2D && ((Node2D) obj).getLocation()
-      .equals(location);
+    return obj == null
+        || (obj instanceof Node2D && ((Node2D) obj).getLocation()
+          .equals(location));
   }
 
   public int hashCode() {

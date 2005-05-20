@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PropertySetter {
 
-  private Map<String, Resolver> properties = new HashMap<String, Resolver>();
+  private Map<String, Resolver> properties;
 
   public PropertySetter(Map<String, Resolver> properties) {
     this.properties = properties;
@@ -20,6 +20,6 @@ public class PropertySetter {
     Map<String, Method> setters = new HashMap<String, Method>(methods.length);
     new Loop<Method>(methods).forEach(new SetterCollector(setters));
     new Loop<Map.Entry<String, Resolver>>(properties.entrySet()).forEach(new SetProperty(
-        setters, input));
+      setters, input));
   }
 }

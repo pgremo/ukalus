@@ -4,43 +4,27 @@
  */
 package ironfist.path.astar;
 
-import ironfist.path.astar.Heuristic;
-import ironfist.path.astar.Node;
+import ironfist.math.Vector2D;
 
 /**
  * @author gremopm
- *  
+ * 
  */
 public class ManhattenHeuristic implements Heuristic {
 
-  private Node2D start;
-  private Node2D stop;
+  private Vector2D stop;
+  private Vector2D v2;
 
-  public ManhattenHeuristic(Node2D start, Node2D stop) {
-    this.start = start;
+  public ManhattenHeuristic(Vector2D start, Vector2D stop) {
     this.stop = stop;
+    this.v2 = start.subtract(stop);
   }
 
   public double estimate(Node current) {
-    Node2D n = (Node2D) current;
-    double heuristic = (Math.abs(n.getLocation()
-      .getX() - stop.getLocation()
-      .getX()) + Math.abs(n.getLocation()
-      .getY() - stop.getLocation()
-      .getY()));
-    double dx1 = n.getLocation()
-      .getX() - stop.getLocation()
-      .getX();
-    double dy1 = n.getLocation()
-      .getY() - stop.getLocation()
-      .getY();
-    double dx2 = start.getLocation()
-      .getX() - stop.getLocation()
-      .getX();
-    double dy2 = start.getLocation()
-      .getY() - stop.getLocation()
-      .getY();
-    double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+    Vector2D v1 = ((Node2D) current).getLocation()
+      .subtract(stop);
+    double heuristic = Math.abs(v1.getX()) + Math.abs(v1.getY());
+    double cross = Math.abs(v1.getX() * v2.getY() - v2.getX() * v1.getY());
     heuristic += cross * 0.001;
     return heuristic;
   }

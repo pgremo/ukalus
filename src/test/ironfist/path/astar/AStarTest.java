@@ -26,14 +26,15 @@ public class AStarTest extends TestCase {
     Cost cost = new FixedCost(1);
     Node2D start = new Node2D(map, Vector2D.get(0, 0), null);
     Node2D stop = new Node2D(map, Vector2D.get(2, 2), null);
-    Heuristic heuristic = new ManhattenHeuristic(start, stop);
+    Heuristic heuristic = new ManhattenHeuristic(Vector2D.get(0, 0),
+      Vector2D.get(2, 2));
     Iterator<Node> path = finder.solve(heuristic, cost, start, stop);
     assertTrue(path.hasNext());
 
     assertEquals(Vector2D.get(0, 0), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.get(1, 0), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.get(1, 1), ((Node2D) path.next()).getLocation());
-    assertEquals(Vector2D.get(1, 2), ((Node2D) path.next()).getLocation());
+    assertEquals(Vector2D.get(2, 1), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.get(2, 2), ((Node2D) path.next()).getLocation());
 
   }
@@ -47,7 +48,8 @@ public class AStarTest extends TestCase {
         {Boolean.TRUE, null, Boolean.TRUE}});
     Node2D start = new Node2D(map, Vector2D.get(0, 0), null);
     Node2D stop = new Node2D(map, Vector2D.get(2, 2), null);
-    Heuristic heuristic = new ManhattenHeuristic(start, stop);
+    Heuristic heuristic = new ManhattenHeuristic(Vector2D.get(0, 0),
+      Vector2D.get(2, 2));
     Iterator<Node> path = finder.solve(heuristic, cost, start, stop);
     assertTrue(path.hasNext());
 
