@@ -4,7 +4,7 @@
  */
 package ironfist.level.dungeon.holistic;
 
-import ironfist.loop.Level;
+import ironfist.level.Level;
 import ironfist.math.Vector2D;
 
 import java.util.ArrayList;

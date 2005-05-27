@@ -4,6 +4,7 @@
  */
 package ironfist.loop;
 
+import ironfist.level.Level;
 import ironfist.persistence.Reference;
 import ironfist.util.Closure;
 

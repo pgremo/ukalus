@@ -1,7 +1,7 @@
 package ironfist.level.maze;
 
+import ironfist.level.Level;
 import ironfist.level.Region;
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
 public class MazeRegion implements Region {

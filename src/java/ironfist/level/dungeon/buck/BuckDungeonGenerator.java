@@ -1,9 +1,9 @@
 package ironfist.level.dungeon.buck;
 
+import ironfist.level.Level;
 import ironfist.level.Region;
 import ironfist.level.RegionFactory;
 import ironfist.level.maze.prim.PrimMazeGenerator;
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.Loop;
 import ironfist.util.MersenneTwister;

@@ -1,7 +1,7 @@
 package ironfist.level.dungeon.buck;
 
+import ironfist.level.Level;
 import ironfist.level.Region;
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
 import java.util.LinkedList;

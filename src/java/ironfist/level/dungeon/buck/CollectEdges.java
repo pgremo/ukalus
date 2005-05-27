@@ -1,6 +1,6 @@
 package ironfist.level.dungeon.buck;
 
-import ironfist.loop.Level;
+import ironfist.level.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.Closure;
 

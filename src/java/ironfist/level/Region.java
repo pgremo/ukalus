@@ -1,6 +1,5 @@
 package ironfist.level;
 
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 
 public interface Region {

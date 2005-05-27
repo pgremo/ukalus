@@ -4,13 +4,13 @@ import ironfist.graph.Edge;
 import ironfist.graph.Node;
 import ironfist.graph.NodeRandom;
 import ironfist.graph.NodeTraversal;
+import ironfist.level.Level;
 import ironfist.level.Region;
 import ironfist.level.RegionFactory;
 import ironfist.level.maze.MazeEdge;
 import ironfist.level.maze.MazeNode;
 import ironfist.level.maze.MazeRegion;
 import ironfist.level.maze.MazeTraversalDelegate;
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.MersenneTwister;
 

@@ -1,9 +1,9 @@
 package ironfist.level.maze.kruskal;
 
+import ironfist.level.Level;
 import ironfist.level.Region;
 import ironfist.level.RegionFactory;
 import ironfist.level.maze.MazeRegion;
-import ironfist.loop.Level;
 import ironfist.math.Vector2D;
 import ironfist.util.DisjointSet;
 import ironfist.util.Loop;

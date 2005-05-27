@@ -1,6 +1,6 @@
 package ironfist.flood.floodfill;
 
-import ironfist.loop.Level;
+import ironfist.level.Level;
 import ironfist.math.Vector2D;
 
 import java.util.ArrayList;

@@ -4,6 +4,8 @@
  */
 package ironfist.loop;
 
+import ironfist.level.Level;
+
 import java.io.Serializable;
 
 /**

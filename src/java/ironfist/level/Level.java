@@ -2,8 +2,10 @@
  * Created on Feb 16, 2005
  *
  */
-package ironfist.loop;
+package ironfist.level;
 
+import ironfist.loop.Event;
+import ironfist.loop.TickComparator;
 import ironfist.math.Vector2D;
 
 import java.io.Serializable;
