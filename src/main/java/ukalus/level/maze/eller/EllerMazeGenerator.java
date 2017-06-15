@@ -1,12 +1,13 @@
 package ukalus.level.maze.eller;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.level.Level;
 import ukalus.level.Region;
 import ukalus.level.RegionFactory;
 import ukalus.level.maze.MazeRegion;
 import ukalus.math.Vector2D;
 import ukalus.util.DisjointSet;
-import ukalus.util.MersenneTwister;
 
 import java.util.Random;
 
@@ -54,7 +55,7 @@ public class EllerMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new EllerMazeGenerator(new MersenneTwister(), 20,
+    RegionFactory generator = new EllerMazeGenerator(new RandomAdaptor(new MersenneTwister()), 20,
       80);
 
     Region region = generator.create();

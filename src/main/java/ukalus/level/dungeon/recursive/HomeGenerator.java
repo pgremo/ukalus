@@ -1,5 +1,7 @@
 package ukalus.level.dungeon.recursive;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.Floor;
 import ukalus.Level;
 import ukalus.Stairs;
@@ -8,14 +10,13 @@ import ukalus.TileType;
 import ukalus.Wall;
 import ukalus.Weapon;
 import ukalus.math.Vector2D;
-import ukalus.util.MersenneTwister;
 
 import java.util.List;
 import java.util.Random;
 
 public class HomeGenerator {
 
-  private Random random = new MersenneTwister();
+  private Random random = new RandomAdaptor(new MersenneTwister());
   private RectangleRoomFactory areaFactory;
 
   {

@@ -3,6 +3,8 @@ package ukalus.util;
 import java.util.Random;
 
 import junit.framework.TestCase;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 
 public class MersenneTwisterTest extends TestCase {
 
@@ -10,7 +12,7 @@ public class MersenneTwisterTest extends TestCase {
   private static final int FLIPS = 1000000;
 
   public void testEquidistribution() {
-    Random random = new MersenneTwister();
+    Random random = new RandomAdaptor(new MersenneTwister());
 
     double total = 0;
     for (int i = 0; i < SESSIONS; i++) {

@@ -1,5 +1,7 @@
 package ukalus.level.maze.kruskal;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.level.Level;
 import ukalus.level.Region;
 import ukalus.level.RegionFactory;
@@ -7,7 +9,6 @@ import ukalus.level.maze.MazeRegion;
 import ukalus.math.Vector2D;
 import ukalus.util.DisjointSet;
 import ukalus.util.Loop;
-import ukalus.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class KruskalMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new KruskalMazeGenerator(new MersenneTwister(),
+    RegionFactory generator = new KruskalMazeGenerator(new RandomAdaptor(new MersenneTwister()),
       20, 80);
 
     Region region = generator.create();

@@ -1,5 +1,7 @@
 package ukalus.level.maze.depthfirst;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.graph.Node;
 import ukalus.graph.NodeStack;
 import ukalus.graph.NodeTraversal;
@@ -11,7 +13,6 @@ import ukalus.level.maze.MazeNode;
 import ukalus.level.maze.MazeRegion;
 import ukalus.level.maze.MazeTraversalDelegate;
 import ukalus.math.Vector2D;
-import ukalus.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public class DepthFirstMazeGenerator implements RegionFactory {
 
   public static void main(String[] args) {
     RegionFactory generator = new DepthFirstMazeGenerator(
-      new MersenneTwister(), 20, 80);
+      new RandomAdaptor(new MersenneTwister()), 20, 80);
 
     Region region = generator.create();
     region.setLocation(Vector2D.get(0, 0));

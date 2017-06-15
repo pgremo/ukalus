@@ -1,10 +1,11 @@
 package ukalus;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.level.dungeon.recursive.RecursiveDungeonGenerator;
 import ukalus.math.Vector2D;
 import ukalus.persistence.Persistence;
 import ukalus.persistence.PersistenceException;
-import ukalus.util.MersenneTwister;
 
 /**
  * DOCUMENT ME!
@@ -19,8 +20,8 @@ public final class Referee {
   private static boolean run;
 
   static {
-    generator = new RecursiveDungeonGenerator(new MersenneTwister(
-      System.currentTimeMillis()));
+    generator = new RecursiveDungeonGenerator(new RandomAdaptor(new MersenneTwister(
+      System.currentTimeMillis())));
     stairsPredicate = new StairsPredicate();
   }
 

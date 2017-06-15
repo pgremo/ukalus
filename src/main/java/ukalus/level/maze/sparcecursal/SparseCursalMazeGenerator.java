@@ -1,5 +1,7 @@
 package ukalus.level.maze.sparcecursal;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.graph.Edge;
 import ukalus.graph.Node;
 import ukalus.graph.NodeRandom;
@@ -12,7 +14,6 @@ import ukalus.level.maze.MazeNode;
 import ukalus.level.maze.MazeRegion;
 import ukalus.level.maze.MazeTraversalDelegate;
 import ukalus.math.Vector2D;
-import ukalus.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,7 +128,7 @@ public class SparseCursalMazeGenerator implements RegionFactory {
 
   public static void main(String[] args) {
     RegionFactory generator = new SparseCursalMazeGenerator(
-      new MersenneTwister(), 20, 80);
+      new RandomAdaptor(new MersenneTwister()), 20, 80);
 
     Region region = generator.create();
     region.setLocation(Vector2D.get(0, 0));

@@ -1,5 +1,7 @@
 package ukalus.level.maze.prim;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.graph.Node;
 import ukalus.graph.NodeRandom;
 import ukalus.graph.NodeTraversal;
@@ -11,7 +13,6 @@ import ukalus.level.maze.MazeNode;
 import ukalus.level.maze.MazeRegion;
 import ukalus.level.maze.MazeTraversalDelegate;
 import ukalus.math.Vector2D;
-import ukalus.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +100,7 @@ public class PrimMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    PrimMazeGenerator generator = new PrimMazeGenerator(new MersenneTwister(),
+    PrimMazeGenerator generator = new PrimMazeGenerator(new RandomAdaptor(new MersenneTwister()),
       20, 80);
 
     Region region = generator.create();

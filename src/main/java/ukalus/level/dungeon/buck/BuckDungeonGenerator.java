@@ -1,12 +1,13 @@
 package ukalus.level.dungeon.buck;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.level.Level;
 import ukalus.level.Region;
 import ukalus.level.RegionFactory;
 import ukalus.level.maze.prim.PrimMazeGenerator;
 import ukalus.math.Vector2D;
 import ukalus.util.Loop;
-import ukalus.util.MersenneTwister;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class BuckDungeonGenerator {
       Vector2D.get(0, -1),
       Vector2D.get(-1, 0)};
 
-  private Random random = new MersenneTwister();
+  private Random random = new RandomAdaptor(new MersenneTwister());
   private RegionFactory mazeFactory = new PrimMazeGenerator(random, 20, 80);
   private RegionFactory roomFactory = new RoomGenerator(random, 5, 9, 9, 14, 2);
   private int sparceness = 7;

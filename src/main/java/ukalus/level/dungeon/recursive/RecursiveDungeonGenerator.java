@@ -1,5 +1,7 @@
 package ukalus.level.dungeon.recursive;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.Door;
 import ukalus.Floor;
 import ukalus.Level;
@@ -9,7 +11,6 @@ import ukalus.TileType;
 import ukalus.Wall;
 import ukalus.math.Vector2D;
 import ukalus.util.Loop;
-import ukalus.util.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +142,7 @@ public class RecursiveDungeonGenerator {
   public static void main(String[] args) throws Exception {
     long seed = System.currentTimeMillis();
     RecursiveDungeonGenerator generator = new RecursiveDungeonGenerator(
-      new MersenneTwister(seed));
+      new RandomAdaptor(new MersenneTwister(seed)));
     Level dungeon = generator.generate("1");
     StringBuffer output = new StringBuffer();
 

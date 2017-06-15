@@ -1,7 +1,8 @@
 package ukalus.items;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.util.Closure;
-import ukalus.util.MersenneTwister;
 
 import java.util.HashSet;
 import java.util.ListResourceBundle;
@@ -21,7 +22,7 @@ public class ScrollDescriptionResource extends ListResourceBundle {
   private static final int MAX_SYLLABLES = 3;
 
   protected Object[][] getContents() {
-    Random random = new MersenneTwister();
+    Random random = new RandomAdaptor(new MersenneTwister());
     Set<Object> labels = new HashSet<Object>();
 
     Closure<Object, String> factory = new RandomLabel(random, FILE_NAME, 1,

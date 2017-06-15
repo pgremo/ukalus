@@ -1,9 +1,10 @@
 package ukalus.items;
 
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomAdaptor;
 import ukalus.util.Closure;
 import ukalus.util.Loop;
 import ukalus.util.MarkovChain;
-import ukalus.util.MersenneTwister;
 import ukalus.util.StringJoin;
 
 import java.util.Enumeration;
@@ -25,7 +26,7 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private static final int MAX_SYLLABLES = 3;
   private static final int MAX_LABELS = 10;
 
-  private Random random = new MersenneTwister();
+  private Random random = new RandomAdaptor(new MersenneTwister());
   private MarkovChain<Closure<Object, String>> rules = new MarkovChain<Closure<Object, String>>(
       random);
 

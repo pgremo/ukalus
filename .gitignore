@@ -68,3 +68,7 @@ fabric.properties
 hs_err_pid*
 
 *.iml
+build
+.DS_Store
+.gradle
+classes
