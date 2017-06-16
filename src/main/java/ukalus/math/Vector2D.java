@@ -9,11 +9,6 @@ public class Vector2D implements Serializable {
 
   private static int RANGE = 200;
 
-  public static int MIN_X = -RANGE;
-  public static int MAX_X = RANGE;
-  public static int MIN_Y = -RANGE;
-  public static int MAX_Y = RANGE;
-
   private static final Vector2D[][] cache = new Vector2D[RANGE * 2][RANGE * 2];
 
   public static Vector2D get(int x, int y) {

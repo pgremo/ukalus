@@ -1,8 +1,8 @@
 package ukalus.level;
 
 
-public interface RegionFactory {
+public interface RegionFactory<T> {
 
-  Region create();
+  Region<T> create();
 
 }

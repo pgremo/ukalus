@@ -2,14 +2,11 @@ package ukalus.level;
 
 import ukalus.math.Vector2D;
 
-public interface Region {
+public interface Region<T> {
 
-  void place(Level level);
 
-  int cost(Level level);
+  void place(Vector2D location, Level<T> level);
 
-  Vector2D getLocation();
-
-  void setLocation(Vector2D location);
+  int cost(Vector2D location, Level<T> level);
 
 }

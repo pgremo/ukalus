@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Room implements Region {
+public class Room implements Region<Integer> {
 
   private Random random;
   private Vector2D location;
@@ -23,9 +23,13 @@ public class Room implements Region {
     this.id = id;
   }
 
-  public void place(Level level) {
-    int startX = location.getX();
-    int startY = location.getY();
+  public void place(Level<Integer> level) {
+    place(location, level);
+  }
+
+  public void place(Vector2D target, Level<Integer> level) {
+    int startX = target.getX();
+    int startY = target.getY();
 
     // interior
     for (int x = startX + 1; x < startX + height - 1; x++) {
@@ -40,16 +44,16 @@ public class Room implements Region {
     level.set(Vector2D.get(startX, startY + width - 1), 0);
     level.set(Vector2D.get(startX + height - 1, startY + width - 1), 0);
 
-    List<List<Vector2D>> all = new LinkedList<List<Vector2D>>();
+    List<List<Vector2D>> all = new LinkedList<>();
 
     // west
-    List<Vector2D> open = new LinkedList<Vector2D>();
+    List<Vector2D> open = new LinkedList<>();
     for (int i = startX + 1; i < startX + height - 1; i++) {
       if (startY > 0) {
-        if ((Integer) level.get(Vector2D.get(i, startY - 1)) == 0) {
+        if (level.get(Vector2D.get(i, startY - 1)) == 0) {
           if (!open.isEmpty()) {
             all.add(open);
-            open = new LinkedList<Vector2D>();
+            open = new LinkedList<>();
           }
         } else {
           open.add(Vector2D.get(i, startY));
@@ -59,16 +63,16 @@ public class Room implements Region {
     }
     if (!open.isEmpty()) {
       all.add(open);
-      open = new LinkedList<Vector2D>();
+      open = new LinkedList<>();
     }
 
     // east
     for (int i = startX + 1; i < startX + height - 1; i++) {
       if (startY + width < level.getWidth()) {
-        if ((Integer) level.get(Vector2D.get(i, startY + width)) == 0) {
+        if (level.get(Vector2D.get(i, startY + width)) == 0) {
           if (!open.isEmpty()) {
             all.add(open);
-            open = new LinkedList<Vector2D>();
+            open = new LinkedList<>();
           }
         } else {
           open.add(Vector2D.get(i, startY + width - 1));
@@ -78,16 +82,16 @@ public class Room implements Region {
     }
     if (!open.isEmpty()) {
       all.add(open);
-      open = new LinkedList<Vector2D>();
+      open = new LinkedList<>();
     }
 
     // north
     for (int i = startY + 1; i < startY + width - 1; i++) {
       if (startX > 0) {
-        if ((Integer) level.get(Vector2D.get(startX - 1, i)) == 0) {
+        if (level.get(Vector2D.get(startX - 1, i)) == 0) {
           if (!open.isEmpty()) {
             all.add(open);
-            open = new LinkedList<Vector2D>();
+            open = new LinkedList<>();
           }
         } else {
           open.add(Vector2D.get(startX, i));
@@ -97,16 +101,16 @@ public class Room implements Region {
     }
     if (!open.isEmpty()) {
       all.add(open);
-      open = new LinkedList<Vector2D>();
+      open = new LinkedList<>();
     }
 
     // south
     for (int i = startY + 1; i < startY + width - 1; i++) {
       if (startX + height < level.getLength()) {
-        if ((Integer) level.get(Vector2D.get(startX + height, i)) == 0) {
+        if (level.get(Vector2D.get(startX + height, i)) == 0) {
           if (!open.isEmpty()) {
             all.add(open);
-            open = new LinkedList<Vector2D>();
+            open = new LinkedList<>();
           }
         } else {
           open.add(Vector2D.get(startX + height - 1, i));
@@ -127,46 +131,49 @@ public class Room implements Region {
     }
   }
 
-  public int cost(Level level) {
+  public int cost(Level<Integer> level) {
+    return cost(location, level);
+  }
+
+  public int cost(Vector2D target, Level<Integer> level) {
     int result = 0;
-    int startX = location.getX();
-    int startY = location.getY();
+    int startX = target.getX();
+    int startY = target.getY();
     if (startY >= 0
         && startY + width <= level.getWidth()
         && startX >= 0
         && startX + height <= level.getLength()
-        && (Integer) level.get(Vector2D.get(startX, startY)) == 0
-        && (Integer) level.get(Vector2D.get(startX, startY + width - 1)) == 0
-        && (Integer) level.get(Vector2D.get(startX + height - 1, startY)) == 0
-        && (Integer) level.get(Vector2D.get(startX + height - 1, startY + width
-            - 1)) == 0) {
+        && level.get(Vector2D.get(startX, startY)) == 0
+        && level.get(Vector2D.get(startX, startY + width - 1)) == 0
+        && level.get(Vector2D.get(startX + height - 1, startY)) == 0
+        && level.get(Vector2D.get(startX + height - 1, startY + width - 1)) == 0) {
 
       if (startY > 0 && startY + width < level.getWidth()) {
         for (int x = startX + 1; x < startX + height - 1; x++) {
-          if ((Integer) level.get(Vector2D.get(x, startY - 1)) == 1) {
+          if (level.get(Vector2D.get(x, startY - 1)) == 1) {
             result++;
           }
-          if ((Integer) level.get(Vector2D.get(x, startY + width)) == 1) {
+          if (level.get(Vector2D.get(x, startY + width)) == 1) {
             result++;
           }
         }
       }
       if (startX > 0 && startX + height < level.getLength()) {
         for (int y = startY + 1; y < startY + width - 1; y++) {
-          if ((Integer) level.get(Vector2D.get(startX - 1, y)) == 1) {
+          if (level.get(Vector2D.get(startX - 1, y)) == 1) {
             result++;
           }
-          if ((Integer) level.get(Vector2D.get(startX + height, y)) == 1) {
+          if (level.get(Vector2D.get(startX + height, y)) == 1) {
             result++;
           }
         }
       }
       for (int x = startX + 1; x < startX + height - 1; x++) {
         for (int y = startY + 1; y < startY + width - 1; y++) {
-          if ((Integer) level.get(Vector2D.get(x, y)) == 1) {
+          if (level.get(Vector2D.get(x, y)) == 1) {
             result += 3;
           }
-          if ((Integer) level.get(Vector2D.get(x, y)) > 1) {
+          if (level.get(Vector2D.get(x, y)) > 1) {
             result += 100;
           }
         }

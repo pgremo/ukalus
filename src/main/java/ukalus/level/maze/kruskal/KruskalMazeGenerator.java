@@ -58,10 +58,9 @@ public class KruskalMazeGenerator implements RegionFactory {
     RegionFactory generator = new KruskalMazeGenerator(new RandomAdaptor(new MersenneTwister()),
       20, 80);
 
-    Region region = generator.create();
-    region.setLocation(Vector2D.get(0, 0));
     Level level = new Level(new Object[20][80]);
-    region.place(level);
+    Region region = generator.create();
+    region.place(Vector2D.get(0, 0), level);
 
     System.out.println(level);
   }

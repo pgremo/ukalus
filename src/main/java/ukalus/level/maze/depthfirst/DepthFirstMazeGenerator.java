@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class DepthFirstMazeGenerator implements RegionFactory {
+public class DepthFirstMazeGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int height;
@@ -36,24 +36,14 @@ public class DepthFirstMazeGenerator implements RegionFactory {
   }
 
   private MazeNode getNode(Vector2D location) {
-    MazeNode result = nodes.get(location);
-    if (result == null) {
-      result = new MazeNode(location);
-      nodes.put(location, result);
-    }
-    return result;
+    return nodes.computeIfAbsent(location, MazeNode::new);
   }
 
   private MazeEdge getEdge(Vector2D location, MazeNode head, MazeNode tail) {
-    MazeEdge result = edges.get(location);
-    if (result == null) {
-      result = new MazeEdge(location, head, tail);
-      edges.put(location, result);
-    }
-    return result;
+    return edges.computeIfAbsent(location, l -> new MazeEdge(l, head, tail));
   }
 
-  public Region create() {
+  public Region<Integer> create() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -100,13 +90,12 @@ public class DepthFirstMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new DepthFirstMazeGenerator(
+    RegionFactory<Integer> generator = new DepthFirstMazeGenerator(
       new RandomAdaptor(new MersenneTwister()), 20, 80);
 
-    Region region = generator.create();
-    region.setLocation(Vector2D.get(0, 0));
-    Level level = new Level(new Object[20][80]);
-    region.place(level);
+    Level<Integer> level = new Level<>(new Integer[20][80]);
+
+    generator.create().place(Vector2D.get(0, 0), level);
 
     System.out.println(level);
   }

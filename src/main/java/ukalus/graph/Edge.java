@@ -1,12 +1,13 @@
 package ukalus.graph;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public class Edge {
 
-  protected Node from;
-  protected Node to;
+  private Node from;
+  private Node to;
 
   public Edge(Node from, Node to) {
     this.from = from;
@@ -14,17 +15,16 @@ public class Edge {
   }
 
   public List<Node> getNodes() {
-    return Arrays.asList(new Node[]{from, to});
+    return asList(from, to);
   }
 
   public Node getNode(Node node) {
-    Node result = null;
     if (node.equals(from)) {
-      result = to;
+      return to;
     } else if (node.equals(to)) {
-      result = from;
+      return from;
     }
-    return result;
+    return null;
   }
 
 }

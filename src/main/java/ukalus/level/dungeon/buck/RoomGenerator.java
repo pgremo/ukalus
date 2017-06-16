@@ -5,7 +5,7 @@ import ukalus.level.RegionFactory;
 
 import java.util.Random;
 
-public class RoomGenerator implements RegionFactory {
+public class RoomGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int minRoomHeight = 5;
@@ -24,7 +24,7 @@ public class RoomGenerator implements RegionFactory {
     this.startId = startId;
   }
 
-  public Region create() {
+  public Region<Integer> create() {
     return new Room(random, random.nextInt(maxRoomHeight - minRoomHeight)
         + minRoomHeight, random.nextInt(maxRoomWidth - minRoomWidth)
         + minRoomWidth, startId++);

@@ -16,14 +16,14 @@ import java.util.Queue;
  * @author gremopm
  * 
  */
-public class Level implements Serializable {
+public class Level<T> implements Serializable {
 
   private static final long serialVersionUID = 3617578201795014705L;
-  private Queue<Event> queue = new PriorityQueue<Event>(100,
+  private Queue<Event> queue = new PriorityQueue<>(100,
     new TickComparator());
-  private Object[][] data;
+  private T[][] data;
 
-  public Level(Object[][] data) {
+  public Level(T[][] data) {
     this.data = data;
   }
 
@@ -37,11 +37,11 @@ public class Level implements Serializable {
         && location.getY() < data[location.getX()].length;
   }
 
-  public Object get(Vector2D location) {
+  public T get(Vector2D location) {
     return data[location.getX()][location.getY()];
   }
 
-  public void set(Vector2D location, Object value) {
+  public void set(Vector2D location, T value) {
     data[location.getX()][location.getY()] = value;
   }
 
@@ -54,7 +54,7 @@ public class Level implements Serializable {
   }
 
   public String toString() {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (int x = 0; x < getLength(); x++) {
       for (int y = 0; y < getWidth(); y++) {
         Integer value = (Integer) get(Vector2D.get(x, y));

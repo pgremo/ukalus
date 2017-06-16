@@ -4,16 +4,15 @@ import ukalus.level.Level;
 import ukalus.level.Region;
 import ukalus.math.Vector2D;
 
-public class MazeRegion implements Region {
+public class MazeRegion implements Region<Integer> {
 
-  private Vector2D location;
   private int[][] cells;
 
   public MazeRegion(int[][] cells) {
     this.cells = cells;
   }
 
-  public void place(Level level) {
+  public void place(Vector2D location, Level<Integer> level) {
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
         Vector2D target = location.add(Vector2D.get(x, y));
@@ -22,16 +21,8 @@ public class MazeRegion implements Region {
     }
   }
 
-  public int cost(Level level) {
+  public int cost(Vector2D location, Level<Integer> level) {
     return 0;
-  }
-
-  public Vector2D getLocation() {
-    return location;
-  }
-
-  public void setLocation(Vector2D location) {
-    this.location = location;
   }
 
 }
