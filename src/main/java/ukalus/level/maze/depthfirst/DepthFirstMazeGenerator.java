@@ -51,21 +51,21 @@ public class DepthFirstMazeGenerator implements RegionFactory<Integer> {
       for (int y = 1; y < cells[x].length - 1; y++) {
         if (x % 2 == 0 && y % 2 == 1) {
           // vertical edge
-          MazeNode head = getNode(Vector2D.get(x - 1, y));
-          MazeNode tail = getNode(Vector2D.get(x + 1, y));
-          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          MazeNode head = getNode(Vector2D.Companion.get(x - 1, y));
+          MazeNode tail = getNode(Vector2D.Companion.get(x + 1, y));
+          MazeEdge edge = getEdge(Vector2D.Companion.get(x, y), head, tail);
           head.addEdge(edge);
           tail.addEdge(edge);
         } else if (x % 2 == 1 && y % 2 == 0) {
           // horizontal edge
-          MazeNode head = getNode(Vector2D.get(x, y - 1));
-          MazeNode tail = getNode(Vector2D.get(x, y + 1));
-          MazeEdge edge = getEdge(Vector2D.get(x, y), head, tail);
+          MazeNode head = getNode(Vector2D.Companion.get(x, y - 1));
+          MazeNode tail = getNode(Vector2D.Companion.get(x, y + 1));
+          MazeEdge edge = getEdge(Vector2D.Companion.get(x, y), head, tail);
           head.addEdge(edge);
           tail.addEdge(edge);
         } else if (x % 2 == 1 && y % 2 == 1) {
           // node
-          getNode(Vector2D.get(x, y));
+          getNode(Vector2D.Companion.get(x, y));
           cells[x][y] = 1;
         }
       }
@@ -95,7 +95,7 @@ public class DepthFirstMazeGenerator implements RegionFactory<Integer> {
 
     Level<Integer> level = new Level<>(new Integer[20][80]);
 
-    generator.create().place(Vector2D.get(0, 0), level);
+    generator.create().place(Vector2D.Companion.get(0, 0), level);
 
     System.out.println(level);
   }

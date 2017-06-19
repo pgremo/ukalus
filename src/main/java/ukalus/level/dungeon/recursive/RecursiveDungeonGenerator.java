@@ -50,7 +50,7 @@ public class RecursiveDungeonGenerator {
 
     int x = random.nextInt(level.getHeight() - dimension.getHeight() - 1);
     int y = random.nextInt(level.getWidth() - dimension.getWidth() - 1);
-    target.setCoordinate(Vector2D.get(x, y));
+    target.setCoordinate(Vector2D.Companion.get(x, y));
     List<Area> areas = new ArrayList<Area>();
     areas.add(target);
     target.place(level);
@@ -89,18 +89,18 @@ public class RecursiveDungeonGenerator {
 
       int flip = random.nextInt(3);
       if (flip > 0) {
-        direction = direction.orthoganal();
+        direction = direction.orthogonal();
       }
       if (flip == 2) {
-        direction = direction.multiply(-1);
+        direction = direction.times(-1);
       }
 
       connector = new Area(connectorFactory.create());
       connector.rotate(direction);
       connector.setCoordinate(enter.getLocation()
-        .add(originalDirection)
-        .subtract(direction.multiply(2))
-        .add(source.getCoordinate()));
+        .plus(originalDirection)
+        .minus(direction.times(2))
+        .plus(source.getCoordinate()));
 
       Vector2D lastLocationCoordinate = connector.getRandom(terminalPredicate,
         random)
@@ -108,13 +108,13 @@ public class RecursiveDungeonGenerator {
 
       exit = target.getRandom(new TileTypeDirectionPredicate(TERMINAL,
         connector.getSide(lastLocationCoordinate)
-          .multiply(-1), target), random);
+          .times(-1), target), random);
 
       Vector2D connectorCoordinate = connector.getCoordinate();
 
-      Vector2D targetCoordinate = connectorCoordinate.add(
+      Vector2D targetCoordinate = connectorCoordinate.plus(
         lastLocationCoordinate)
-        .subtract(exit.getLocation());
+        .minus(exit.getLocation());
       target.setCoordinate(targetCoordinate);
 
       result = connector.check(new DungeonRoomPredicate(level,
@@ -148,7 +148,7 @@ public class RecursiveDungeonGenerator {
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {
-        Tile cell = dungeon.get(Vector2D.get(x, y));
+        Tile cell = dungeon.get(Vector2D.Companion.get(x, y));
         TileType type = null;
 
         if (cell != null) {

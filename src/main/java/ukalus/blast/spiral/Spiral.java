@@ -19,11 +19,11 @@ public class Spiral implements Blast {
 
   static {
     Map<Integer, SortedSet<ArcPoint>> circles = new HashMap<Integer, SortedSet<ArcPoint>>();
-    Vector2D origin = Vector2D.get(0, 0);
+    Vector2D origin = Vector2D.Companion.get(0, 0);
 
     for (int i = -20; i <= 20; i++) {
       for (int j = -20; j <= 20; j++) {
-        int distance = (int) (origin.distance(Vector2D.get(i, j)) + 0.5);
+        int distance = (int) (origin.distance(Vector2D.Companion.get(i, j)) + 0.5);
         if (distance <= 20) {
           SortedSet<ArcPoint> circle = circles.get(distance);
           if (circle == null) {
@@ -81,7 +81,7 @@ public class Spiral implements Blast {
         }
       }
 
-      Vector2D point = origin.add(Vector2D.get(arcPoint.x, arcPoint.y));
+      Vector2D point = origin.plus(Vector2D.Companion.get(arcPoint.x, arcPoint.y));
       result.add(point);
       boolean isBlocked = scanner.apply(point);
 

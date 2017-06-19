@@ -40,7 +40,7 @@ public class Engine {
     this.log = log;
 
     reference.set(store.load());
-    new Loop<Closure<Reference, Object>>(log).forEach(new ReplayLog(
+    new Loop<>(log).forEach(new ReplayLog(
         reference));
   }
 

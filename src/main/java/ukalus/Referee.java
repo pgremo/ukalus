@@ -188,7 +188,7 @@ public final class Referee {
    */
   static public void move(Creature creature, Vector2D direction) {
     Vector2D oldCoordinate = creature.getCoordinate();
-    Vector2D coordinate = oldCoordinate.add(direction);
+    Vector2D coordinate = oldCoordinate.plus(direction);
     Level level = creature.getLevel();
     Tile tile = level.get(coordinate);
     TileType type = tile.getTileType();

@@ -17,12 +17,12 @@ public class ManhattenHeuristic implements Heuristic {
 
   public ManhattenHeuristic(Vector2D start, Vector2D stop) {
     this.stop = stop;
-    this.v2 = start.subtract(stop);
+    this.v2 = start.minus(stop);
   }
 
   public double estimate(Node current) {
     Vector2D v1 = ((Node2D) current).getLocation()
-      .subtract(stop);
+      .minus(stop);
     double heuristic = Math.abs(v1.getX()) + Math.abs(v1.getY());
     double cross = Math.abs(v1.getX() * v2.getY() - v2.getX() * v1.getY());
     heuristic += cross * 0.001;

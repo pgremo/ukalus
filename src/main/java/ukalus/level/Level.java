@@ -57,7 +57,7 @@ public class Level<T> implements Serializable {
     StringBuilder result = new StringBuilder();
     for (int x = 0; x < getLength(); x++) {
       for (int y = 0; y < getWidth(); y++) {
-        Integer value = (Integer) get(Vector2D.get(x, y));
+        Integer value = (Integer) get(Vector2D.Companion.get(x, y));
         if (value != null) {
           if (value == 100) {
             result.append("+");

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author gremopm
  * 
  */
-public interface Store {
+public interface Store<T extends Serializable> {
 
   /**
    * Store the given object (eg, serialization).
@@ -21,7 +21,7 @@ public interface Store {
    * @param object
    * @throws Exception
    */
-  void store(Serializable object) throws IOException;
+  void store(T object) throws IOException;
 
   /**
    * Load the previously stored object.
@@ -29,7 +29,7 @@ public interface Store {
    * @return the previously stored object.
    * @throws Exception
    */
-  Serializable load() throws IOException, ClassNotFoundException;
+  T load() throws IOException, ClassNotFoundException;
 
   /**
    * Close this Store.

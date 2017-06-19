@@ -143,7 +143,7 @@ public class HolisticDungeonGenerator {
     for (Region cell : rooms) {
       for (int y = 1; y < cell.getHeight() - 1; y++) {
         for (int x = 1; x < cell.getWidth() - 1; x++) {
-          level.set(Vector2D.get(x + cell.getX(), y + cell.getY()),
+          level.set(Vector2D.Companion.get(x + cell.getX(), y + cell.getY()),
             Feature.ROOM);
         }
       }
@@ -211,7 +211,7 @@ public class HolisticDungeonGenerator {
     }
 
     Vector2D getRandomLocation(Random randomizer) {
-      return Vector2D.get(x + 1 + randomizer.nextInt(width - 2), y + 1
+      return Vector2D.Companion.get(x + 1 + randomizer.nextInt(width - 2), y + 1
           + randomizer.nextInt(height - 2));
     }
 

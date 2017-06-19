@@ -1095,7 +1095,7 @@ public class ShadowCast implements Blast {
    * @return DOCUMENT ME!
    */
   private boolean isOpaque(int x, int y) {
-    return scanner.apply(Vector2D.get(x, y));
+    return scanner.apply(Vector2D.Companion.get(x, y));
   }
 
   /**
@@ -1107,9 +1107,9 @@ public class ShadowCast implements Blast {
    *          DOCUMENT ME!
    */
   private void applyCell(int x, int y) {
-    int distance = (int) (origin.distance(Vector2D.get(x, y)) + 0.5);
+    int distance = (int) (origin.distance(Vector2D.Companion.get(x, y)) + 0.5);
     if (distance <= maxRadius) {
-      seen.add(Vector2D.get(x, y));
+      seen.add(Vector2D.Companion.get(x, y));
     }
   }
 }

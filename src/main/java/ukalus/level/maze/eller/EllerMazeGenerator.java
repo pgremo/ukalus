@@ -11,7 +11,7 @@ import ukalus.util.DisjointSet;
 
 import java.util.Random;
 
-public class EllerMazeGenerator implements RegionFactory {
+public class EllerMazeGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int height;
@@ -23,7 +23,7 @@ public class EllerMazeGenerator implements RegionFactory {
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
   }
 
-  public Region create() {
+  public Region<Integer> create() {
     int[][] result = new int[height][width];
 
     DisjointSet sets = new DisjointSet(width / 2);
@@ -55,12 +55,12 @@ public class EllerMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new EllerMazeGenerator(new RandomAdaptor(new MersenneTwister()), 20,
+    RegionFactory<Integer> generator = new EllerMazeGenerator(new RandomAdaptor(new MersenneTwister()), 20,
       80);
 
     Region<Integer> region = generator.create();
     Level<Integer> level = new Level<>(new Integer[20][80]);
-    region.place(Vector2D.get(0, 0), level);
+    region.place(Vector2D.Companion.get(0, 0), level);
 
     System.out.println(level);
   }

@@ -6,15 +6,15 @@ import ukalus.persistence.Store;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class MemoryStore implements Store {
+public class MemoryStore<T extends Serializable> implements Store<T> {
 
-  private Reference reference = new Reference();
+  private Reference<T> reference = new Reference<>();
 
-  public void store(Serializable object) throws IOException {
+  public void store(T object) throws IOException {
     reference.set(object);
   }
 
-  public Serializable load() throws IOException, ClassNotFoundException {
+  public T load() throws IOException, ClassNotFoundException {
     return reference.get();
   }
 

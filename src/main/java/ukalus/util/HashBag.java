@@ -1,5 +1,7 @@
 package ukalus.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.AbstractCollection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,21 +11,18 @@ import java.util.Map;
 
 public class HashBag<E> extends AbstractCollection<E> implements Bag<E> {
 
-  private Map<E, Counter> items = new HashMap<E, Counter>();
+  private Map<E, Counter> items = new HashMap<>();
   int size;
   int modifications;
 
+  @NotNull
   public Iterator<E> iterator() {
-    return new HashBagIterator<E>(this, items.entrySet()
+    return new HashBagIterator<>(this, items.entrySet()
       .iterator());
   }
 
   public boolean add(E value) {
-    Counter counter = items.get(value);
-    if (counter == null) {
-      counter = new Counter();
-      items.put(value, counter);
-    }
+    Counter counter = items.computeIfAbsent(value, k -> new Counter());
     counter.increment();
     size++;
     return true;

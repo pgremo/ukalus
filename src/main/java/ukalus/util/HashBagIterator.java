@@ -13,8 +13,8 @@ class HashBagIterator<E> implements Iterator<E> {
   private int modifications;
   private boolean canRemove;
 
-  public HashBagIterator(HashBag<E> bag,
-      Iterator<Map.Entry<E, Counter>> iterator) {
+  HashBagIterator(HashBag<E> bag,
+                  Iterator<Map.Entry<E, Counter>> iterator) {
     this.bag = bag;
     this.modifications = bag.modifications;
     this.entryIterator = iterator;
@@ -43,7 +43,7 @@ class HashBagIterator<E> implements Iterator<E> {
     if (modifications != this.bag.modifications) {
       throw new ConcurrentModificationException();
     }
-    if (canRemove == false) {
+    if (!canRemove) {
       throw new IllegalStateException();
     }
     Counter counter = current.getValue();

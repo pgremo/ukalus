@@ -20,7 +20,7 @@ public class RandomName extends RandomLabel {
   }
 
   public String apply(Object argument) {
-    StringBuffer result = new StringBuffer(super.apply(argument));
+    StringBuilder result = new StringBuilder(super.apply(argument));
     result.setCharAt(0, Character.toUpperCase(result.charAt(0)));
     return result.toString();
   }

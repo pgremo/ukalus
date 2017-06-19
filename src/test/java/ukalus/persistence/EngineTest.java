@@ -1,5 +1,6 @@
 package ukalus.persistence;
 
+import junit.framework.TestCase;
 import ukalus.persistence.file.FileLog;
 import ukalus.persistence.file.FileStore;
 
@@ -9,12 +10,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 public class EngineTest extends TestCase {
 
   private Engine server;
-  private Set<Engine> servers = new HashSet<Engine>();
+  private Set<Engine> servers = new HashSet<>();
 
   public void testServer() throws Exception {
     crashRecover();

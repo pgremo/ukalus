@@ -12,9 +12,8 @@ import java.util.Queue;
 
 /**
  * @author gremopm
- * 
  */
-public class Activate implements Closure<Reference, Object> {
+public class Activate implements Closure<Reference<Level<Object>>, Object> {
 
   private static final long serialVersionUID = 3257285825019656248L;
   private Event boundary;
@@ -26,8 +25,8 @@ public class Activate implements Closure<Reference, Object> {
     }
   }
 
-  public Object apply(Reference reference) {
-    Level level = (Level) reference.get();
+  public Object apply(Reference<Level<Object>> reference) {
+    Level<Object> level = reference.get();
     Queue<Event> queue = level.getQueue();
     queue.add(boundary);
     Event current = queue.poll();

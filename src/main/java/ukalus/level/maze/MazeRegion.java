@@ -15,7 +15,7 @@ public class MazeRegion implements Region<Integer> {
   public void place(Vector2D location, Level<Integer> level) {
     for (int x = 0; x < cells.length; x++) {
       for (int y = 0; y < cells[x].length; y++) {
-        Vector2D target = location.add(Vector2D.get(x, y));
+        Vector2D target = location.plus(Vector2D.Companion.get(x, y));
         level.set(target, cells[x][y]);
       }
     }

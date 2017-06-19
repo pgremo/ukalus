@@ -13,10 +13,10 @@ import java.util.Random;
 public class Area {
 
   protected static final Vector2D[] DIRECTIONS = {
-      Vector2D.get(-1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(1, 0),
-      Vector2D.get(0, -1)};
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(0, -1)};
 
   private Vector2D coordinate;
   private List<Tile> list;
@@ -54,7 +54,7 @@ public class Area {
     Vector2D result = null;
 
     for (int index = 0; index < 4 && result == null; index++) {
-      if (get(coordinate.add(DIRECTIONS[index])) == null) {
+      if (get(coordinate.plus(DIRECTIONS[index])) == null) {
         result = DIRECTIONS[index];
       }
     }

@@ -18,10 +18,10 @@ import java.util.List;
 public class Node2D implements Node {
 
   private static final Vector2D[] DIRECTIONS = new Vector2D[]{
-      Vector2D.get(1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(-1, 0),
-      Vector2D.get(0, -1)};
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(0, -1)};
 
   private Level level;
   private Vector2D location;
@@ -46,7 +46,7 @@ public class Node2D implements Node {
   public Collection<Node> getSuccessors() {
     List<Node> result = new ArrayList<Node>(DIRECTIONS.length);
     for (Vector2D direction : DIRECTIONS) {
-      Vector2D position = location.add(direction);
+      Vector2D position = location.plus(direction);
       if ((parent == null || !position.equals(parent.getLocation()))
           && level.contains(position) && level.get(position) != null) {
         result.add(new Node2D(level, position, this));

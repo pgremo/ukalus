@@ -43,18 +43,18 @@ public class JCursesClient extends Widget implements Client {
 
   static {
     directions = new HashMap<Integer, Vector2D>();
-    directions.put(new Integer(InputChar.KEY_UP), Vector2D.get(-1, 0));
-    directions.put(new Integer(InputChar.KEY_RIGHT), Vector2D.get(0, 1));
-    directions.put(new Integer(InputChar.KEY_DOWN), Vector2D.get(1, 0));
-    directions.put(new Integer(InputChar.KEY_LEFT), Vector2D.get(0, -1));
-    directions.put(new Integer('8'), Vector2D.get(-1, 0));
-    directions.put(new Integer('9'), Vector2D.get(-1, 1));
-    directions.put(new Integer('6'), Vector2D.get(0, 1));
-    directions.put(new Integer('3'), Vector2D.get(1, 1));
-    directions.put(new Integer('2'), Vector2D.get(1, 0));
-    directions.put(new Integer('1'), Vector2D.get(1, -1));
-    directions.put(new Integer('4'), Vector2D.get(0, -1));
-    directions.put(new Integer('7'), Vector2D.get(-1, -1));
+    directions.put(new Integer(InputChar.KEY_UP), Vector2D.Companion.get(-1, 0));
+    directions.put(new Integer(InputChar.KEY_RIGHT), Vector2D.Companion.get(0, 1));
+    directions.put(new Integer(InputChar.KEY_DOWN), Vector2D.Companion.get(1, 0));
+    directions.put(new Integer(InputChar.KEY_LEFT), Vector2D.Companion.get(0, -1));
+    directions.put(new Integer('8'), Vector2D.Companion.get(-1, 0));
+    directions.put(new Integer('9'), Vector2D.Companion.get(-1, 1));
+    directions.put(new Integer('6'), Vector2D.Companion.get(0, 1));
+    directions.put(new Integer('3'), Vector2D.Companion.get(1, 1));
+    directions.put(new Integer('2'), Vector2D.Companion.get(1, 0));
+    directions.put(new Integer('1'), Vector2D.Companion.get(1, -1));
+    directions.put(new Integer('4'), Vector2D.Companion.get(0, -1));
+    directions.put(new Integer('7'), Vector2D.Companion.get(-1, -1));
 
     commandTypes = new HashMap<Integer, CommandType>();
     commandTypes.put(new Integer('c'), CommandType.CLOSE);
@@ -174,7 +174,7 @@ public class JCursesClient extends Widget implements Client {
 
       for (int x = 0; x < plan.getHeight(); x++) {
         for (int y = 0; y < plan.getWidth(); y++) {
-          buffer.append(symbols.get(determineLevelMarker(plan.get(Vector2D.get(x,
+          buffer.append(symbols.get(determineLevelMarker(plan.get(Vector2D.Companion.get(x,
             y)))));
         }
 
@@ -236,7 +236,7 @@ public class JCursesClient extends Widget implements Client {
 
     if (direction != null) {
       Vector2D coordinate = hero.getCoordinate();
-      TileType type = plan.get(coordinate.add(direction));
+      TileType type = plan.get(coordinate.plus(direction));
 
       if (type instanceof Floor) {
         Floor floor = (Floor) type;

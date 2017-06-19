@@ -15,23 +15,23 @@ public class RayTracing implements Blast {
   private static int VIEW = 2; // 1=widest LOS .. 5=narrowest
   // for easy x,y octant translation
   private static final Vector2D[] ROW_TRANSFORM = new Vector2D[]{
-      Vector2D.get(1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(0, 1),
-      Vector2D.get(-1, 0),
-      Vector2D.get(-1, 0),
-      Vector2D.get(0, -1),
-      Vector2D.get(0, -1),
-      Vector2D.get(1, 0)};
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(0, -1),
+      Vector2D.Companion.get(0, -1),
+      Vector2D.Companion.get(1, 0)};
   private static final Vector2D[] CELL_TRANSFORM = new Vector2D[]{
-      Vector2D.get(0, 1),
-      Vector2D.get(1, 0),
-      Vector2D.get(-1, 0),
-      Vector2D.get(0, 1),
-      Vector2D.get(0, -1),
-      Vector2D.get(-1, 0),
-      Vector2D.get(1, 0),
-      Vector2D.get(0, -1)};
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(0, -1),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(0, -1)};
 
   private static final int[][] CIRCLES = new int[20][];
 
@@ -129,8 +129,8 @@ public class RayTracing implements Blast {
         }
 
         // translate X,Y coordinate
-        Vector2D location = origin.add(ROW_TRANSFORM[octant].multiply(row))
-          .add(CELL_TRANSFORM[octant].multiply(cell));
+        Vector2D location = origin.plus(ROW_TRANSFORM[octant].times(row))
+          .plus(CELL_TRANSFORM[octant].times(cell));
 
         boolean blocker = scanner.apply(location);
 

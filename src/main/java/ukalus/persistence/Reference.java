@@ -12,16 +12,16 @@ import java.io.Serializable;
  * @author gremopm
  * 
  */
-public class Reference {
+public class Reference<T extends Serializable> {
 
-  private Serializable object;
+  private T object;
 
   /**
    * Get the current value of the reference.
    * 
    * @return
    */
-  public Serializable get() {
+  public T get() {
     return object;
   }
 
@@ -30,7 +30,7 @@ public class Reference {
    * 
    * @param object
    */
-  public void set(Serializable object) {
+  public void set(T object) {
     this.object = object;
   }
 }

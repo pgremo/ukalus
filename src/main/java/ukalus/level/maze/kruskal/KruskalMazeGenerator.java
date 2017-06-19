@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class KruskalMazeGenerator implements RegionFactory {
+public class KruskalMazeGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int height;
@@ -27,9 +27,9 @@ public class KruskalMazeGenerator implements RegionFactory {
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
   }
 
-  public Region create() {
+  public Region<Integer> create() {
     int[][] nodes = new int[height][width];
-    List<EdgeCell> edges = new ArrayList<EdgeCell>(height * width);
+    List<EdgeCell> edges = new ArrayList<>(height * width);
 
     // add walls / open cells
     for (int x = 1; x < nodes.length - 1; x++) {
@@ -48,19 +48,19 @@ public class KruskalMazeGenerator implements RegionFactory {
     }
 
     Collections.shuffle(edges, random);
-    new Loop<EdgeCell>(edges).forEach(new TraverseEdge(new DisjointSet(height
-        * width), nodes));
+    new Loop<>(edges).forEach(new TraverseEdge(new DisjointSet(height
+      * width), nodes));
 
     return new MazeRegion(nodes);
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new KruskalMazeGenerator(new RandomAdaptor(new MersenneTwister()),
+    RegionFactory<Integer> generator = new KruskalMazeGenerator(new RandomAdaptor(new MersenneTwister()),
       20, 80);
 
-    Level level = new Level(new Object[20][80]);
-    Region region = generator.create();
-    region.place(Vector2D.get(0, 0), level);
+    Level<Integer> level = new Level<>(new Integer[20][80]);
+    Region<Integer> region = generator.create();
+    region.place(Vector2D.Companion.get(0, 0), level);
 
     System.out.println(level);
   }

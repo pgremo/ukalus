@@ -9,14 +9,14 @@ import java.util.List;
 public class Node {
 
   private static final Vector2D[] DIRECTIONS = new Vector2D[]{
-      Vector2D.get(1, 1),
-      Vector2D.get(1, 0),
-      Vector2D.get(1, -1),
-      Vector2D.get(0, 1),
-      Vector2D.get(0, -1),
-      Vector2D.get(-1, 1),
-      Vector2D.get(-1, 0),
-      Vector2D.get(-1, -1)};
+      Vector2D.Companion.get(1, 1),
+      Vector2D.Companion.get(1, 0),
+      Vector2D.Companion.get(1, -1),
+      Vector2D.Companion.get(0, 1),
+      Vector2D.Companion.get(0, -1),
+      Vector2D.Companion.get(-1, 1),
+      Vector2D.Companion.get(-1, 0),
+      Vector2D.Companion.get(-1, -1)};
 
   private Level level;
   private Vector2D location;
@@ -31,7 +31,7 @@ public class Node {
   public Node[] getChildren() {
     List<Node> result = new ArrayList<Node>(4);
     for (Vector2D current : DIRECTIONS) {
-      Vector2D target = location.add(current);
+      Vector2D target = location.plus(current);
       if (level.contains(target) && level.get(target) != null) {
         result.add(new Node(level, target, distance + 1));
       }

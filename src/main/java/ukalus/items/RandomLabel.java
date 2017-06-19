@@ -4,11 +4,7 @@
  */
 package ukalus.items;
 
-import ukalus.util.Closure;
-import ukalus.util.Loop;
-import ukalus.util.MarkovChain;
-import ukalus.util.StringJoin;
-import ukalus.util.Tokens;
+import ukalus.util.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,15 +23,15 @@ class RandomLabel implements Closure<Object, String> {
   private int maxSyllables;
 
   public RandomLabel(Random random, String fileName, int minSyllables,
-      int maxSyllables) {
+                     int maxSyllables) {
     this.random = random;
     this.minSyllables = minSyllables;
     this.maxSyllables = maxSyllables;
-    this.chains = new MarkovChain<String>(random);
+    this.chains = new MarkovChain<>(random);
 
     Reader reader = new BufferedReader(new InputStreamReader(
-        getClass().getResourceAsStream(fileName)));
-    new Loop<String>(new Tokens(reader)).forEach(new SyllableLoader(chains));
+      getClass().getResourceAsStream(fileName)));
+    new Loop<>(new Tokens(reader)).forEach(new SyllableLoader(chains));
   }
 
   public String apply(Object argument) {
@@ -47,7 +43,7 @@ class RandomLabel implements Closure<Object, String> {
         result.append(" ");
       }
 
-      List<String> syllables = new LinkedList<String>();
+      List<String> syllables = new LinkedList<>();
       int max = minSyllables + random.nextInt(maxSyllables - minSyllables);
       do {
         syllables.clear();
@@ -57,7 +53,7 @@ class RandomLabel implements Closure<Object, String> {
         }
       } while (syllables.size() < minSyllables);
 
-      new Loop<String>(syllables).forEach(new StringJoin("", result));
+      new Loop<>(syllables).forEach(new StringJoin("", result));
     }
     return result.toString();
   }

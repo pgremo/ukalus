@@ -18,7 +18,7 @@ public class Place implements Closure<Tile, Object> {
 
   public Object apply(Tile current) {
     level.set(current.getLocation()
-      .add(coordinate), current.getTileType());
+      .plus(coordinate), current.getTileType());
     return null;
   }
 

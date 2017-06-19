@@ -19,8 +19,8 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR},
         {FLOOR, FLOOR, FLOOR}};
     FloodFill fill = new FloodFill();
-    Set<Node> actual = fill.getTemplate(1, new Node(new Level(data),
-      Vector2D.get(1, 1), 0));
+    Set<Node> actual = fill.getTemplate(1, new Node(new Level<>(data),
+      Vector2D.Companion.get(1, 1), 0));
     assertEquals(9, actual.size());
   }
 
@@ -30,8 +30,8 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR},
         {FLOOR, WALL, FLOOR}};
     FloodFill fill = new FloodFill();
-    Set<Node> actual = fill.getTemplate(1, new Node(new Level(data),
-      Vector2D.get(1, 1), 0));
+    Set<Node> actual = fill.getTemplate(1, new Node(new Level<>(data),
+      Vector2D.Companion.get(1, 1), 0));
     assertEquals(7, actual.size());
   }
 
@@ -43,8 +43,8 @@ public class FloodFillTest extends TestCase {
         {FLOOR, FLOOR, FLOOR, FLOOR},
         {FLOOR, WALL, FLOOR, FLOOR}};
     FloodFill fill = new FloodFill();
-    Set<Node> actual = fill.getTemplate(10, new Node(new Level(data),
-      Vector2D.get(2, 0), 0));
+    Set<Node> actual = fill.getTemplate(10, new Node(new Level<>(data),
+      Vector2D.Companion.get(2, 0), 0));
     assertEquals(17, actual.size());
 
     Iterator<Node> iterator = actual.iterator();
@@ -52,7 +52,7 @@ public class FloodFillTest extends TestCase {
     while (iterator.hasNext() && target == null) {
       Node current = iterator.next();
       if (current.getLocation()
-        .equals(Vector2D.get(2, 3))) {
+        .equals(Vector2D.Companion.get(2, 3))) {
         target = current;
       }
     }

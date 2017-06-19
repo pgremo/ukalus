@@ -24,13 +24,7 @@ class RandomNumber implements Closure<Object, String> {
   }
 
   public String apply(Object argument) {
-    String result = null;
     int value = random.nextInt(max - min) + min;
-    if (names != null && value < names.length) {
-      result = names[value];
-    } else {
-      result = String.valueOf(value);
-    }
-    return result;
+    return names != null && value < names.length ? names[value] : String.valueOf(value);
   }
 }

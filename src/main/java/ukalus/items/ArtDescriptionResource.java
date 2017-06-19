@@ -7,13 +7,7 @@ import ukalus.util.Loop;
 import ukalus.util.MarkovChain;
 import ukalus.util.StringJoin;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.ListResourceBundle;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author pmgremo
@@ -27,142 +21,142 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private static final int MAX_LABELS = 10;
 
   private Random random = new RandomAdaptor(new MersenneTwister());
-  private MarkovChain<Closure<Object, String>> rules = new MarkovChain<Closure<Object, String>>(
-      random);
+  private MarkovChain<Closure<Object, String>> rules = new MarkovChain<>(
+    random);
 
-  private String[] methodWords = new String[] {
-      "Channels",
-      "Doors",
-      "Forms",
-      "Gates",
-      "Images",
-      "Means",
-      "Methods",
-      "Paths",
-      "Rings",
-      "Rules",
-      "Stances",
-      "Stems",
-      "Styles",
-      "Ways" };
+  private String[] methodWords = new String[]{
+    "Channels",
+    "Doors",
+    "Forms",
+    "Gates",
+    "Images",
+    "Means",
+    "Methods",
+    "Paths",
+    "Rings",
+    "Rules",
+    "Stances",
+    "Stems",
+    "Styles",
+    "Ways"};
 
-  private String[] numberNames = new String[] {
-      "One",
-      "Two",
-      "Three",
-      "Four",
-      "Five",
-      "Six",
-      "Seven",
-      "Eight",
-      "Nine",
-      "Ten",
-      "Eleven",
-      "Twelve" };
+  private String[] numberNames = new String[]{
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Eleven",
+    "Twelve"};
 
-  private String[] nounWords = new String[] {
-      "Tiger",
-      "Pheonix",
-      "Dragon",
-      "Cauldron",
-      "Tortoise",
-      "Viper",
-      "Toad",
-      "Lizard",
-      "Scorpion",
-      "Centipede",
-      "Beast",
-      "Demon",
-      "Fiend",
-      "Ghoul",
-      "Ghost",
-      "Reaver",
-      "Shadow",
-      "Wraith",
-      "Abyss",
-      "Empyrion",
-      "Pit",
-      "Rift",
-      "Temple",
-      "Fortress",
-      "Tower",
-      "Soul",
-      "Spirit",
-      "Mind",
-      "Will",
-      "Chaos",
-      "Death",
-      "Destiny",
-      "Doom",
-      "Entropy",
-      "Gale",
-      "Glyph",
-      "Havoc",
-      "Mercy",
-      "Meteor",
-      "Order",
-      "Pain",
-      "Rule",
-      "Rune",
-      "Skull",
-      "Stone",
-      "Storm",
-      "Warp" };
+  private String[] nounWords = new String[]{
+    "Tiger",
+    "Pheonix",
+    "Dragon",
+    "Cauldron",
+    "Tortoise",
+    "Viper",
+    "Toad",
+    "Lizard",
+    "Scorpion",
+    "Centipede",
+    "Beast",
+    "Demon",
+    "Fiend",
+    "Ghoul",
+    "Ghost",
+    "Reaver",
+    "Shadow",
+    "Wraith",
+    "Abyss",
+    "Empyrion",
+    "Pit",
+    "Rift",
+    "Temple",
+    "Fortress",
+    "Tower",
+    "Soul",
+    "Spirit",
+    "Mind",
+    "Will",
+    "Chaos",
+    "Death",
+    "Destiny",
+    "Doom",
+    "Entropy",
+    "Gale",
+    "Glyph",
+    "Havoc",
+    "Mercy",
+    "Meteor",
+    "Order",
+    "Pain",
+    "Rule",
+    "Rune",
+    "Skull",
+    "Stone",
+    "Storm",
+    "Warp"};
 
-  private String[] adjectiveWords = new String[] {
-      "White",
-      "Red",
-      "Yellow",
-      "Green",
-      "Blue",
-      "Purple",
-      "Black",
-      "Raising",
-      "Falling",
-      "Burning",
-      "Freezing",
-      "Crushing",
-      "Splitting",
-      "Pounding",
-      "Drilling",
-      "Crossing",
-      "Shining",
-      "Glowing",
-      "Spinning",
-      "Thundering",
-      "Lightning",
-      "Empty",
-      "Dire",
-      "Dread",
-      "Greater",
-      "Lesser",
-      "Swift",
-      "Sublime",
-      "Linked",
-      "Soft",
-      "Hard",
-      "Grim",
-      "Hidden",
-      "Ultimate",
-      "Supreme",
-      "Divine",
-      "Bloodied",
-      "Bone",
-      "Poisonous",
-      "Flaming",
-      "Flowing",
-      "Earthen",
-      "Wooden",
-      "Metalic",
-      "Jade",
-      "Iron",
-      "Golden",
-      "Silvery",
-      "Diamond",
-      "Ruby",
-      "Saphire",
-      "Pearl",
-      "Emerald" };
+  private String[] adjectiveWords = new String[]{
+    "White",
+    "Red",
+    "Yellow",
+    "Green",
+    "Blue",
+    "Purple",
+    "Black",
+    "Raising",
+    "Falling",
+    "Burning",
+    "Freezing",
+    "Crushing",
+    "Splitting",
+    "Pounding",
+    "Drilling",
+    "Crossing",
+    "Shining",
+    "Glowing",
+    "Spinning",
+    "Thundering",
+    "Lightning",
+    "Empty",
+    "Dire",
+    "Dread",
+    "Greater",
+    "Lesser",
+    "Swift",
+    "Sublime",
+    "Linked",
+    "Soft",
+    "Hard",
+    "Grim",
+    "Hidden",
+    "Ultimate",
+    "Supreme",
+    "Divine",
+    "Bloodied",
+    "Bone",
+    "Poisonous",
+    "Flaming",
+    "Flowing",
+    "Earthen",
+    "Wooden",
+    "Metalic",
+    "Jade",
+    "Iron",
+    "Golden",
+    "Silvery",
+    "Diamond",
+    "Ruby",
+    "Saphire",
+    "Pearl",
+    "Emerald"};
 
   private Closure<Object, String> methods = new RandomWord(random, methodWords);
 
@@ -171,34 +165,34 @@ public class ArtDescriptionResource extends ListResourceBundle {
   private Closure<Object, String> noun2 = new RandomWord(random, nounWords);
 
   private Closure<Object, String> adjectives1 = new RandomWord(random,
-      adjectiveWords);
+    adjectiveWords);
 
   private Closure<Object, String> adjectives2 = new RandomWord(random,
-      adjectiveWords);
+    adjectiveWords);
 
   private Closure<Object, String> adjectives3 = new RandomWord(random,
-      adjectiveWords);
+    adjectiveWords);
 
-  private Closure<Object, String> types = new RandomWord(random, new String[] {
-      "Claw",
-      "Fist",
-      "Hand",
-      "Palm" });
+  private Closure<Object, String> types = new RandomWord(random, new String[]{
+    "Claw",
+    "Fist",
+    "Hand",
+    "Palm"});
 
   private Closure<Object, String> names = new RandomName(random, FILE_NAME,
-      MIN_SYLLABLES, MAX_SYLLABLES);
+    MIN_SYLLABLES, MAX_SYLLABLES);
 
   private Closure<Object, String> numbers = new RandomNumber(random, 2, 108,
-      numberNames);
+    numberNames);
 
   private Closure<Object, String> possesive = new RandomWord(random,
-      new String[] { "'s" });
+    new String[]{"'s"});
 
   private Closure<Object, String> of = new RandomWord(random,
-      new String[] { "of" });
+    new String[]{"of"});
 
   private Closure<Object, String> the = new RandomWord(random,
-      new String[] { "the" });
+    new String[]{"the"});
 
   {
     rules.add(null, names);
@@ -253,19 +247,17 @@ public class ArtDescriptionResource extends ListResourceBundle {
   }
 
   private String generateName() {
-    Set<String> parts = new LinkedHashSet<String>();
+    Set<String> parts = new LinkedHashSet<>();
     do {
       parts.clear();
-      Iterator<Closure<Object, String>> iterator = rules.iterator();
-      while (iterator.hasNext()) {
-        Closure<Object, String> key = iterator.next();
-        while (!parts.add(key.apply(new Integer(1)))) {
+      for (Closure<Object, String> key : rules) {
+        while (!parts.add(key.apply(1))) {
         }
       }
     } while (parts.size() == 1);
 
     StringBuffer result = new StringBuffer();
-    new Loop<String>(parts).forEach(new StringJoin(" ", result));
+    new Loop<>(parts).forEach(new StringJoin(" ", result));
     return result.toString()
       .replaceAll(" 's", "'s")
       .replaceAll("s's", "s'");
@@ -273,19 +265,19 @@ public class ArtDescriptionResource extends ListResourceBundle {
 
   protected Object[][] getContents() {
     Object[][] result = new Object[MAX_LABELS][];
-    Set<Object> contents = new HashSet<Object>();
+    Set<Object> contents = new HashSet<>();
     while (contents.size() < MAX_LABELS) {
       String current = generateName();
       if (contents.add(current)) {
         int index = contents.size() - 1;
-        result[index] = new Object[] { PREFIX + index, current };
+        result[index] = new Object[]{PREFIX + index, current};
       }
     }
     return result;
   }
 
   public String toString() {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     Enumeration<String> enumeration = getKeys();
     while (enumeration.hasMoreElements()) {
       String key = enumeration.nextElement();
