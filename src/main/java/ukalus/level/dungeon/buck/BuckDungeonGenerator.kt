@@ -10,7 +10,7 @@ import java.util.*
 class BuckDungeonGenerator {
 
     private val random = RandomAdaptor(MersenneTwister())
-    private val mazeFactory = PrimMazeGenerator(random, 20, 80)
+    private val mazeFactory = PrimMazeGenerator(random, 19, 79)
     private val roomFactory = RoomGenerator(random, 5, 9, 9, 14, 2)
     private val sparseness = 7
     private val maxRooms = 12
@@ -18,7 +18,7 @@ class BuckDungeonGenerator {
     private var cells = mutableListOf<Vector2D>()
 
     fun generate(): Level<*> {
-        val level = Level<Int>(Array(20) { Array(80, { 0 }) })
+        val level = Level<Int>(Array(19) { Array(79, { 0 }) })
         for (x in 0..19) {
             for (y in 0..79) {
                 cells.add(Vector2D(x, y))

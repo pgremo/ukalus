@@ -15,22 +15,15 @@ import ukalus.level.maze.MazeRegion;
 import ukalus.level.maze.MazeTraversalDelegate;
 import ukalus.math.Vector2D;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
-public class SparseCursalMazeGenerator implements RegionFactory {
+public class SparseCursalMazeGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int height;
   private int width;
-  private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
-  private Map<Vector2D, MazeEdge> edges = new HashMap<Vector2D, MazeEdge>();
+  private Map<Vector2D, MazeNode> nodes = new HashMap<>();
+  private Map<Vector2D, MazeEdge> edges = new HashMap<>();
 
   public SparseCursalMazeGenerator(Random random, int height, int width) {
     this.random = random;
@@ -46,7 +39,7 @@ public class SparseCursalMazeGenerator implements RegionFactory {
     return edges.computeIfAbsent(location, l -> new MazeEdge(l, head, tail));
   }
 
-  public Region create() {
+  public Region<Integer> create() {
     int[][] cells = new int[height][width];
 
     // create nodes / edges
@@ -95,7 +88,7 @@ public class SparseCursalMazeGenerator implements RegionFactory {
 
   private void closeDeadEnds(Set<MazeEdge> path) {
     for (MazeNode node : nodes.values()) {
-      List<Edge> visited = new LinkedList<Edge>(node.getEdges());
+      List<Edge> visited = new LinkedList<>(node.getEdges());
       visited.retainAll(path);
       if (visited.size() == 1) {
         new NodeTraversal(new CursalMazeTraversalDelegate(path, random),
@@ -117,12 +110,12 @@ public class SparseCursalMazeGenerator implements RegionFactory {
   }
 
   public static void main(String[] args) {
-    RegionFactory generator = new SparseCursalMazeGenerator(
+    RegionFactory<Integer> generator = new SparseCursalMazeGenerator(
       new RandomAdaptor(new MersenneTwister()), 20, 80);
 
-    Level level = new Level(new Object[20][80]);
-    Region region = generator.create();
-    region.place(Vector2D.Companion.get(0, 0), level);
+    Level<Integer> level = new Level<>(new Integer[20][80]);
+    Region<Integer> region = generator.create();
+    region.place(new Vector2D(0, 0), level);
 
     System.out.println(level);
   }

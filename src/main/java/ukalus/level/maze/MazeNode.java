@@ -10,7 +10,7 @@ import java.util.List;
 public class MazeNode implements Node {
 
   private Vector2D location;
-  private List<Edge> edges = new LinkedList<Edge>();
+  private List<Edge> edges = new LinkedList<>();
 
   public MazeNode(Vector2D location) {
     this.location = location;

@@ -32,7 +32,7 @@ public class Inventory implements ItemListener {
   private Thing selected;
 
   {
-    things = new HashMap<String, Object>();
+    things = new HashMap<>();
   }
 
   /**

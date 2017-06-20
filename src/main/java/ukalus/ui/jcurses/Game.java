@@ -19,7 +19,6 @@ public class Game implements ActionListener {
   private Creature hero;
   private Window window;
   private JCursesClient client;
-  private Runner runner;
 
   /**
    * Creates a new Game object.
@@ -54,7 +53,7 @@ public class Game implements ActionListener {
     layout.addWidget(client, 0, 2, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
         WidgetsConstants.ALIGNMENT_CENTER);
 
-    runner = new Runner(client, hero);
+    Runner runner = new Runner(client, hero);
     new Thread(runner).start();
 
     window.show();

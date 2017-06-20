@@ -24,7 +24,7 @@ public class IndexedMenuList extends Widget {
   {
     listenerManager = new ItemListenerManager();
     seperator = " - ";
-    items = new TreeMap<String, String>();
+    items = new TreeMap<>();
     key = 'A';
   }
 
@@ -118,12 +118,12 @@ public class IndexedMenuList extends Widget {
   }
 
   /**
-   * Sets the seperator.
+   * Sets the separator.
    * 
-   * @param seperator
-   *          The seperator to set
+   * @param value
+   *          The separator to set
    */
-  public void setSeperator(String value) {
+  public void setSeparator(String value) {
     seperator = value;
     width = width + value.length() - seperator.length();
   }

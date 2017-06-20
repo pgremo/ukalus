@@ -26,8 +26,8 @@ public class DepthFirstMazeGenerator implements RegionFactory<Integer> {
   private Random random;
   private int height;
   private int width;
-  private Map<Vector2D, MazeNode> nodes = new HashMap<Vector2D, MazeNode>();
-  private Map<Vector2D, MazeEdge> edges = new HashMap<Vector2D, MazeEdge>();
+  private Map<Vector2D, MazeNode> nodes = new HashMap<>();
+  private Map<Vector2D, MazeEdge> edges = new HashMap<>();
 
   public DepthFirstMazeGenerator(Random random, int height, int width) {
     this.random = random;
@@ -71,7 +71,7 @@ public class DepthFirstMazeGenerator implements RegionFactory<Integer> {
       }
     }
 
-    Set<MazeEdge> path = new HashSet<MazeEdge>();
+    Set<MazeEdge> path = new HashSet<>();
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 

@@ -35,11 +35,11 @@ class ArtDescriptionResource : ListResourceBundle() {
 
     private val adjectives3 = RandomWord(random, adjectiveWords)
 
-    private val types = RandomWord(random, arrayOf("Claw", "Fist", "Hand", "Palm", "Turns", "Breaks", "Grabs", "Gate", "Strike", "Spin", "Kicks", "Forms", "Trace", "Foot", "Elbow", "Game"))
+    private val types = RandomWord(random, arrayOf("Claw", "Fist", "Hand", "Palm", "Turns", "Breaks", "Grabs", "Strike", "Spin", "Kick", "Forms", "Trace", "Foot", "Elbow", "Game"))
 
-    private val names = RandomName(random, FILE_NAME, MIN_SYLLABLES, MAX_SYLLABLES)
+    private val names = RandomName(random = random, fileName = "/ukalus/wordlists/egyptian.txt", minSyllables = 2, maxSyllables = 3)
 
-    private val numbers = RandomNumber(random, 2, 108, numberNames)
+    private val numbers = RandomNumber(random = random, min = 2, max = 108, names = numberNames)
 
     private val possessive = RandomWord(random, arrayOf("'s"))
 
@@ -100,7 +100,7 @@ class ArtDescriptionResource : ListResourceBundle() {
     }
 
     private fun generateName(): String {
-        return generateSequence { rules.map { it.apply(1) }.distinct() }
+        return generateSequence { rules.map { it!!.apply(1) }.distinct() }
                 .filter { it.size > 1 }
                 .first()
                 .joinToString(" ")
@@ -111,7 +111,7 @@ class ArtDescriptionResource : ListResourceBundle() {
     override fun getContents(): Array<Array<Any>> {
         return generateSequence { generateName() }
                 .distinct()
-                .take(MAX_LABELS)
+                .take(10)
                 .toList()
                 .mapIndexed { index, current -> arrayOf<Any>("art.description.$index", current) }
                 .toTypedArray()
@@ -119,13 +119,5 @@ class ArtDescriptionResource : ListResourceBundle() {
 
     override fun toString(): String {
         return keys.asSequence().map{"$it=${getObject(it)}"}.joinToString("\n")
-    }
-
-    companion object {
-
-        private val FILE_NAME = "/ukalus/wordlists/egyptian.txt"
-        private val MIN_SYLLABLES = 2
-        private val MAX_SYLLABLES = 3
-        private val MAX_LABELS = 10
     }
 }

@@ -13,7 +13,7 @@ import java.util.Set;
 public class MazeTraversalDelegate implements GraphTraversalDelegate {
 
   private Random random;
-  private Set<Node> visited = new HashSet<Node>();
+  private Set<Node> visited = new HashSet<>();
   private Set<MazeEdge> path;
 
   public MazeTraversalDelegate(Node start, Set<MazeEdge> path, Random random) {
@@ -23,15 +23,14 @@ public class MazeTraversalDelegate implements GraphTraversalDelegate {
   }
 
   public Edge getNode(Node node) {
-    List<Edge> unvisited = new ArrayList<Edge>();
+    List<Edge> unvisited = new ArrayList<>();
     for (Edge edge : node.getEdges()) {
       if (!visited.contains(edge.getNode(node))) {
         unvisited.add(edge);
       }
     }
-    return unvisited.isEmpty()
-        ? null
-        : unvisited.get(random.nextInt(unvisited.size()));
+
+    return unvisited.isEmpty() ? null : unvisited.get(random.nextInt(unvisited.size()));
   }
 
   public void traverse(Node node, Edge edge) {

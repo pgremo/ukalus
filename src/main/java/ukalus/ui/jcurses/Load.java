@@ -22,9 +22,6 @@ public class Load implements ItemListener {
   private MenuList select;
   private Window window;
 
-  /**
-   * @see jcurses.event.ActionListener#actionPerformed(ActionEvent)
-   */
   public void stateChanged(ItemEvent event) {
     Object source = event.getSource();
 
@@ -60,8 +57,8 @@ public class Load implements ItemListener {
 
     String[] files = Persistence.list();
 
-    for (int index = 0; index < files.length; index++) {
-      select.add(files[index]);
+    for (String file : files) {
+      select.add(file);
     }
 
     layout.addWidget(select, 0, 0, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,

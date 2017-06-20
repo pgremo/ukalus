@@ -42,33 +42,33 @@ public class JCursesClient extends Widget implements Client {
   private static Map<Marker, String> symbols;
 
   static {
-    directions = new HashMap<Integer, Vector2D>();
-    directions.put(new Integer(InputChar.KEY_UP), Vector2D.Companion.get(-1, 0));
-    directions.put(new Integer(InputChar.KEY_RIGHT), Vector2D.Companion.get(0, 1));
-    directions.put(new Integer(InputChar.KEY_DOWN), Vector2D.Companion.get(1, 0));
-    directions.put(new Integer(InputChar.KEY_LEFT), Vector2D.Companion.get(0, -1));
-    directions.put(new Integer('8'), Vector2D.Companion.get(-1, 0));
-    directions.put(new Integer('9'), Vector2D.Companion.get(-1, 1));
-    directions.put(new Integer('6'), Vector2D.Companion.get(0, 1));
-    directions.put(new Integer('3'), Vector2D.Companion.get(1, 1));
-    directions.put(new Integer('2'), Vector2D.Companion.get(1, 0));
-    directions.put(new Integer('1'), Vector2D.Companion.get(1, -1));
-    directions.put(new Integer('4'), Vector2D.Companion.get(0, -1));
-    directions.put(new Integer('7'), Vector2D.Companion.get(-1, -1));
+    directions = new HashMap<>();
+    directions.put(InputChar.KEY_UP, Vector2D.Companion.get(-1, 0));
+    directions.put(InputChar.KEY_RIGHT, Vector2D.Companion.get(0, 1));
+    directions.put(InputChar.KEY_DOWN, Vector2D.Companion.get(1, 0));
+    directions.put(InputChar.KEY_LEFT, Vector2D.Companion.get(0, -1));
+    directions.put((int) '8', Vector2D.Companion.get(-1, 0));
+    directions.put((int) '9', Vector2D.Companion.get(-1, 1));
+    directions.put((int) '6', Vector2D.Companion.get(0, 1));
+    directions.put((int) '3', Vector2D.Companion.get(1, 1));
+    directions.put((int) '2', Vector2D.Companion.get(1, 0));
+    directions.put((int) '1', Vector2D.Companion.get(1, -1));
+    directions.put((int) '4', Vector2D.Companion.get(0, -1));
+    directions.put((int) '7', Vector2D.Companion.get(-1, -1));
 
-    commandTypes = new HashMap<Integer, CommandType>();
-    commandTypes.put(new Integer('c'), CommandType.CLOSE);
-    commandTypes.put(new Integer('o'), CommandType.OPEN);
-    commandTypes.put(new Integer('<'), CommandType.UP);
-    commandTypes.put(new Integer('>'), CommandType.DOWN);
-    commandTypes.put(new Integer('Q'), CommandType.QUIT);
-    commandTypes.put(new Integer('S'), CommandType.SAVE);
-    commandTypes.put(new Integer(','), CommandType.PICKUP);
-    commandTypes.put(new Integer('d'), CommandType.DROP);
-    commandTypes.put(new Integer('.'), CommandType.WAIT);
-    commandTypes.put(new Integer('i'), CommandType.INVENTORY);
+    commandTypes = new HashMap<>();
+    commandTypes.put((int) 'c', CommandType.CLOSE);
+    commandTypes.put((int) 'o', CommandType.OPEN);
+    commandTypes.put((int) '<', CommandType.UP);
+    commandTypes.put((int) '>', CommandType.DOWN);
+    commandTypes.put((int) 'Q', CommandType.QUIT);
+    commandTypes.put((int) 'S', CommandType.SAVE);
+    commandTypes.put((int) ',', CommandType.PICKUP);
+    commandTypes.put((int) 'd', CommandType.DROP);
+    commandTypes.put((int) '.', CommandType.WAIT);
+    commandTypes.put((int) 'i', CommandType.INVENTORY);
 
-    symbols = new HashMap<Marker, String>();
+    symbols = new HashMap<>();
     symbols.put(null, " ");
     symbols.put(Marker.WALL, "#");
     symbols.put(Marker.DOOR_CLOSED, "+");
@@ -151,10 +151,8 @@ public class JCursesClient extends Widget implements Client {
    *          DOCUMENT ME!
    */
   private void updatePlan(List<Tile> list) {
-    Iterator<Tile> iterator = list.iterator();
 
-    while (iterator.hasNext()) {
-      Tile current = iterator.next();
+    for (Tile current : list) {
       plan.set(current.getLocation(), current.getTileType());
     }
   }
@@ -170,7 +168,7 @@ public class JCursesClient extends Widget implements Client {
       CharColor.NORMAL);
 
     if (list == null) {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
 
       for (int x = 0; x < plan.getHeight(); x++) {
         for (int y = 0; y < plan.getWidth(); y++) {
@@ -185,15 +183,13 @@ public class JCursesClient extends Widget implements Client {
         plan.getWidth(), plan.getHeight());
       Toolkit.printString(buffer.toString(), area, colors);
     } else {
-      Iterator<Tile> iterator = list.iterator();
 
-      while (iterator.hasNext()) {
-        Tile tile = iterator.next();
+      for (Tile tile : list) {
         Vector2D coordinate = tile.getLocation();
         Toolkit.printString(
           symbols.get(determineLevelMarker(plan.get(coordinate))),
-          getAbsoluteX() + (int) coordinate.getY(), getAbsoluteY()
-              + (int) coordinate.getX(), colors);
+          getAbsoluteX() + coordinate.getY(), getAbsoluteY()
+            + coordinate.getX(), colors);
       }
     }
   }
@@ -208,10 +204,8 @@ public class JCursesClient extends Widget implements Client {
     if (list != null) {
       CharColor colors = new CharColor(CharColor.BLACK, CharColor.WHITE,
         CharColor.BOLD);
-      Iterator<Tile> iterator = list.iterator();
 
-      while (iterator.hasNext()) {
-        Tile tile = iterator.next();
+      for (Tile tile : list) {
         Vector2D coordinate = tile.getLocation();
         TileType type = tile.getTileType();
         Marker marker = determineCreatureMarker(type);
@@ -221,8 +215,8 @@ public class JCursesClient extends Widget implements Client {
         }
 
         Toolkit.printString(symbols.get(marker), getAbsoluteX()
-            + (int) coordinate.getY(),
-          getAbsoluteY() + (int) coordinate.getX(), colors);
+            + coordinate.getY(),
+          getAbsoluteY() + coordinate.getX(), colors);
       }
     }
   }
@@ -231,7 +225,7 @@ public class JCursesClient extends Widget implements Client {
    * @see jcurses.widgets.Widget#handleInput(InputChar)
    */
   protected boolean handleInput(InputChar inputChar) {
-    Integer code = new Integer(inputChar.getCode());
+    Integer code = inputChar.getCode();
     Vector2D direction = directions.get(code);
 
     if (direction != null) {
@@ -253,7 +247,7 @@ public class JCursesClient extends Widget implements Client {
         } else if ((door == null) || door.isOpen()) {
           command = new Command(CommandType.MOVE, direction);
           commandReady = true;
-        } else if ((door != null) && !door.isOpen()) {
+        } else if (!door.isOpen()) {
           command = new Command(CommandType.OPEN, door);
           commandReady = true;
         } else {
@@ -291,10 +285,10 @@ public class JCursesClient extends Widget implements Client {
           Floor floor = (Floor) type;
 
           if (floor.getThingCount() > 0) {
-            Thing thing = null;
+            Thing thing;
 
             if (floor.getThingCount() == 1) {
-              thing = (Thing) floor.getThings()
+              thing = floor.getThings()
                 .next();
             } else {
               Pickup pickup = new Pickup(floor);
@@ -386,7 +380,7 @@ public class JCursesClient extends Widget implements Client {
     Marker result = null;
 
     if (type != null) {
-      LinkedList<Object> objects = new LinkedList<Object>();
+      LinkedList<Object> objects = new LinkedList<>();
       objects.add(type);
 
       if (type instanceof Floor) {
