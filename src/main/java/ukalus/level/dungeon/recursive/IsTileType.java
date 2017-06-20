@@ -1,18 +1,19 @@
 package ukalus.level.dungeon.recursive;
 
 import ukalus.Tile;
-import ukalus.util.Closure;
 
-public class IsTileType implements Closure<Tile, Boolean> {
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-  private static final long serialVersionUID = 3834307341104395829L;
+public class IsTileType implements Predicate<Tile> {
+
   private Class tileTypeClass;
 
   public IsTileType(Class tileTypeClass) {
     this.tileTypeClass = tileTypeClass;
   }
 
-  public Boolean apply(Tile value) {
+  public boolean test(Tile value) {
     return value != null && tileTypeClass.equals(value.getTileType()
       .getClass());
   }

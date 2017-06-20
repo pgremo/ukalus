@@ -1,8 +1,8 @@
 package ukalus.persistence;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
-class Adder implements Closure<Reference, Object> {
+class Adder implements Function<Reference, Object> {
 
   private static final long serialVersionUID = 3256999939061199155L;
   private long value;

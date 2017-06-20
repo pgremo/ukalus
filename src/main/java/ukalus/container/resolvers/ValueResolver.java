@@ -6,7 +6,8 @@ package ukalus.container.resolvers;
 
 import ukalus.container.ObjectRegistry;
 import ukalus.container.Resolver;
-import ukalus.util.Closure;
+
+import java.util.function.Function;
 
 public class ValueResolver implements Resolver {
 
@@ -21,7 +22,7 @@ public class ValueResolver implements Resolver {
   public Object getValue(Class<?> type) {
     Object result = value;
     if (!type.isAssignableFrom(value.getClass())) {
-      Closure converter = registry.getConverter(type);
+      Function converter = registry.getConverter(type);
       if (converter == null) {
         throw new IllegalArgumentException("converter not found for " + type);
       }

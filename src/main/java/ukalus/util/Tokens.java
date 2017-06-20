@@ -4,6 +4,8 @@
  */
 package ukalus.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StreamTokenizer;
@@ -18,6 +20,7 @@ public class Tokens implements Iterable<String> {
     this.input = input;
   }
 
+  @NotNull
   public Iterator<String> iterator() {
     return new TokenIterator(input);
   }

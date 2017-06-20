@@ -4,13 +4,13 @@
  */
 package ukalus.container.transformers;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author gremopm
  * 
  */
-public class BooleanTransformer implements Closure<String, Boolean> {
+public class BooleanTransformer implements Function<String, Boolean> {
 
   private static final long serialVersionUID = 3688509878813667384L;
 

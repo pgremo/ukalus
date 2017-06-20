@@ -30,11 +30,11 @@ public class HashBagTest extends TestCase {
     bag.add(object2);
     bag.add(object2);
     assertEquals(3, bag.size());
-    assertEquals(1, bag.occurence(object1));
-    assertEquals(2, bag.occurence(object2));
+    assertEquals(1, bag.occurrence(object1));
+    assertEquals(2, bag.occurrence(object2));
     bag.remove(object2);
     assertEquals(2, bag.size());
-    assertEquals(1, bag.occurence(object2));
+    assertEquals(1, bag.occurrence(object2));
     assertTrue(!bag.remove(new Object()));
 
   }
@@ -45,7 +45,7 @@ public class HashBagTest extends TestCase {
     assertEquals(0, bag.size());
     assertTrue(bag.add(object));
     assertEquals(1, bag.size());
-    assertEquals(1, bag.occurence(object));
+    assertEquals(1, bag.occurrence(object));
   }
   
   public void testIteratorSingle(){

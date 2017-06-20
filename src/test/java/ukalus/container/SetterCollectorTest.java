@@ -1,26 +1,20 @@
 package ukalus.container;
 
-import ukalus.util.Loop;
+import junit.framework.TestCase;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.TestCase;
+import java.util.stream.Stream;
 
 public class SetterCollectorTest extends TestCase {
 
-  public void testCollectionSetters() throws SecurityException,
-      NoSuchMethodException {
-    Map<String, Method> expected = new HashMap<String, Method>();
-    expected.put("x", TestClass.class.getMethod("setX",
-      new Class[]{Object.class}));
-    expected.put("someThingElse", TestClass.class.getMethod("setSomeThingElse",
-      new Class[]{Object.class}));
-    Map<String, Method> actual = new HashMap<String, Method>();
-    SetterCollector collector = new SetterCollector(actual);
-    new Loop<Method>(TestClass.class.getMethods()).forEach(new SetterCollector(
-      actual));
+  public void testCollectionSetters() throws SecurityException, NoSuchMethodException {
+    Map<String, Method> expected = new HashMap<>();
+    expected.put("x", TestClass.class.getMethod("setX", Object.class));
+    expected.put("someThingElse", TestClass.class.getMethod("setSomeThingElse", Object.class));
+    Map<String, Method> actual = new HashMap<>();
+    Stream.of(TestClass.class.getMethods()).forEach(new SetterCollector(actual));
     assertEquals(expected, actual);
   }
 

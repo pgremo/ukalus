@@ -1,15 +1,13 @@
 package ukalus.container;
 
-import ukalus.util.Closure;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public class SetProperty
-    implements
-      Closure<Map.Entry<String, Resolver>, Object> {
+public class SetProperty implements Function<Map.Entry<String, Resolver>, Object>, Consumer<Map.Entry<String, Resolver>> {
 
-  private static final long serialVersionUID = 3906363822712435255L;
   private Map<String, Method> setters;
   private Object input;
 
@@ -19,16 +17,19 @@ public class SetProperty
   }
 
   public Object apply(Map.Entry<String, Resolver> property) {
+    accept(property);
+    return null;
+  }
+
+  @Override
+  public void accept(Map.Entry<String, Resolver> property) {
     Method method = setters.get(property.getKey());
     if (method != null) {
       try {
-        method.invoke(input, new Object[]{property.getValue()
-          .getValue(method.getParameterTypes()[0])});
+        method.invoke(input, property.getValue().getValue(method.getParameterTypes()[0]));
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-    return null;
   }
-
 }

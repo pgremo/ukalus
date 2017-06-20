@@ -8,11 +8,11 @@ package ukalus.level.dungeon.recursive;
 
 import ukalus.Tile;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
-public class MatchesVector implements Closure<Tile, Boolean> {
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-  private static final long serialVersionUID = 3258417244026385720L;
+public class MatchesVector implements Predicate<Tile> {
 
   private Vector2D coordinate;
 
@@ -20,7 +20,7 @@ public class MatchesVector implements Closure<Tile, Boolean> {
     this.coordinate = coordinate;
   }
 
-  public Boolean apply(Tile value) {
+  public boolean test(Tile value) {
     return value.getLocation()
       .equals(coordinate);
   }

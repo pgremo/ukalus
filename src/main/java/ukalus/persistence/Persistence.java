@@ -2,12 +2,12 @@ package ukalus.persistence;
 
 import ukalus.persistence.file.FileLog;
 import ukalus.persistence.file.FileStore;
-import ukalus.util.Closure;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public final class Persistence {
 
@@ -116,7 +116,7 @@ public final class Persistence {
     }
   }
 
-  private static class Create implements Closure<Reference, Object> {
+  private static class Create implements Function<Reference, Object> {
 
     private static final long serialVersionUID = 3690476935130198069L;
 
@@ -126,7 +126,7 @@ public final class Persistence {
     }
   }
 
-  private static class Get implements Closure<Reference, Object> {
+  private static class Get implements Function<Reference, Object> {
 
     private static final long serialVersionUID = 3258411724993474867L;
     private Object key;
@@ -140,7 +140,7 @@ public final class Persistence {
     }
   }
 
-  private static class Put implements Closure<Reference, Object> {
+  private static class Put implements Function<Reference, Object> {
 
     private static final long serialVersionUID = 3256727294637979448L;
     private Object key;

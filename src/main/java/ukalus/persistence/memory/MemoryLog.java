@@ -2,29 +2,29 @@ package ukalus.persistence.memory;
 
 import ukalus.persistence.Log;
 import ukalus.persistence.Reference;
-import ukalus.util.Closure;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 public class MemoryLog implements Log {
 
-  private List<Closure<Reference, Object>> storage = new LinkedList<Closure<Reference, Object>>();
+  private List<Function> storage = new LinkedList<Function>();
 
   public void clear() throws IOException {
     storage.clear();
   }
 
-  public void add(Closure<Reference, Object> o) throws IOException {
+  public void add(Function o) throws IOException {
     storage.add(o);
   }
 
   public void close() throws IOException {
   }
 
-  public Iterator<Closure<Reference, Object>> iterator() {
+  public Iterator<Function> iterator() {
     return storage.iterator();
   }
 

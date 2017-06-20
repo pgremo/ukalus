@@ -2,10 +2,10 @@ package ukalus.blast.shadowcast;
 
 import ukalus.blast.Blast;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * DOCUMENT ME!
@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class ShadowCast implements Blast {
 
-  private Closure<Vector2D, Boolean> scanner;
+  private Function<Vector2D,Boolean> scanner;
   private int maxRadius;
   private Set<Vector2D> seen;
   private Vector2D origin;
@@ -915,7 +915,7 @@ public class ShadowCast implements Blast {
    * @return DOCUMENT ME!
    */
   public Set<Vector2D> getTemplate(Vector2D origin,
-      Closure<Vector2D, Boolean> scanner, int maxRadius) {
+                                   Function<Vector2D,Boolean> scanner, int maxRadius) {
     this.scanner = scanner;
     this.origin = origin;
     int x = (int) origin.getX();

@@ -4,13 +4,13 @@
  */
 package ukalus.container.transformers;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author gremopm
  * 
  */
-public class IntTransformer implements Closure<String, Integer> {
+public class IntTransformer implements Function<String, Integer> {
 
   private static final long serialVersionUID = 3257845485112145200L;
 

@@ -3,20 +3,19 @@ package ukalus.level.dungeon.recursive;
 import ukalus.Level;
 import ukalus.Tile;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
-import ukalus.util.Loop;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class Area {
 
-  protected static final Vector2D[] DIRECTIONS = {
-      Vector2D.Companion.get(-1, 0),
-      Vector2D.Companion.get(0, 1),
-      Vector2D.Companion.get(1, 0),
-      Vector2D.Companion.get(0, -1)};
+  private static final Vector2D[] DIRECTIONS = {
+    Vector2D.Companion.get(-1, 0),
+    Vector2D.Companion.get(0, 1),
+    Vector2D.Companion.get(1, 0),
+    Vector2D.Companion.get(0, -1)};
 
   private Vector2D coordinate;
   private List<Tile> list;
@@ -25,13 +24,13 @@ public class Area {
     this.list = list;
   }
 
-  public Tile getRandom(Closure<Tile, Boolean> predicate, Random randomizer) {
+  public Tile getRandom(Predicate<Tile> predicate, Random randomizer) {
     Collections.shuffle(list, randomizer);
-    return new Loop<Tile>(list).detect(predicate);
+    return list.stream().filter(predicate).findFirst().orElse(null);
   }
 
   public Tile get(Vector2D coordinate) {
-    return new Loop<Tile>(list).detect(new MatchesVector(coordinate));
+    return list.stream().filter(new MatchesVector(coordinate)).findFirst().orElse(null);
   }
 
   public Vector2D getCoordinate() {
@@ -43,11 +42,11 @@ public class Area {
   }
 
   public void place(Level level) {
-    new Loop<Tile>(list).forEach(new Place(level, coordinate));
+    list.forEach(new Place(level, coordinate));
   }
 
-  public boolean check(Closure<Tile, Boolean> predicate) {
-    return new Loop<Tile>(list).detect(predicate) == null;
+  public boolean check(Predicate<Tile> predicate) {
+    return list.stream().noneMatch(predicate);
   }
 
   public Vector2D getSide(Vector2D coordinate) {
@@ -63,7 +62,7 @@ public class Area {
   }
 
   public void rotate(Vector2D direction) {
-    new Loop<Tile>(list).forEach(new Rotate(direction));
+    list.forEach(new Rotate(direction));
   }
 
   public String toString() {

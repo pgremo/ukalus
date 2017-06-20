@@ -12,7 +12,11 @@ class RoomGenerator(val random: Random,
                     var startId: Int) : RegionFactory<Int> {
 
     override fun create(): Region<Int> {
-        return Room(random, random.nextInt(maxRoomHeight - minRoomHeight) + minRoomHeight, random.nextInt(maxRoomWidth - minRoomWidth) + minRoomWidth, startId++)
+        return Room(
+                random,
+                random.nextInt(maxRoomHeight - minRoomHeight) + minRoomHeight,
+                random.nextInt(maxRoomWidth - minRoomWidth) + minRoomWidth,
+                startId++
+        )
     }
-
 }

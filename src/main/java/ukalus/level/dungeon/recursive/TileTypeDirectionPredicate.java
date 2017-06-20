@@ -3,11 +3,12 @@ package ukalus.level.dungeon.recursive;
 import ukalus.Floor;
 import ukalus.Tile;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
-public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-  private static final long serialVersionUID = 3257282513566185784L;
+public class TileTypeDirectionPredicate implements Predicate<Tile> {
+
   private Class tileTypeClass;
   private Vector2D direction;
   private Area area;
@@ -19,7 +20,7 @@ public class TileTypeDirectionPredicate implements Closure<Tile, Boolean> {
     this.area = area;
   }
 
-  public Boolean apply(Tile tile) {
+  public boolean test(Tile tile) {
     Tile floor = area.get(tile.getLocation()
       .minus(direction));
     return tileTypeClass.equals(tile.getTileType()

@@ -1,7 +1,6 @@
 package ukalus;
 
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +9,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * DOCUMENT ME!
@@ -132,13 +133,13 @@ public class Level implements Serializable {
    * 
    * @return DOCUMENT ME!
    */
-  public Tile getRandom(Closure<Tile, Boolean> predicate) {
+  public Tile getRandom(Predicate<Tile> predicate) {
     Tile result = null;
     List<Tile> candidates = new ArrayList<Tile>();
 
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {
-        if (predicate.apply(tiles[x][y])) {
+        if (predicate.test(tiles[x][y])) {
           candidates.add(tiles[x][y]);
         }
       }

@@ -4,13 +4,13 @@
  */
 package ukalus.persistence;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author gremopm
  * 
  */
-public class Getter implements Closure<Reference, Object> {
+public class Getter implements Function<Reference, Object> {
 
   private static final long serialVersionUID = 3257283617423241785L;
 

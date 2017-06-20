@@ -2,10 +2,10 @@ package ukalus.container.creators;
 
 import ukalus.container.InstanceCreator;
 import ukalus.container.Resolver;
-import ukalus.util.Loop;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.stream.Stream;
 
 public class ConstructorCreator implements InstanceCreator {
 
@@ -22,8 +22,7 @@ public class ConstructorCreator implements InstanceCreator {
 
   public Object newInstance() throws IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
-    Constructor constructor = new Loop<Constructor>(type.getConstructors()).detect(new ConstructorMatches(
-      arguments.length));
+    Constructor constructor = Stream.of(type.getConstructors()).filter(new ConstructorMatches(arguments.length)).findFirst().orElse(null);
     Class<?>[] types = constructor.getParameterTypes();
 
     Object[] values = new Object[arguments.length];

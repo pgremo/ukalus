@@ -5,13 +5,13 @@
 package ukalus.persistence.file;
 
 import ukalus.persistence.Reference;
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author gremopm
  * 
  */
-public class MockLogCommand implements Closure<Reference, Object> {
+public class MockLogCommand implements Function<Reference, Object> {
 
   private static final long serialVersionUID = 3257570589924405561L;
   private String name;

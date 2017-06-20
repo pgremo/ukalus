@@ -3,11 +3,12 @@ package ukalus.level.dungeon.recursive;
 import ukalus.Level;
 import ukalus.Tile;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
-public class Place implements Closure<Tile, Object> {
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-  private static final long serialVersionUID = 3833186930283459120L;
+public class Place implements Consumer<Tile> {
+
   private Level level;
   private Vector2D coordinate;
 
@@ -16,10 +17,9 @@ public class Place implements Closure<Tile, Object> {
     this.coordinate = coordinate;
   }
 
-  public Object apply(Tile current) {
+  @Override
+  public void accept(Tile current) {
     level.set(current.getLocation()
       .plus(coordinate), current.getTileType());
-    return null;
   }
-
 }

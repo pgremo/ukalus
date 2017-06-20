@@ -70,23 +70,19 @@ public class PrimMazeGenerator implements RegionFactory<Integer> {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(
-      start, path, random), new NodeRandom(random));
+    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(start, path, random), new NodeRandom(random));
 
     traversal.traverse(start);
 
     for (MazeEdge edge : path) {
-      cells[edge.getLocation()
-        .getX()][edge.getLocation()
-        .getY()] = 1;
+      cells[edge.getLocation().getX()][edge.getLocation().getY()] = 1;
     }
 
     return new MazeRegion(cells);
   }
 
   public static void main(String[] args) {
-    PrimMazeGenerator generator = new PrimMazeGenerator(new RandomAdaptor(new MersenneTwister()),
-      20, 80);
+    PrimMazeGenerator generator = new PrimMazeGenerator(new RandomAdaptor(new MersenneTwister()), 20, 80);
 
     Level<Integer> level = new Level<>(new Integer[20][80]);
     Region<Integer> region = generator.create();

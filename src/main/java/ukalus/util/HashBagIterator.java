@@ -3,18 +3,18 @@ package ukalus.util;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class HashBagIterator<E> implements Iterator<E> {
 
   private final HashBag<E> bag;
-  private Iterator<Map.Entry<E, Counter>> entryIterator;
-  private Map.Entry<E, Counter> current;
+  private Iterator<Map.Entry<E, AtomicInteger>> entryIterator;
+  private Map.Entry<E, AtomicInteger> current;
   private int count;
   private int modifications;
   private boolean canRemove;
 
-  HashBagIterator(HashBag<E> bag,
-                  Iterator<Map.Entry<E, Counter>> iterator) {
+  HashBagIterator(HashBag<E> bag, Iterator<Map.Entry<E, AtomicInteger>> iterator) {
     this.bag = bag;
     this.modifications = bag.modifications;
     this.entryIterator = iterator;
@@ -31,8 +31,7 @@ class HashBagIterator<E> implements Iterator<E> {
     }
     if (count == 0) {
       current = entryIterator.next();
-      count = current.getValue()
-        .getCount();
+      count = current.getValue().get();
     }
     canRemove = true;
     count--;
@@ -46,9 +45,9 @@ class HashBagIterator<E> implements Iterator<E> {
     if (!canRemove) {
       throw new IllegalStateException();
     }
-    Counter counter = current.getValue();
-    if (counter.getCount() > 0) {
-      counter.decrement();
+    AtomicInteger counter = current.getValue();
+    if (counter.get() > 0) {
+      counter.decrementAndGet();
       this.bag.size--;
     } else {
       entryIterator.remove();

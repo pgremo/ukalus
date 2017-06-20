@@ -3,6 +3,9 @@ package ukalus.util;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.lang.Math.ceil;
 
 class MarkovChainIterator<E> implements Iterator<E> {
 
@@ -27,15 +30,14 @@ class MarkovChainIterator<E> implements Iterator<E> {
   }
 
   private void setNext() {
-    Map.Entry<E, Counter> result = null;
+    Map.Entry<E, AtomicInteger> result = null;
     Bag<E> chain = items.get(next);
     if (chain != null) {
-      int limit = (int) Math.ceil(chain.size() * random.nextDouble());
-      Iterator<Map.Entry<E, Counter>> iterator = chain.occurenceIterator();
+      int limit = (int) ceil(chain.size() * random.nextDouble());
+      Iterator<Map.Entry<E, AtomicInteger>> iterator = chain.occurrenceIterator();
       while (limit > 0) {
         result = iterator.next();
-        limit -= result.getValue()
-          .getCount();
+        limit -= result.getValue().get();
       }
     }
     next = result == null ? null : result.getKey();

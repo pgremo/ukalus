@@ -3,20 +3,18 @@
  */
 package ukalus.container.creators;
 
-import ukalus.util.Closure;
-
 import java.lang.reflect.Constructor;
+import java.util.function.Predicate;
 
-public class ConstructorMatches implements Closure<Constructor, Boolean> {
+public class ConstructorMatches implements Predicate<Constructor> {
 
-  private static final long serialVersionUID = 3258132448905736759L;
   private int length;
 
   public ConstructorMatches(int length) {
     this.length = length;
   }
 
-  public Boolean apply(Constructor item) {
+  public boolean test(Constructor item) {
     return item.getParameterTypes().length == length;
   }
 }

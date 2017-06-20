@@ -6,13 +6,13 @@ package ukalus.persistence.file;
 
 import ukalus.persistence.Log;
 import ukalus.persistence.Reference;
-import ukalus.util.Closure;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 import junit.framework.TestCase;
 
@@ -42,15 +42,15 @@ public class FileLogTest extends TestCase {
 
   public void testForeach() throws Exception {
     Log log = new FileLog(file);
-    Closure<Reference, Object> command1 = new MockLogCommand("one");
-    Closure<Reference, Object> command2 = new MockLogCommand("two");
+    Function<Reference,Object> command1 = new MockLogCommand("one");
+    Function<Reference,Object> command2 = new MockLogCommand("two");
     log.add(command1);
     log.add(command2);
     log = new FileLog(file);
-    Closure<Reference, Object> command3 = new MockLogCommand("three");
+    Function<Reference,Object> command3 = new MockLogCommand("three");
     log.add(command3);
-    List<Closure> commands = new ArrayList<Closure>();
-    Iterator<Closure<Reference, Object>> iterator = log.iterator();
+    List<Function> commands = new ArrayList<Function>();
+    Iterator<Function> iterator = log.iterator();
     while (iterator.hasNext()) {
       commands.add(iterator.next());
     }
@@ -60,13 +60,13 @@ public class FileLogTest extends TestCase {
 
   public void testClear() throws Exception {
     Log log = new FileLog(file);
-    Closure<Reference, Object> command1 = new MockLogCommand("one");
-    Closure<Reference, Object> command2 = new MockLogCommand("two");
+    Function<Reference,Object> command1 = new MockLogCommand("one");
+    Function<Reference,Object> command2 = new MockLogCommand("two");
     log.add(command1);
     log.add(command2);
     log.clear();
-    List<Closure> commands = new ArrayList<Closure>();
-    Iterator<Closure<Reference, Object>> iterator = log.iterator();
+    List<Function> commands = new ArrayList<Function>();
+    Iterator<Function> iterator = log.iterator();
     while (iterator.hasNext()) {
       commands.add(iterator.next());
     }

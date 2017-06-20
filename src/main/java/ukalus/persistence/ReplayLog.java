@@ -4,23 +4,21 @@
  */
 package ukalus.persistence;
 
-import ukalus.util.Closure;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class ReplayLog implements
-    Closure<Closure<Reference, Object>, Object> {
-  private static final long serialVersionUID = 3256719580893165877L;
+public class ReplayLog implements Consumer<Function> {
   private Reference reference;
 
   public ReplayLog(Reference reference) {
     this.reference = reference;
   }
 
-  public Object apply(Closure<Reference, Object> item) {
+  @Override
+  public void accept(Function function) {
     try {
-      item.apply(reference);
+      function.apply(reference);
     } catch (Exception e) {
     }
-    return null;
   }
-
 }

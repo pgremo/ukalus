@@ -10,14 +10,12 @@ import ukalus.TileType;
  */
 public class EmptyFloorTilePredicate extends IsTileType {
 
-  private static final long serialVersionUID = 3256440322119905848L;
-
   public EmptyFloorTilePredicate() {
     super(Floor.class);
   }
 
-  public Boolean apply(Tile value) {
-    boolean result = super.apply(value);
+  public boolean test(Tile value) {
+    boolean result = super.test(value);
     TileType tileType = value.getTileType();
     if (result && tileType instanceof Floor) {
       Floor floor = (Floor) tileType;

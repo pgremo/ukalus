@@ -14,11 +14,11 @@ import ukalus.container.transformers.IntTransformer;
 import ukalus.container.transformers.LongTransformer;
 import ukalus.container.transformers.ShortTransformer;
 import ukalus.container.transformers.StringTransformer;
-import ukalus.util.Closure;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author gremopm
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class ObjectRegistry {
 
-  private Map<Class, Closure> converters = new HashMap<Class, Closure>();
+  private Map<Class, Function> converters = new HashMap<Class, Function>();
   private Map<String, ObjectFactory> factories = new HashMap<String, ObjectFactory>();
 
   {
@@ -43,11 +43,11 @@ public class ObjectRegistry {
     converters.put(String.class, new StringTransformer());
   }
 
-  public void addConverter(Class type, Closure converter) {
+  public void addConverter(Class type, Function converter) {
     converters.put(type, converter);
   }
 
-  public Closure getConverter(Class type) {
+  public Function getConverter(Class type) {
     return converters.get(type);
   }
 

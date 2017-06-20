@@ -1,8 +1,8 @@
 package ukalus.container.transformers;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
-public class ClassTransformer implements Closure<String, Class<?>> {
+public class ClassTransformer implements Function<String, Class<?>> {
 
   private static final long serialVersionUID = 3835157259381453110L;
 

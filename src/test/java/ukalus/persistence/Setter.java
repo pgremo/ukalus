@@ -4,7 +4,7 @@
  */
 package ukalus.persistence;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author gremopm
  * 
  */
-public class Setter<T extends Serializable> implements Closure<Reference<T>, Object> {
+public class Setter<T extends Serializable> implements Function<Reference<T>, Object> {
 
   private static final long serialVersionUID = 3256442491011217201L;
   private T value = null;

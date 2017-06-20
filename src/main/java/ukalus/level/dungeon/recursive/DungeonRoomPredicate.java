@@ -4,11 +4,11 @@ import ukalus.Level;
 import ukalus.Tile;
 import ukalus.Wall;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
-public class DungeonRoomPredicate implements Closure<Tile, Boolean> {
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-  private static final long serialVersionUID = 3617287926447551285L;
+public class DungeonRoomPredicate implements Function<Tile, Boolean>, Predicate<Tile> {
 
   private Level level;
   private Vector2D location;
@@ -20,13 +20,16 @@ public class DungeonRoomPredicate implements Closure<Tile, Boolean> {
 
   public Boolean apply(Tile o1) {
     boolean result = false;
-    Vector2D coordinate = o1.getLocation()
-      .plus(location);
+    Vector2D coordinate = o1.getLocation().plus(location);
     if (level.contains(coordinate)) {
       Tile tile = level.get(coordinate);
-      result = tile == null
-          || (o1.getTileType() instanceof Wall && tile.getTileType() instanceof Wall);
+      result = tile == null || (o1.getTileType() instanceof Wall && tile.getTileType() instanceof Wall);
     }
     return !result;
+  }
+
+  @Override
+  public boolean test(Tile tile) {
+    return apply(tile);
   }
 }

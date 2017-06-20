@@ -4,10 +4,8 @@
  */
 package ukalus.persistence;
 
-import ukalus.util.Closure;
-import ukalus.util.Loop;
-
 import java.io.IOException;
+import java.util.function.Function;
 
 /**
  * Persistence entry point. Commands are executed on a Reference with the
@@ -40,8 +38,7 @@ public class Engine {
     this.log = log;
 
     reference.set(store.load());
-    new Loop<>(log).forEach(new ReplayLog(
-        reference));
+    log.forEach(new ReplayLog(reference));
   }
 
   /**
@@ -53,7 +50,7 @@ public class Engine {
    * @return the result of the commands execute method.
    * @throws PersistenceException
    */
-  public synchronized Object update(Closure<Reference, Object> command)
+  public synchronized Object update(Function<Reference,Object> command)
       throws IOException {
     log.add(command);
     return command.apply(reference);
@@ -68,7 +65,7 @@ public class Engine {
    * @return the result of the commands execute method.
    * @throws PersistenceException
    */
-  public synchronized Object query(Closure<Reference, Object> command) {
+  public synchronized Object query(Function<Reference,Object> command) {
     return command.apply(reference);
   }
 

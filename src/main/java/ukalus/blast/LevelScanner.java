@@ -2,9 +2,9 @@ package ukalus.blast;
 
 import ukalus.level.Level;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
+import java.util.function.Function;
 
-public class LevelScanner implements Closure<Vector2D, Boolean> {
+public class LevelScanner implements Function<Vector2D, Boolean> {
 
   private static final long serialVersionUID = 3833468426717835826L;
   private Level level;

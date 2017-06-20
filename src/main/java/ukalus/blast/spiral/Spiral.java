@@ -4,7 +4,6 @@ import static java.lang.Math.PI;
 import static java.lang.Math.atan2;
 import ukalus.blast.Blast;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 public class Spiral implements Blast {
 
@@ -43,14 +43,14 @@ public class Spiral implements Blast {
 
   }
 
-  private Closure<Vector2D, Boolean> scanner;
+  private Function<Vector2D,Boolean> scanner;
   private Vector2D origin;
   private int radius;
 
   private Set<Vector2D> result;
 
   public Set<Vector2D> getTemplate(Vector2D origin,
-      Closure<Vector2D, Boolean> scanner, int radius) {
+                                   Function<Vector2D,Boolean> scanner, int radius) {
 
     if (origin == null || radius < 1 || scanner == null) {
       throw new IllegalArgumentException();

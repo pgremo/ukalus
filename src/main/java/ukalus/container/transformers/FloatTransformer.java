@@ -4,13 +4,13 @@
  */
 package ukalus.container.transformers;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author gremopm
  * 
  */
-public class FloatTransformer implements Closure<String, Float> {
+public class FloatTransformer implements Function<String, Float> {
 
   private static final long serialVersionUID = 4049638988350436657L;
 

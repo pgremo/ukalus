@@ -1,21 +1,21 @@
 package ukalus;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
-public class StairsPredicate implements Closure<Tile, Boolean> {
+public class StairsPredicate implements Predicate<Tile> {
 
-  private static final long serialVersionUID = 3257005445343688243L;
   private String direction;
 
   /**
    * @see com.threat.game.Predicate#invoke(Object)
    */
-  public Boolean apply(Tile value) {
+  public boolean test(Tile value) {
     boolean result = false;
     if (value != null) {
       TileType type = value.getTileType();

@@ -7,6 +7,7 @@ package ukalus.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author gremopm
@@ -14,7 +15,7 @@ import java.util.Map;
  */
 public interface Bag<E> extends Collection<E> {
 
-	int occurence(E value);
+	int occurrence(E value);
 	
-	Iterator<Map.Entry<E, Counter>> occurenceIterator();
+	Iterator<Map.Entry<E, AtomicInteger>> occurrenceIterator();
 }

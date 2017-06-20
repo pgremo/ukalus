@@ -2,15 +2,8 @@ package ukalus.level.dungeon.recursive;
 
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomAdaptor;
-import ukalus.Door;
-import ukalus.Floor;
-import ukalus.Level;
-import ukalus.Stairs;
-import ukalus.Tile;
-import ukalus.TileType;
-import ukalus.Wall;
+import ukalus.*;
 import ukalus.math.Vector2D;
-import ukalus.util.Loop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +39,12 @@ public class RecursiveDungeonGenerator {
     Area target = new Area(list);
 
     Dimension dimension = new Dimension();
-    new Loop<Tile>(list).forEach(dimension);
+    list.forEach(dimension);
 
     int x = random.nextInt(level.getHeight() - dimension.getHeight() - 1);
     int y = random.nextInt(level.getWidth() - dimension.getWidth() - 1);
     target.setCoordinate(Vector2D.Companion.get(x, y));
-    List<Area> areas = new ArrayList<Area>();
+    List<Area> areas = new ArrayList<>();
     areas.add(target);
     target.place(level);
 
@@ -117,8 +110,7 @@ public class RecursiveDungeonGenerator {
         .minus(exit.getLocation());
       target.setCoordinate(targetCoordinate);
 
-      result = connector.check(new DungeonRoomPredicate(level,
-        connectorCoordinate))
+      result = connector.check(new DungeonRoomPredicate(level, connectorCoordinate))
           && target.check(new DungeonRoomPredicate(level, targetCoordinate));
     }
 
@@ -144,7 +136,7 @@ public class RecursiveDungeonGenerator {
     RecursiveDungeonGenerator generator = new RecursiveDungeonGenerator(
       new RandomAdaptor(new MersenneTwister(seed)));
     Level dungeon = generator.generate("1");
-    StringBuffer output = new StringBuffer();
+    StringBuilder output = new StringBuilder();
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {

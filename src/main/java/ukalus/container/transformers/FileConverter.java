@@ -4,7 +4,7 @@
  */
 package ukalus.container.transformers;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import java.io.File;
  * @author gremopm
  * 
  */
-public class FileConverter implements Closure<String, File> {
+public class FileConverter implements Function<String, File> {
 
   private static final long serialVersionUID = 3834308432025957939L;
 

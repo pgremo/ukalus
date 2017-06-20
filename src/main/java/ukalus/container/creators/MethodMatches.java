@@ -1,12 +1,9 @@
 package ukalus.container.creators;
 
-import ukalus.util.Closure;
-
 import java.lang.reflect.Method;
+import java.util.function.Predicate;
 
-public class MethodMatches implements Closure<Method, Boolean> {
-
-  private static final long serialVersionUID = 3617569401440843832L;
+public class MethodMatches implements Predicate<Method> {
 
   private String name;
   private int modifiers;
@@ -18,7 +15,7 @@ public class MethodMatches implements Closure<Method, Boolean> {
     this.length = length;
   }
 
-  public Boolean apply(Method value) {
+  public boolean test(Method value) {
     return value.getModifiers() == modifiers && value.getName()
       .equals(name) && value.getParameterTypes().length == length;
   }

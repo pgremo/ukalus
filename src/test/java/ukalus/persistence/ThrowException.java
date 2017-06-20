@@ -4,13 +4,13 @@
  */
 package ukalus.persistence;
 
-import ukalus.util.Closure;
+import java.util.function.Function;
 
 /**
  * @author pmgremo
  * 
  */
-public class ThrowException implements Closure<Reference, Object> {
+public class ThrowException implements Function<Reference, Object> {
 
   private static final long serialVersionUID = 3690754012043620921L;
 

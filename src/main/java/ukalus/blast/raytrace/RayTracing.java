@@ -2,10 +2,10 @@ package ukalus.blast.raytrace;
 
 import ukalus.blast.Blast;
 import ukalus.math.Vector2D;
-import ukalus.util.Closure;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 public class RayTracing implements Blast {
 
@@ -75,7 +75,7 @@ public class RayTracing implements Blast {
   private int radius;
   private Set<Vector2D> result;
   private Vector2D origin;
-  private Closure<Vector2D, Boolean> scanner;
+  private Function<Vector2D,Boolean> scanner;
 
   {
     cells = new Cell[MAX_LIGHT_RADIUS];
@@ -257,7 +257,7 @@ public class RayTracing implements Blast {
   }
 
   public Set<Vector2D> getTemplate(Vector2D origin,
-      Closure<Vector2D, Boolean> scanner, int radius) {
+                                   Function<Vector2D,Boolean> scanner, int radius) {
 
     if (origin == null || radius < 1 || scanner == null) {
       throw new IllegalArgumentException();

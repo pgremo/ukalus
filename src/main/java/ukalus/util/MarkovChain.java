@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class MarkovChain<E> implements Iterable<E> {
 
-  private Map<E, Bag<E>> items = new HashMap<E, Bag<E>>();
+  private Map<E, Bag<E>> items = new HashMap<>();
   private Random random;
 
   public MarkovChain(Random random) {
@@ -27,12 +27,12 @@ public class MarkovChain<E> implements Iterable<E> {
   }
 
   public void add(E current, E next) {
-    items.computeIfAbsent(current, k -> new HashBag<E>()).add(next);
+    items.computeIfAbsent(current, k -> new HashBag<>()).add(next);
   }
 
   @NotNull
   public Iterator<E> iterator() {
-    return new MarkovChainIterator<E>(items, random);
+    return new MarkovChainIterator<>(items, random);
   }
 
   public String toString() {

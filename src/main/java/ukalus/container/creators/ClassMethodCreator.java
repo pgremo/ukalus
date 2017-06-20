@@ -2,13 +2,15 @@ package ukalus.container.creators;
 
 import ukalus.container.InstanceCreator;
 import ukalus.container.Resolver;
-import ukalus.util.Loop;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import static java.lang.reflect.Modifier.*;
+import java.util.stream.Stream;
 
-public class ClassMethodCreator implements InstanceCreator{
+import static java.lang.reflect.Modifier.PUBLIC;
+import static java.lang.reflect.Modifier.STATIC;
+
+public class ClassMethodCreator implements InstanceCreator {
 
   private Class type;
   private String name;
@@ -23,10 +25,8 @@ public class ClassMethodCreator implements InstanceCreator{
     }
   }
 
-  public Object newInstance() throws IllegalArgumentException,
-      InstantiationException, IllegalAccessException, InvocationTargetException {
-    Method method = new Loop<Method>(type.getMethods()).detect(new MethodMatches(
-      name, PUBLIC + STATIC, arguments.length));
+  public Object newInstance() throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    Method method = Stream.of(type.getMethods()).filter(new MethodMatches(name, PUBLIC + STATIC, arguments.length)).findFirst().orElse(null);
     Class<?>[] types = method.getParameterTypes();
 
     Object[] values = new Object[arguments.length];
