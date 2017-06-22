@@ -1,8 +1,9 @@
 package ukalus.persistence;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
-class Adder implements Function<Reference, Object> {
+class Adder implements Function<Reference, Object>, Serializable {
 
   private static final long serialVersionUID = 3256999939061199155L;
   private long value;
@@ -17,7 +18,7 @@ class Adder implements Function<Reference, Object> {
    * @see persistence.Command#execute(java.lang.Object)
    */
   public Object apply(Reference object) {
-    return new Long(((Counter) object.get()).add(value));
+    return ((Counter) object.get()).add(value);
   }
 
 }

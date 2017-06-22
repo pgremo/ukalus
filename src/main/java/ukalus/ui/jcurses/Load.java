@@ -55,7 +55,7 @@ public class Load implements ItemListener {
     select.setColors(colors);
     select.setSelectedItemColors(new CharColor(CharColor.WHITE, CharColor.BLACK));
 
-    String[] files = Persistence.list();
+    String[] files = Persistence.INSTANCE.list();
 
     for (String file : files) {
       select.add(file);

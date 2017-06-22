@@ -46,7 +46,7 @@ public final class Referee {
 
       if (!level.isActive()) {
         try {
-          Persistence.put(level.getName(), level);
+          Persistence.INSTANCE.put(level.getName(), level);
         } catch (Exception e) {
         }
       }
@@ -102,7 +102,7 @@ public final class Referee {
             sourceStairs.setLevelName(targetName);
           } else {
             try {
-              targetLevel = (Level) Persistence.get(targetName);
+              targetLevel = (Level) Persistence.INSTANCE.get(targetName);
             } catch (Exception e) {
             }
 
@@ -160,7 +160,7 @@ public final class Referee {
             sourceStairs.setLevelName(targetName);
           } else {
             try {
-              targetLevel = (Level) Persistence.get(targetName);
+              targetLevel = (Level) Persistence.INSTANCE.get(targetName);
             } catch (Exception e) {
             }
 
@@ -287,7 +287,7 @@ public final class Referee {
    *          DOCUMENT ME!
    */
   static public void quit(Creature creature) {
-    Persistence.delete(creature.getName());
+    Persistence.INSTANCE.delete(creature.getName());
     stop();
   }
 
@@ -303,9 +303,9 @@ public final class Referee {
     Creature result = null;
 
     try {
-      Persistence.open(name);
+      Persistence.INSTANCE.open(name);
 
-      result = (Creature) Persistence.get(CREATURE);
+      result = (Creature) Persistence.INSTANCE.get(CREATURE);
     } catch (PersistenceException e) {
       e.printStackTrace();
     }
@@ -321,7 +321,7 @@ public final class Referee {
    */
   static public void save(Creature creature) {
     try {
-      Persistence.put(CREATURE, creature);
+      Persistence.INSTANCE.put(CREATURE, creature);
     } catch (PersistenceException e) {
       e.printStackTrace();
     }

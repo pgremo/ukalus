@@ -2,6 +2,7 @@ package ukalus.level.dungeon.buck
 
 import ukalus.level.Level
 import ukalus.level.Region
+import ukalus.level.separate
 import ukalus.math.Vector2D
 import java.util.*
 
@@ -87,21 +88,3 @@ class Room(private val random: Random, private val height: Int, private val widt
     }
 }
 
-fun <T> Iterable<T>.separate(predicate: (T) -> Boolean): List<List<T>> {
-    val all = mutableListOf<List<T>>()
-    var open = mutableListOf<T>()
-    this.forEach {
-        if (predicate(it)) {
-            if (!open.isEmpty()) {
-                all.add(open)
-                open = mutableListOf<T>()
-            }
-        } else {
-            open.add(it)
-        }
-    }
-    if (!open.isEmpty()) {
-        all.add(open)
-    }
-    return all
-}

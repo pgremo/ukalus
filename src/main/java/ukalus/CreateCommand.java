@@ -20,7 +20,7 @@ public class CreateCommand {
    */
   public Object execute(String name) {
     try {
-      Persistence.create(name);
+      Persistence.INSTANCE.create(name);
     } catch (PersistenceException e) {
       e.printStackTrace();
     }

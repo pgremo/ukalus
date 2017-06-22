@@ -6,10 +6,10 @@ import ukalus.level.Level
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
+import ukalus.level.shuffle
 import ukalus.math.Vector2D
 import ukalus.util.DisjointSet
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 
 class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) : RegionFactory<Int> {
     private val height: Int = (height - 1 and Integer.MAX_VALUE - 1) + 1
@@ -61,8 +61,4 @@ class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) 
         }
     }
 
-}
-
-fun <T> List<T>.shuffle(random: Random = ThreadLocalRandom.current()): List<T> {
-    return ArrayList(this).apply { Collections.shuffle(this, random) }
 }

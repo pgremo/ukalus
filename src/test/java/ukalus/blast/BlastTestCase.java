@@ -1,19 +1,22 @@
 package ukalus.blast;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import ukalus.level.Level;
 import ukalus.math.Vector2D;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class BlastTestCase extends TestCase {
+import static org.junit.Assert.*;
+
+abstract public class BlastTestCase {
 
   private static final Object WALL = null;
   private static final Object FLOOR = new Object();
 
   protected Blast blast;
 
+  @Test
   public void testSeeAll() {
     Object[][] area = new Object[][]{
       {FLOOR, FLOOR, FLOOR, FLOOR, FLOOR},
@@ -41,6 +44,7 @@ public class BlastTestCase extends TestCase {
     assertEquals(actual.size(), expected.size());
   }
 
+  @Test
   public void testSeeAllWalls() {
     Object[][] area = new Object[][]{
       {WALL, WALL, WALL, WALL, WALL},
@@ -68,13 +72,14 @@ public class BlastTestCase extends TestCase {
     assertEquals(actual.size(), expected.size());
   }
 
+  @Test
   public void testSeeAllCorners() {
     Object[][] area = new Object[][]{
-      {WALL, WALL, WALL, WALL, WALL},
+      {WALL, WALL,  WALL,  WALL,  WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
-      {WALL, WALL, WALL, WALL, WALL}};
+      {WALL, WALL,  WALL,  WALL,  WALL}};
     Set<Vector2D> expected = new HashSet<>();
     for (int i = 0; i < area.length; i++) {
       for (int j = 0; j < area[i].length; j++) {
@@ -83,14 +88,14 @@ public class BlastTestCase extends TestCase {
     }
 
     Level<Object> level = new Level<>(area);
-    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(2, 2),
-      new LevelScanner(level), 3);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(2, 2), new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
     assertEquals(expected.size(), actual.size());
   }
 
+  @Test
   public void testSeeAllCornersSmall() {
     Object[][] area = new Object[][]{
       {WALL, WALL, WALL},
@@ -104,14 +109,14 @@ public class BlastTestCase extends TestCase {
     }
 
     Level<Object> level = new Level<>(area);
-    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(1, 1),
-      new LevelScanner(level), 3);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(1, 1), new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
     assertEquals(actual.size(), expected.size());
   }
 
+  @Test
   public void testSeeAllWallsSmallRoom() {
     Object[][] area = new Object[][]{
       {WALL, WALL, WALL, WALL, WALL, WALL, WALL},
@@ -133,14 +138,14 @@ public class BlastTestCase extends TestCase {
     expected.remove(Vector2D.Companion.get(5, 5));
 
     Level<Object> level = new Level<>(area);
-    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(3, 3),
-      new LevelScanner(level), 2);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(3, 3), new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));
     assertEquals(actual.size(), expected.size());
   }
 
+  @Test
   public void testSeePartialRoom() {
     Object[][] area = new Object[][]{
       {WALL, WALL, WALL, WALL, WALL, WALL},
@@ -172,8 +177,7 @@ public class BlastTestCase extends TestCase {
     expected.add(Vector2D.Companion.get(4, 5));
     expected.add(Vector2D.Companion.get(5, 5));
     Level<Object> level = new Level<>(area);
-    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(3, 1),
-      new LevelScanner(level), 5);
+    Set<Vector2D> actual = blast.getTemplate(Vector2D.Companion.get(3, 1), new LevelScanner(level), 5);
     printSight(actual, level);
     assertNotNull(actual);
     assertTrue(actual.containsAll(expected));

@@ -1,29 +1,35 @@
 package ukalus.persistence;
 
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author pmgremo
  *  
  */
-public class PersistenceTest extends TestCase {
+public class PersistenceTest  {
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    Persistence.create("test");
+  @Before
+  public void setUp() throws Exception {
+    Persistence.INSTANCE.create("test");
   }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    Persistence.close();
-    Persistence.delete("test");
+  @After
+  public void tearDown() throws Exception {
+    Persistence.INSTANCE.close();
+    Persistence.INSTANCE.delete("test");
   }
 
+  @Test
   public void testOperations() throws Exception {
     String key = "key";
     String value = "value";
-    Persistence.put(key, value);
-    assertEquals(value, Persistence.get(key));
+    Persistence.INSTANCE.put(key, value);
+    assertEquals(value, Persistence.INSTANCE.get(key));
   }
 
 }

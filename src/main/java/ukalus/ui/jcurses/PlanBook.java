@@ -25,7 +25,7 @@ public class PlanBook implements Serializable {
   public void turnTo(String key) {
     if ((name != null) && !name.equals(key)) {
       try {
-        Persistence.put(name, page);
+        Persistence.INSTANCE.put(name, page);
       } catch (PersistenceException e) {
         e.printStackTrace();
       }
@@ -34,7 +34,7 @@ public class PlanBook implements Serializable {
     name = key;
 
     try {
-      page = Persistence.get(name);
+      page = Persistence.INSTANCE.get(name);
     } catch (PersistenceException e) {
       e.printStackTrace();
     }

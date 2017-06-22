@@ -118,6 +118,6 @@ class ArtDescriptionResource : ListResourceBundle() {
     }
 
     override fun toString(): String {
-        return keys.asSequence().map{"$it=${getObject(it)}"}.joinToString("\n")
+        return keys.asSequence().map { "$it=${getObject(it)}" }.joinToString("\n")
     }
 }

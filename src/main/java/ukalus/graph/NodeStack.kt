@@ -6,9 +6,7 @@ class NodeStack : NodeCollection {
 
     private val storage = LinkedList<Node>()
 
-    override fun add(e: Node) {
-        storage.addFirst(e)
-    }
+    override fun add(e: Node) = storage.addFirst(e)
 
     override fun get(): Node = storage.peek()
 

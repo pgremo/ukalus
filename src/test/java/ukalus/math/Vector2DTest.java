@@ -25,7 +25,7 @@ public class Vector2DTest extends TestCase {
   }
 
   public void testFindInHashMap() {
-    Map<Vector2D, Object> map = new HashMap<Vector2D, Object>();
+    Map<Vector2D, Object> map = new HashMap<>();
     map.put(Vector2D.Companion.get(1, 0), null);
     assertTrue(map.containsKey(Vector2D.Companion.get(1, 0)));
   }
@@ -49,18 +49,16 @@ public class Vector2DTest extends TestCase {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ObjectOutputStream oout = new ObjectOutputStream(out);
     oout.writeObject(expected);
-    ObjectInputStream oin = new ObjectInputStream(new ByteArrayInputStream(
-      out.toByteArray()));
+    ObjectInputStream oin = new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
     Vector2D actual = (Vector2D) oin.readObject();
     assertEquals(expected, actual);
-    assertTrue(expected == actual);
+    assertEquals(expected, actual);
   }
 
   public void testGetDirection() {
     Vector2D start = Vector2D.Companion.get(1, 0);
     Vector2D end = Vector2D.Companion.get(3, 0);
-    assertEquals(Vector2D.Companion.get(1, 0), end.minus(start)
-      .normal());
+    assertEquals(Vector2D.Companion.get(1, 0), end.minus(start).normal());
   }
 
 }

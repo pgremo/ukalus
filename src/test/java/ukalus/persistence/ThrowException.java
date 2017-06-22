@@ -4,13 +4,14 @@
  */
 package ukalus.persistence;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 /**
  * @author pmgremo
  * 
  */
-public class ThrowException implements Function<Reference, Object> {
+public class ThrowException implements Function<Reference, Object>, Serializable {
 
   private static final long serialVersionUID = 3690754012043620921L;
 

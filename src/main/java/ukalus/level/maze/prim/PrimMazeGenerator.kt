@@ -21,8 +21,8 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
     private val width: Int = (width - 1 and Integer.MAX_VALUE - 1) + 1
 
     override fun create(): Region<Int> {
-        val nodes = HashMap<Vector2D, MazeNode>()
-        val edges = HashMap<Vector2D, MazeEdge>()
+        val nodes = mutableMapOf<Vector2D, MazeNode>()
+        val edges = mutableMapOf<Vector2D, MazeEdge>()
 
         val cells = Array(height) { IntArray(width) }
 

@@ -4,13 +4,13 @@
  */
 package ukalus.persistence;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 /**
  * @author gremopm
- * 
  */
-public class Getter implements Function<Reference, Object> {
+public class Getter implements Function<Reference, Object>, Serializable {
 
   private static final long serialVersionUID = 3257283617423241785L;
 

@@ -1,4 +1,4 @@
-package ukalus.level.maze.breathfirst;
+package ukalus.level.maze.breadthfirst;
 
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomAdaptor;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class BreathFirstMazeGenerator implements RegionFactory<Integer> {
+public class BreadthFirstMazeGenerator implements RegionFactory<Integer> {
 
   private Random random;
   private int height;
@@ -29,7 +29,7 @@ public class BreathFirstMazeGenerator implements RegionFactory<Integer> {
   private Map<Vector2D, MazeNode> nodes = new HashMap<>();
   private Map<Vector2D, MazeEdge> edges = new HashMap<>();
 
-  public BreathFirstMazeGenerator(Random random, int height, int width) {
+  public BreadthFirstMazeGenerator(Random random, int height, int width) {
     this.random = random;
     this.height = ((height - 1) & (Integer.MAX_VALUE - 1)) + 1;
     this.width = ((width - 1) & (Integer.MAX_VALUE - 1)) + 1;
@@ -75,25 +75,21 @@ public class BreathFirstMazeGenerator implements RegionFactory<Integer> {
 
     Node start = new ArrayList<Node>(nodes.values()).get(random.nextInt(nodes.size()));
 
-    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(
-      start, path, random), new NodeQueue());
+    NodeTraversal traversal = new NodeTraversal(new MazeTraversalDelegate(start, path, random), new NodeQueue());
 
     traversal.traverse(start);
 
     for (MazeEdge edge : path) {
-      cells[edge.getLocation()
-        .getX()][edge.getLocation()
-        .getY()] = 1;
+      cells[edge.getLocation().getX()][edge.getLocation().getY()] = 1;
     }
 
     return new MazeRegion(cells);
   }
 
   public static void main(String[] args) {
-    RegionFactory<Integer> generator = new BreathFirstMazeGenerator(
-      new RandomAdaptor(new MersenneTwister()), 20, 80);
+    RegionFactory<Integer> generator = new BreadthFirstMazeGenerator(new RandomAdaptor(new MersenneTwister()), 19, 79);
 
-    Level<Integer> level = new Level<>(new Integer[20][80]);
+    Level<Integer> level = new Level<>(new Integer[19][79]);
     generator.create().place(Vector2D.Companion.get(0, 0), level);
 
     System.out.println(level);

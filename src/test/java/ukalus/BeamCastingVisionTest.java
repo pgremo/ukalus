@@ -3,28 +3,27 @@ package ukalus;
 import java.util.List;
 
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import ukalus.persistence.Persistence;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * DOCUMENT ME!
  * 
  * @author pmgremo
  */
-public class BeamCastingVisionTest extends TestCase {
+public class BeamCastingVisionTest {
 
   private Creature creature;
 
   /**
-   * Constructor for BeamCastingVisionTest.
-   * 
-   * @param arg0
-   */
-  public BeamCastingVisionTest(String arg0) {
-    super(arg0);
-  }
-
-  /**
    * DOCUMENT ME!
    */
+  @Test
   public void testVision() {
     List<Tile> vision = creature.getVision();
     assertNotNull(vision);
@@ -37,17 +36,17 @@ public class BeamCastingVisionTest extends TestCase {
   /**
    * @see junit.framework.TestCase#setUp()
    */
-  protected void setUp() throws Exception {
-    super.setUp();
-
-    creature = (Creature) (new CreateCommand().execute("ja"));
+  @Before
+  public void setUp() throws Exception {
+    creature = (Creature) new CreateCommand().execute("ja");
   }
 
   /**
    * @see junit.framework.TestCase#tearDown()
    */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @After
+  public void tearDown() throws Exception {
+    Persistence.INSTANCE.delete("ja");
     Referee.quit(creature);
   }
 }

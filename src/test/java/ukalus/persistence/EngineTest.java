@@ -61,8 +61,7 @@ public class EngineTest extends TestCase {
   }
 
   private void crashRecover() throws Exception {
-    server = new Engine(new FileStore(new File("test")), new FileLog(new File(
-      "test.log")));
+    server = new Engine(new FileStore(new File("test")), new FileLog(new File("test.log")));
     servers.add(server);
   }
 

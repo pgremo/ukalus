@@ -4,16 +4,14 @@
  */
 package ukalus.persistence.file;
 
+import junit.framework.TestCase;
 import ukalus.persistence.Store;
 
 import java.io.File;
 import java.io.Serializable;
 
-import junit.framework.TestCase;
-
 /**
  * @author gremopm
- * 
  */
 public class FileStoreTest extends TestCase {
 
@@ -37,7 +35,7 @@ public class FileStoreTest extends TestCase {
 
   public void testOperations() throws Exception {
     Serializable original = "This is a test";
-    Store storage = new FileStore(file);
+    Store<Serializable> storage = new FileStore<>(file);
     storage.store(original);
     Object result = storage.load();
     assertEquals(original, result);
