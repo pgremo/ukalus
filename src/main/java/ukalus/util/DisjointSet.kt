@@ -1,7 +1,7 @@
 package ukalus.util
 
 class DisjointSet(n: Int) {
-    private val s: IntArray = IntArray(n, { -1 })
+    private val s: IntArray = IntArray(n) { -1 }
 
     fun find(x: Int): Int = if (s[x] < 0)
         x

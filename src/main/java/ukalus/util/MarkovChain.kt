@@ -2,6 +2,7 @@ package ukalus.util
 
 import org.apache.commons.collections4.Bag
 import org.apache.commons.collections4.bag.HashBag
+import ukalus.level.random
 import java.util.*
 
 class MarkovChain<E>(private val random: Random) : Iterable<E?> {
@@ -18,7 +19,7 @@ class MarkovChain<E>(private val random: Random) : Iterable<E?> {
     }
 
     fun add(current: E?, next: E?) {
-        items.computeIfAbsent(current, { HashBag<E>() }).add(next)
+        items.computeIfAbsent(current) { HashBag<E>() }.add(next)
     }
 
     override fun iterator(): Iterator<E?> {
@@ -40,12 +41,7 @@ class MarkovChain<E>(private val random: Random) : Iterable<E?> {
             }
 
             private fun setNext() {
-                val chain = items[next]
-                if (chain != null) {
-                    next = chain.drop(random.nextInt(chain.size)).first()
-                } else {
-                    next = null
-                }
+                next = items[next]?.random(random)
             }
         }
     }

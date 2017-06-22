@@ -16,7 +16,7 @@ public class FixedCost implements Cost {
     this.cost = cost;
   }
 
-  public int calculate(Node previous, Node current) {
+  public double calculate(Node previous, Node current) {
     return cost;
   }
 

@@ -2,6 +2,7 @@ package ukalus.math
 
 import java.io.ObjectStreamException
 import java.io.Serializable
+import java.lang.Math.sqrt
 
 data class Vector2D(val x: Int, val y: Int) : Serializable {
 
@@ -26,7 +27,7 @@ data class Vector2D(val x: Int, val y: Int) : Serializable {
     }
 
     fun magnitude(): Double {
-        return Math.sqrt((x * x + y * y).toDouble())
+        return sqrt((x * x + y * y).toDouble())
     }
 
     fun rotate(vector: Vector2D): Vector2D {
@@ -39,14 +40,6 @@ data class Vector2D(val x: Int, val y: Int) : Serializable {
 
     fun orthogonal(): Vector2D {
         return Vector2D(y, -x)
-    }
-
-    fun clone(): Any {
-        return Vector2D(x, y)
-    }
-
-    override fun toString(): String {
-        return "(x=$x,y=$y)"
     }
 
     @Throws(ObjectStreamException::class)

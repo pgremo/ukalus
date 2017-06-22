@@ -4,21 +4,18 @@
  */
 package ukalus.util
 
-import java.util.regex.Pattern.CASE_INSENSITIVE
-import java.util.regex.Pattern.compile
+import kotlin.text.RegexOption.IGNORE_CASE
 
-private val cleanPattern = compile("\\W+", CASE_INSENSITIVE)
-private val oneConsonant = compile("(?=[aeiou](?:tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]])[aeiou])([aeiou])(tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]])", CASE_INSENSITIVE)
-private val twoConsonants = compile("(?=[aeiou][a-z&&[^aeiou]][a-z&&[^aeiou]][aeiou])([aeiou][a-z&&[^aeiou]])([a-z&&[^aeiou]])", CASE_INSENSITIVE)
-private val threeConsonants = compile("(?=[aeiou][a-z&&[^aeiou]]{3}[aeiou])([aeiou](tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]]))([a-z&&[^aeiou]]{1,2})", CASE_INSENSITIVE)
-private val fourConsonants = compile("(?=[aeiou][a-z&&[^aeiou]]{4}[aeiou])([aeiou][a-z&&[^aeiou]]{2})([a-z&&[^aeiou]]{2})", CASE_INSENSITIVE)
-private val splitPattern = compile("-+", CASE_INSENSITIVE)
+private val splitPattern = Regex("-+", IGNORE_CASE)
+
+private val patterns = listOf(
+        Pair(Regex("\\W+", IGNORE_CASE), "-"),
+        Pair(Regex("(?=[aeiou](?:tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]])[aeiou])([aeiou])(tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]])", IGNORE_CASE), "$1-$2"),
+        Pair(Regex("(?=[aeiou][a-z&&[^aeiou]][a-z&&[^aeiou]][aeiou])([aeiou][a-z&&[^aeiou]])([a-z&&[^aeiou]])", IGNORE_CASE), "$1-$2"),
+        Pair(Regex("(?=[aeiou][a-z&&[^aeiou]]{3}[aeiou])([aeiou](tch|ch|ph|sh|th|wh|zh|[a-z&&[^aeiou]]))([a-z&&[^aeiou]]{1,2})", IGNORE_CASE), "$1-$3"),
+        Pair(Regex("(?=[aeiou][a-z&&[^aeiou]]{4}[aeiou])([aeiou][a-z&&[^aeiou]]{2})([a-z&&[^aeiou]]{2})", IGNORE_CASE), "$1-$2")
+)
 
 fun syllables(value: String): List<String> {
-    var result = cleanPattern.matcher(value).replaceAll("-")
-    result = oneConsonant.matcher(result).replaceAll("$1-$2")
-    result = twoConsonants.matcher(result).replaceAll("$1-$2")
-    result = threeConsonants.matcher(result).replaceAll("$1-$3")
-    result = fourConsonants.matcher(result).replaceAll("$1-$2")
-    return mutableListOf(*splitPattern.split(result))
+    return splitPattern.split(patterns.fold(value) { acc, (pattern, replacement) -> pattern.replace(acc, replacement) })
 }

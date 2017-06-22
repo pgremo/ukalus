@@ -38,7 +38,7 @@ class BuckDungeonGenerator {
     }
 
     private fun addRooms(level: Level<Int>) {
-        MutableList(maxRooms, { roomFactory.create() })
+        MutableList(maxRooms) { roomFactory.create() }
                 .forEach { room ->
                     cells
                             .map { x -> Pair(room.cost(x, level), x) }

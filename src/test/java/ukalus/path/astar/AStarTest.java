@@ -34,7 +34,7 @@ public class AStarTest extends TestCase {
     assertEquals(Vector2D.Companion.get(0, 0), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.Companion.get(1, 0), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.Companion.get(1, 1), ((Node2D) path.next()).getLocation());
-    assertEquals(Vector2D.Companion.get(2, 1), ((Node2D) path.next()).getLocation());
+    assertEquals(Vector2D.Companion.get(1, 2), ((Node2D) path.next()).getLocation());
     assertEquals(Vector2D.Companion.get(2, 2), ((Node2D) path.next()).getLocation());
 
   }

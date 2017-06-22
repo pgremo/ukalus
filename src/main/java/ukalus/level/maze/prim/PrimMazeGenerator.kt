@@ -31,21 +31,21 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
             for (y in 1..cells[x].size - 1 - 1) {
                 if (x % 2 == 0 && y % 2 == 1) {
                     // vertical edge
-                    val head = nodes.computeIfAbsent(Vector2D(x - 1, y), { MazeNode(it) })
-                    val tail = nodes.computeIfAbsent(Vector2D(x + 1, y), { MazeNode(it) })
+                    val head = nodes.computeIfAbsent(Vector2D(x - 1, y)) { MazeNode(it) }
+                    val tail = nodes.computeIfAbsent(Vector2D(x + 1, y)) { MazeNode(it) }
                     val edge = edges.computeIfAbsent(Vector2D(x, y)) { MazeEdge(it, head, tail) }
                     head.addEdge(edge)
                     tail.addEdge(edge)
                 } else if (x % 2 == 1 && y % 2 == 0) {
                     // horizontal edge
-                    val head = nodes.computeIfAbsent(Vector2D(x, y - 1), { MazeNode(it) })
-                    val tail = nodes.computeIfAbsent(Vector2D(x, y + 1), { MazeNode(it) })
+                    val head = nodes.computeIfAbsent(Vector2D(x, y - 1)) { MazeNode(it) }
+                    val tail = nodes.computeIfAbsent(Vector2D(x, y + 1)) { MazeNode(it) }
                     val edge = edges.computeIfAbsent(Vector2D(x, y)) { MazeEdge(it, head, tail) }
                     head.addEdge(edge)
                     tail.addEdge(edge)
                 } else if (x % 2 == 1 && y % 2 == 1) {
                     // node
-                    nodes.computeIfAbsent(Vector2D(x, y), { MazeNode(it) })
+                    nodes.computeIfAbsent(Vector2D(x, y)) { MazeNode(it) }
                     cells[x][y] = 1
                 }
             }
@@ -71,7 +71,7 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
         @JvmStatic fun main(args: Array<String>) {
             val generator = PrimMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
 
-            val level = Level(Array(19) { Array(79, { 0 }) })
+            val level = Level(Array(19) { Array(79) { 0 } })
             val region = generator.create()
             region.place(Vector2D(0, 0), level)
 
