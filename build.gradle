@@ -4,17 +4,22 @@ buildscript {
     mavenLocal()
     mavenCentral()
     jcenter()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
-      'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+      'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4',
+      'com.commercehub.gradle.plugin:gradle-avro-plugin:0.9.0'
   }
 }
-apply plugin: 'kotlin'
 
 [
+  'kotlin',
   'org.junit.platform.gradle.plugin',
-  'org.jetbrains.kotlin.jvm'
+  'org.jetbrains.kotlin.jvm',
+  'com.commercehub.gradle.plugin.avro'
 ].forEach { apply plugin: it }
 
 
@@ -29,17 +34,18 @@ dependencies {
     'com.baulsupp.kolja:jcurses:0.9.5.3',
     'org.apache.commons:commons-math3:3.2',
     'org.apache.commons:commons-collections4:4.1',
+    'org.apache.avro:avro:1.8.2'
     "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
   testCompile 'junit:junit:4.12'
 }
 
 compileKotlin {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = '1.8'
   }
 }
 kotlin {
   experimental {
-    coroutines "enable"
+    coroutines 'enable'
   }
 }
