@@ -13,7 +13,7 @@ class NodeRandom(private val random: Random) : NodeCollection {
         }
     }
 
-    override fun get(): Node? = if (!storage.isEmpty()) {
+    override fun get() = if (!storage.isEmpty()) {
         storage[0]
     } else {
         null
@@ -25,8 +25,8 @@ class NodeRandom(private val random: Random) : NodeCollection {
         }
     }
 
-    override val isEmpty: Boolean
+    override val isEmpty
         get() = storage.isEmpty()
 
-    override fun toString(): String = storage.toString()
+    override fun toString() = storage.toString()
 }

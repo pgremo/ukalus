@@ -2,9 +2,9 @@ package ukalus.items
 
 import org.apache.commons.math3.random.MersenneTwister
 import org.apache.commons.math3.random.RandomAdaptor
-import java.util.function.Function
 import ukalus.util.MarkovChain
 import java.util.*
+import java.util.function.Function
 
 /**
  * @author pmgremo
@@ -13,7 +13,7 @@ class ArtDescriptionResource : ListResourceBundle() {
 
     private val random = RandomAdaptor(MersenneTwister())
 
-    private val rules = MarkovChain<Function<Any, String>>(random)
+    private val rules = MarkovChain<Function<Any, String>>()
 
     private val methodWords = arrayOf("Channels", "Doors", "Forms", "Gates", "Images", "Means", "Methods", "Paths", "Rings", "Rules", "Stances", "Stems", "Styles", "Ways")
 
@@ -99,25 +99,19 @@ class ArtDescriptionResource : ListResourceBundle() {
         rules.add(noun2, null)
     }
 
-    private fun generateName(): String {
-        return generateSequence { rules.map { it!!.apply(1) }.distinct() }
-                .filter { it.size > 1 }
-                .first()
-                .joinToString(" ")
-                .replace(" 's".toRegex(), "'s")
-                .replace("s's".toRegex(), "s'")
-    }
+    private fun generateName() = generateSequence { rules.randomWalk(random).map { it.apply(1) }.distinct() }
+            .filter { it.size > 1 }
+            .first()
+            .joinToString(" ")
+            .replace(" 's".toRegex(), "'s")
+            .replace("s's".toRegex(), "s'")
 
-    override fun getContents(): Array<Array<Any>> {
-        return generateSequence { generateName() }
-                .distinct()
-                .take(10)
-                .toList()
-                .mapIndexed { index, current -> arrayOf<Any>("art.description.$index", current) }
-                .toTypedArray()
-    }
+    override fun getContents() = generateSequence { generateName() }
+            .distinct()
+            .take(10)
+            .toList()
+            .mapIndexed { index, current -> arrayOf<Any>("art.description.$index", current) }
+            .toTypedArray()
 
-    override fun toString(): String {
-        return keys.asSequence().map { "$it=${getObject(it)}" }.joinToString("\n")
-    }
+    override fun toString() = keys.asSequence().map { "$it=${getObject(it)}" }.joinToString("\n")
 }

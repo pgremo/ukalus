@@ -18,7 +18,7 @@ class BuckDungeonGenerator {
     private var cells = mutableListOf<Vector2D>()
 
     fun generate(): Level<*> {
-        val level = Level<Int>(Array(19) { Array(79, { 0 }) })
+        val level = Level(Array(19) { Array(79, { 0 }) })
         for (x in 0..19) {
             for (y in 0..79) {
                 cells.add(Vector2D(x, y))
@@ -56,10 +56,10 @@ class BuckDungeonGenerator {
             for (current in deadEnds) {
                 val edges = DIRECTIONS
                         .map { current.plus(it) }
-                        .filter { x -> level.contains(x) && level.get(x) > 0 }
+                        .filter { x -> level.contains(x) && level[x] > 0 }
 
                 if (edges.size == 1) {
-                    level.set(current, 0)
+                    level[current] = 0
                     ends.add(edges[0])
                 }
             }

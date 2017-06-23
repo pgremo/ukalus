@@ -11,6 +11,8 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
+import static java.lang.Boolean.*;
+
 /**
  * @author gremopm
  * 
@@ -18,10 +20,10 @@ import junit.framework.TestCase;
 public class Node2DTest extends TestCase {
 
   public void testGetSuccessorsFromMiddle() {
-    Level map = new Level(new Object[][]{
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
+    Level<Boolean> map = new Level<>(new Boolean[][]{
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE}});
     Node2D parent = new Node2D(map, Vector2D.Companion.get(1, 0), null);
     Node2D current = new Node2D(map, Vector2D.Companion.get(1, 1), parent);
     Collection<Node> successors = current.getSuccessors();
@@ -29,10 +31,10 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsFromCorner() {
-    Level map = new Level(new Object[][]{
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
+    Level<Boolean> map = new Level<>(new Boolean[][]{
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE}});
     Node2D parent = new Node2D(map, Vector2D.Companion.get(1, 0), null);
     Node2D current = new Node2D(map, Vector2D.Companion.get(0, 0), parent);
     Collection<Node> successors = current.getSuccessors();
@@ -40,10 +42,10 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsFromEdge() {
-    Level map = new Level(new Object[][]{
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
+    Level<Boolean> map = new Level<>(new Boolean[][]{
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE}});
     Node2D parent = new Node2D(map, Vector2D.Companion.get(0, 0), null);
     Node2D current = new Node2D(map, Vector2D.Companion.get(0, 1), parent);
     Collection<Node> successors = current.getSuccessors();
@@ -51,10 +53,10 @@ public class Node2DTest extends TestCase {
   }
 
   public void testGetSuccessorsOriginInMiddle() {
-    Level map = new Level(new Object[][]{
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
-        {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE}});
+    Level<Boolean> map = new Level<>(new Boolean[][]{
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE},
+        {TRUE, TRUE, TRUE}});
     Node2D current = new Node2D(map, Vector2D.Companion.get(1, 1), null);
     Collection<Node> successors = current.getSuccessors();
     assertEquals(4, successors.size());

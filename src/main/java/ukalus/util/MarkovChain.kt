@@ -4,8 +4,9 @@ import org.apache.commons.collections4.Bag
 import org.apache.commons.collections4.bag.HashBag
 import ukalus.level.random
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 
-class MarkovChain<E>(private val random: Random) : Iterable<E?> {
+class MarkovChain<E : Any> {
 
     private val items = HashMap<E?, Bag<E>>()
 
@@ -22,31 +23,10 @@ class MarkovChain<E>(private val random: Random) : Iterable<E?> {
         items.computeIfAbsent(current) { HashBag<E>() }.add(next)
     }
 
-    override fun iterator(): Iterator<E?> {
-        return object : Iterator<E?> {
-            private var next: E? = null
-
-            init {
-                setNext()
-            }
-
-            override fun hasNext(): Boolean {
-                return next != null
-            }
-
-            override fun next(): E? {
-                val result = next
-                setNext()
-                return result
-            }
-
-            private fun setNext() {
-                next = items[next]?.random(random)
-            }
-        }
+    fun randomWalk(random: Random = ThreadLocalRandom.current()): List<E> {
+        fun nextFunction(x: E?): E? = items[x]?.random(random)
+        return generateSequence(nextFunction(null), ::nextFunction).toList()
     }
 
-    override fun toString(): String {
-        return items.map { (key, list) -> "[$key]: (${list.size}) $list" }.joinToString("\n")
-    }
+    override fun toString() = items.toString()
 }

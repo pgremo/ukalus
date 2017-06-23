@@ -918,33 +918,33 @@ class ShadowCast : Blast {
      * @param y
      * *          DOCUMENT ME!
      * *
-     * @param maxRadius
+     * @param radius
      * *          DOCUMENT ME!
      * *
      * *
      * @return DOCUMENT ME!
      */
-    override fun getTemplate(location: Vector2D, scanner: Function<Vector2D, Boolean>, maxRadius: Int): Set<Vector2D> {
+    override fun getTemplate(location: Vector2D, scanner: Function<Vector2D, Boolean>, radius: Int): Set<Vector2D> {
         this.scanner = scanner
         this.origin = location
         val x = location.x
         val y = location.y
         this.xCenter = x
         this.yCenter = y
-        this.maxRadius = maxRadius
+        this.maxRadius = radius
         seen = HashSet<Vector2D>()
 
         // apply starting cell
         applyCell(x, y)
 
-        if (maxRadius > 0) {
+        if (radius > 0) {
             // scan and apply north
             // until a blocking cell is hit or
             // until maxRadius is reached
             var nL: Int
 
             nL = 1
-            while (nL <= maxRadius) {
+            while (nL <= radius) {
                 applyCell(x, y - nL)
 
                 if (isOpaque(x, y - nL)) {
@@ -959,7 +959,7 @@ class ShadowCast : Blast {
             var neL: Int
 
             neL = 1
-            while (neL <= maxRadius) {
+            while (neL <= radius) {
                 applyCell(x + neL, y - neL)
 
                 if (isOpaque(x + neL, y - neL)) {
@@ -974,7 +974,7 @@ class ShadowCast : Blast {
             var eL: Int
 
             eL = 1
-            while (eL <= maxRadius) {
+            while (eL <= radius) {
                 applyCell(x + eL, y)
 
                 if (isOpaque(x + eL, y)) {
@@ -989,7 +989,7 @@ class ShadowCast : Blast {
             var seL: Int
 
             seL = 1
-            while (seL <= maxRadius) {
+            while (seL <= radius) {
                 applyCell(x + seL, y + seL)
 
                 if (isOpaque(x + seL, y + seL)) {
@@ -1004,7 +1004,7 @@ class ShadowCast : Blast {
             var sL: Int
 
             sL = 1
-            while (sL <= maxRadius) {
+            while (sL <= radius) {
                 applyCell(x, y + sL)
 
                 if (isOpaque(x, y + sL)) {
@@ -1019,7 +1019,7 @@ class ShadowCast : Blast {
             var swL: Int
 
             swL = 1
-            while (swL <= maxRadius) {
+            while (swL <= radius) {
                 applyCell(x - swL, y + swL)
 
                 if (isOpaque(x - swL, y + swL)) {
@@ -1034,7 +1034,7 @@ class ShadowCast : Blast {
             var wL: Int
 
             wL = 1
-            while (wL <= maxRadius) {
+            while (wL <= radius) {
                 applyCell(x - wL, y)
 
                 if (isOpaque(x - wL, y)) {
@@ -1049,7 +1049,7 @@ class ShadowCast : Blast {
             var nwL: Int
 
             nwL = 1
-            while (nwL <= maxRadius) {
+            while (nwL <= radius) {
                 applyCell(x - nwL, y - nwL)
 
                 if (isOpaque(x - nwL, y - nwL)) {

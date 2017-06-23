@@ -26,10 +26,10 @@ public class HolisticDungeonGenerator {
   private int minRegionWidth = 6;
   private int cuts = 15;
 
-  private Level level;
+  private Level<Object> level;
 
   public Level generate() {
-    level = new Level(new Object[20][80]);
+    level = new Level<>(new Object[20][80]);
 
     connectRooms(createRooms(createRegions()));
 
@@ -94,7 +94,7 @@ public class HolisticDungeonGenerator {
 
   private List<Region> createRooms(List<Region> regions) {
     Collections.shuffle(regions, randomizer);
-    List<Region> rooms = new LinkedList<Region>();
+    List<Region> rooms = new LinkedList<>();
 
     int index = 0;
 

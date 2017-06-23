@@ -6,8 +6,6 @@ import java.util.function.Function
 
 class LevelScanner(private val level: Level<*>) : Function<Vector2D, Boolean> {
 
-    override fun apply(location: Vector2D): Boolean {
-        return !level.contains(location) || level.get(location) == null
-    }
+    override fun apply(location: Vector2D) = !level.contains(location) || level[location] == null
 
 }

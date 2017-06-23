@@ -12,5 +12,5 @@ class MazeNode(val location: Vector2D) : Node {
         edges.add(edge)
     }
 
-    override fun toString(): String = location.toString()
+    override fun toString() = location.toString()
 }

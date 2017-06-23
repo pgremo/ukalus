@@ -15,7 +15,7 @@ open class RandomLabel(private val random: Random,
                        private val maxSyllables: Int) : Function<Any, String> {
 
     private val chains: MarkovChain<String> by lazy {
-        MarkovChain<String>(random).apply {
+        MarkovChain<String>().apply {
             javaClass.getResourceAsStream(fileName).reader().use { stream ->
                 stream.readLines().map(String::toLowerCase).map(::syllables).forEach(this::addAll)
             }
@@ -23,7 +23,7 @@ open class RandomLabel(private val random: Random,
     }
 
     override fun apply(argument: Any): String {
-        return generateSequence { chains.take(random.nextInt(minSyllables, maxSyllables + 1)).map { it } }
+        return generateSequence { chains.randomWalk(random).take(random.nextInt(minSyllables, maxSyllables + 1)).map { it } }
                 .filter { it.size >= minSyllables }
                 .take(random.nextInt(argument as Int) + 1)
                 .map { it.joinToString("") }

@@ -16,11 +16,11 @@ class Node(private val level: Level<*>, val location: Vector2D, val distance: In
                     .toTypedArray()
         }
 
-    override fun equals(obj: Any?): Boolean = this === obj || obj != null && obj is Node && obj.location == location
+    override fun equals(other: Any?) = this === other || other != null && other is Node && other.location == location
 
-    override fun hashCode(): Int = location.hashCode()
+    override fun hashCode() = location.hashCode()
 
-    override fun toString(): String = "$location=$distance"
+    override fun toString() = "$location=$distance"
 
     companion object {
         private val DIRECTIONS = arrayOf(Vector2D[1, 1], Vector2D[1, 0], Vector2D[1, -1], Vector2D[0, 1], Vector2D[0, -1], Vector2D[-1, 1], Vector2D[-1, 0], Vector2D[-1, -1])

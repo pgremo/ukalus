@@ -6,7 +6,7 @@ package ukalus.util
 
 import kotlin.text.RegexOption.IGNORE_CASE
 
-private val splitPattern = Regex("-+", IGNORE_CASE)
+private val splitter = Regex("-+", IGNORE_CASE)
 
 private val patterns = listOf(
         Pair(Regex("\\W+", IGNORE_CASE), "-"),
@@ -16,6 +16,4 @@ private val patterns = listOf(
         Pair(Regex("(?=[aeiou][a-z&&[^aeiou]]{4}[aeiou])([aeiou][a-z&&[^aeiou]]{2})([a-z&&[^aeiou]]{2})", IGNORE_CASE), "$1-$2")
 )
 
-fun syllables(value: String): List<String> {
-    return splitPattern.split(patterns.fold(value) { acc, (pattern, replacement) -> pattern.replace(acc, replacement) })
-}
+fun syllables(value: String) = splitter.split(patterns.fold(value) { acc, (pattern, replacement) -> pattern.replace(acc, replacement) })

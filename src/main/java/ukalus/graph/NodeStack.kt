@@ -8,14 +8,14 @@ class NodeStack : NodeCollection {
 
     override fun add(e: Node) = storage.addFirst(e)
 
-    override fun get(): Node = storage.peek()
+    override fun get(): Node? = storage.peek()
 
     override fun remove() {
         storage.poll()
     }
 
-    override val isEmpty: Boolean
+    override val isEmpty
         get() = storage.isEmpty()
 
-    override fun toString(): String = storage.toString()
+    override fun toString() = storage.toString()
 }
