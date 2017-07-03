@@ -37,7 +37,7 @@ public class HomeGenerator {
     itemLocation = room.getRandom(stairPredicate, random);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
 
-    Vector2D coordinate = Vector2D.Companion.get((result.getHeight() - 7) / 2,
+    Vector2D coordinate = new Vector2D((result.getHeight() - 7) / 2,
       (result.getWidth() - 7) / 2);
 
     room.setCoordinate(coordinate);
@@ -54,7 +54,7 @@ public class HomeGenerator {
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {
-        Tile current = dungeon.get(Vector2D.Companion.get(x, y));
+        Tile current = dungeon.get(new Vector2D(x, y));
         TileType type = null;
 
         if (current != null) {

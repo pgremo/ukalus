@@ -6,7 +6,7 @@ import ukalus.level.Level
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
-import ukalus.level.shuffle
+import ukalus.util.shuffle
 import ukalus.math.Vector2D
 import ukalus.util.DisjointSet
 import java.util.*

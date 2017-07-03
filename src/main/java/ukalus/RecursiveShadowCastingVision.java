@@ -1092,7 +1092,7 @@ public class RecursiveShadowCastingVision {
    * @return DOCUMENT ME!
    */
   private boolean scanCell(int x, int y) {
-    Tile tile = level.get(Vector2D.Companion.get(x, y));
+    Tile tile = level.get(new Vector2D(x, y));
     TileType type = tile.getTileType();
     boolean result = true;
 
@@ -1117,7 +1117,7 @@ public class RecursiveShadowCastingVision {
     int newX = Math.abs(x - xCenter);
     int newY = Math.abs(y - yCenter);
     if ((Math.max(newX, newY) + (Math.min(newX, newY) / 2)) <= maxRadius) {
-      Tile tile = level.get(Vector2D.Companion.get(x, y));
+      Tile tile = level.get(new Vector2D(x, y));
 
       if (tile != null) {
         seen.add(tile);

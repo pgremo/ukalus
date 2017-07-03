@@ -2,7 +2,7 @@ package ukalus.level.dungeon.buck
 
 import ukalus.level.Level
 import ukalus.level.Region
-import ukalus.level.separate
+import ukalus.util.separate
 import ukalus.math.Vector2D
 import java.util.*
 

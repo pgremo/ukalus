@@ -9,7 +9,7 @@ package ukalus.path.astar
  */
 interface Node {
 
-    val parent: Node
+    val parent: Node?
 
     val successors: Collection<Node>
 

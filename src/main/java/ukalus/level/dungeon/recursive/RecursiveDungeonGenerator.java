@@ -43,7 +43,7 @@ public class RecursiveDungeonGenerator {
 
     int x = random.nextInt(level.getHeight() - dimension.getHeight() - 1);
     int y = random.nextInt(level.getWidth() - dimension.getWidth() - 1);
-    target.setCoordinate(Vector2D.Companion.get(x, y));
+    target.setCoordinate(new Vector2D(x, y));
     List<Area> areas = new ArrayList<>();
     areas.add(target);
     target.place(level);
@@ -140,7 +140,7 @@ public class RecursiveDungeonGenerator {
 
     for (int x = 0; x < dungeon.getHeight(); x++) {
       for (int y = 0; y < dungeon.getWidth(); y++) {
-        Tile cell = dungeon.get(Vector2D.Companion.get(x, y));
+        Tile cell = dungeon.get(new Vector2D(x, y));
         TileType type = null;
 
         if (cell != null) {

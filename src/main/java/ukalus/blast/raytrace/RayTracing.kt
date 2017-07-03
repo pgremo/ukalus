@@ -259,8 +259,8 @@ class RayTracing : Blast {
         private val BIG_SHADOW = 32000
         private val VIEW = 2 // 1=widest LOS .. 5=narrowest
         // for easy x,y octant translation
-        private val ROW_TRANSFORM = arrayOf(Vector2D[1, 0], Vector2D[0, 1], Vector2D[0, 1], Vector2D[-1, 0], Vector2D[-1, 0], Vector2D[0, -1], Vector2D[0, -1], Vector2D[1, 0])
-        private val CELL_TRANSFORM = arrayOf(Vector2D[0, 1], Vector2D[1, 0], Vector2D[-1, 0], Vector2D[0, 1], Vector2D[0, -1], Vector2D[-1, 0], Vector2D[1, 0], Vector2D[0, -1])
+        private val ROW_TRANSFORM = arrayOf(Vector2D(1, 0), Vector2D(0, 1), Vector2D(0, 1), Vector2D(-1, 0), Vector2D(-1, 0), Vector2D(0, -1), Vector2D(0, -1), Vector2D(1, 0))
+        private val CELL_TRANSFORM = arrayOf(Vector2D(0, 1), Vector2D(1, 0), Vector2D(-1, 0), Vector2D(0, 1), Vector2D(0, -1), Vector2D(-1, 0), Vector2D(1, 0), Vector2D(0, -1))
 
         private val CIRCLES = arrayOfNulls<IntArray>(20)
 

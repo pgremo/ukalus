@@ -1,4 +1,4 @@
-package ukalus.level
+package ukalus.util
 
 import org.apache.commons.collections4.Bag
 import java.util.*
@@ -22,6 +22,8 @@ fun <T> Iterable<T>.separate(predicate: (T) -> Boolean): List<List<T>> {
     }
     return all
 }
+
+fun <T> Array<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (this.isEmpty()) null else this[random.nextInt(this.size)]
 
 fun <T> List<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (this.isEmpty()) null else this[random.nextInt(this.size)]
 

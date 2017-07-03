@@ -25,5 +25,5 @@ class DisjointSet(n: Int) {
 
     fun size(x: Int): Int = s[x]
 
-    override fun toString(): String = s.joinToString(", ", "{ ", " }")
+    override fun toString() = s.joinToString(", ", "{ ", " }")
 }

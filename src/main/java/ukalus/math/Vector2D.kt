@@ -60,14 +60,4 @@ data class Vector2D(val x: Int, val y: Int) : Serializable {
         }
 
     }
-
-    companion object {
-
-        private const val serialVersionUID = 3256441421631207224L
-
-        operator fun get(x: Int, y: Int): Vector2D {
-            return Vector2D(x, y)
-        }
-    }
-
 }

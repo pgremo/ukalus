@@ -3,10 +3,9 @@ package ukalus.level.maze
 import ukalus.graph.Edge
 import ukalus.graph.Node
 import ukalus.math.Vector2D
-import java.util.*
 
 class MazeNode(val location: Vector2D) : Node {
-    override val edges = LinkedList<Edge>()
+    override val edges = mutableListOf<Edge>()
 
     fun addEdge(edge: Edge) {
         edges.add(edge)

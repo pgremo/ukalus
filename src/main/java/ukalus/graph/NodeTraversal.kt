@@ -6,7 +6,7 @@ class NodeTraversal(private val delegate: GraphTraversalDelegate, private val vi
         visited.add(root)
         while (!visited.isEmpty) {
             val node = visited.get()!!
-            val edge = delegate.getNode(node)
+            val edge = delegate.getEdge(node)
             if (edge != null) {
                 delegate.traverse(node, edge)
                 visited.add(edge.getNode(node)!!)

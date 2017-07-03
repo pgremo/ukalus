@@ -43,18 +43,18 @@ public class JCursesClient extends Widget implements Client {
 
   static {
     directions = new HashMap<>();
-    directions.put(InputChar.KEY_UP, Vector2D.Companion.get(-1, 0));
-    directions.put(InputChar.KEY_RIGHT, Vector2D.Companion.get(0, 1));
-    directions.put(InputChar.KEY_DOWN, Vector2D.Companion.get(1, 0));
-    directions.put(InputChar.KEY_LEFT, Vector2D.Companion.get(0, -1));
-    directions.put((int) '8', Vector2D.Companion.get(-1, 0));
-    directions.put((int) '9', Vector2D.Companion.get(-1, 1));
-    directions.put((int) '6', Vector2D.Companion.get(0, 1));
-    directions.put((int) '3', Vector2D.Companion.get(1, 1));
-    directions.put((int) '2', Vector2D.Companion.get(1, 0));
-    directions.put((int) '1', Vector2D.Companion.get(1, -1));
-    directions.put((int) '4', Vector2D.Companion.get(0, -1));
-    directions.put((int) '7', Vector2D.Companion.get(-1, -1));
+    directions.put(InputChar.KEY_UP, new Vector2D(-1, 0));
+    directions.put(InputChar.KEY_RIGHT, new Vector2D(0, 1));
+    directions.put(InputChar.KEY_DOWN, new Vector2D(1, 0));
+    directions.put(InputChar.KEY_LEFT, new Vector2D(0, -1));
+    directions.put((int) '8', new Vector2D(-1, 0));
+    directions.put((int) '9', new Vector2D(-1, 1));
+    directions.put((int) '6', new Vector2D(0, 1));
+    directions.put((int) '3', new Vector2D(1, 1));
+    directions.put((int) '2', new Vector2D(1, 0));
+    directions.put((int) '1', new Vector2D(1, -1));
+    directions.put((int) '4', new Vector2D(0, -1));
+    directions.put((int) '7', new Vector2D(-1, -1));
 
     commandTypes = new HashMap<>();
     commandTypes.put((int) 'c', CommandType.CLOSE);
@@ -172,7 +172,7 @@ public class JCursesClient extends Widget implements Client {
 
       for (int x = 0; x < plan.getHeight(); x++) {
         for (int y = 0; y < plan.getWidth(); y++) {
-          buffer.append(symbols.get(determineLevelMarker(plan.get(Vector2D.Companion.get(x,
+          buffer.append(symbols.get(determineLevelMarker(plan.get(new Vector2D(x,
             y)))));
         }
 

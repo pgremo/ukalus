@@ -2,7 +2,6 @@ package ukalus.util
 
 import org.apache.commons.collections4.Bag
 import org.apache.commons.collections4.bag.HashBag
-import ukalus.level.random
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -24,8 +23,8 @@ class MarkovChain<E : Any> {
     }
 
     fun randomWalk(random: Random = ThreadLocalRandom.current()): List<E> {
-        fun nextFunction(x: E?): E? = items[x]?.random(random)
-        return generateSequence(nextFunction(null), ::nextFunction).toList()
+        fun nextFunction(x: E? = null): E? = items[x]?.random(random)
+        return generateSequence(nextFunction(), ::nextFunction).toList()
     }
 
     override fun toString() = items.toString()

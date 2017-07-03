@@ -12,10 +12,10 @@ import java.util.function.Predicate;
 public class Area {
 
   private static final Vector2D[] DIRECTIONS = {
-    Vector2D.Companion.get(-1, 0),
-    Vector2D.Companion.get(0, 1),
-    Vector2D.Companion.get(1, 0),
-    Vector2D.Companion.get(0, -1)};
+    new Vector2D(-1, 0),
+    new Vector2D(0, 1),
+    new Vector2D(1, 0),
+    new Vector2D(0, -1)};
 
   private Vector2D coordinate;
   private List<Tile> list;

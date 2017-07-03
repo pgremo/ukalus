@@ -45,17 +45,17 @@ public class RectangleRoomFactory {
     try {
       for (int i = 1; i < height; i++) {
         for (int j = 1; j < width; j++) {
-          list.add(new Tile(Vector2D.Companion.get(i, j), floorClass.newInstance()));
+          list.add(new Tile(new Vector2D(i, j), floorClass.newInstance()));
         }
       }
 
       boolean flip1 = randomizer.nextBoolean();
       boolean flip2 = randomizer.nextBoolean();
       for (int i = 1; i < height; i++) {
-        list.add(new Tile(Vector2D.Companion.get(i, 0), flip1
+        list.add(new Tile(new Vector2D(i, 0), flip1
             ? terminalClass.newInstance()
             : wallClass.newInstance()));
-        list.add(new Tile(Vector2D.Companion.get(i, width), flip2
+        list.add(new Tile(new Vector2D(i, width), flip2
             ? terminalClass.newInstance()
             : wallClass.newInstance()));
         flip1 = !flip1;
@@ -65,20 +65,20 @@ public class RectangleRoomFactory {
       flip1 = randomizer.nextBoolean();
       flip2 = randomizer.nextBoolean();
       for (int i = 1; i < width; i++) {
-        list.add(new Tile(Vector2D.Companion.get(0, i), flip1
+        list.add(new Tile(new Vector2D(0, i), flip1
             ? terminalClass.newInstance()
             : wallClass.newInstance()));
-        list.add(new Tile(Vector2D.Companion.get(height, i), flip2
+        list.add(new Tile(new Vector2D(height, i), flip2
             ? terminalClass.newInstance()
             : wallClass.newInstance()));
         flip1 = !flip1;
         flip2 = !flip2;
       }
 
-      list.add(new Tile(Vector2D.Companion.get(0, 0), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(0, width), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(height, 0), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(height, width), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(0, 0), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(0, width), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(height, 0), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(height, width), wallClass.newInstance()));
 
     } catch (InstantiationException e) {
     } catch (IllegalAccessException e) {

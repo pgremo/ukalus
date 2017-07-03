@@ -47,7 +47,7 @@ class Spiral : Blast {
                 }
             }
 
-            val point = origin!!.plus(Vector2D[arcPoint.x, arcPoint.y])
+            val point = origin!!.plus(Vector2D(arcPoint.x, arcPoint.y))
             result.add(point)
             val isBlocked = scanner!!.apply(point)
 

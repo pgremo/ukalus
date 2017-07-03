@@ -33,26 +33,26 @@ public class PassageFactory {
 
     try {
       int distance = 1;
-      list.add(new Tile(Vector2D.Companion.get(distance, -1), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 0), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 1), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, -1), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 0), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 1), wallClass.newInstance()));
 
       while (distance < length - 1) {
         distance++;
-        list.add(new Tile(Vector2D.Companion.get(distance, -1), wallClass.newInstance()));
-        list.add(new Tile(Vector2D.Companion.get(distance, 0), floorClass.newInstance()));
-        list.add(new Tile(Vector2D.Companion.get(distance, 1), wallClass.newInstance()));
+        list.add(new Tile(new Vector2D(distance, -1), wallClass.newInstance()));
+        list.add(new Tile(new Vector2D(distance, 0), floorClass.newInstance()));
+        list.add(new Tile(new Vector2D(distance, 1), wallClass.newInstance()));
       }
 
       distance++;
-      list.add(new Tile(Vector2D.Companion.get(distance, -1), terminalClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 0), floorClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 1), terminalClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, -1), terminalClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 0), floorClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 1), terminalClass.newInstance()));
 
       distance++;
-      list.add(new Tile(Vector2D.Companion.get(distance, -1), wallClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 0), terminalClass.newInstance()));
-      list.add(new Tile(Vector2D.Companion.get(distance, 1), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, -1), wallClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 0), terminalClass.newInstance()));
+      list.add(new Tile(new Vector2D(distance, 1), wallClass.newInstance()));
     } catch (InstantiationException e) {
     } catch (IllegalAccessException e) {
     }

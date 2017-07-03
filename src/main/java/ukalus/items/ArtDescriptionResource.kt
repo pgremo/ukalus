@@ -112,6 +112,4 @@ class ArtDescriptionResource : ListResourceBundle() {
             .toList()
             .mapIndexed { index, current -> arrayOf<Any>("art.description.$index", current) }
             .toTypedArray()
-
-    override fun toString() = keys.asSequence().map { "$it=${getObject(it)}" }.joinToString("\n")
 }

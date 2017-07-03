@@ -1122,7 +1122,7 @@ class ShadowCast : Blast {
      * @return DOCUMENT ME!
      */
     private fun isOpaque(x: Int, y: Int): Boolean {
-        return scanner!!.apply(Vector2D[x, y])
+        return scanner!!.apply(Vector2D(x, y))
     }
 
     /**
@@ -1135,9 +1135,9 @@ class ShadowCast : Blast {
      * *          DOCUMENT ME!
      */
     private fun applyCell(x: Int, y: Int) {
-        val distance = (origin!!.distance(Vector2D[x, y]) + 0.5).toInt()
+        val distance = (origin!!.distance(Vector2D(x, y)) + 0.5).toInt()
         if (distance <= maxRadius) {
-            seen!!.add(Vector2D[x, y])
+            seen!!.add(Vector2D(x, y))
         }
     }
 }

@@ -20,7 +20,7 @@ public class CursalMazeTraversalDelegate implements GraphTraversalDelegate {
     this.random = random;
   }
 
-  public Edge getNode(Node node) {
+  public Edge getEdge(Node node) {
     Edge result = null;
     List<Edge> edges = new LinkedList<Edge>(node.getEdges());
     edges.retainAll(path);

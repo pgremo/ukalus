@@ -11,11 +11,11 @@ class FloodFill {
         while (!open.isEmpty()) {
             val current = open.remove()
             current.children
-                    .filter { it.distance <= distance && !open.contains(it) }
+                    .filter { it.distance <= distance }
+                    .filter { it !in open }
                     .forEach { open.add(it) }
             result.add(current)
         }
         return result
     }
-
 }
