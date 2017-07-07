@@ -24,7 +24,6 @@ interface Log<T> : Iterable<T> {
 
      * @throws Exception
      */
-    @Throws(IOException::class)
     fun clear()
 
     /**
@@ -35,7 +34,6 @@ interface Log<T> : Iterable<T> {
      * *
      * @throws Exception
      */
-    @Throws(IOException::class)
     fun add(o: T)
 
     /**
@@ -43,6 +41,5 @@ interface Log<T> : Iterable<T> {
 
      * @throws Exception
      */
-    @Throws(IOException::class)
     fun close()
 }

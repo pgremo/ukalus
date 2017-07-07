@@ -100,7 +100,7 @@ class ArtDescriptionResource : ListResourceBundle() {
     }
 
     private fun generateName() = generateSequence { rules.randomWalk(random).map { it.apply(1) }.distinct() }
-            .filter { it.size > 1 }
+            .filter { it.count() > 1 }
             .first()
             .joinToString(" ")
             .replace(" 's".toRegex(), "'s")

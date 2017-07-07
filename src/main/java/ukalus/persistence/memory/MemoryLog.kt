@@ -9,17 +9,14 @@ class MemoryLog<T> : Log<T> {
 
     private val storage = LinkedList<T>()
 
-    @Throws(IOException::class)
     override fun clear() {
         storage.clear()
     }
 
-    @Throws(IOException::class)
     override fun add(o: T) {
         storage.add(o)
     }
 
-    @Throws(IOException::class)
     override fun close() {
     }
 

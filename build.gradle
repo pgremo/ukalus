@@ -17,7 +17,7 @@ buildscript {
 
 [
   'kotlin',
-  'org.junit.platform.gradle.plugin',
+//  'org.junit.platform.gradle.plugin',
   'org.jetbrains.kotlin.jvm',
   'com.commercehub.gradle.plugin.avro'
 ].forEach { apply plugin: it }

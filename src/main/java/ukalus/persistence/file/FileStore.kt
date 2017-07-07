@@ -10,9 +10,8 @@ import java.io.*
 /**
  * @author gremopm
  */
-class FileStore<T : Serializable>(private val file: File) : Store<T> {
+class FileStore<T>(private val file: File) : Store<T> {
 
-    @Throws(IOException::class)
     override fun store(`object`: T?) {
         val temp = File("${file.absolutePath}-${System.currentTimeMillis()}")
         ObjectOutputStream(FileOutputStream(temp)).use {
@@ -26,7 +25,6 @@ class FileStore<T : Serializable>(private val file: File) : Store<T> {
         }
     }
 
-    @Throws(IOException::class, ClassNotFoundException::class)
     override fun load(): T? = if (file.exists()) {
         ObjectInputStream(FileInputStream(file)).use {
             it.readObject() as T

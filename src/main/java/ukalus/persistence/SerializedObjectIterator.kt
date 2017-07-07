@@ -11,7 +11,7 @@ import java.io.RandomAccessFile
 /**
  * @author gremopm
  */
-class SerializedObjectIterator<E>(private val channel: RandomAccessFile) : Iterator<E> {
+class SerializedObjectIterator<out E>(private val channel: RandomAccessFile) : Iterator<E> {
     private var data = ByteArray(0)
 
     override fun hasNext() = channel.filePointer < channel.length()
@@ -22,9 +22,7 @@ class SerializedObjectIterator<E>(private val channel: RandomAccessFile) : Itera
             data = ByteArray(size)
         }
         if (channel.read(data, 0, size) == size) {
-            return ObjectInputStream(ByteArrayInputStream(data, 0, size)).use {
-                it.readObject() as E
-            }
+            return ObjectInputStream(ByteArrayInputStream(data, 0, size)).use { it.readObject() as E }
         } else {
             throw RuntimeException("source corrupted")
         }

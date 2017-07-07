@@ -22,9 +22,9 @@ class MarkovChain<E : Any> {
         items.computeIfAbsent(current) { HashBag<E>() }.add(next)
     }
 
-    fun randomWalk(random: Random = ThreadLocalRandom.current()): List<E> {
+    fun randomWalk(random: Random = ThreadLocalRandom.current()): Sequence<E> {
         fun nextFunction(x: E? = null): E? = items[x]?.random(random)
-        return generateSequence(nextFunction(), ::nextFunction).toList()
+        return generateSequence(nextFunction(), ::nextFunction)
     }
 
     override fun toString() = items.toString()

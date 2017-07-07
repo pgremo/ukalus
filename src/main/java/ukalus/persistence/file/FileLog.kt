@@ -12,17 +12,14 @@ import java.io.*
 /**
  * @author gremopm
  */
-class FileLog<T> @Throws(FileNotFoundException::class)
-constructor(file: File) : Log<T> {
+class FileLog<T>(file: File) : Log<T> {
 
     private val channel = RandomAccessFile(file, "rw")
 
-    @Throws(IOException::class)
     override fun clear() {
         channel.setLength(0)
     }
 
-    @Throws(IOException::class)
     override fun add(o: T) {
         val buffer = ByteArrayOutputStream()
         val stream = ObjectOutputStream(buffer)
@@ -36,7 +33,7 @@ constructor(file: File) : Log<T> {
     override fun iterator(): Iterator<T> {
         try {
             channel.seek(0)
-            return SerializedObjectIterator<T>(channel)
+            return SerializedObjectIterator(channel)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }

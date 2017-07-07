@@ -24,7 +24,7 @@ open class RandomLabel(private val random: Random,
 
     override fun apply(argument: Any): String {
         return generateSequence { chains.randomWalk(random).take(random.nextInt(minSyllables, maxSyllables + 1)).map { it } }
-                .filter { it.size >= minSyllables }
+                .filter { it.count() >= minSyllables }
                 .take(random.nextInt(argument as Int) + 1)
                 .map { it.joinToString("") }
                 .joinToString(" ")

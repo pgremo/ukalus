@@ -4,7 +4,6 @@ import ukalus.blast.Blast
 import ukalus.math.Vector2D
 import java.lang.Math.PI
 import java.lang.Math.atan2
-import java.util.*
 import java.util.function.Function
 import kotlin.coroutines.experimental.buildSequence
 
@@ -14,7 +13,7 @@ class Spiral : Blast {
     private var origin: Vector2D? = null
     private var radius: Int = 0
 
-    private val result: MutableSet<Vector2D> = HashSet(31)
+    private val result: MutableSet<Vector2D> = mutableSetOf()
 
     override fun getTemplate(location: Vector2D, scanner: Function<Vector2D, Boolean>, radius: Int): Set<Vector2D> {
 
@@ -34,15 +33,15 @@ class Spiral : Blast {
     }
 
     internal fun scanCircle(r: Int, th1: Double, th2: Double) {
-        var th1 = th1
+        var thl = th1
         val circle = CIRCLES[r]!!
         var wasBlocked = false
         var isClear = false
         for (i in circle.indices) {
             val arcPoint = circle[i]
 
-            if (arcPoint.theta != th1 && arcPoint.theta != th2) {
-                if (arcPoint.leading > th2 || arcPoint.lagging < th1) {
+            if (arcPoint.theta != thl && arcPoint.theta != th2) {
+                if (arcPoint.leading > th2 || arcPoint.lagging < thl) {
                     continue
                 }
             }
@@ -56,19 +55,19 @@ class Spiral : Blast {
                     continue
                 } else if (isClear) {
                     if (r < radius) {
-                        scanCircle(r + 1, th1, arcPoint.leading)
+                        scanCircle(r + 1, thl, arcPoint.leading)
                     }
                 } else {
                     if (arcPoint.theta == 0.0) {
-                        th1 = 0.0
+                        thl = 0.0
                     } else {
-                        th1 = arcPoint.leading
+                        thl = arcPoint.leading
                     }
                 }
             } else {
                 isClear = true
                 if (wasBlocked) {
-                    th1 = circle[i - 1].lagging
+                    thl = circle[i - 1].lagging
                 } else {
                     wasBlocked = false
                     continue
@@ -78,7 +77,7 @@ class Spiral : Blast {
         }
 
         if (!wasBlocked && r < radius) {
-            scanCircle(r + 1, th1, th2)
+            scanCircle(r + 1, thl, th2)
         }
     }
 
