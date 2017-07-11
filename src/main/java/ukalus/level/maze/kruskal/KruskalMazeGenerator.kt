@@ -6,9 +6,9 @@ import ukalus.level.Level
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
-import ukalus.util.shuffle
 import ukalus.math.Vector2D
 import ukalus.util.DisjointSet
+import ukalus.util.shuffle
 import java.util.*
 
 class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) : RegionFactory<Int> {
@@ -38,10 +38,10 @@ class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) 
         val sets = DisjointSet(height * width)
         edges
                 .shuffle(random)
-                .forEach { wall ->
-                    if (sets.find(wall.left) != sets.find(wall.right)) {
-                        sets.union(wall.left, wall.right)
-                        nodes[wall.x][wall.y] = 1
+                .forEach { (x, y, left, right) ->
+                    if (sets.find(left) != sets.find(right)) {
+                        sets.union(left, right)
+                        nodes[x][y] = 1
                     }
                 }
 

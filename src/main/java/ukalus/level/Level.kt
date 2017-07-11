@@ -30,24 +30,20 @@ class Level<T>(private val data: Array<Array<T>>) : Serializable {
 
     override fun toString(): String {
         val result = StringBuilder()
-        for (x in 0..length - 1) {
-            result.append((0..width - 1)
-                    .map { y -> data[x][y] as Int }
-                    .map {
-                        when {
-                            it == 100 -> "+"
-                            it > 0 -> " "
-                            else -> "#"
-                        }
+
+        for (i in data.indices) {
+            for (j in data[i].indices) {
+                result.append(data[i][j].let {
+                    when {
+                        it as Int == 100 -> '+'
+                        it as Int > 0 -> ' '
+                        else -> '#'
                     }
-                    .joinToString("", "", "\n"))
+                })
+            }
+            result.append("\n")
         }
 
         return result.toString()
     }
-
-    companion object {
-        private const val serialVersionUID = 3617578201795014705L
-    }
-
 }
