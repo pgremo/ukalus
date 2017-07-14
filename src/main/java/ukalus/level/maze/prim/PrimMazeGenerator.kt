@@ -5,7 +5,7 @@ import org.apache.commons.math3.random.RandomAdaptor
 import ukalus.graph.Node
 import ukalus.graph.NodeRandom
 import ukalus.graph.NodeTraversal
-import ukalus.level.Level
+import ukalus.level.IntLevel
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeEdge
@@ -71,7 +71,7 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
         @JvmStatic fun main(args: Array<String>) {
             val generator = PrimMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
 
-            val level = Level(Array(19) { Array(79) { 0 } })
+            val level = IntLevel(Array(19) { Array(79) { 0 } })
             val region = generator.create()
             region.place(Vector2D(0, 0), level)
 

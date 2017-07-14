@@ -4,6 +4,7 @@
  */
 package ukalus.items
 
+import ukalus.util.nextInt
 import java.util.*
 import java.util.function.Function
 

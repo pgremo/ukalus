@@ -5,7 +5,7 @@ import org.apache.commons.math3.random.RandomAdaptor
 import ukalus.graph.Node
 import ukalus.graph.NodeStack
 import ukalus.graph.NodeTraversal
-import ukalus.level.Level
+import ukalus.level.IntLevel
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeEdge
@@ -70,7 +70,7 @@ class DepthFirstMazeGenerator(private val random: Random, height: Int, width: In
         @JvmStatic fun main(args: Array<String>) {
             val generator = DepthFirstMazeGenerator(RandomAdaptor(MersenneTwister()), 20, 80)
 
-            val level = Level(Array(19) { Array(79) { 0 } })
+            val level = IntLevel(Array(19) { Array(79) { 0 } })
 
             generator.create().place(Vector2D(0, 0), level)
 

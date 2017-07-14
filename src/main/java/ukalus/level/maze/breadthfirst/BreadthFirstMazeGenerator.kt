@@ -4,7 +4,7 @@ import org.apache.commons.math3.random.MersenneTwister
 import org.apache.commons.math3.random.RandomAdaptor
 import ukalus.graph.NodeQueue
 import ukalus.graph.NodeTraversal
-import ukalus.level.Level
+import ukalus.level.IntLevel
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeEdge
@@ -69,7 +69,7 @@ class BreadthFirstMazeGenerator(private val random: Random, height: Int, width: 
         @JvmStatic fun main(args: Array<String>) {
             val generator = BreadthFirstMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
 
-            val level = Level(Array(19) { Array(79) { 0 } })
+            val level = IntLevel(Array(19) { Array(79) { 0 } })
             generator.create().place(Vector2D(0, 0), level)
 
             println(level)

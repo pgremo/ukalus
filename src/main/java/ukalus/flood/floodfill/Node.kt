@@ -2,8 +2,7 @@ package ukalus.flood.floodfill
 
 import ukalus.level.Level
 import ukalus.math.Vector2D
-
-import java.util.ArrayList
+import java.util.*
 
 class Node(private val level: Level<Any>, val location: Vector2D, val distance: Int) {
 

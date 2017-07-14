@@ -2,8 +2,8 @@ package ukalus.level.dungeon.buck
 
 import ukalus.level.Level
 import ukalus.level.Region
-import ukalus.util.separate
 import ukalus.math.Vector2D
+import ukalus.util.separate
 import java.util.*
 
 class Room(private val random: Random, private val height: Int, private val width: Int, private val id: Int) : Region<Int> {

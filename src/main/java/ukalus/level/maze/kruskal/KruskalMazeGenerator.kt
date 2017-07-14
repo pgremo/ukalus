@@ -2,7 +2,7 @@ package ukalus.level.maze.kruskal
 
 import org.apache.commons.math3.random.MersenneTwister
 import org.apache.commons.math3.random.RandomAdaptor
-import ukalus.level.Level
+import ukalus.level.IntLevel
 import ukalus.level.Region
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
@@ -53,7 +53,7 @@ class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) 
         @JvmStatic fun main(args: Array<String>) {
             val generator = KruskalMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
 
-            val level = Level(Array(19) { Array(79, { 0 }) })
+            val level = IntLevel(Array(19) { Array(79, { 0 }) })
             val region = generator.create()
             region.place(Vector2D(0, 0), level)
 

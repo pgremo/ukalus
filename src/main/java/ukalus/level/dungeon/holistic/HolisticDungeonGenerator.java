@@ -4,6 +4,7 @@
  */
 package ukalus.level.dungeon.holistic;
 
+import ukalus.level.IntLevel;
 import ukalus.level.Level;
 import ukalus.math.Vector2D;
 

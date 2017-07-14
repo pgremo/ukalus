@@ -5,6 +5,7 @@
 package ukalus.items
 
 import ukalus.util.MarkovChain
+import ukalus.util.nextInt
 import ukalus.util.syllables
 import java.util.*
 import java.util.function.Function

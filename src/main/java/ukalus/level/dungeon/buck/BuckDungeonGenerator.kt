@@ -2,6 +2,7 @@ package ukalus.level.dungeon.buck
 
 import org.apache.commons.math3.random.MersenneTwister
 import org.apache.commons.math3.random.RandomAdaptor
+import ukalus.level.IntLevel
 import ukalus.level.Level
 import ukalus.level.maze.prim.PrimMazeGenerator
 import ukalus.math.Vector2D
@@ -17,8 +18,8 @@ class BuckDungeonGenerator {
 
     private var cells = mutableListOf<Vector2D>()
 
-    fun generate(): Level<*> {
-        val level = Level(Array(19) { Array(79, { 0 }) })
+    fun generate(): Level<Int> {
+        val level = IntLevel(Array(19) { Array(79) { 0 } })
         for (x in 0..19) {
             for (y in 0..79) {
                 cells.add(Vector2D(x, y))
