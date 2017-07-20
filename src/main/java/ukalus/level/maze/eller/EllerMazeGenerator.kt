@@ -6,7 +6,10 @@ import ukalus.level.IntLevel
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
 import ukalus.math.Vector2D
+import ukalus.util.cluster
 import ukalus.util.compareToAndSwap
+import ukalus.util.shuffle
+import ukalus.util.takeRandom
 import java.util.*
 
 class EllerMazeGenerator(private val random: Random,
@@ -16,8 +19,8 @@ class EllerMazeGenerator(private val random: Random,
 
     override fun create(): MazeRegion {
         var nextSet = 0
-        var current = IntArray(width - 2) { if (it % 2 == 1) wall else --nextSet }
-        var next = current.copyOf()
+        var next = IntArray(width - 2) { if (it % 2 == 1) wall else --nextSet }
+        var current = next.copyOf()
 
         val maze: Array<IntArray> = Array(height) { IntArray(width) { wall } }
 
@@ -30,10 +33,6 @@ class EllerMazeGenerator(private val random: Random,
                     .filter { next[it] == unknown }
                     .forEach { next[it] = --nextSet }
 
-            (1 until next.size step 2)
-                    .forEach { next[it] = wall }
-
-
             for (k in current.indices) {
                 if (current[k] == wall) {
                     maze[2 * q + 1][k + 1] = wall
@@ -45,7 +44,7 @@ class EllerMazeGenerator(private val random: Random,
             }
 
             current = next.copyOf()
-            next = IntArray(width - 2) { unknown }
+            next = IntArray(width - 2) { if (it % 2 == 1) wall else unknown }
         }
 
         join(current) { true }
@@ -70,28 +69,12 @@ class EllerMazeGenerator(private val random: Random,
     }
 
     private fun cut(current: IntArray, next: IntArray) {
-        var beginning: Int = 0
-        var end: Int
-        do {
-            var i = beginning
-            while (i < current.size - 1 && current[i] == current[i + 2]) {
-                i += 2
-            }
-            end = i
-
-            var madeVertical = false
-            do {
-                for (j in beginning..end step 2) {
-                    if (random.nextBoolean()) {
-                        next[j] = current[j]
-                        madeVertical = true
-                    }
-                }
-            } while (!madeVertical)
-
-            beginning = end + 2
-
-        } while (end != current.size - 1)
+        (current.indices step 2)
+                .cluster { it == 0 || current[it - 2] == current[it] }
+                .map { it.shuffle(random) }
+                .map { it.takeRandom(random) }
+                .flatMap { it.asSequence() }
+                .forEach { next[it] = current[it] }
     }
 
     companion object {

@@ -3,10 +3,15 @@ package ukalus.level.dungeon.buck
 import ukalus.level.Level
 import ukalus.level.Region
 import ukalus.math.Vector2D
-import ukalus.util.separate
+import ukalus.util.sift
 import java.util.*
 
-class Room(private val random: Random, private val height: Int, private val width: Int, private val id: Int) : Region<Int> {
+class Room(
+        private val random: Random,
+        private val height: Int,
+        private val width: Int,
+        private val id: Int
+) : Region<Int> {
     override fun place(location: Vector2D, level: Level<Int>) {
         val startX = location.x
         val startY = location.y
@@ -26,16 +31,16 @@ class Room(private val random: Random, private val height: Int, private val widt
 
         // edges
         val borders = listOf(
-                IntRange(startX + 1, startX + height - 1 - 1).map { Pair(Vector2D(it, startY), Vector2D(it, startY - 1)) },
-                IntRange(startX + 1, startX + height - 1 - 1).map { Pair(Vector2D(it, startY + width - 1), Vector2D(it, startY + width)) },
-                IntRange(startY + 1, startY + width - 1 - 1).map { Pair(Vector2D(startX, it), Vector2D(startX - 1, it)) },
-                IntRange(startY + 1, startY + width - 1 - 1).map { Pair(Vector2D(startX + height - 1, it), Vector2D(startX + height, it)) }
+                (startX + 1 until startX + height - 1).map { Pair(Vector2D(it, startY), Vector2D(it, startY - 1)) },
+                (startX + 1 until startX + height - 1).map { Pair(Vector2D(it, startY + width - 1), Vector2D(it, startY + width)) },
+                (startY + 1 until startY + width - 1).map { Pair(Vector2D(startX, it), Vector2D(startX - 1, it)) },
+                (startY + 1 until startY + width - 1).map { Pair(Vector2D(startX + height - 1, it), Vector2D(startX + height, it)) }
         )
         borders.forEach { items -> items.forEach { level[it.first] = 0 } }
 
         // select door ways
         borders
-                .flatMap { items -> items.separate { level.contains(it.second) && level[it.second] == 0 } }
+                .flatMap { items -> items.sift { level.contains(it.second) && level[it.second] == 0 }.asIterable() }
                 .map { it[random.nextInt(it.size)] }
                 .forEach { level[it.first] = 100 }
     }
