@@ -1,7 +1,7 @@
 package ukalus.blast;
 
 import org.junit.Test;
-import ukalus.level.IntLevel;
+import ukalus.level.Level;
 import ukalus.math.Vector2D;
 
 import java.util.HashSet;
@@ -35,7 +35,7 @@ abstract public class BlastTestCase {
     expected.remove(new Vector2D(0, 4));
     expected.remove(new Vector2D(4, 4));
 
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(2, 2),
       new LevelScanner(level), 2);
     printSight(actual, level);
@@ -63,7 +63,7 @@ abstract public class BlastTestCase {
     expected.remove(new Vector2D(0, 4));
     expected.remove(new Vector2D(4, 4));
 
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(2, 2),
       new LevelScanner(level), 2);
     printSight(actual, level);
@@ -75,11 +75,11 @@ abstract public class BlastTestCase {
   @Test
   public void testSeeAllCorners() {
     Object[][] area = new Object[][]{
-      {WALL, WALL,  WALL,  WALL,  WALL},
+      {WALL, WALL, WALL, WALL, WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
       {WALL, FLOOR, FLOOR, FLOOR, WALL},
-      {WALL, WALL,  WALL,  WALL,  WALL}};
+      {WALL, WALL, WALL, WALL, WALL}};
     Set<Vector2D> expected = new HashSet<>();
     for (int i = 0; i < area.length; i++) {
       for (int j = 0; j < area[i].length; j++) {
@@ -87,7 +87,7 @@ abstract public class BlastTestCase {
       }
     }
 
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(2, 2), new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
@@ -108,7 +108,7 @@ abstract public class BlastTestCase {
       }
     }
 
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(1, 1), new LevelScanner(level), 3);
     printSight(actual, level);
     assertNotNull(actual);
@@ -137,7 +137,7 @@ abstract public class BlastTestCase {
     expected.remove(new Vector2D(1, 5));
     expected.remove(new Vector2D(5, 5));
 
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(3, 3), new LevelScanner(level), 2);
     printSight(actual, level);
     assertNotNull(actual);
@@ -176,7 +176,7 @@ abstract public class BlastTestCase {
     expected.add(new Vector2D(4, 4));
     expected.add(new Vector2D(4, 5));
     expected.add(new Vector2D(5, 5));
-    IntLevel<Object> level = new IntLevel<>(area);
+    Level<Object> level = new Level<>(area);
     Set<Vector2D> actual = blast.getTemplate(new Vector2D(3, 1), new LevelScanner(level), 5);
     printSight(actual, level);
     assertNotNull(actual);
@@ -184,7 +184,7 @@ abstract public class BlastTestCase {
     assertEquals(actual.size(), expected.size());
   }
 
-  private void printSight(Set<Vector2D> list, IntLevel level) {
+  private void printSight(Set<Vector2D> list, Level level) {
     for (int i = 0; i < level.getLength(); i++) {
       for (int j = 0; j < level.getWidth(); j++) {
         Vector2D location = new Vector2D(i, j);

@@ -10,6 +10,5 @@ import java.util.Random
  * @author gremopm
  */
 class RandomName(random: Random, fileName: String, minSyllables: Int, maxSyllables: Int) : RandomLabel(random, fileName, minSyllables, maxSyllables) {
-
     override fun apply(argument: Any) = super.apply(argument).capitalize()
 }

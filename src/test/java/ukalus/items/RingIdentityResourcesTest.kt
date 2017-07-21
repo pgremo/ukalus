@@ -1,9 +1,8 @@
 package ukalus.items
 
-import java.text.MessageFormat
-import java.util.ResourceBundle
-
 import junit.framework.TestCase
+import java.text.MessageFormat
+import java.util.*
 
 /**
  * DOCUMENT ME!
@@ -15,10 +14,12 @@ class RingIdentityResourcesTest : TestCase() {
     fun testLoadResource() {
         val bundle = ResourceBundle.getBundle("ukalus.items.RingIdentityResources")
         val pattern = bundle.getString("ring.protection.identity")
-        println(MessageFormat.format(pattern, *arrayOf<Any>(-1)))
-        println(MessageFormat.format(pattern, *arrayOf<Any>(1, -1)))
-        println(MessageFormat.format(pattern, *arrayOf<Any>(1, +12)))
-        println(MessageFormat.format(pattern, *arrayOf<Any>(2, 0)))
-        println(MessageFormat.format(pattern, *arrayOf<Any>(3, +2)))
+        val formatter = MessageFormat(pattern)
+        println(formatter.format(arrayOf(-1)))
+        println(formatter.format(arrayOf(1, -1)))
+        println(formatter.format(arrayOf(1, 12)))
+        println(formatter.format(arrayOf(2, 0)))
+        println(formatter.format(arrayOf(3, 2)))
+
     }
 }

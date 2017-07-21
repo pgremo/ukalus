@@ -9,17 +9,14 @@ import java.util.Comparator.comparingDouble
 class AStar {
 
     fun solve(heuristic: Heuristic, cost: Cost, start: Node?, stop: Node?): Iterator<Node> {
-        if (start == null || stop == null) {
-            throw IllegalArgumentException()
-        }
+        if (start == null || stop == null) throw IllegalArgumentException()
 
-        val open = PriorityQueue<Node>(1, comparingDouble(Node::cost))
-        val close = LinkedList<Node>()
+        val open = PriorityQueue<Node>(1, comparingDouble(Node::cost)).apply { add(start) }
+        val close = mutableListOf<Node>()
         var current = start
-        open.add(start)
         while (!open.isEmpty() && current != stop) {
-            current = open.poll()
-            for (successor in current!!.successors) {
+            current = open.poll()!!
+            for (successor in current.successors) {
                 val newCost = cost.calculate(current, successor)
                 val openNode = open.find { successor == it }
                 if (openNode == null || openNode.cost > newCost) {
@@ -36,12 +33,6 @@ class AStar {
             close.add(current)
         }
 
-        val result = LinkedList<Node>()
-        while (current != null) {
-            result.addFirst(current)
-            current = current.parent
-        }
-
-        return result.iterator()
+        return generateSequence(current!!) { it.parent }.iterator()
     }
 }

@@ -4,12 +4,10 @@
  */
 package ukalus.path.astar
 
-import ukalus.level.IntLevel
-import ukalus.math.Vector2D
-
 import junit.framework.TestCase
-
-import java.lang.Boolean.*
+import ukalus.level.Level
+import ukalus.math.Vector2D
+import java.lang.Boolean.TRUE
 
 /**
  * @author gremopm
@@ -17,7 +15,7 @@ import java.lang.Boolean.*
 class Node2DTest : TestCase() {
 
     fun testGetSuccessorsFromMiddle() {
-        val map = IntLevel(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
+        val map = Level(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
         val parent = Node2D(map, Vector2D(1, 0), null)
         val current = Node2D(map, Vector2D(1, 1), parent)
         val successors = current.successors
@@ -25,7 +23,7 @@ class Node2DTest : TestCase() {
     }
 
     fun testGetSuccessorsFromCorner() {
-        val map = IntLevel(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
+        val map = Level(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
         val parent = Node2D(map, Vector2D(1, 0), null)
         val current = Node2D(map, Vector2D(0, 0), parent)
         val successors = current.successors
@@ -33,7 +31,7 @@ class Node2DTest : TestCase() {
     }
 
     fun testGetSuccessorsFromEdge() {
-        val map = IntLevel(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
+        val map = Level(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
         val parent = Node2D(map, Vector2D(0, 0), null)
         val current = Node2D(map, Vector2D(0, 1), parent)
         val successors = current.successors
@@ -41,7 +39,7 @@ class Node2DTest : TestCase() {
     }
 
     fun testGetSuccessorsOriginInMiddle() {
-        val map = IntLevel(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
+        val map = Level(arrayOf(arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE), arrayOf(TRUE, TRUE, TRUE)))
         val current = Node2D(map, Vector2D(1, 1), null)
         val successors = current.successors
         TestCase.assertEquals(4, successors.size)

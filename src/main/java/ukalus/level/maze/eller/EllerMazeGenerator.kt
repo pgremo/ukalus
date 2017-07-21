@@ -11,6 +11,7 @@ import ukalus.util.compareToAndSwap
 import ukalus.util.shuffle
 import ukalus.util.takeRandom
 import java.util.*
+import kotlin.coroutines.experimental.buildSequence
 
 class EllerMazeGenerator(private val random: Random,
                          private val height: Int,
@@ -24,32 +25,39 @@ class EllerMazeGenerator(private val random: Random,
 
         val maze: Array<IntArray> = Array(height) { IntArray(width) { wall } }
 
-        for (q in 0 until (height - 1) / 2 - 1) {
+        buildSequence {
 
-            join(current)
-            cut(current, next)
+            for (q in 0 until (height - 1) / 2 - 1) {
 
-            (next.indices step 2)
-                    .filter { next[it] == unknown }
-                    .forEach { next[it] = --nextSet }
+                join(current)
+                cut(current, next)
 
-            for (k in current.indices) {
-                if (current[k] == wall) {
+                (next.indices step 2)
+                        .filter { next[it] == unknown }
+                        .forEach { next[it] = --nextSet }
+
+                yield(listOf(current, next))
+
+                current = next.copyOf()
+                next = IntArray(width - 2) { if (it % 2 == 1) wall else unknown }
+
+            }
+
+            join(current) { true }
+
+        }.forEachIndexed { q: Int, (first, second) ->
+            for (k in first.indices) {
+                if (first[k] == wall) {
                     maze[2 * q + 1][k + 1] = wall
                     maze[2 * q + 2][k + 1] = wall
                 } else {
                     maze[2 * q + 1][k + 1] = path
-                    if (current[k] == next[k]) maze[2 * q + 2][k + 1] = path
+                    if (first[k] == second[k]) maze[2 * q + 2][k + 1] = path
                 }
             }
-
-            current = next.copyOf()
-            next = IntArray(width - 2) { if (it % 2 == 1) wall else unknown }
         }
 
-        join(current) { true }
-
-        for (k in current.indices) {
+        for (k in next.indices) {
             maze[maze.size - 2][k + 1] = if (current[k] == wall) wall else path
         }
 

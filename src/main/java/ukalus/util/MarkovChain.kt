@@ -10,12 +10,10 @@ class MarkovChain<E : Any> {
     private val items = HashMap<E?, Bag<E>>()
 
     fun addAll(items: Iterable<E>) {
-        var key: E? = null
-        for (item in items) {
-            add(key, item)
-            key = item
-        }
-        add(key, null)
+        add(items.fold<E?, E?>(null, { acc, i ->
+            add(acc, i)
+            i
+        }), null)
     }
 
     fun add(current: E?, next: E?) {

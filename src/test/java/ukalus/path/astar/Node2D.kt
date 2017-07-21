@@ -4,13 +4,13 @@
  */
 package ukalus.path.astar
 
-import ukalus.level.IntLevel
+import ukalus.level.Level
 import ukalus.math.Vector2D
 
 /**
  * @author gremopm
  */
-class Node2D(private val level: IntLevel, val location: Vector2D, override val parent: Node2D?) : Node {
+class Node2D(private val level: Level<*>, val location: Vector2D, override val parent: Node2D?) : Node {
     override var cost: Double = 0.0
     override var estimate: Double = 0.0
 
