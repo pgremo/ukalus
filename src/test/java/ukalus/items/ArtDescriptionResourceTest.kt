@@ -19,7 +19,7 @@ class ArtDescriptionResourceTest : TestCase() {
 }
 
 fun ResourceBundle.inspect(): String {
-    return this.keys
+    return keys
             .asSequence()
-            .joinToString(separator = "\n", transform = { it -> "$it=${this.getString(it)}" })
+            .joinToString(separator = "\n", transform = { it -> "$it=${getString(it)}" })
 }
