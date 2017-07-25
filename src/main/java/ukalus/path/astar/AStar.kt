@@ -33,6 +33,6 @@ class AStar {
             close.add(current)
         }
 
-        return generateSequence(current!!) { it.parent }.iterator()
+        return generateSequence(current!!) { it.parent }.toList().asReversed().iterator()
     }
 }
