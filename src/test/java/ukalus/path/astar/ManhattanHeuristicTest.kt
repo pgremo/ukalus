@@ -14,11 +14,11 @@ import ukalus.level.IntLevel
 class ManhattanHeuristicTest : TestCase() {
 
     fun testDistance() {
-        val heuristic = ManhattanHeuristic(Vector2D(0, 0), Vector2D(2, 2))
+        val heuristic = manhattanHeuristic(Vector2D(0, 0), Vector2D(2, 2))
         val closer = Node2D(IntLevel(arrayOf(emptyArray<Int>())), Vector2D(1, 1), null)
         val further = Node2D(IntLevel(arrayOf(emptyArray<Int>())), Vector2D(0, 2), null)
-        TestCase.assertEquals(2.0, heuristic.estimate(closer), 0.0)
-        TestCase.assertEquals(2.004, heuristic.estimate(further), 0.0)
+        TestCase.assertEquals(2.0, heuristic(closer), 0.0)
+        TestCase.assertEquals(2.004, heuristic(further), 0.0)
     }
 
 }

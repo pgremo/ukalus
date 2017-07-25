@@ -7,8 +7,8 @@ package ukalus.path.astar
 /**
  * @author gremopm
  */
-class FixedCost(private val cost: Int) : Cost {
+fun fixedCost(cost: Int): (Node, Node) -> Double {
 
-    override fun calculate(previous: Node, current: Node) = cost.toDouble()
+    return { _: Node, _: Node -> cost.toDouble() }
 
 }
