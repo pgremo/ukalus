@@ -44,12 +44,12 @@ fun <T> Iterable<T>.sift(predicate: (T) -> Boolean): Sequence<List<T>> {
     }
 }
 
-fun <T> Array<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (this.isEmpty()) null else this[random.nextInt(this.size)]
+fun <T> Array<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (isEmpty()) null else this[random.nextInt(size)]
 
-fun <T> List<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (this.isEmpty()) null else this[random.nextInt(this.size)]
+fun <T> List<T>.random(random: Random = ThreadLocalRandom.current()): T? = if (isEmpty()) null else this[random.nextInt(size)]
 
-fun <T> Bag<T>.random(random: Random = ThreadLocalRandom.current()): T? = this.drop(random.nextInt(this.size)).first()
+fun <T> Bag<T>.random(random: Random = ThreadLocalRandom.current()): T? = drop(random.nextInt(size)).first()
 
-fun <T> List<T>.shuffle(random: Random = ThreadLocalRandom.current()): List<T> = this.toList().apply { Collections.shuffle(this, random) }
+fun <T> List<T>.shuffle(random: Random = ThreadLocalRandom.current()): List<T> = toList().apply { Collections.shuffle(this, random) }
 
-fun <T> List<T>.takeRandom(random: Random = ThreadLocalRandom.current()): List<T> = this.take(random.nextInt(1, this.size + 1))
+fun <T> List<T>.takeRandom(random: Random = ThreadLocalRandom.current()): List<T> = take(random.nextInt(1, size + 1))

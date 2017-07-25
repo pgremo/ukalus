@@ -37,10 +37,9 @@ public class SetPropertyTest extends TestCase {
       NoSuchMethodException {
     String expected = "some stuff";
     Map<String, Method> setters = new HashMap<String, Method>();
-    setters.put("value", getClass().getMethod("setValue",
-      new Class[]{String.class}));
+    setters.put("value", getClass().getMethod("setValue", String.class));
     SetProperty setter = new SetProperty(setters, this);
-    setter.apply(new Entry("value", new ValueResolver(new ObjectRegistry(),
+    setter.invoke(new Entry("value", new ValueResolver(new ObjectRegistry(),
       expected)));
     assertEquals(expected, stringValue);
   }
@@ -48,10 +47,9 @@ public class SetPropertyTest extends TestCase {
   public void testInvokeInt() throws SecurityException, NoSuchMethodException {
     int expected = 33;
     Map<String, Method> setters = new HashMap<String, Method>();
-    setters.put("value", getClass().getMethod("setValue",
-      new Class[]{Integer.TYPE}));
+    setters.put("value", getClass().getMethod("setValue", Integer.TYPE));
     SetProperty setter = new SetProperty(setters, this);
-    setter.apply(new Entry("value", new ValueResolver(new ObjectRegistry(),
+    setter.invoke(new Entry("value", new ValueResolver(new ObjectRegistry(),
       "33")));
     assertEquals(expected, intValue);
   }
