@@ -15,20 +15,18 @@ class AStar {
             current = open.poll()!!
             for (successor in current.successors) {
                 val newCost = cost(current, successor)
-                val openNode = open.find { successor == it }
-                if (openNode == null || openNode.cost > newCost) {
-                    val closeNode = close.find { successor == it }
-                    if (closeNode == null || closeNode.cost > newCost) {
-                        successor.cost = newCost
-                        successor.estimate = heuristic(successor)
-                        open.remove(openNode)
-                        close.remove(closeNode)
-                        open.add(successor)
-                    }
+                if (successor !in open && successor !in close || successor.cost > newCost) {
+                    successor.cost = newCost
+                    successor.estimate = heuristic(successor)
+                    close.remove(successor)
+                    open.add(successor)
                 }
             }
             close.add(current)
         }
-        return generateSequence(current) { it.parent }.toList().asReversed()
+        return if (current == stop)
+            generateSequence(current) { it.parent }.fold(mutableListOf()) { s, x -> s.apply { add(0, x) } }
+        else
+            emptyList()
     }
 }

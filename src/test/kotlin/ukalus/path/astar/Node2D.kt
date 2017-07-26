@@ -15,12 +15,10 @@ class Node2D(private val level: Level<*>, val location: Vector2D, override val p
     override var estimate: Double = 0.0
 
     override val successors: Collection<Node>
-        get() {
-            return DIRECTIONS
-                    .map { location + it }
-                    .filter { (parent == null || it != parent.location) && level.contains(it) }
-                    .map { Node2D(level, it, this) }
-        }
+        get() = DIRECTIONS
+                .map { location + it }
+                .filter { (parent == null || it != parent.location) && level.contains(it) }
+                .map { Node2D(level, it, this) }
 
     override val total
         get() = cost + estimate
