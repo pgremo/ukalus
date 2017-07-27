@@ -15,16 +15,16 @@ import org.junit.Assert.assertTrue
  */
 class BeamCastingVisionTest {
 
-    private var creature: Creature? = null
+    lateinit var creature: Creature
 
     /**
      * DOCUMENT ME!
      */
     @Test
     fun testVision() {
-        val vision = creature!!.vision
+        val vision = creature.vision
         assertNotNull(vision)
-        assertTrue(vision.size > 0)
+        assertTrue(vision.isNotEmpty())
         for (current in vision) {
             assertNotNull(current)
         }

@@ -57,7 +57,7 @@ class Inventory
         window!!.rootPanel.layoutManager = layout
         window!!.setShadow(false)
 
-        val iterator = creature.things
+        val iterator = creature.getThings()
 
         if (iterator.hasNext()) {
             menu = MenuList()

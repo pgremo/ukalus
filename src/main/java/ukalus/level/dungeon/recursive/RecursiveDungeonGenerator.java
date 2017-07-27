@@ -59,11 +59,11 @@ public class RecursiveDungeonGenerator {
     EmptyFloorTilePredicate emptyFloor = new EmptyFloorTilePredicate();
     Area upRegion = areas.get(0);
     Tile upLocation = upRegion.getRandom(emptyFloor, random);
-    ((Floor) upLocation.getTileType()).setPortal(new Stairs(Stairs.UP));
+    ((Floor) upLocation.getTileType()).setPortal(new Stairs(Stairs.Companion.getUP()));
 
     Area downRegion = areas.get(random.nextInt(areas.size() - 2) + 1);
     Tile downLocation = downRegion.getRandom(emptyFloor, random);
-    ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));
+    ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.Companion.getDOWN()));
 
     return level;
   }
@@ -158,10 +158,10 @@ public class RecursiveDungeonGenerator {
             output.append("+");
           } else if (floor.getPortal() != null) {
             if (((Stairs) floor.getPortal()).getDirection()
-              .equals(Stairs.DOWN)) {
+              .equals(Stairs.Companion.getDOWN())) {
               output.append(">");
             } else if (((Stairs) floor.getPortal()).getDirection()
-              .equals(Stairs.UP)) {
+              .equals(Stairs.Companion.getUP())) {
               output.append("<");
             }
           } else {

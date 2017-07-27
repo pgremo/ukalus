@@ -110,7 +110,7 @@ class ArtDescriptionResource : ListResourceBundle() {
     override fun getContents() = generateSequence { generateName() }
             .distinct()
             .take(10)
-            .toList()
             .mapIndexed { index, current -> arrayOf<Any>("art.description.$index", current) }
+            .toList()
             .toTypedArray()
 }

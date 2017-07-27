@@ -39,10 +39,10 @@ class JCursesClient
 
         if (planBook == null) {
             planBook = PlanBook()
-            hero.setProperty("planBook", planBook)
+            hero.setProperty("planBook", planBook!!)
         }
 
-        onLevelChange(hero.level)
+        onLevelChange(hero.level!!)
     }
 
     /**
@@ -70,14 +70,14 @@ class JCursesClient
      * @param list
      * *          DOCUMENT ME!
      */
-    override fun onVisionChange(list: MutableList<Tile>) {
+    override fun onVisionChange(list: List<Tile>) {
         if (vision != null) {
             vision!!.removeAll(list)
         }
 
         updateFromPlan(vision)
 
-        vision = list
+        vision = list.toMutableList()
         updatePlan(vision!!)
         updateFromVision(vision)
     }
@@ -110,7 +110,7 @@ class JCursesClient
 
             for (x in 0..plan!!.height - 1) {
                 for (y in 0..plan!!.width - 1) {
-                    buffer.append(symbols[determineLevelMarker(plan!!.get(Vector2D(x, y)))])
+                    buffer.append(symbols[determineLevelMarker(plan!![Vector2D(x, y)])])
                 }
 
                 buffer.append("\n")
@@ -120,12 +120,13 @@ class JCursesClient
             Toolkit.printString(buffer.toString(), area, colors)
         } else {
 
-            for (tile in list) {
-                val coordinate = tile.location
-                Toolkit.printString(
-                        symbols[determineLevelMarker(plan!![coordinate])],
-                        absoluteX + coordinate.y, absoluteY + coordinate.x, colors)
-            }
+            list
+                    .map { it.location }
+                    .forEach {
+                        Toolkit.printString(
+                                symbols[determineLevelMarker(plan!![it])],
+                                absoluteX + it.y, absoluteY + it.x, colors)
+                    }
         }
     }
 
@@ -163,7 +164,7 @@ class JCursesClient
         val direction = directions[code]
 
         if (direction != null) {
-            val coordinate = hero.coordinate
+            val coordinate = hero.coordinate!!
             val type = plan!![coordinate.plus(direction)]
 
             if (type is Floor) {
@@ -171,11 +172,11 @@ class JCursesClient
 
                 if (CommandType.CLOSE == commandType && door != null
                         && door.isOpen) {
-                    command = Command(commandType, door)
+                    command = Command(commandType!!, door)
                     commandReady = true
                 } else if (CommandType.OPEN == commandType && door != null
                         && !door.isOpen) {
-                    command = Command(commandType, door)
+                    command = Command(commandType!!, door)
                     commandReady = true
                 } else if (door == null || door.isOpen) {
                     command = Command(CommandType.MOVE, direction)
@@ -192,51 +193,56 @@ class JCursesClient
         } else {
             val current = commandTypes[code]
 
-            if (CommandType.UP == current) {
-                command = Command(current, null)
-                commandReady = true
-            } else if (CommandType.DOWN == current) {
-                command = Command(current, null)
-                commandReady = true
-            } else if (CommandType.QUIT == current) {
-                command = Command(current, null)
-                commandReady = true
-            } else if (CommandType.WAIT == current) {
-                command = Command(current, null)
-                commandReady = true
-            } else if (CommandType.INVENTORY == current) {
-                val inventory = Inventory(hero)
-                inventory.show()
-            } else if (CommandType.SAVE == current) {
-                command = Command(current, null)
-                commandReady = true
-            } else if (CommandType.PICKUP == current) {
-                val coordinate = hero.coordinate
-                val type = plan!![coordinate]
+            when (current) {
+                CommandType.UP -> {
+                    command = Command(current, null)
+                    commandReady = true
+                }
+                CommandType.DOWN -> {
+                    command = Command(current, null)
+                    commandReady = true
+                }
+                CommandType.QUIT -> {
+                    command = Command(current, null)
+                    commandReady = true
+                }
+                CommandType.WAIT -> {
+                    command = Command(current, null)
+                    commandReady = true
+                }
+                CommandType.INVENTORY -> {
+                    val inventory = Inventory(hero)
+                    inventory.show()
+                }
+                CommandType.SAVE -> {
+                    command = Command(current, null)
+                    commandReady = true
+                }
+                CommandType.PICKUP -> {
+                    val coordinate = hero.coordinate!!
+                    val type = plan!![coordinate]
 
-                if (type is Floor) {
-                    val floor = type
+                    if (type is Floor) {
+                        val floor = type
 
-                    if (floor.thingCount > 0) {
-                        val thing: Thing?
+                        if (floor.thingCount > 0) {
+                            val thing: Thing?
 
-                        if (floor.thingCount == 1) {
-                            thing = floor.things
-                                    .next()
-                        } else {
-                            val pickup = Pickup(floor)
-                            thing = pickup.selectThing()
-                        }
+                            if (floor.thingCount == 1) {
+                                thing = floor.getThings().next()
+                            } else {
+                                val pickup = Pickup(floor)
+                                thing = pickup.selectThing()
+                            }
 
-                        if (thing != null) {
-                            command = Command(current, thing)
-                            commandReady = true
+                            if (thing != null) {
+                                command = Command(current, thing)
+                                commandReady = true
+                            }
                         }
                     }
                 }
-            } else if (CommandType.DROP == current) {
-                if (hero.things
-                        .hasNext()) {
+                CommandType.DROP -> if (hero.getThings().hasNext()) {
                     val inventory = Inventory(hero)
                     inventory.show()
 
@@ -247,9 +253,10 @@ class JCursesClient
                         commandReady = true
                     }
                 }
-            } else {
-                commandType = current
-                commandReady = false
+                else -> {
+                    commandType = current
+                    commandReady = false
+                }
             }
         }
 
@@ -321,19 +328,10 @@ class JCursesClient
             if (type is Floor) {
                 val floor = type as Floor?
 
-                if (floor!!.portal != null) {
-                    objects.add(floor.portal)
-                }
+                floor?.portal?.let { objects.add(this) }
+                floor?.door?.let { objects.add(this) }
 
-                if (floor.door != null) {
-                    objects.add(floor.door)
-                }
-
-                val iterator = floor.things
-
-                while (iterator.hasNext()) {
-                    objects.add(iterator.next())
-                }
+                floor?.getThings()?.iterator()?.forEach { objects.add(it) }
             }
 
             val top = objects.last

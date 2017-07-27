@@ -59,7 +59,7 @@ class Pickup
 
         things!!.clear()
 
-        val iterator = floor.things
+        val iterator = floor.getThings()
 
         while (iterator.hasNext()) {
             val current = iterator.next()

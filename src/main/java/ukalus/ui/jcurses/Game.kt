@@ -22,34 +22,25 @@ class Game
  * *          DOCUMENT ME!
  */
 (private val hero: Creature) : ActionListener {
-    private var window: Window? = null
-    private var client: JCursesClient? = null
+    private var window = Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(), false, null)
+    private var client = JCursesClient(hero)
 
     /**
      * DOCUMENT ME!
      */
     fun run() {
-        val colors = CharColor(CharColor.BLACK, CharColor.WHITE)
-        window = Window(Toolkit.getScreenWidth(), Toolkit.getScreenHeight(),
-                false, null)
+        window.rootPanel.panelColors = CharColor(CharColor.BLACK, CharColor.WHITE)
+        window.rootPanel.layoutManager = GridLayoutManager(1, Toolkit.getScreenHeight())
+        window.setShadow(false)
 
-        val layout = GridLayoutManager(1,
-                Toolkit.getScreenHeight())
-        window!!.rootPanel.panelColors = colors
-        window!!.rootPanel.layoutManager = layout
-        window!!.setShadow(false)
-
-        client = JCursesClient(hero)
         hero.setClient(client)
-        client!!.addActionListener(this)
+        client.addActionListener(this)
 
-        layout.addWidget(client, 0, 2, 1, 1, WidgetsConstants.ALIGNMENT_CENTER,
-                WidgetsConstants.ALIGNMENT_CENTER)
+        GridLayoutManager(1, Toolkit.getScreenHeight()).addWidget(client, 0, 2, 1, 1, WidgetsConstants.ALIGNMENT_CENTER, WidgetsConstants.ALIGNMENT_CENTER)
 
-        val runner = Runner(client!!, hero)
-        Thread(runner).start()
+        Thread(Runner(client, hero)).start()
 
-        window!!.show()
+        window.show()
     }
 
     /**
@@ -59,7 +50,7 @@ class Game
         val source = event.source
 
         if (client == source) {
-            window!!.tryToClose()
+            window.tryToClose()
         }
     }
 }

@@ -31,7 +31,7 @@ public class HomeGenerator {
     EmptyFloorTilePredicate stairPredicate = new EmptyFloorTilePredicate();
 
     Tile downLocation = room.getRandom(stairPredicate, random);
-    ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.DOWN));
+    ((Floor) downLocation.getTileType()).setPortal(new Stairs(Stairs.Companion.getDOWN()));
     Tile itemLocation = room.getRandom(stairPredicate, random);
     ((Floor) itemLocation.getTileType()).addThing(new Weapon());
     itemLocation = room.getRandom(stairPredicate, random);
@@ -72,10 +72,10 @@ public class HomeGenerator {
             output.append("+");
           } else if (floor.getPortal() != null) {
             if (((Stairs) floor.getPortal()).getDirection()
-              .equals(Stairs.DOWN)) {
+              .equals(Stairs.Companion.getDOWN())) {
               output.append(">");
             } else if (((Stairs) floor.getPortal()).getDirection()
-              .equals(Stairs.UP)) {
+              .equals(Stairs.Companion.getUP())) {
               output.append("<");
             }
           } else {

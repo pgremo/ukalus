@@ -74,10 +74,8 @@ class Plan
      * @param value
      * *          DOCUMENT ME!
      */
-    fun set(value: Tile?) {
-        if (value != null) {
-            set(value.location, value.tileType)
-        }
+    fun set(value: Tile) {
+        set(value.location, value.tileType)
     }
 
     companion object {
