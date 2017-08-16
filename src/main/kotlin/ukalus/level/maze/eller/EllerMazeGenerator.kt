@@ -5,6 +5,8 @@ import org.apache.commons.math3.random.RandomAdaptor
 import ukalus.level.IntLevel
 import ukalus.level.RegionFactory
 import ukalus.level.maze.MazeRegion
+import ukalus.level.maze.path
+import ukalus.level.maze.wall
 import ukalus.math.Vector2D
 import ukalus.util.cluster
 import ukalus.util.compareToAndSwap
@@ -87,17 +89,15 @@ class EllerMazeGenerator(private val random: Random,
 
     companion object {
         private val unknown = 1
-        private val wall = 0
-        private val path = 1
-
-        @JvmStatic fun main(args: Array<String>) {
-            val generator = EllerMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
-
-            val level = IntLevel(Array(19) { Array(79) { 0 } })
-            val region = generator.create()
-            region.place(Vector2D(0, 0), level)
-
-            println(level)
-        }
     }
+}
+
+fun main(vararg args: String) {
+    val generator = EllerMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
+
+    val level = IntLevel(Array(19) { Array(79) { 0 } })
+    val region = generator.create()
+    region.place(Vector2D(0, 0), level)
+
+    println(level)
 }

@@ -8,10 +8,7 @@ import ukalus.graph.NodeTraversal
 import ukalus.level.IntLevel
 import ukalus.level.Region
 import ukalus.level.RegionFactory
-import ukalus.level.maze.MazeEdge
-import ukalus.level.maze.MazeNode
-import ukalus.level.maze.MazeRegion
-import ukalus.level.maze.MazeTraversalDelegate
+import ukalus.level.maze.*
 import ukalus.math.Vector2D
 
 import java.util.*
@@ -27,8 +24,8 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
         val cells = Array(height) { IntArray(width) }
 
         // create nodes / edges
-        for (x in 1..cells.size - 1 - 1) {
-            for (y in 1..cells[x].size - 1 - 1) {
+        for (x in 1 until cells.size - 1) {
+            for (y in 1 until cells[x].size - 1) {
                 if (x % 2 == 0 && y % 2 == 1) {
                     // vertical edge
                     val head = nodes.computeIfAbsent(Vector2D(x - 1, y)) { MazeNode(it) }
@@ -46,37 +43,33 @@ class PrimMazeGenerator(private val random: Random, height: Int, width: Int) : R
                 } else if (x % 2 == 1 && y % 2 == 1) {
                     // node
                     nodes.computeIfAbsent(Vector2D(x, y)) { MazeNode(it) }
-                    cells[x][y] = 1
+                    cells[x][y] = path
                 }
             }
         }
 
-        val path = HashSet<MazeEdge>()
+        val route = HashSet<MazeEdge>()
 
         val start = ArrayList<Node>(nodes.values)[random.nextInt(nodes.size)]
 
-        val traversal = NodeTraversal(MazeTraversalDelegate(start, path, random), NodeRandom(random))
+        val traversal = NodeTraversal(MazeTraversalDelegate(start, route, random), NodeRandom(random))
 
         traversal.traverse(start)
 
-        for (edge in path) {
-            cells[edge.location.x][edge.location.y] = 1
+        for (edge in route) {
+            cells[edge.location.x][edge.location.y] = path
         }
 
         return MazeRegion(cells)
     }
+}
 
-    companion object {
+fun main(vararg args: String) {
+    val generator = PrimMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
 
-        @JvmStatic fun main(args: Array<String>) {
-            val generator = PrimMazeGenerator(RandomAdaptor(MersenneTwister()), 19, 79)
+    val level = IntLevel(Array(19) { Array(79) { wall } })
+    val region = generator.create()
+    region.place(Vector2D(0, 0), level)
 
-            val level = IntLevel(Array(19) { Array(79) { 0 } })
-            val region = generator.create()
-            region.place(Vector2D(0, 0), level)
-
-            println(level)
-        }
-    }
-
+    println(level)
 }

@@ -10,10 +10,7 @@ class MarkovChain<E : Any> {
     private val items = HashMap<E?, Bag<E>>()
 
     fun addAll(items: Iterable<E>) {
-        add(items.fold<E?, E?>(null, { acc, i ->
-            add(acc, i)
-            i
-        }), null)
+        add(items.fold<E?, E?>(null, { acc, i -> i.apply { add(acc, i) } }), null)
     }
 
     fun add(current: E?, next: E?) {
@@ -21,7 +18,7 @@ class MarkovChain<E : Any> {
     }
 
     fun randomWalk(random: Random = ThreadLocalRandom.current()): Sequence<E> {
-        fun nextFunction(x: E? = null): E? = items[x]?.random(random)
+        fun nextFunction(x: E? = null) = items[x]?.random(random)
         return generateSequence(nextFunction(), ::nextFunction)
     }
 
