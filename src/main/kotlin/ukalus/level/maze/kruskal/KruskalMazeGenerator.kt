@@ -18,7 +18,7 @@ class KruskalMazeGenerator(private val random: Random, height: Int, width: Int) 
     private val width: Int = (width - 1 and Integer.MAX_VALUE - 1) + 1
 
     override fun create(): Region<Int> {
-        val nodes = Array(height) { x -> IntArray(width) { y -> if (x % 2 == 1 && y % 2 == 1) 1 else 0 } }
+        val nodes = Array(height) { x -> IntArray(width) { y -> if (x % 2 == 1 && y % 2 == 1) path else wall } }
         val edges = mutableListOf<EdgeCell>()
 
         // add walls / open cells
